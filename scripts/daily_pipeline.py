@@ -184,13 +184,24 @@ def run_daily_pipeline():
         elif key == "EWI-7_credit_growth":
             val_str = f"{ind_data['amortization_free_share_pct']:.1f}%"
             
+        # Calculate indicator-specific freshness weight and latest update date
+        sources = ind_data.get("data_sources", [])
+        if sources:
+            avg_weight = sum(s.get("freshness_weight", 1.0) for s in sources) / len(sources)
+            latest_update = max(s.get("last_updated", "") for s in sources)
+        else:
+            avg_weight = 1.0
+            latest_update = "N/A"
+
         ewi_list.append({
             "id": ewi_id,
             "name": ewi_name,
             "value": val_str,
             "baseline": baseline_val,
             "status": ind_data["level"],
-            "description": ind_data["detail"]
+            "description": ind_data["detail"],
+            "freshness_weight": round(avg_weight, 3),
+            "last_updated": latest_update
         })
         
     # Forecasts for copenhagen_apartments

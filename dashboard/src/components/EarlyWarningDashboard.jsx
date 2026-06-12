@@ -126,7 +126,7 @@ function DataFreshnessTable() {
         </thead>
         <tbody>
           {sources.map((src) => {
-            const w = src.weight;
+            const w = src.freshness_weight;
             const barColor = w >= 0.8 ? '#00d4aa' : w >= 0.5 ? '#feca57' : '#ff9f43';
             return (
               <tr key={src.label}>

@@ -18,7 +18,9 @@ export const earlyWarningIndicators = [
     "value": "+16.91pp",
     "baseline": "<3pp",
     "status": "RED",
-    "description": "Price growth 20.4% vs wage growth 3.5%"
+    "description": "Price growth 20.4% vs wage growth 3.5%",
+    "freshness_weight": 0.678,
+    "last_updated": "2026-05-29"
   },
   {
     "id": "EWI-2",
@@ -26,7 +28,9 @@ export const earlyWarningIndicators = [
     "value": "4.1 months",
     "baseline": "4.5 months",
     "status": "GREEN",
-    "description": "Months of supply: 4.1 (baseline: 4.5)"
+    "description": "Months of supply: 4.1 (baseline: 4.5)",
+    "freshness_weight": 0.617,
+    "last_updated": "2026-05-20"
   },
   {
     "id": "EWI-3",
@@ -34,7 +38,9 @@ export const earlyWarningIndicators = [
     "value": "Vol -3%",
     "baseline": "AMBER at -10%",
     "status": "GREEN",
-    "description": "Price YoY: +20.4%, Volume YoY: -3.0%"
+    "description": "Price YoY: +20.4%, Volume YoY: -3.0%",
+    "freshness_weight": 0.764,
+    "last_updated": "2026-05-29"
   },
   {
     "id": "EWI-4",
@@ -42,7 +48,9 @@ export const earlyWarningIndicators = [
     "value": "22%",
     "baseline": "AMBER at >30%",
     "status": "GREEN",
-    "description": "22% of listings reduced, avg 3.2%"
+    "description": "22% of listings reduced, avg 3.2%",
+    "freshness_weight": 0.617,
+    "last_updated": "2026-05-20"
   },
   {
     "id": "EWI-5",
@@ -50,7 +58,9 @@ export const earlyWarningIndicators = [
     "value": "62 days",
     "baseline": "AMBER at >70d",
     "status": "GREEN",
-    "description": "Median DOM: 62 days (mean: 58, \u03c3: 12)"
+    "description": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+    "freshness_weight": 0.617,
+    "last_updated": "2026-05-20"
   },
   {
     "id": "EWI-6",
@@ -58,7 +68,9 @@ export const earlyWarningIndicators = [
     "value": "1.095",
     "baseline": "1.08 ratio",
     "status": "GREEN",
-    "description": "Price-to-rent ratio is 1.095 (mean: 1.080, AMBER >1.155)"
+    "description": "Price-to-rent ratio is 1.095 (mean: 1.080, AMBER >1.155)",
+    "freshness_weight": 0.912,
+    "last_updated": "2026-05-29"
   },
   {
     "id": "EWI-7",
@@ -66,7 +78,9 @@ export const earlyWarningIndicators = [
     "value": "46.0%",
     "baseline": "<50%",
     "status": "GREEN",
-    "description": "Amortization-free mortgage share is 46.0% (AMBER >50%, RED >60%)"
+    "description": "Amortization-free mortgage share is 46.0% (AMBER >50%, RED >60%)",
+    "freshness_weight": 0.544,
+    "last_updated": "2026-03-31"
   }
 ];
 
@@ -78,31 +92,43 @@ export const dataFreshness = {
   "dst_ej56": {
     "label": "DST Prisindeks (EJ56)",
     "last_updated": "2026-05-29",
+    "frequency": "Quarterly",
+    "source": "Danmarks Statistik",
     "freshness_weight": 0.912
   },
   "rkr_bm011": {
     "label": "Realkreditl\u00e5n (BM011)",
     "last_updated": "2026-04-15",
+    "frequency": "Monthly",
+    "source": "Finansdanmark",
     "freshness_weight": 0.275
   },
   "rkr_udb010": {
     "label": "Boligudbud (UDB010)",
     "last_updated": "2026-05-20",
+    "frequency": "Monthly",
+    "source": "Finansdanmark",
     "freshness_weight": 0.617
   },
   "rkr_ul10": {
     "label": "Afdragsfrihed (UL10)",
     "last_updated": "2026-03-31",
+    "frequency": "Quarterly",
+    "source": "Finansdanmark",
     "freshness_weight": 0.544
   },
   "ecb_rates": {
     "label": "ECB renter",
     "last_updated": "2026-06-10",
+    "frequency": "Daily",
+    "source": "ECB / Nationalbanken",
     "freshness_weight": 0.893
   },
   "wage_data": {
     "label": "L\u00f8nudvikling",
     "last_updated": "2026-03-15",
+    "frequency": "Quarterly",
+    "source": "Danmarks Statistik",
     "freshness_weight": 0.444
   }
 };
@@ -172,17 +198,17 @@ export const ensembleConfidenceBounds = {
   "6m": {
     "p10": 128.4,
     "p50": 129.6,
-    "p90": 130.7
+    "p90": 130.8
   },
   "12m": {
     "p10": 127.8,
-    "p50": 131.2,
-    "p90": 134.2
+    "p50": 131.1,
+    "p90": 134.4
   },
   "24m": {
-    "p10": 128.0,
-    "p50": 138.2,
-    "p90": 147.2
+    "p10": 128.5,
+    "p50": 137.8,
+    "p90": 146.8
   }
 };
 

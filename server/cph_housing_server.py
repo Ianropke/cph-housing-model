@@ -873,6 +873,8 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
             k: {
                 "label": v["label"],
                 "last_updated": v["last_updated"],
+                "frequency": v.get("frequency", "Unknown"),
+                "source": v.get("source", "Unknown"),
                 "freshness_weight": freshness_weight(k),
             }
             for k, v in DATA_FRESHNESS.items()
