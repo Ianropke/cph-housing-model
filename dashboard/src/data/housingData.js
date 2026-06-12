@@ -122,7 +122,7 @@ export const maxRiskIndex = {
     "score": 26,
     "label": "MODERAT",
     "components": {
-      "mc_downside": 1.0,
+      "mc_downside": 1.1,
       "max_risk_severity_pct": 12.8,
       "ewi_contribution": 9.6,
       "avg_data_freshness": 0.67
@@ -172,17 +172,17 @@ export const ensembleConfidenceBounds = {
   "6m": {
     "p10": 128.4,
     "p50": 129.6,
-    "p90": 130.8
+    "p90": 130.7
   },
   "12m": {
-    "p10": 127.9,
-    "p50": 131.0,
-    "p90": 134.5
+    "p10": 127.8,
+    "p50": 131.2,
+    "p90": 134.2
   },
   "24m": {
-    "p10": 128.4,
-    "p50": 137.9,
-    "p90": 147.5
+    "p10": 128.0,
+    "p50": 138.2,
+    "p90": 147.2
   }
 };
 

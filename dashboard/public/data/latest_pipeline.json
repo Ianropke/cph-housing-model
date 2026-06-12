@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-12T08:08:01.868293",
+  "generated_at": "2026-06-12T18:48:11.591785",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg (2006=100)",
     "source": "Danmarks Statistik",
     "last_updated": "2026-05-29",
-    "query_timestamp": "2026-06-12T08:08:02.041155",
+    "query_timestamp": "2026-06-12T18:48:14.231034",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -135,7 +135,7 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-06-12T08:08:02.043892",
+      "evaluation_timestamp": "2026-06-12T18:48:14.235668",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -307,7 +307,7 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-06-12T08:08:02.044309",
+      "evaluation_timestamp": "2026-06-12T18:48:14.236066",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -479,7 +479,7 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-06-12T08:08:02.044566",
+      "evaluation_timestamp": "2026-06-12T18:48:14.236400",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -655,7 +655,7 @@
       "segment": "copenhagen_apartments",
       "current_period": "2025Q4",
       "current_index": 129.2,
-      "forecast_date": "2026-06-12T08:08:02.054538",
+      "forecast_date": "2026-06-12T18:48:14.248748",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -710,7 +710,7 @@
             "confidence_bounds": {
               "p10": 128.4,
               "p50": 129.6,
-              "p90": 130.8
+              "p90": 130.7
             }
           }
         },
@@ -765,9 +765,9 @@
               143.7
             ],
             "confidence_bounds": {
-              "p10": 127.9,
-              "p50": 131.0,
-              "p90": 134.5
+              "p10": 127.8,
+              "p50": 131.2,
+              "p90": 134.2
             }
           }
         },
@@ -822,9 +822,9 @@
               176.1
             ],
             "confidence_bounds": {
-              "p10": 128.4,
-              "p50": 137.9,
-              "p90": 147.5
+              "p10": 128.0,
+              "p50": 138.2,
+              "p90": 147.2
             }
           }
         }
@@ -834,7 +834,7 @@
       "segment": "copenhagen_houses",
       "current_period": "2025Q4",
       "current_index": 118.5,
-      "forecast_date": "2026-06-12T08:08:02.063583",
+      "forecast_date": "2026-06-12T18:48:14.258683",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -888,8 +888,8 @@
             ],
             "confidence_bounds": {
               "p10": 117.8,
-              "p50": 118.8,
-              "p90": 120.0
+              "p50": 118.9,
+              "p90": 119.9
             }
           }
         },
@@ -944,9 +944,9 @@
               130.3
             ],
             "confidence_bounds": {
-              "p10": 117.1,
-              "p50": 120.2,
-              "p90": 122.9
+              "p10": 116.9,
+              "p50": 119.9,
+              "p90": 123.1
             }
           }
         },
@@ -1001,9 +1001,9 @@
               158.2
             ],
             "confidence_bounds": {
-              "p10": 117.5,
-              "p50": 126.1,
-              "p90": 134.1
+              "p10": 118.0,
+              "p50": 125.8,
+              "p90": 134.3
             }
           }
         }
@@ -1013,7 +1013,7 @@
       "segment": "frederiksberg_apartments",
       "current_period": "2025Q4",
       "current_index": 114.6,
-      "forecast_date": "2026-06-12T08:08:02.071828",
+      "forecast_date": "2026-06-12T18:48:14.267446",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -1066,7 +1066,7 @@
               117.2
             ],
             "confidence_bounds": {
-              "p10": 114.0,
+              "p10": 113.8,
               "p50": 114.9,
               "p90": 116.0
             }
@@ -1180,9 +1180,9 @@
               155.4
             ],
             "confidence_bounds": {
-              "p10": 113.5,
-              "p50": 121.9,
-              "p90": 130.8
+              "p10": 113.3,
+              "p50": 122.0,
+              "p90": 130.3
             }
           }
         }
@@ -1227,7 +1227,7 @@
           "assessment": "Elevated user cost (3-5%) \u2014 affordability stress"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071881"
+        "calculation_timestamp": "2026-06-12T18:48:14.267493"
       },
       "12m": {
         "input": {
@@ -1265,7 +1265,7 @@
           "assessment": "Moderate user cost (1-3%) \u2014 sustainable"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071899"
+        "calculation_timestamp": "2026-06-12T18:48:14.267511"
       },
       "24m": {
         "input": {
@@ -1303,7 +1303,7 @@
           "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071911"
+        "calculation_timestamp": "2026-06-12T18:48:14.267533"
       }
     },
     "min_risk": {
@@ -1343,7 +1343,7 @@
           "assessment": "Moderate user cost (1-3%) \u2014 sustainable"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071921"
+        "calculation_timestamp": "2026-06-12T18:48:14.267546"
       },
       "12m": {
         "input": {
@@ -1381,7 +1381,7 @@
           "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071931"
+        "calculation_timestamp": "2026-06-12T18:48:14.267557"
       },
       "24m": {
         "input": {
@@ -1419,7 +1419,7 @@
           "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071940"
+        "calculation_timestamp": "2026-06-12T18:48:14.267567"
       }
     },
     "max_risk": {
@@ -1459,7 +1459,7 @@
           "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071950"
+        "calculation_timestamp": "2026-06-12T18:48:14.267579"
       },
       "12m": {
         "input": {
@@ -1497,7 +1497,7 @@
           "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071960"
+        "calculation_timestamp": "2026-06-12T18:48:14.267590"
       },
       "24m": {
         "input": {
@@ -1535,7 +1535,7 @@
           "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T08:08:02.071969"
+        "calculation_timestamp": "2026-06-12T18:48:14.267600"
       }
     }
   },
