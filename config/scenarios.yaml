@@ -1,0 +1,325 @@
+# ─────────────────────────────────────────────────────────────
+# Copenhagen Housing Market — Scenario Framework
+# Version: 0.1.0
+# Last Updated: 2026-06-11
+# MCP Server: CphHousingModel
+# ─────────────────────────────────────────────────────────────
+
+# Each scenario defines explicit assumptions for every structural
+# driver from market_framework.md. The forecast ensemble runs all
+# three scenarios and reports the range.
+
+meta:
+  model_version: "0.1.0"
+  framework_ref: "architecture/market_framework.md"
+  segmentation_ref: "architecture/market_segmentation.md"
+  ews_ref: "architecture/early_warning_system.md"
+  horizons: [6, 12, 24]  # months
+  currency: DKK
+  index_base_year: 2006  # DST EJ56 base
+
+# ═══════════════════════════════════════════════════════════════
+# SCENARIO 1: BASELINE
+# ═══════════════════════════════════════════════════════════════
+# Central expectation path. Rates stabilise, wages grow at trend,
+# supply normalises, demographics continue positive migration.
+
+baseline:
+  label: "Baseline"
+  description: >
+    Central path: ECB holds or cuts modestly, real wages recover,
+    construction pipeline delivers on schedule, net migration into
+    Copenhagen continues at 5-year trend rate. No major policy shocks.
+  probability_weight: 0.55
+
+  drivers:
+    purchasing_power:
+      nominal_wage_growth_yoy: 0.035        # 3.5% — aligned with recent overenskomst
+      real_wage_growth_yoy: 0.012            # ~1.2% after HICP
+      disposable_income_growth_yoy: 0.030    # 3.0% — post-tax, post-contribution
+      tax_policy: "unchanged"                # No reform to ejendomsværdiskat assumed
+      rentefradrag_rate: 0.33                # Current mortgage interest deduction rate
+
+    credit_conditions:
+      ecb_deposit_rate_current: 0.0275       # 2.75% (as of mid-2026)
+      ecb_deposit_rate_6m: 0.0250            # modest cut path
+      ecb_deposit_rate_12m: 0.0225
+      ecb_deposit_rate_24m: 0.0200
+      fixed_30y_mortgage_rate_current: 0.040 # 4.0% Realkredit
+      fixed_30y_mortgage_rate_6m: 0.039
+      fixed_30y_mortgage_rate_12m: 0.037
+      fixed_30y_mortgage_rate_24m: 0.035
+      f1_adjustable_rate_current: 0.032
+      f1_adjustable_rate_12m: 0.029
+      io_share_new_originations: 0.42        # Stable at ~42%
+      ltv_regulatory_cap: 0.80
+      bidragssats_avg: 0.0060                # 60bps administration margin
+      lending_standards: "neutral"           # Nationalbanken survey: no tightening
+
+    supply_constraints:
+      active_listings_trend: "stable"         # Around 5-year average
+      months_of_supply_metro: 4.2             # Moderate
+      building_permits_yoy: 0.02              # Slight growth
+      completions_pipeline_12m: 3500          # Units expected in metro area
+      completions_pipeline_24m: 7200
+      construction_cost_growth_yoy: 0.025     # Normalising from post-COVID spike
+      nordhavn_delivery_schedule: "on_track"
+      sydhavn_delivery_schedule: "on_track"
+
+    demographics:
+      net_migration_copenhagen_annual: 8500   # Persons; 5-year trend
+      international_inmigration_annual: 12000
+      household_formation_rate: 0.018         # 1.8% p.a.
+      single_household_share_trend: "rising"  # Continues structural increase
+      age_28_35_cohort_growth: 0.008          # Modest growth
+      forskerordningen_policy: "unchanged"    # Tax scheme for foreign researchers
+
+    expectations:
+      consumer_confidence_housing: 0          # Neutral (DST FORV1 sub-index, normalised)
+      price_momentum_3m: 0.012               # Mild positive momentum
+      sentiment_regime: "neutral"             # Neither extrapolative nor fearful
+      media_tone: "balanced"
+
+    local_substitution:
+      central_to_bridge_spread: "at_mean"     # Historical average
+      apartment_to_house_spread: "at_mean"
+      rent_to_price_yield: 0.035              # 3.5% gross yield
+      metro_extension_status: "M4_sydhavn_under_construction"
+
+  forecast_expectations:
+    price_growth_6m:  { apartments_central: [0.01, 0.03], houses_suburban: [0.005, 0.02] }
+    price_growth_12m: { apartments_central: [0.02, 0.05], houses_suburban: [0.01, 0.04] }
+    price_growth_24m: { apartments_central: [0.04, 0.08], houses_suburban: [0.03, 0.07] }
+
+# ═══════════════════════════════════════════════════════════════
+# SCENARIO 2: MIN_RISK (Benign / Goldilocks)
+# ═══════════════════════════════════════════════════════════════
+# Best-case for price appreciation: ECB cuts aggressively, real
+# wages surge, supply remains constrained, strong migration.
+
+min_risk:
+  label: "Minimum Risk (Goldilocks)"
+  description: >
+    Rates fall faster than expected as eurozone disinflation
+    accelerates. Danish real wages surge on tight labour market.
+    Construction pipeline faces delays (material shortages,
+    labour bottlenecks), constraining new supply. Copenhagen
+    remains a magnet for international talent. Net bullish for
+    housing prices across all segments.
+  probability_weight: 0.20
+
+  drivers:
+    purchasing_power:
+      nominal_wage_growth_yoy: 0.045         # Strong overenskomst + drift
+      real_wage_growth_yoy: 0.025            # Significant real gains
+      disposable_income_growth_yoy: 0.040
+      tax_policy: "unchanged"
+      rentefradrag_rate: 0.33
+
+    credit_conditions:
+      ecb_deposit_rate_current: 0.0275
+      ecb_deposit_rate_6m: 0.0200            # Aggressive cut path
+      ecb_deposit_rate_12m: 0.0150
+      ecb_deposit_rate_24m: 0.0100
+      fixed_30y_mortgage_rate_current: 0.040
+      fixed_30y_mortgage_rate_6m: 0.035
+      fixed_30y_mortgage_rate_12m: 0.030
+      fixed_30y_mortgage_rate_24m: 0.028
+      f1_adjustable_rate_current: 0.032
+      f1_adjustable_rate_12m: 0.020
+      io_share_new_originations: 0.48        # Rises as rates fall
+      ltv_regulatory_cap: 0.80
+      bidragssats_avg: 0.0058
+      lending_standards: "easing"            # Banks loosen criteria
+
+    supply_constraints:
+      active_listings_trend: "declining"      # Low inventory
+      months_of_supply_metro: 2.8             # Tight
+      building_permits_yoy: -0.05            # Declining permits
+      completions_pipeline_12m: 2800          # Below plan — delays
+      completions_pipeline_24m: 5500          # Slippage
+      construction_cost_growth_yoy: 0.045     # Labour/material pressure delays projects
+      nordhavn_delivery_schedule: "delayed_6m"
+      sydhavn_delivery_schedule: "delayed_12m"
+
+    demographics:
+      net_migration_copenhagen_annual: 11000  # Above trend
+      international_inmigration_annual: 15000 # Tech/pharma hiring boom
+      household_formation_rate: 0.022
+      single_household_share_trend: "rising"
+      age_28_35_cohort_growth: 0.012
+      forskerordningen_policy: "expanded"     # Government expands tax scheme
+
+    expectations:
+      consumer_confidence_housing: 15         # Strongly positive
+      price_momentum_3m: 0.025               # Strong momentum
+      sentiment_regime: "extrapolative"       # Trend-following; FOMO risk
+      media_tone: "bullish"
+
+    local_substitution:
+      central_to_bridge_spread: "widening"    # Central outperforms
+      apartment_to_house_spread: "narrowing"  # Apartments catch up
+      rent_to_price_yield: 0.028              # Compressed yield — prices outrun rents
+      metro_extension_status: "M4_sydhavn_under_construction"
+
+  forecast_expectations:
+    price_growth_6m:  { apartments_central: [0.03, 0.06], houses_suburban: [0.02, 0.04] }
+    price_growth_12m: { apartments_central: [0.06, 0.12], houses_suburban: [0.04, 0.08] }
+    price_growth_24m: { apartments_central: [0.10, 0.20], houses_suburban: [0.07, 0.14] }
+
+  # EWS note: min_risk scenario may ITSELF trigger EWI-1 (price > wages)
+  # and EWI-2 (supply squeeze) alerts. A goldilocks scenario can sow the
+  # seeds of future correction if it persists beyond 18 months.
+  ews_concern: "EWI-1 and EWI-2 may flash AMBER if this scenario persists >18m"
+
+# ═══════════════════════════════════════════════════════════════
+# SCENARIO 3: MAX_RISK (Stagflation / Stress)
+# ═══════════════════════════════════════════════════════════════
+# Worst-case for price stability: inflation re-accelerates, ECB
+# tightens, real wages stagnate, and simultaneously the construction
+# pipeline delivers a supply glut into weakened demand.
+
+max_risk:
+  label: "Maximum Risk (Stagflation + Supply Glut)"
+  description: >
+    Eurozone inflation re-accelerates (energy shock, trade war,
+    fiscal expansion). ECB reverses course and hikes. Danish
+    mortgage rates spike. Real wages are flat or negative.
+    Simultaneously, the Nordhavn/Sydhavn pipeline delivers a
+    record number of units into a market with evaporating demand.
+    Net migration slows as international workers face tighter
+    visa regimes and cost-of-living pressure. Maximum downside
+    risk for housing prices.
+  probability_weight: 0.25
+
+  drivers:
+    purchasing_power:
+      nominal_wage_growth_yoy: 0.025         # Below inflation
+      real_wage_growth_yoy: -0.010           # Negative real wage growth
+      disposable_income_growth_yoy: 0.015    # Barely positive
+      tax_policy: "tightening"               # Government raises ejendomsværdiskat
+      rentefradrag_rate: 0.25                # Deduction reduced (fiscal consolidation)
+
+    credit_conditions:
+      ecb_deposit_rate_current: 0.0275
+      ecb_deposit_rate_6m: 0.0350            # ECB reverses — hikes
+      ecb_deposit_rate_12m: 0.0400
+      ecb_deposit_rate_24m: 0.0425
+      fixed_30y_mortgage_rate_current: 0.040
+      fixed_30y_mortgage_rate_6m: 0.050
+      fixed_30y_mortgage_rate_12m: 0.055
+      fixed_30y_mortgage_rate_24m: 0.060
+      f1_adjustable_rate_current: 0.032
+      f1_adjustable_rate_12m: 0.048
+      io_share_new_originations: 0.30        # Finanstilsynet restricts IO lending
+      ltv_regulatory_cap: 0.75               # Tightened by 5pp
+      bidragssats_avg: 0.0075                # Banks increase margin for risk
+      lending_standards: "tightening"         # Significant credit contraction
+
+    supply_constraints:
+      active_listings_trend: "rising_sharply"  # Inventory piles up
+      months_of_supply_metro: 7.5              # Buyer's market
+      building_permits_yoy: -0.15             # New permits collapse (future tightening)
+      completions_pipeline_12m: 5500           # Above plan — everything delivers at once
+      completions_pipeline_24m: 9500           # Peak supply glut
+      construction_cost_growth_yoy: -0.02      # Costs fall as activity crashes
+      nordhavn_delivery_schedule: "accelerated" # Developers rush to complete and sell
+      sydhavn_delivery_schedule: "accelerated"
+
+    demographics:
+      net_migration_copenhagen_annual: 4000   # Sharp slowdown
+      international_inmigration_annual: 7000  # Visa tightening + cost push
+      household_formation_rate: 0.012         # Delayed formation (unaffordability)
+      single_household_share_trend: "flat"    # Doubling up under cost pressure
+      age_28_35_cohort_growth: 0.004          # Cohort shrinks
+      forskerordningen_policy: "restricted"   # Political backlash narrows eligibility
+
+    expectations:
+      consumer_confidence_housing: -25        # Deeply negative
+      price_momentum_3m: -0.035              # Sharp negative momentum
+      sentiment_regime: "fearful"             # Buyers pull back; wait-and-see
+      media_tone: "crisis_narrative"          # "Housing bubble bursting" headlines
+
+    local_substitution:
+      central_to_bridge_spread: "compressing" # Central falls toward Bridge levels
+      apartment_to_house_spread: "widening"   # Apartments hit hardest (leverage)
+      rent_to_price_yield: 0.050              # Yield expansion — prices fall faster than rents
+      metro_extension_status: "M4_sydhavn_delayed"  # Government cuts infrastructure budget
+
+  forecast_expectations:
+    price_growth_6m:  { apartments_central: [-0.08, -0.03], houses_suburban: [-0.05, -0.01] }
+    price_growth_12m: { apartments_central: [-0.15, -0.06], houses_suburban: [-0.10, -0.04] }
+    price_growth_24m: { apartments_central: [-0.20, -0.08], houses_suburban: [-0.15, -0.05] }
+
+  # EWS note: max_risk scenario will trigger ALL five EWIs.
+  # EWI-3 (volume/price divergence) and EWI-5 (DOM) will flash first.
+  ews_concern: "All EWIs expected at RED within 6 months of scenario onset"
+
+# ═══════════════════════════════════════════════════════════════
+# USER COST OF HOUSING (Nationalbanken Formula)
+# ═══════════════════════════════════════════════════════════════
+# The user cost is the annual cost of owning one DKK of housing,
+# combining mortgage rate, tax, depreciation, and expected
+# capital gain. Used as the fundamental affordability anchor.
+#
+# UC = (i_m × (1 - τ) + δ + risk_premium - π_e) × P_H
+#
+# Where:
+#   i_m         = mortgage interest rate (weighted avg of fixed/F1)
+#   τ           = marginal tax rate on interest deduction (rentefradrag)
+#   δ           = depreciation + maintenance rate (~1.5% p.a.)
+#   risk_premium = housing risk premium (~1.0% p.a.)
+#   π_e         = expected annual house price appreciation
+#   P_H         = house price level
+
+user_cost_formula:
+  description: >
+    Nationalbanken's user cost of housing framework. Converts the
+    stock price of housing into an annual flow cost, enabling direct
+    comparison with renting and with income measures.
+  components:
+    mortgage_rate_key: "credit_conditions.fixed_30y_mortgage_rate_{horizon}"
+    tax_deduction_rate_key: "purchasing_power.rentefradrag_rate"
+    depreciation_rate: 0.015       # 1.5% — physical depreciation + maintenance
+    risk_premium: 0.010            # 1.0% — illiquidity + concentration risk
+    expected_appreciation_key: "forecast_expectations.price_growth_{horizon}"
+  formula: "UC = (i_m * (1 - tau) + delta + rp - pi_e) * P_H"
+  notes: >
+    The user cost FALLS when: rates drop, tax deductions increase,
+    or expected appreciation rises. It RISES when: rates increase,
+    deductions are cut, or appreciation expectations collapse.
+    In max_risk, user cost can spike 40-60% within 12 months.
+
+# ═══════════════════════════════════════════════════════════════
+# SCENARIO COMPARISON TABLE (Pre-calculated for reference)
+# ═══════════════════════════════════════════════════════════════
+
+scenario_comparison:
+  # Effective user cost components at 12-month horizon
+  user_cost_12m:
+    baseline:
+      mortgage_rate: 0.037
+      after_tax_rate: 0.02479      # 0.037 * (1 - 0.33)
+      depreciation: 0.015
+      risk_premium: 0.010
+      expected_appreciation: 0.035  # midpoint of 12m range
+      user_cost_rate: 0.01479      # 0.02479 + 0.015 + 0.01 - 0.035
+    min_risk:
+      mortgage_rate: 0.030
+      after_tax_rate: 0.02010
+      depreciation: 0.015
+      risk_premium: 0.010
+      expected_appreciation: 0.090
+      user_cost_rate: -0.04490     # NEGATIVE — ownership cheaper than free
+    max_risk:
+      mortgage_rate: 0.055
+      after_tax_rate: 0.04125      # higher rate AND lower deduction (0.25)
+      depreciation: 0.015
+      risk_premium: 0.010
+      expected_appreciation: -0.105 # midpoint: expecting -10.5% decline
+      user_cost_rate: 0.17125      # Extremely elevated — ownership very expensive
+
+  # Interpretation:
+  # - Baseline: user cost ~1.5% of property value p.a. — sustainable
+  # - Min risk: user cost NEGATIVE — ownership effectively "free" — bubble risk
+  # - Max risk: user cost ~17% of property value p.a. — market under extreme stress

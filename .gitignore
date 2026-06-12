@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Node.js
+node_modules/
+dist/
+.next/
+out/
+
+# Vercel
+.vercel/
+
+# OS files
+.DS_Store
+Thumbs.db

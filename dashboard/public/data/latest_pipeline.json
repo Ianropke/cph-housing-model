@@ -1,0 +1,1547 @@
+{
+  "generated_at": "2026-06-12T08:08:01.868293",
+  "dst_data": {
+    "table": "EJ56",
+    "description": "Prisindeks for ejendomssalg (2006=100)",
+    "source": "Danmarks Statistik",
+    "last_updated": "2026-05-29",
+    "query_timestamp": "2026-06-12T08:08:02.041155",
+    "segments": {
+      "copenhagen_apartments": {
+        "label": "Ejerlejligheder, Byen K\u00f8benhavn",
+        "region": "Landsdel Byen K\u00f8benhavn",
+        "property_type": "Ejerlejligheder",
+        "base_year": 2006,
+        "series": {
+          "2019Q1": 81.4,
+          "2019Q2": 82.4,
+          "2019Q3": 82.1,
+          "2019Q4": 82.5,
+          "2020Q1": 83.8,
+          "2020Q2": 85.8,
+          "2020Q3": 88.1,
+          "2020Q4": 90.9,
+          "2021Q1": 95.6,
+          "2021Q2": 97.8,
+          "2021Q3": 100.2,
+          "2021Q4": 98.9,
+          "2022Q1": 102.2,
+          "2022Q2": 103.3,
+          "2022Q3": 99.6,
+          "2022Q4": 95.0,
+          "2023Q1": 94.7,
+          "2023Q2": 98.1,
+          "2023Q3": 98.8,
+          "2023Q4": 99.0,
+          "2024Q1": 98.3,
+          "2024Q2": 102.3,
+          "2024Q3": 105.0,
+          "2024Q4": 107.3,
+          "2025Q1": 112.5,
+          "2025Q2": 118.9,
+          "2025Q3": 121.8,
+          "2025Q4": 129.2
+        },
+        "latest_period": "2025Q4",
+        "latest_value": 129.2,
+        "yoy_change_pct": 20.41,
+        "qoq_change_pct": 6.08,
+        "periods_count": 28
+      },
+      "copenhagen_houses": {
+        "label": "Enfamiliehuse, K\u00f8benhavns omegn",
+        "region": "Landsdel K\u00f8benhavns omegn",
+        "property_type": "Enfamiliehuse",
+        "base_year": 2006,
+        "series": {
+          "2019Q1": 79.3,
+          "2019Q2": 80.0,
+          "2019Q3": 80.9,
+          "2019Q4": 79.9,
+          "2020Q1": 81.6,
+          "2020Q2": 81.9,
+          "2020Q3": 86.5,
+          "2020Q4": 89.4,
+          "2021Q1": 95.1,
+          "2021Q2": 98.4,
+          "2021Q3": 101.4,
+          "2021Q4": 100.9,
+          "2022Q1": 103.2,
+          "2022Q2": 104.1,
+          "2022Q3": 98.3,
+          "2022Q4": 94.5,
+          "2023Q1": 93.4,
+          "2023Q2": 95.7,
+          "2023Q3": 97.8,
+          "2023Q4": 99.6,
+          "2024Q1": 98.0,
+          "2024Q2": 100.3,
+          "2024Q3": 101.7,
+          "2024Q4": 104.1,
+          "2025Q1": 106.8,
+          "2025Q2": 110.3,
+          "2025Q3": 112.3,
+          "2025Q4": 118.5
+        },
+        "latest_period": "2025Q4",
+        "latest_value": 118.5,
+        "yoy_change_pct": 13.83,
+        "qoq_change_pct": 5.52,
+        "periods_count": 28
+      },
+      "frederiksberg_apartments": {
+        "label": "Ejerlejligheder, K\u00f8benhavns omegn",
+        "region": "Landsdel K\u00f8benhavns omegn",
+        "property_type": "Ejerlejligheder",
+        "base_year": 2006,
+        "series": {
+          "2019Q1": 84.0,
+          "2019Q2": 84.7,
+          "2019Q3": 83.1,
+          "2019Q4": 85.8,
+          "2020Q1": 87.9,
+          "2020Q2": 84.6,
+          "2020Q3": 88.2,
+          "2020Q4": 89.4,
+          "2021Q1": 96.3,
+          "2021Q2": 97.5,
+          "2021Q3": 98.8,
+          "2021Q4": 99.4,
+          "2022Q1": 101.2,
+          "2022Q2": 103.6,
+          "2022Q3": 99.5,
+          "2022Q4": 95.7,
+          "2023Q1": 91.7,
+          "2023Q2": 94.9,
+          "2023Q3": 97.8,
+          "2023Q4": 97.5,
+          "2024Q1": 98.0,
+          "2024Q2": 99.5,
+          "2024Q3": 102.6,
+          "2024Q4": 103.1,
+          "2025Q1": 105.4,
+          "2025Q2": 108.2,
+          "2025Q3": 110.7,
+          "2025Q4": 114.6
+        },
+        "latest_period": "2025Q4",
+        "latest_value": 114.6,
+        "yoy_change_pct": 11.15,
+        "qoq_change_pct": 3.52,
+        "periods_count": 28
+      }
+    }
+  },
+  "early_warnings": {
+    "copenhagen_apartments": {
+      "segment": "copenhagen_apartments",
+      "evaluation_timestamp": "2026-06-12T08:08:02.043892",
+      "indicators": {
+        "EWI-1_price_vs_wages": {
+          "level": "RED",
+          "price_growth_yoy": 20.41,
+          "wage_growth_yoy": 3.5,
+          "spread_pp": 16.91,
+          "detail": "Price growth 20.4% vs wage growth 3.5%",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            },
+            {
+              "key": "wage_data",
+              "label": "L\u00f8nudvikling",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-03-15",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.444
+            }
+          ]
+        },
+        "EWI-2_supply_demand": {
+          "level": "GREEN",
+          "months_of_supply": 4.1,
+          "baseline_months": 4.5,
+          "detail": "Months of supply: 4.1 (baseline: 4.5)",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-3_volume_price_divergence": {
+          "level": "GREEN",
+          "price_yoy_pct": 20.41,
+          "volume_yoy_pct": -3.0,
+          "divergence": false,
+          "detail": "Price YoY: +20.4%, Volume YoY: -3.0%",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            },
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-4_price_reductions": {
+          "level": "GREEN",
+          "reduction_rate_pct": 22.0,
+          "avg_reduction_magnitude_pct": 3.2,
+          "detail": "22% of listings reduced, avg 3.2%",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-5_time_on_market": {
+          "level": "GREEN",
+          "median_dom_days": 62,
+          "baseline_mean_days": 58,
+          "baseline_std_days": 12,
+          "detail": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-6_price_to_rent": {
+          "level": "GREEN",
+          "price_to_rent_ratio": 1.095,
+          "baseline_mean": 1.08,
+          "detail": "Price-to-rent ratio is 1.095 (mean: 1.080, AMBER >1.155)",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            }
+          ]
+        },
+        "EWI-7_credit_growth": {
+          "level": "GREEN",
+          "amortization_free_share_pct": 46.0,
+          "detail": "Amortization-free mortgage share is 46.0% (AMBER >50%, RED >60%)",
+          "data_sources": [
+            {
+              "key": "rkr_ul10",
+              "label": "Afdragsfrihed (UL10)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-03-31",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.544
+            }
+          ]
+        }
+      },
+      "composite_score": 3,
+      "freshness_weighted_composite": 3.0,
+      "max_possible_score": 21,
+      "alert_level": "ELEVATED",
+      "data_freshness_summary": {
+        "dst_ej56": {
+          "label": "DST Prisindeks (EJ56)",
+          "last_updated": "2026-05-29",
+          "freshness_weight": 0.912
+        },
+        "rkr_bm011": {
+          "label": "Realkreditl\u00e5n (BM011)",
+          "last_updated": "2026-04-15",
+          "freshness_weight": 0.275
+        },
+        "rkr_udb010": {
+          "label": "Boligudbud (UDB010)",
+          "last_updated": "2026-05-20",
+          "freshness_weight": 0.617
+        },
+        "rkr_ul10": {
+          "label": "Afdragsfrihed (UL10)",
+          "last_updated": "2026-03-31",
+          "freshness_weight": 0.544
+        },
+        "ecb_rates": {
+          "label": "ECB renter",
+          "last_updated": "2026-06-10",
+          "freshness_weight": 0.893
+        },
+        "wage_data": {
+          "label": "L\u00f8nudvikling",
+          "last_updated": "2026-03-15",
+          "freshness_weight": 0.444
+        }
+      }
+    },
+    "copenhagen_houses": {
+      "segment": "copenhagen_houses",
+      "evaluation_timestamp": "2026-06-12T08:08:02.044309",
+      "indicators": {
+        "EWI-1_price_vs_wages": {
+          "level": "RED",
+          "price_growth_yoy": 13.83,
+          "wage_growth_yoy": 3.5,
+          "spread_pp": 10.33,
+          "detail": "Price growth 13.8% vs wage growth 3.5%",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            },
+            {
+              "key": "wage_data",
+              "label": "L\u00f8nudvikling",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-03-15",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.444
+            }
+          ]
+        },
+        "EWI-2_supply_demand": {
+          "level": "GREEN",
+          "months_of_supply": 4.1,
+          "baseline_months": 4.5,
+          "detail": "Months of supply: 4.1 (baseline: 4.5)",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-3_volume_price_divergence": {
+          "level": "GREEN",
+          "price_yoy_pct": 13.83,
+          "volume_yoy_pct": -3.0,
+          "divergence": false,
+          "detail": "Price YoY: +13.8%, Volume YoY: -3.0%",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            },
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-4_price_reductions": {
+          "level": "GREEN",
+          "reduction_rate_pct": 22.0,
+          "avg_reduction_magnitude_pct": 3.2,
+          "detail": "22% of listings reduced, avg 3.2%",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-5_time_on_market": {
+          "level": "GREEN",
+          "median_dom_days": 62,
+          "baseline_mean_days": 58,
+          "baseline_std_days": 12,
+          "detail": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-6_price_to_rent": {
+          "level": "GREEN",
+          "price_to_rent_ratio": 1.004,
+          "baseline_mean": 1.08,
+          "detail": "Price-to-rent ratio is 1.004 (mean: 1.080, AMBER >1.155)",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            }
+          ]
+        },
+        "EWI-7_credit_growth": {
+          "level": "GREEN",
+          "amortization_free_share_pct": 48.0,
+          "detail": "Amortization-free mortgage share is 48.0% (AMBER >50%, RED >60%)",
+          "data_sources": [
+            {
+              "key": "rkr_ul10",
+              "label": "Afdragsfrihed (UL10)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-03-31",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.544
+            }
+          ]
+        }
+      },
+      "composite_score": 3,
+      "freshness_weighted_composite": 3.0,
+      "max_possible_score": 21,
+      "alert_level": "ELEVATED",
+      "data_freshness_summary": {
+        "dst_ej56": {
+          "label": "DST Prisindeks (EJ56)",
+          "last_updated": "2026-05-29",
+          "freshness_weight": 0.912
+        },
+        "rkr_bm011": {
+          "label": "Realkreditl\u00e5n (BM011)",
+          "last_updated": "2026-04-15",
+          "freshness_weight": 0.275
+        },
+        "rkr_udb010": {
+          "label": "Boligudbud (UDB010)",
+          "last_updated": "2026-05-20",
+          "freshness_weight": 0.617
+        },
+        "rkr_ul10": {
+          "label": "Afdragsfrihed (UL10)",
+          "last_updated": "2026-03-31",
+          "freshness_weight": 0.544
+        },
+        "ecb_rates": {
+          "label": "ECB renter",
+          "last_updated": "2026-06-10",
+          "freshness_weight": 0.893
+        },
+        "wage_data": {
+          "label": "L\u00f8nudvikling",
+          "last_updated": "2026-03-15",
+          "freshness_weight": 0.444
+        }
+      }
+    },
+    "frederiksberg_apartments": {
+      "segment": "frederiksberg_apartments",
+      "evaluation_timestamp": "2026-06-12T08:08:02.044566",
+      "indicators": {
+        "EWI-1_price_vs_wages": {
+          "level": "RED",
+          "price_growth_yoy": 11.15,
+          "wage_growth_yoy": 3.5,
+          "spread_pp": 7.65,
+          "detail": "Price growth 11.2% vs wage growth 3.5%",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            },
+            {
+              "key": "wage_data",
+              "label": "L\u00f8nudvikling",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-03-15",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.444
+            }
+          ]
+        },
+        "EWI-2_supply_demand": {
+          "level": "GREEN",
+          "months_of_supply": 4.1,
+          "baseline_months": 4.5,
+          "detail": "Months of supply: 4.1 (baseline: 4.5)",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-3_volume_price_divergence": {
+          "level": "GREEN",
+          "price_yoy_pct": 11.15,
+          "volume_yoy_pct": -3.0,
+          "divergence": false,
+          "detail": "Price YoY: +11.2%, Volume YoY: -3.0%",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            },
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-4_price_reductions": {
+          "level": "GREEN",
+          "reduction_rate_pct": 22.0,
+          "avg_reduction_magnitude_pct": 3.2,
+          "detail": "22% of listings reduced, avg 3.2%",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-5_time_on_market": {
+          "level": "GREEN",
+          "median_dom_days": 62,
+          "baseline_mean_days": 58,
+          "baseline_std_days": 12,
+          "detail": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+          "data_sources": [
+            {
+              "key": "rkr_udb010",
+              "label": "Boligudbud (UDB010)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-05-20",
+              "frequency": "Monthly",
+              "freshness_weight": 0.617
+            }
+          ]
+        },
+        "EWI-6_price_to_rent": {
+          "level": "GREEN",
+          "price_to_rent_ratio": 0.971,
+          "baseline_mean": 1.08,
+          "detail": "Price-to-rent ratio is 0.971 (mean: 1.080, AMBER >1.155)",
+          "data_sources": [
+            {
+              "key": "dst_ej56",
+              "label": "DST Prisindeks (EJ56)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2026-05-29",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.912
+            }
+          ]
+        },
+        "EWI-7_credit_growth": {
+          "level": "AMBER",
+          "amortization_free_share_pct": 52.0,
+          "detail": "Amortization-free mortgage share is 52.0% (AMBER >50%, RED >60%)",
+          "data_sources": [
+            {
+              "key": "rkr_ul10",
+              "label": "Afdragsfrihed (UL10)",
+              "source": "Finansdanmark",
+              "last_updated": "2026-03-31",
+              "frequency": "Quarterly",
+              "freshness_weight": 0.544
+            }
+          ]
+        }
+      },
+      "composite_score": 4,
+      "freshness_weighted_composite": 3.8,
+      "max_possible_score": 21,
+      "alert_level": "ELEVATED",
+      "data_freshness_summary": {
+        "dst_ej56": {
+          "label": "DST Prisindeks (EJ56)",
+          "last_updated": "2026-05-29",
+          "freshness_weight": 0.912
+        },
+        "rkr_bm011": {
+          "label": "Realkreditl\u00e5n (BM011)",
+          "last_updated": "2026-04-15",
+          "freshness_weight": 0.275
+        },
+        "rkr_udb010": {
+          "label": "Boligudbud (UDB010)",
+          "last_updated": "2026-05-20",
+          "freshness_weight": 0.617
+        },
+        "rkr_ul10": {
+          "label": "Afdragsfrihed (UL10)",
+          "last_updated": "2026-03-31",
+          "freshness_weight": 0.544
+        },
+        "ecb_rates": {
+          "label": "ECB renter",
+          "last_updated": "2026-06-10",
+          "freshness_weight": 0.893
+        },
+        "wage_data": {
+          "label": "L\u00f8nudvikling",
+          "last_updated": "2026-03-15",
+          "freshness_weight": 0.444
+        }
+      }
+    }
+  },
+  "forecasts": {
+    "copenhagen_apartments": {
+      "segment": "copenhagen_apartments",
+      "current_period": "2025Q4",
+      "current_index": 129.2,
+      "forecast_date": "2026-06-12T08:08:02.054538",
+      "horizons": {
+        "6m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 130.5,
+              "price_change_pct": 1.0,
+              "annualised_return_pct": 2.0,
+              "mortgage_rate": 0.039,
+              "user_cost_rate": 0.04033,
+              "user_cost_pct": 4.03,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3030000.0,
+              "ref_user_cost_monthly_dkk": 10183.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 132.1,
+              "price_change_pct": 2.25,
+              "annualised_return_pct": 4.5,
+              "mortgage_rate": 0.035,
+              "user_cost_rate": 0.01265,
+              "user_cost_pct": 1.27,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3067500.0,
+              "ref_user_cost_monthly_dkk": 3234.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 125.6,
+              "price_change_pct": -2.75,
+              "annualised_return_pct": -5.5,
+              "mortgage_rate": 0.05,
+              "user_cost_rate": 0.1267,
+              "user_cost_pct": 12.67,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 2917500.0,
+              "ref_user_cost_monthly_dkk": 30804.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 129.6,
+            "probability_weighted_change_pct": 0.31,
+            "probability_weighted_user_cost_rate": 0.05639,
+            "index_range": [
+              125.6,
+              132.1
+            ],
+            "confidence_bounds": {
+              "p10": 128.4,
+              "p50": 129.6,
+              "p90": 130.8
+            }
+          }
+        },
+        "12m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 134.9,
+              "price_change_pct": 4.4,
+              "annualised_return_pct": 4.4,
+              "mortgage_rate": 0.037,
+              "user_cost_rate": 0.01499,
+              "user_cost_pct": 1.5,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3132000.0,
+              "ref_user_cost_monthly_dkk": 3912.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 143.7,
+              "price_change_pct": 11.25,
+              "annualised_return_pct": 11.25,
+              "mortgage_rate": 0.03,
+              "user_cost_rate": -0.0582,
+              "user_cost_pct": -5.82,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3337500.0,
+              "ref_user_cost_monthly_dkk": -16187.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 112.7,
+              "price_change_pct": -12.75,
+              "annualised_return_pct": -12.75,
+              "mortgage_rate": 0.055,
+              "user_cost_rate": 0.20295,
+              "user_cost_pct": 20.29,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 2617500.0,
+              "ref_user_cost_monthly_dkk": 44268.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 131.1,
+            "probability_weighted_change_pct": 1.48,
+            "probability_weighted_user_cost_rate": 0.04734,
+            "index_range": [
+              112.7,
+              143.7
+            ],
+            "confidence_bounds": {
+              "p10": 127.9,
+              "p50": 131.0,
+              "p90": 134.5
+            }
+          }
+        },
+        "24m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 149.4,
+              "price_change_pct": 15.6,
+              "annualised_return_pct": 7.8,
+              "mortgage_rate": 0.035,
+              "user_cost_rate": -0.02035,
+              "user_cost_pct": -2.03,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3468000.0,
+              "ref_user_cost_monthly_dkk": -5881.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 176.1,
+              "price_change_pct": 36.3,
+              "annualised_return_pct": 18.15,
+              "mortgage_rate": 0.028,
+              "user_cost_rate": -0.12854,
+              "user_cost_pct": -12.85,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 4089000.0,
+              "ref_user_cost_monthly_dkk": -43800.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 81.4,
+              "price_change_pct": -37.0,
+              "annualised_return_pct": -18.5,
+              "mortgage_rate": 0.06,
+              "user_cost_rate": 0.2642,
+              "user_cost_pct": 26.42,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 1890000.0,
+              "ref_user_cost_monthly_dkk": 41612.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 137.7,
+            "probability_weighted_change_pct": 6.59,
+            "probability_weighted_user_cost_rate": 0.02915,
+            "index_range": [
+              81.4,
+              176.1
+            ],
+            "confidence_bounds": {
+              "p10": 128.4,
+              "p50": 137.9,
+              "p90": 147.5
+            }
+          }
+        }
+      }
+    },
+    "copenhagen_houses": {
+      "segment": "copenhagen_houses",
+      "current_period": "2025Q4",
+      "current_index": 118.5,
+      "forecast_date": "2026-06-12T08:08:02.063583",
+      "horizons": {
+        "6m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 119.7,
+              "price_change_pct": 1.0,
+              "annualised_return_pct": 2.0,
+              "mortgage_rate": 0.039,
+              "user_cost_rate": 0.04033,
+              "user_cost_pct": 4.03,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3030000.0,
+              "ref_user_cost_monthly_dkk": 10183.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 121.2,
+              "price_change_pct": 2.25,
+              "annualised_return_pct": 4.5,
+              "mortgage_rate": 0.035,
+              "user_cost_rate": 0.01265,
+              "user_cost_pct": 1.27,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3067500.0,
+              "ref_user_cost_monthly_dkk": 3234.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 115.2,
+              "price_change_pct": -2.75,
+              "annualised_return_pct": -5.5,
+              "mortgage_rate": 0.05,
+              "user_cost_rate": 0.1267,
+              "user_cost_pct": 12.67,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 2917500.0,
+              "ref_user_cost_monthly_dkk": 30804.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 118.9,
+            "probability_weighted_change_pct": 0.31,
+            "probability_weighted_user_cost_rate": 0.05639,
+            "index_range": [
+              115.2,
+              121.2
+            ],
+            "confidence_bounds": {
+              "p10": 117.8,
+              "p50": 118.8,
+              "p90": 120.0
+            }
+          }
+        },
+        "12m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 123.1,
+              "price_change_pct": 3.88,
+              "annualised_return_pct": 3.88,
+              "mortgage_rate": 0.037,
+              "user_cost_rate": 0.02024,
+              "user_cost_pct": 2.02,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3116250.0,
+              "ref_user_cost_monthly_dkk": 5256.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 130.3,
+              "price_change_pct": 9.94,
+              "annualised_return_pct": 9.94,
+              "mortgage_rate": 0.03,
+              "user_cost_rate": -0.04508,
+              "user_cost_pct": -4.51,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3298125.0,
+              "ref_user_cost_monthly_dkk": -12389.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 104.9,
+              "price_change_pct": -11.44,
+              "annualised_return_pct": -11.44,
+              "mortgage_rate": 0.055,
+              "user_cost_rate": 0.18982,
+              "user_cost_pct": 18.98,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 2656875.0,
+              "ref_user_cost_monthly_dkk": 42028.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 120.0,
+            "probability_weighted_change_pct": 1.26,
+            "probability_weighted_user_cost_rate": 0.04957,
+            "index_range": [
+              104.9,
+              130.3
+            ],
+            "confidence_bounds": {
+              "p10": 117.1,
+              "p50": 120.2,
+              "p90": 122.9
+            }
+          }
+        },
+        "24m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 135.1,
+              "price_change_pct": 14.0,
+              "annualised_return_pct": 7.0,
+              "mortgage_rate": 0.035,
+              "user_cost_rate": -0.01235,
+              "user_cost_pct": -1.23,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3420000.0,
+              "ref_user_cost_monthly_dkk": -3520.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 158.2,
+              "price_change_pct": 33.5,
+              "annualised_return_pct": 16.75,
+              "mortgage_rate": 0.028,
+              "user_cost_rate": -0.11454,
+              "user_cost_pct": -11.45,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 4005000.0,
+              "ref_user_cost_monthly_dkk": -38228.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 79.4,
+              "price_change_pct": -33.0,
+              "annualised_return_pct": -16.5,
+              "mortgage_rate": 0.06,
+              "user_cost_rate": 0.2442,
+              "user_cost_pct": 24.42,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 2010000.0,
+              "ref_user_cost_monthly_dkk": 40903.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 125.8,
+            "probability_weighted_change_pct": 6.15,
+            "probability_weighted_user_cost_rate": 0.03135,
+            "index_range": [
+              79.4,
+              158.2
+            ],
+            "confidence_bounds": {
+              "p10": 117.5,
+              "p50": 126.1,
+              "p90": 134.1
+            }
+          }
+        }
+      }
+    },
+    "frederiksberg_apartments": {
+      "segment": "frederiksberg_apartments",
+      "current_period": "2025Q4",
+      "current_index": 114.6,
+      "forecast_date": "2026-06-12T08:08:02.071828",
+      "horizons": {
+        "6m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 115.7,
+              "price_change_pct": 1.0,
+              "annualised_return_pct": 2.0,
+              "mortgage_rate": 0.039,
+              "user_cost_rate": 0.04033,
+              "user_cost_pct": 4.03,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3030000.0,
+              "ref_user_cost_monthly_dkk": 10183.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 117.2,
+              "price_change_pct": 2.25,
+              "annualised_return_pct": 4.5,
+              "mortgage_rate": 0.035,
+              "user_cost_rate": 0.01265,
+              "user_cost_pct": 1.27,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3067500.0,
+              "ref_user_cost_monthly_dkk": 3234.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 111.4,
+              "price_change_pct": -2.75,
+              "annualised_return_pct": -5.5,
+              "mortgage_rate": 0.05,
+              "user_cost_rate": 0.1267,
+              "user_cost_pct": 12.67,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 2917500.0,
+              "ref_user_cost_monthly_dkk": 30804.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 114.9,
+            "probability_weighted_change_pct": 0.31,
+            "probability_weighted_user_cost_rate": 0.05639,
+            "index_range": [
+              111.4,
+              117.2
+            ],
+            "confidence_bounds": {
+              "p10": 114.0,
+              "p50": 114.9,
+              "p90": 116.0
+            }
+          }
+        },
+        "12m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 119.5,
+              "price_change_pct": 4.3,
+              "annualised_return_pct": 4.3,
+              "mortgage_rate": 0.037,
+              "user_cost_rate": 0.01599,
+              "user_cost_pct": 1.6,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3129000.0,
+              "ref_user_cost_monthly_dkk": 4169.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 127.2,
+              "price_change_pct": 11.0,
+              "annualised_return_pct": 11.0,
+              "mortgage_rate": 0.03,
+              "user_cost_rate": -0.0557,
+              "user_cost_pct": -5.57,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3330000.0,
+              "ref_user_cost_monthly_dkk": -15457.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 100.3,
+              "price_change_pct": -12.5,
+              "annualised_return_pct": -12.5,
+              "mortgage_rate": 0.055,
+              "user_cost_rate": 0.20045,
+              "user_cost_pct": 20.04,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 2625000.0,
+              "ref_user_cost_monthly_dkk": 43848.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 116.2,
+            "probability_weighted_change_pct": 1.44,
+            "probability_weighted_user_cost_rate": 0.04777,
+            "index_range": [
+              100.3,
+              127.2
+            ],
+            "confidence_bounds": {
+              "p10": 113.3,
+              "p50": 116.4,
+              "p90": 119.3
+            }
+          }
+        },
+        "24m": {
+          "scenarios": {
+            "baseline": {
+              "label": "Baseline",
+              "probability_weight": 0.55,
+              "forecast_index": 132.0,
+              "price_change_pct": 15.2,
+              "annualised_return_pct": 7.6,
+              "mortgage_rate": 0.035,
+              "user_cost_rate": -0.01835,
+              "user_cost_pct": -1.83,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 3456000.0,
+              "ref_user_cost_monthly_dkk": -5285.0
+            },
+            "min_risk": {
+              "label": "Minimum Risk (Goldilocks)",
+              "probability_weight": 0.2,
+              "forecast_index": 155.4,
+              "price_change_pct": 35.6,
+              "annualised_return_pct": 17.8,
+              "mortgage_rate": 0.028,
+              "user_cost_rate": -0.12504,
+              "user_cost_pct": -12.5,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 4068000.0,
+              "ref_user_cost_monthly_dkk": -42389.0
+            },
+            "max_risk": {
+              "label": "Maximum Risk (Stagflation)",
+              "probability_weight": 0.25,
+              "forecast_index": 73.3,
+              "price_change_pct": -36.0,
+              "annualised_return_pct": -18.0,
+              "mortgage_rate": 0.06,
+              "user_cost_rate": 0.2592,
+              "user_cost_pct": 25.92,
+              "ref_property_value": 3000000,
+              "ref_forecast_value": 1920000.0,
+              "ref_user_cost_monthly_dkk": 41472.0
+            }
+          },
+          "ensemble": {
+            "probability_weighted_index": 122.0,
+            "probability_weighted_change_pct": 6.48,
+            "probability_weighted_user_cost_rate": 0.0297,
+            "index_range": [
+              73.3,
+              155.4
+            ],
+            "confidence_bounds": {
+              "p10": 113.5,
+              "p50": 121.9,
+              "p90": 130.8
+            }
+          }
+        }
+      }
+    }
+  },
+  "user_costs": {
+    "baseline": {
+      "6m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.039,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.02,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.33,
+          "after_tax_interest_rate": 0.02613,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.02,
+          "user_cost_rate": 0.04033,
+          "user_cost_annual_dkk": 120990.0,
+          "user_cost_monthly_dkk": 10083.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 7800.0,
+          "tax_benefit_monthly": 2574.0,
+          "net_monthly_payment": 5226.0,
+          "of_which_interest": 7800.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": 4.03,
+          "implied_monthly_rent_per_sqm": 151.0,
+          "assessment": "Elevated user cost (3-5%) \u2014 affordability stress"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071881"
+      },
+      "12m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.037,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.035,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.33,
+          "after_tax_interest_rate": 0.02479,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.035,
+          "user_cost_rate": 0.02399,
+          "user_cost_annual_dkk": 71970.0,
+          "user_cost_monthly_dkk": 5997.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 7400.0,
+          "tax_benefit_monthly": 2442.0,
+          "net_monthly_payment": 4958.0,
+          "of_which_interest": 7400.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": 2.4,
+          "implied_monthly_rent_per_sqm": 90.0,
+          "assessment": "Moderate user cost (1-3%) \u2014 sustainable"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071899"
+      },
+      "24m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.035,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.06,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.33,
+          "after_tax_interest_rate": 0.02345,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.06,
+          "user_cost_rate": -0.00235,
+          "user_cost_annual_dkk": -7050.0,
+          "user_cost_monthly_dkk": -587.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 7000.0,
+          "tax_benefit_monthly": 2310.0,
+          "net_monthly_payment": 4690.0,
+          "of_which_interest": 7000.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": -0.23,
+          "implied_monthly_rent_per_sqm": -9.0,
+          "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071911"
+      }
+    },
+    "min_risk": {
+      "6m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.035,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.045,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.33,
+          "after_tax_interest_rate": 0.02345,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.045,
+          "user_cost_rate": 0.01265,
+          "user_cost_annual_dkk": 37950.0,
+          "user_cost_monthly_dkk": 3163.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 7000.0,
+          "tax_benefit_monthly": 2310.0,
+          "net_monthly_payment": 4690.0,
+          "of_which_interest": 7000.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": 1.27,
+          "implied_monthly_rent_per_sqm": 47.0,
+          "assessment": "Moderate user cost (1-3%) \u2014 sustainable"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071921"
+      },
+      "12m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.03,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.09,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.33,
+          "after_tax_interest_rate": 0.0201,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.09,
+          "user_cost_rate": -0.0357,
+          "user_cost_annual_dkk": -107100.0,
+          "user_cost_monthly_dkk": -8925.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 6000.0,
+          "tax_benefit_monthly": 1980.0,
+          "net_monthly_payment": 4020.0,
+          "of_which_interest": 6000.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": -3.57,
+          "implied_monthly_rent_per_sqm": -134.0,
+          "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071931"
+      },
+      "24m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.028,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.15,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.33,
+          "after_tax_interest_rate": 0.01876,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": 0.15,
+          "user_cost_rate": -0.09704,
+          "user_cost_annual_dkk": -291120.0,
+          "user_cost_monthly_dkk": -24260.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 5600.0,
+          "tax_benefit_monthly": 1848.0,
+          "net_monthly_payment": 3752.0,
+          "of_which_interest": 5600.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": -9.7,
+          "implied_monthly_rent_per_sqm": -364.0,
+          "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071940"
+      }
+    },
+    "max_risk": {
+      "6m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.05,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": -0.055,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.31667,
+          "after_tax_interest_rate": 0.03417,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": -0.055,
+          "user_cost_rate": 0.12337,
+          "user_cost_annual_dkk": 370100.0,
+          "user_cost_monthly_dkk": 30842.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 10000.0,
+          "tax_benefit_monthly": 3167.0,
+          "net_monthly_payment": 6833.0,
+          "of_which_interest": 10000.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": 12.34,
+          "implied_monthly_rent_per_sqm": 463.0,
+          "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071950"
+      },
+      "12m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.055,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": -0.105,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.31061,
+          "after_tax_interest_rate": 0.03792,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": -0.105,
+          "user_cost_rate": 0.17712,
+          "user_cost_annual_dkk": 531350.0,
+          "user_cost_monthly_dkk": 44279.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 11000.0,
+          "tax_benefit_monthly": 3417.0,
+          "net_monthly_payment": 7583.0,
+          "of_which_interest": 11000.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": 17.71,
+          "implied_monthly_rent_per_sqm": 664.0,
+          "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071960"
+      },
+      "24m": {
+        "input": {
+          "property_value_dkk": 3000000,
+          "mortgage_rate": 0.06,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": -0.14,
+          "io_loan": true,
+          "amortisation_rate": 0.0,
+          "is_couple": true
+        },
+        "user_cost_breakdown": {
+          "effective_tax_deduction_rate": 0.30556,
+          "after_tax_interest_rate": 0.04167,
+          "property_tax_rate": 0.0092,
+          "depreciation_rate": 0.015,
+          "risk_premium": 0.01,
+          "expected_appreciation": -0.14,
+          "user_cost_rate": 0.21587,
+          "user_cost_annual_dkk": 647600.0,
+          "user_cost_monthly_dkk": 53967.0
+        },
+        "cash_flow": {
+          "gross_monthly_payment": 12000.0,
+          "tax_benefit_monthly": 3667.0,
+          "net_monthly_payment": 8333.0,
+          "of_which_interest": 12000.0,
+          "of_which_amortisation": 0.0
+        },
+        "interpretation": {
+          "user_cost_pct_of_value": 21.59,
+          "implied_monthly_rent_per_sqm": 809.0,
+          "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
+        },
+        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "calculation_timestamp": "2026-06-12T08:08:02.071969"
+      }
+    }
+  },
+  "alerts": [
+    "\u26a0\ufe0f copenhagen_apartments: ELEVATED (score 3)",
+    "\u26a0\ufe0f copenhagen_houses: ELEVATED (score 3)",
+    "\u26a0\ufe0f frederiksberg_apartments: ELEVATED (score 4)"
+  ]
+}
