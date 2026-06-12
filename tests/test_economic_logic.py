@@ -244,6 +244,28 @@ class TestCompositeEWI(unittest.TestCase):
                 ind["level"], valid, f"{ewi_key} has invalid status: {ind['level']}"
             )
 
+    def test_ewi1_modes(self):
+        """Verify that the 4 modes for EWI-1 compute different statuses and spreads."""
+        # Test Copenhagen apartments
+        res_yoy_orig = check_early_warnings("copenhagen_apartments", ewi1_mode="yoy_original")
+        res_yoy_exp = check_early_warnings("copenhagen_apartments", ewi1_mode="yoy_expanded")
+        res_struct_3y = check_early_warnings("copenhagen_apartments", ewi1_mode="structural_3y")
+        res_struct_5y = check_early_warnings("copenhagen_apartments", ewi1_mode="structural_5y")
+
+        # All 4 should have EWI-1 modes dict
+        ewi1_orig = res_yoy_orig["indicators"]["EWI-1_price_vs_wages"]
+        self.assertIn("modes", ewi1_orig)
+        
+        # Check active level values
+        self.assertEqual(ewi1_orig["level"], "RED")
+        self.assertEqual(res_yoy_exp["indicators"]["EWI-1_price_vs_wages"]["level"], "RED")
+        self.assertEqual(res_struct_3y["indicators"]["EWI-1_price_vs_wages"]["level"], "AMBER")
+        self.assertEqual(res_struct_5y["indicators"]["EWI-1_price_vs_wages"]["level"], "AMBER")
+
+        # Test Copenhagen houses (should be GREEN under 3y MA)
+        res_houses_3y = check_early_warnings("copenhagen_houses", ewi1_mode="structural_3y")
+        self.assertEqual(res_houses_3y["indicators"]["EWI-1_price_vs_wages"]["level"], "GREEN")
+
 
 class TestMonteCarloVariation(unittest.TestCase):
     """Verify Monte Carlo actually produces a spread of values."""

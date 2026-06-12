@@ -1,4 +1,4 @@
-import { earlyWarningIndicators, compositeScore, freshnessWeightedComposite, alertLevel, dataFreshness } from '../data/housingData';
+import { dataFreshness } from '../data/housingData';
 
 const statusColors = {
   GREEN: '#00d4aa',
@@ -13,7 +13,6 @@ const statusGlow = {
 };
 
 const ewiTooltips = {
-  'EWI-1': 'Pris vs. løn: Hvis boligpriserne stiger markant hurtigere end lønningerne, risikerer købere at blive strakt ud over evne. GRØN: priserne stiger max 3 procentpoint hurtigere end lønnen. GUL: 3-5 pp. RØD: over 5 pp.',
   'EWI-2': 'Udbud vs. efterspørgsel: Antal måneder det tager at sælge alle boliger til udbudt. Lavt tal = knaphed (prispres op). GRØN: over 3,5 mdr. GUL: 2,5-3,5 mdr. RØD: under 2,5 mdr.',
   'EWI-3': 'Volumen-pris divergens: Hvis priserne stiger men handelsvolumen falder, kan det betyde at markedet drives af få handler til høje priser — et faresignal. GUL: volumen falder >10% mens priser stiger. RØD: falder >15%.',
   'EWI-4': 'Prisnedsættelser: Andelen af udbudte boliger hvor sælger har sat prisen ned. Højt tal = sælgerne kan ikke opnå deres udbudspris. GRØN: under 30%. GUL: 30-40%. RØD: over 40% med store nedsættelser.',
@@ -21,6 +20,22 @@ const ewiTooltips = {
   'EWI-6': 'Pris-til-leje ratio: Sammenligner boligpriser med lejeniveauet. Tærsklerne beregnes dynamisk (Løsning A) vha. en rullende Z-score over 12 kvartaler. GUL: 1,5σ over gennemsnittet. RØD: 2,5σ over gennemsnittet.',
   'EWI-7': 'Afdragsfrihed: Andelen af nye realkreditlån uden afdrag. Højt tal = låntagerne er sårbare overfor rentestigninger. GRØN: under 50%. GUL: 50-60%. RØD: over 60%.',
   'EWI-8': 'Debt-Servicing Ratio (DSR): Måler husholdningernes gældsbetjeningsbyrde (årlige renteomkostninger + bidrag divideret med disponibel indkomst). GRØN: under 30%. GUL: 30-40%. RØD: over 40% (Kritisk niveau ifølge IMF).',
+};
+
+const getEwi1Tooltip = (mode) => {
+  if (mode === 'yoy_original') {
+    return 'Pris vs. løn (Oprindelig YoY): Sammenligner det seneste års prisvækst med en fast lønvækst på 3,5%. Udløser advarsler i normale opgangsmarkeder på grund af volatilitets-asymmetri. AMBER: spread >3pp, RED: >5pp.';
+  }
+  if (mode === 'yoy_expanded') {
+    return 'Pris vs. løn (Udvidet YoY): Sammenligner det seneste års prisvækst med lønvækst på 3,5%, men anvender bredere tærskler for at imødegå kortsigtede markedssvingninger. AMBER: spread >4pp, RED: >7pp.';
+  }
+  if (mode === 'structural_3y') {
+    return 'Pris vs. løn (Strukturel 3-år): Sammenligner differencen baseret på et 3-års glidende gennemsnit af vækstraterne. Dette filtrerer kortsigtede rente- og sentiment-effekter fra. AMBER: spread >3pp, RED: >5pp.';
+  }
+  if (mode === 'structural_5y') {
+    return 'Pris vs. løn (Strukturel 5-år): Sammenligner differencen baseret på et 5-års glidende gennemsnit af vækstraterne for at isolere langsigtede fundamentale ubalancer. AMBER: spread >3pp, RED: >5pp.';
+  }
+  return '';
 };
 
 function FreshnessBadge({ weight, lastUpdated }) {
@@ -53,10 +68,13 @@ function FreshnessBadge({ weight, lastUpdated }) {
   );
 }
 
-function EWICard({ indicator, index }) {
+function EWICard({ indicator, index, ewiMode }) {
   const color = statusColors[indicator.status];
   const glow = statusGlow[indicator.status];
-  const tooltip = ewiTooltips[indicator.id] || '';
+  
+  const tooltip = indicator.id === 'EWI-1'
+    ? getEwi1Tooltip(ewiMode)
+    : (ewiTooltips[indicator.id] || '');
 
   const statusLabels = { GREEN: 'Normal', AMBER: 'Advarsel', RED: 'Alarm' };
 
@@ -156,13 +174,20 @@ function DataFreshnessTable() {
   );
 }
 
-export default function EarlyWarningDashboard() {
+export default function EarlyWarningDashboard({ 
+  ewiMode, 
+  setEwiMode, 
+  indicators, 
+  compositeScore, 
+  freshnessWeightedComposite, 
+  alertLevel 
+}) {
   const alertColor = alertLevel === 'NORMAL' ? '#00d4aa' : alertLevel === 'ELEVATED' ? '#ffc107' : '#ff6b6b';
   const alertLabels = { NORMAL: 'Normal', ELEVATED: 'Forhøjet', HIGH: 'Høj', CRITICAL: 'Kritisk', EXTREME: 'Ekstrem' };
 
   return (
     <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.25s' }}>
-      <div className="panel-header">
+      <div className="panel-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h2>Tidlig varsling (EWI)</h2>
           <span className="panel-explainer">
@@ -171,6 +196,23 @@ export default function EarlyWarningDashboard() {
             Hold musen over en indikator for at se hvad den måler og hvornår den udløses.
           </span>
         </div>
+        
+        {/* Dynamic Mode Selector */}
+        <div className="ewi-mode-selector">
+          <label htmlFor="ewi1-mode-select" className="ewi-mode-label">EWI-1 Analysemodel:</label>
+          <select 
+            id="ewi1-mode-select" 
+            value={ewiMode} 
+            onChange={(e) => setEwiMode(e.target.value)}
+            className="ewi-mode-select"
+          >
+            <option value="yoy_expanded">Kortsigtet (YoY + Udvidede Grænser)</option>
+            <option value="structural_3y">Strukturel (3-års Glidende Gennemsnit)</option>
+            <option value="structural_5y">Strukturel (5-års Glidende Gennemsnit)</option>
+            <option value="yoy_original">Kortsigtet (Oprindelig YoY)</option>
+          </select>
+        </div>
+
         <div className="ewi-summary-badges">
           <span className="panel-badge tooltip"
             data-tooltip="Summen af alle 8 indikatorer: Normal=0, Advarsel=1, Alarm=3 point. Maks 24 point."
@@ -191,8 +233,8 @@ export default function EarlyWarningDashboard() {
         </div>
       </div>
       <div className="ewi-grid">
-        {earlyWarningIndicators.map((ind, i) => (
-          <EWICard key={ind.id} indicator={ind} index={i} />
+        {indicators.map((ind, i) => (
+          <EWICard key={ind.id} indicator={ind} index={i} ewiMode={ewiMode} />
         ))}
       </div>
       <DataFreshnessTable />

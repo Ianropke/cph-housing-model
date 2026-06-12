@@ -210,6 +210,69 @@ def run_daily_pipeline():
     # Forecasts for copenhagen_apartments
     fc_cph_apts = forecast_results["copenhagen_apartments"]
     max_risk_index = compute_max_risk_index(fc_cph_apts, ewi_cph_apts)
+
+    # Calculate EWI modes data for copenhagen_apartments
+    ewi_modes_js = {}
+    for mode in ["yoy_original", "yoy_expanded", "structural_3y", "structural_5y"]:
+        ewi_mode_res = check_early_warnings(segment="copenhagen_apartments", ewi1_mode=mode)
+        mode_ewi_list = []
+        for key, (ewi_id, ewi_name, baseline_val) in indicator_mapping.items():
+            ind_data = ewi_mode_res["indicators"][key]
+            if key == "EWI-1_price_vs_wages":
+                val_str = f"+{ind_data['spread_pp']:.2f}pp"
+                if mode == "yoy_original":
+                    baseline_val = "<3pp"
+                elif mode == "yoy_expanded":
+                    baseline_val = "<4pp"
+                elif mode == "structural_3y" or mode == "structural_5y":
+                    baseline_val = "<3pp"
+            elif key == "EWI-2_supply_demand":
+                val_str = f"{ind_data['months_of_supply']:.1f} months"
+            elif key == "EWI-3_volume_price_divergence":
+                val_str = f"Vol {ind_data['volume_yoy_pct']:.0f}%"
+            elif key == "EWI-4_price_reductions":
+                val_str = f"{ind_data['reduction_rate_pct']:.0f}%"
+            elif key == "EWI-5_time_on_market":
+                val_str = f"{ind_data['median_dom_days']:.0f} days"
+            elif key == "EWI-6_price_to_rent":
+                val_str = f"{ind_data['price_to_rent_ratio']:.3f}"
+            elif key == "EWI-7_credit_growth":
+                val_str = f"{ind_data['amortization_free_share_pct']:.1f}%"
+            elif key == "EWI-8_dsr":
+                val_str = f"{ind_data['dsr_pct']:.1f}%"
+
+            sources = ind_data.get("data_sources", [])
+            if sources:
+                avg_weight = sum(s.get("freshness_weight", 1.0) for s in sources) / len(sources)
+                latest_update = max(s.get("last_updated", "") for s in sources)
+            else:
+                avg_weight = 1.0
+                latest_update = "N/A"
+
+            mode_ewi_list.append({
+                "id": ewi_id,
+                "name": ewi_name,
+                "value": val_str,
+                "baseline": baseline_val,
+                "status": ind_data["level"],
+                "description": ind_data["detail"],
+                "freshness_weight": round(avg_weight, 3),
+                "last_updated": latest_update
+            })
+        
+        mode_max_risk = compute_max_risk_index(fc_cph_apts, ewi_mode_res)
+        
+        ewi_modes_js[mode] = {
+            "earlyWarningIndicators": mode_ewi_list,
+            "compositeScore": ewi_mode_res["composite_score"],
+            "freshnessWeightedComposite": ewi_mode_res["freshness_weighted_composite"],
+            "alertLevel": ewi_mode_res["alert_level"],
+            "maxRiskIndex": mode_max_risk,
+            "dataFreshness": ewi_mode_res["data_freshness_summary"]
+        }
+        
+    # Forecasts for copenhagen_apartments
+    fc_cph_apts = forecast_results["copenhagen_apartments"]
     forecast_scenarios = []
     scenario_colors = {
         "baseline": "#00d4aa",
@@ -288,6 +351,7 @@ export const priceIndexData = quarters.map((q, i) => ({{
 }}));
 
 export const earlyWarningIndicators = {json.dumps(ewi_list, indent=2)};
+export const ewiModes = {json.dumps(ewi_modes_js, indent=2)};
 
 export const compositeScore = {ewi_cph_apts["composite_score"]};
 export const freshnessWeightedComposite = {ewi_cph_apts["freshness_weighted_composite"]};

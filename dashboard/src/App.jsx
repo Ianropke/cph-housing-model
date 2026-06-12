@@ -5,12 +5,21 @@ import ForecastEnsemblePanel from './components/ForecastEnsemblePanel';
 import UserCostPanel from './components/UserCostPanel';
 import ScenarioAssumptionsPanel from './components/ScenarioAssumptionsPanel';
 import RiskBarometer from './components/RiskBarometer';
-import { maxRiskIndex } from './data/housingData';
+import { maxRiskIndex, ewiModes } from './data/housingData';
 
 export default function App() {
   const [loading, setLoading] = useState(null); // 'update', 'backtest', 'status', or null
   const [activeModal, setActiveModal] = useState(null); // 'backtest', 'status', or null
   const [modalData, setModalData] = useState(null);
+  const [ewiMode, setEwiMode] = useState('yoy_expanded');
+
+  const activeModeData = ewiModes?.[ewiMode] || {
+    earlyWarningIndicators: [],
+    compositeScore: 0,
+    freshnessWeightedComposite: 0,
+    alertLevel: 'NORMAL',
+    maxRiskIndex: maxRiskIndex
+  };
 
   const isMockMode = typeof window !== 'undefined' && 
     window.location.hostname !== 'localhost' && 
@@ -202,9 +211,16 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
       </header>
 
       <main className="dashboard-grid">
-        <RiskBarometer maxRiskIndex={maxRiskIndex} />
+        <RiskBarometer maxRiskIndex={activeModeData.maxRiskIndex} />
         <PriceIndexPanel />
-        <EarlyWarningDashboard />
+        <EarlyWarningDashboard 
+          ewiMode={ewiMode} 
+          setEwiMode={setEwiMode}
+          indicators={activeModeData.earlyWarningIndicators}
+          compositeScore={activeModeData.compositeScore}
+          freshnessWeightedComposite={activeModeData.freshnessWeightedComposite}
+          alertLevel={activeModeData.alertLevel}
+        />
         <ForecastEnsemblePanel />
         <UserCostPanel />
         <ScenarioAssumptionsPanel />

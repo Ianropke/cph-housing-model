@@ -637,17 +637,18 @@ def calculate_user_cost(
 # ─────────────────────────────────────────────────────────────
 
 @mcp.tool()
-def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
+def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str = "yoy_expanded") -> dict:
     """
-    Check Early Warning Indicators (EWI-1 through EWI-7) for a segment.
+    Check Early Warning Indicators (EWI-1 through EWI-8) for a segment.
 
     Evaluates against thresholds defined in early_warning_system.md.
 
     Args:
         segment: Market segment to evaluate.
+        ewi1_mode: Evaluation mode for EWI-1 ("yoy_original", "yoy_expanded", "structural_3y", "structural_5y").
 
     Returns:
-        Status of all seven EWIs plus composite score and alert level.
+        Status of all eight EWIs plus composite score and alert level.
     """
     # Get price data for the segment
     seg_data = DST_EJ56_DATA["segments"].get(segment)
@@ -659,21 +660,89 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
     latest = series[periods[-1]]
 
     # ── EWI-1: Price growth vs wage growth ──
-    # Compare trailing 4-quarter price growth to assumed wage growth
+    # Calculate YoY price growths for each quarter in series to support moving averages
+    yoy_price_growths = []
+    for i in range(len(periods)):
+        if i >= 4:
+            yoy_grow = (series[periods[i]] - series[periods[i-4]]) / series[periods[i-4]]
+        else:
+            yoy_grow = 0.0
+        yoy_price_growths.append(yoy_grow)
+
+    # 3-year moving average of YoY price growth (average over the last 12 quarters)
+    if len(periods) >= 12:
+        price_growth_3y_ma = sum(yoy_price_growths[-12:]) / 12
+    else:
+        price_growth_3y_ma = sum(yoy_price_growths) / len(periods) if periods else 0.0
+
+    # 5-year moving average of YoY price growth (average over the last 20 quarters)
+    if len(periods) >= 20:
+        price_growth_5y_ma = sum(yoy_price_growths[-20:]) / 20
+    else:
+        price_growth_5y_ma = sum(yoy_price_growths) / len(periods) if periods else 0.0
+
     if len(periods) >= 5:
         yoy_price_growth = (latest - series[periods[-5]]) / series[periods[-5]]
     else:
         yoy_price_growth = 0.0
 
     wage_growth = 0.035  # baseline assumption
-    price_wage_spread = yoy_price_growth - wage_growth
 
-    if price_wage_spread >= 0.05:
-        ewi1_level = "RED"
-    elif price_wage_spread >= 0.03:
-        ewi1_level = "AMBER"
-    else:
-        ewi1_level = "GREEN"
+    # Calculate spreads and levels for all modes
+    modes_data = {}
+
+    # Mode 1: yoy_original
+    spread_original = yoy_price_growth - wage_growth
+    level_original = "RED" if spread_original >= 0.05 else "AMBER" if spread_original >= 0.03 else "GREEN"
+    modes_data["yoy_original"] = {
+        "level": level_original,
+        "spread": spread_original,
+        "price_growth": yoy_price_growth,
+        "baseline": "<3pp"
+    }
+
+    # Mode 2: yoy_expanded
+    spread_expanded = yoy_price_growth - wage_growth
+    level_expanded = "RED" if spread_expanded >= 0.07 else "AMBER" if spread_expanded >= 0.04 else "GREEN"
+    modes_data["yoy_expanded"] = {
+        "level": level_expanded,
+        "spread": spread_expanded,
+        "price_growth": yoy_price_growth,
+        "baseline": "<4pp (AMBER) / <7pp (RED)"
+    }
+
+    # Mode 3: structural_3y
+    spread_3y = price_growth_3y_ma - wage_growth
+    level_3y = "RED" if spread_3y >= 0.05 else "AMBER" if spread_3y >= 0.03 else "GREEN"
+    modes_data["structural_3y"] = {
+        "level": level_3y,
+        "spread": spread_3y,
+        "price_growth": price_growth_3y_ma,
+        "baseline": "<3pp (AMBER) / <5pp (RED)"
+    }
+
+    # Mode 4: structural_5y
+    spread_5y = price_growth_5y_ma - wage_growth
+    level_5y = "RED" if spread_5y >= 0.05 else "AMBER" if spread_5y >= 0.03 else "GREEN"
+    modes_data["structural_5y"] = {
+        "level": level_5y,
+        "spread": spread_5y,
+        "price_growth": price_growth_5y_ma,
+        "baseline": "<3pp (AMBER) / <5pp (RED)"
+    }
+
+    # Determine active EWI-1 values
+    active = modes_data.get(ewi1_mode, modes_data["yoy_expanded"])
+    ewi1_level = active["level"]
+    price_wage_spread = active["spread"]
+    price_growth_for_detail = active["price_growth"]
+    active_mode_labels = {
+        "yoy_original": "YoY (Original)",
+        "yoy_expanded": "YoY (Udvidet)",
+        "structural_3y": "3-års gl. gennemsnit",
+        "structural_5y": "5-års gl. gennemsnit"
+    }
+    active_mode_label = active_mode_labels.get(ewi1_mode, "YoY (Udvidet)")
 
     # ── EWI-2: Supply vs Demand ──
     # Simulated: months of supply based on market conditions
@@ -880,11 +949,19 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
         "indicators": {
             "EWI-1_price_vs_wages": {
                 "level": ewi1_level,
-                "price_growth_yoy": round(yoy_price_growth * 100, 2),
+                "price_growth_yoy": round(price_growth_for_detail * 100, 2),
                 "wage_growth_yoy": round(wage_growth * 100, 2),
                 "spread_pp": round(price_wage_spread * 100, 2),
-                "detail": f"Price growth {yoy_price_growth*100:.1f}% vs wage growth {wage_growth*100:.1f}%",
+                "detail": f"Price growth {price_growth_for_detail*100:.1f}% vs wage growth {wage_growth*100:.1f}% ({active_mode_label})",
                 "data_sources": source_info(ewi_sources["EWI-1"]),
+                "modes": {
+                    k: {
+                        "level": v["level"],
+                        "spread_pp": round(v["spread"] * 100, 2),
+                        "price_growth": round(v["price_growth"] * 100, 2),
+                        "baseline": v["baseline"]
+                    } for k, v in modes_data.items()
+                }
             },
             "EWI-2_supply_demand": {
                 "level": ewi2_level,
