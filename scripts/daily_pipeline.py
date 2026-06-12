@@ -91,7 +91,7 @@ def run_daily_pipeline():
         ewi_results[segment] = ewi
         level = ewi["alert_level"]
         score = ewi["composite_score"]
-        print(f"   {segment}: Score {score}/21 — {level}")
+        print(f"   {segment}: Score {score}/24 — {level}")
         if score >= 3:
             alert_summary.append(f"⚠️ {segment}: {level} (score {score})")
 
@@ -162,9 +162,10 @@ def run_daily_pipeline():
         "EWI-2_supply_demand": ("EWI-2", "Supply-Demand Balance", "4.5 months"),
         "EWI-3_volume_price_divergence": ("EWI-3", "Volume-Price Divergence", "AMBER at -10%"),
         "EWI-4_price_reductions": ("EWI-4", "Price Reductions", "AMBER at >30%"),
-        "EWI-5_time_on_market": ("EWI-5", "Time-on-Market", "AMBER at >70d"),
-        "EWI-6_price_to_rent": ("EWI-6", "Price-to-Rent Ratio", "1.08 ratio"),
+        "EWI-5_time_on_market": ("EWI-5", "Time-on-Market", "Dynamisk Z-score"),
+        "EWI-6_price_to_rent": ("EWI-6", "Price-to-Rent Ratio", "Dynamisk Z-score"),
         "EWI-7_credit_growth": ("EWI-7", "Amortization-Free Share", "<50%"),
+        "EWI-8_dsr": ("EWI-8", "Debt-Servicing Ratio (DSR)", "<30%"),
     }
     
     for key, (ewi_id, ewi_name, baseline_val) in indicator_mapping.items():
@@ -183,6 +184,8 @@ def run_daily_pipeline():
             val_str = f"{ind_data['price_to_rent_ratio']:.3f}"
         elif key == "EWI-7_credit_growth":
             val_str = f"{ind_data['amortization_free_share_pct']:.1f}%"
+        elif key == "EWI-8_dsr":
+            val_str = f"{ind_data['dsr_pct']:.1f}%"
             
         # Calculate indicator-specific freshness weight and latest update date
         sources = ind_data.get("data_sources", [])
@@ -404,7 +407,7 @@ def generate_daily_report(dst_data, ewi_results, forecast_results, user_cost_res
             if v["level"] != "GREEN"
         ]
         flagged_str = ", ".join(flagged) if flagged else "None"
-        lines.append(f"| {seg} | {ewi['composite_score']}/21 | {ewi['alert_level']} | {flagged_str} |")
+        lines.append(f"| {seg} | {ewi['composite_score']}/24 | {ewi['alert_level']} | {flagged_str} |")
 
     lines.extend(["", "## Forecast Ensemble (Probability-Weighted)", ""])
     lines.append("| Segment | 6m | 12m | 24m |")

@@ -56,19 +56,19 @@ export const earlyWarningIndicators = [
     "id": "EWI-5",
     "name": "Time-on-Market",
     "value": "62 days",
-    "baseline": "AMBER at >70d",
+    "baseline": "Dynamisk Z-score",
     "status": "GREEN",
-    "description": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+    "description": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
     "freshness_weight": 0.617,
     "last_updated": "2026-05-20"
   },
   {
     "id": "EWI-6",
     "name": "Price-to-Rent Ratio",
-    "value": "1.095",
-    "baseline": "1.08 ratio",
-    "status": "GREEN",
-    "description": "Price-to-rent ratio is 1.095 (mean: 1.080, AMBER >1.155)",
+    "value": "1.112",
+    "baseline": "Dynamisk Z-score",
+    "status": "AMBER",
+    "description": "Price-to-rent ratio er 1.112 (Rullende \u03bc: 0.946, \u03c3: 0.078, AMBER >1.063)",
     "freshness_weight": 0.912,
     "last_updated": "2026-05-29"
   },
@@ -78,14 +78,24 @@ export const earlyWarningIndicators = [
     "value": "46.0%",
     "baseline": "<50%",
     "status": "GREEN",
-    "description": "Amortization-free mortgage share is 46.0% (AMBER >50%, RED >60%)",
+    "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
     "freshness_weight": 0.544,
     "last_updated": "2026-03-31"
+  },
+  {
+    "id": "EWI-8",
+    "name": "Debt-Servicing Ratio (DSR)",
+    "value": "34.8%",
+    "baseline": "<30%",
+    "status": "AMBER",
+    "description": "Debt-Servicing Ratio (DSR) er 34.8% (AMBER 30-40%, RED >40%)",
+    "freshness_weight": 0.752,
+    "last_updated": "2026-06-01"
   }
 ];
 
-export const compositeScore = 3;
-export const freshnessWeightedComposite = 3.0;
+export const compositeScore = 5;
+export const freshnessWeightedComposite = 5.4;
 export const alertLevel = 'ELEVATED';
 
 export const dataFreshness = {
@@ -130,27 +140,41 @@ export const dataFreshness = {
     "frequency": "Quarterly",
     "source": "Danmarks Statistik",
     "freshness_weight": 0.444
+  },
+  "dst_income": {
+    "label": "Disponibel Indkomst (DST)",
+    "last_updated": "2025-12-20",
+    "frequency": "Annual",
+    "source": "Danmarks Statistik",
+    "freshness_weight": 0.642
+  },
+  "nationalbanken_rates": {
+    "label": "Realkreditrenter (NB)",
+    "last_updated": "2026-06-01",
+    "frequency": "Monthly",
+    "source": "Nationalbanken",
+    "freshness_weight": 0.863
   }
 };
 
 export const maxRiskIndex = {
   "6m": {
-    "score": 9,
+    "score": 11,
     "label": "LAV",
     "components": {
       "mc_downside": 0.6,
       "max_risk_severity_pct": 2.8,
-      "ewi_contribution": 9.6,
+      "ewi_contribution": 16.1,
       "avg_data_freshness": 0.67
     }
   },
   "12m": {
-    "score": 26,
+    "score": 28,
     "label": "MODERAT",
     "components": {
-      "mc_downside": 1.1,
+      "mc_downside": 1.0,
       "max_risk_severity_pct": 12.8,
-      "ewi_contribution": 9.6,
+      "ewi_contribution": 16.1,
       "avg_data_freshness": 0.67
     }
   }
@@ -198,17 +222,17 @@ export const ensembleConfidenceBounds = {
   "6m": {
     "p10": 128.4,
     "p50": 129.6,
-    "p90": 130.8
+    "p90": 130.7
   },
   "12m": {
-    "p10": 127.8,
-    "p50": 131.1,
-    "p90": 134.4
+    "p10": 127.9,
+    "p50": 131.3,
+    "p90": 134.6
   },
   "24m": {
-    "p10": 128.5,
-    "p50": 137.8,
-    "p90": 146.8
+    "p10": 127.9,
+    "p50": 137.5,
+    "p90": 146.6
   }
 };
 

@@ -78,6 +78,20 @@ DATA_FRESHNESS = {
         "frequency": "Quarterly",
         "half_life_days": 120,
     },
+    "dst_income": {
+        "label": "Disponibel Indkomst (DST)",
+        "source": "Danmarks Statistik",
+        "last_updated": "2025-12-20",
+        "frequency": "Annual",
+        "half_life_days": 365,
+    },
+    "nationalbanken_rates": {
+        "label": "Realkreditrenter (NB)",
+        "source": "Nationalbanken",
+        "last_updated": "2026-06-01",
+        "frequency": "Monthly",
+        "half_life_days": 60,
+    },
 }
 
 
@@ -699,28 +713,46 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
     else:
         ewi4_level = "GREEN"
 
-    # ── EWI-5: Time on market ──
-    median_dom = 62  # days, simulated
-    dom_24m_mean = 58
-    dom_24m_std = 12
-
-    if median_dom > dom_24m_mean + 2 * dom_24m_std:
+    # ── EWI-5: Time on market (Z-score approach) ──
+    median_dom = 62  # days, simulated current
+    # Roll a 12-quarter history to calculate mean and std
+    dom_history = [54, 56, 52, 59, 61, 58, 64, 60, 57, 63, 62, 58]
+    dom_mean = sum(dom_history) / len(dom_history)
+    dom_std = math.sqrt(sum((x - dom_mean)**2 for x in dom_history) / len(dom_history))
+    
+    # Calculate thresholds dynamically based on Z-score
+    ewi5_amber_threshold = dom_mean + 1.0 * dom_std
+    ewi5_red_threshold = dom_mean + 2.0 * dom_std
+    
+    if median_dom > ewi5_red_threshold:
         ewi5_level = "RED"
-    elif median_dom > dom_24m_mean + 1 * dom_24m_std:
+    elif median_dom > ewi5_amber_threshold:
         ewi5_level = "AMBER"
     else:
         ewi5_level = "GREEN"
 
-    # ── EWI-6: Price-to-Rent Ratio (New) ──
-    # Normalized relative to a baseline of 1.0
-    rent_index = 118.0
+    # ── EWI-6: Price-to-Rent Ratio (Z-score approach) ──
+    # Simulate a history of rent indices that increases 0.5% per quarter
+    # matched with the last 12 quarters of our segment's price series
+    hist_periods = periods[-12:]
+    rent_baseline = 110.0
+    p2r_history = []
+    for i, p in enumerate(hist_periods):
+        sim_rent = rent_baseline * (1.005 ** i)
+        p2r_history.append(series[p] / sim_rent)
+        
+    p2r_mean = sum(p2r_history) / len(p2r_history)
+    p2r_std = math.sqrt(sum((x - p2r_mean)**2 for x in p2r_history) / len(p2r_history))
+    
+    rent_index = rent_baseline * (1.005 ** 11)
     price_to_rent = latest / rent_index
-    mean_p2r = 1.08
-    std_p2r = 0.05
+    
+    ewi6_amber_threshold = p2r_mean + 1.5 * p2r_std
+    ewi6_red_threshold = p2r_mean + 2.5 * p2r_std
 
-    if price_to_rent > mean_p2r + 2.5 * std_p2r:
+    if price_to_rent > ewi6_red_threshold:
         ewi6_level = "RED"
-    elif price_to_rent > mean_p2r + 1.5 * std_p2r:
+    elif price_to_rent > ewi6_amber_threshold:
         ewi6_level = "AMBER"
     else:
         ewi6_level = "GREEN"
@@ -742,20 +774,52 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
     else:
         ewi7_level = "GREEN"
 
+    # ── EWI-8: Debt-Servicing Ratio (DSR) (New) ──
+    # DSR = (Annual Interest + Contributions) / Annual Disposable Income
+    # We estimate current price using the index growth relative to Q4 2024 (where baseline was 3.0M DKK)
+    # 80% LTV, baseline mortgage rate + bidragssats (4.7% total)
+    base_val = 3000000.0
+    q4_24_idx = series.get("2024Q4", 107.3)
+    curr_val = base_val * (latest / q4_24_idx)
+    loan_amount = curr_val * 0.80
+    
+    # Baseline interest rate + bidrag = 4.7% (0.047)
+    interest_rate = 0.038
+    bidrag = 0.009
+    total_financing_rate = interest_rate + bidrag
+    annual_debt_service = loan_amount * total_financing_rate
+    
+    # Household disposable income by segment
+    if segment == "copenhagen_houses":
+        disposable_income = 450000.0
+    elif segment == "frederiksberg_apartments":
+        disposable_income = 440000.0
+    else: # copenhagen_apartments
+        disposable_income = 390000.0
+        
+    dsr = annual_debt_service / disposable_income
+    
+    if dsr > 0.40:
+        ewi8_level = "RED"
+    elif dsr >= 0.30:
+        ewi8_level = "AMBER"
+    else:
+        ewi8_level = "GREEN"
+
     # ── Composite Score ──
     score_map = {"GREEN": 0, "AMBER": 1, "RED": 3}
     composite = sum(
         score_map[level]
-        for level in [ewi1_level, ewi2_level, ewi3_level, ewi4_level, ewi5_level, ewi6_level, ewi7_level]
+        for level in [ewi1_level, ewi2_level, ewi3_level, ewi4_level, ewi5_level, ewi6_level, ewi7_level, ewi8_level]
     )
 
-    if composite >= 17:
+    if composite >= 19:
         alert_level = "EXTREME"
-    elif composite >= 12:
+    elif composite >= 14:
         alert_level = "CRITICAL"
-    elif composite >= 7:
+    elif composite >= 8:
         alert_level = "HIGH"
-    elif composite >= 3:
+    elif composite >= 4:
         alert_level = "ELEVATED"
     else:
         alert_level = "NORMAL"
@@ -769,12 +833,13 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
         "EWI-5": ["rkr_udb010"],
         "EWI-6": ["dst_ej56"],
         "EWI-7": ["rkr_ul10"],
+        "EWI-8": ["dst_income", "nationalbanken_rates"],
     }
 
     ewi_levels = {
         "EWI-1": ewi1_level, "EWI-2": ewi2_level, "EWI-3": ewi3_level,
         "EWI-4": ewi4_level, "EWI-5": ewi5_level, "EWI-6": ewi6_level,
-        "EWI-7": ewi7_level,
+        "EWI-7": ewi7_level, "EWI-8": ewi8_level,
     }
 
     # Freshness-weighted composite: each indicator's score is scaled by
@@ -788,9 +853,9 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
         weighted_composite += raw_score * avg_fw
         total_freshness_weight += avg_fw
 
-    # Normalize to same 0-21 scale
+    # Normalize to same 0-24 scale
     if total_freshness_weight > 0:
-        freshness_weighted_composite = round(weighted_composite * (7 / total_freshness_weight), 1)
+        freshness_weighted_composite = round(weighted_composite * (8 / total_freshness_weight), 1)
     else:
         freshness_weighted_composite = float(composite)
 
@@ -846,28 +911,35 @@ def check_early_warnings(segment: str = "copenhagen_apartments") -> dict:
             "EWI-5_time_on_market": {
                 "level": ewi5_level,
                 "median_dom_days": median_dom,
-                "baseline_mean_days": dom_24m_mean,
-                "baseline_std_days": dom_24m_std,
-                "detail": f"Median DOM: {median_dom} days (mean: {dom_24m_mean}, σ: {dom_24m_std})",
+                "baseline_mean_days": round(dom_mean, 1),
+                "baseline_std_days": round(dom_std, 1),
+                "detail": f"Median liggetid er {median_dom} dage (Rullende μ: {dom_mean:.1f}, σ: {dom_std:.1f}, AMBER >{ewi5_amber_threshold:.1f}d)",
                 "data_sources": source_info(ewi_sources["EWI-5"]),
             },
             "EWI-6_price_to_rent": {
                 "level": ewi6_level,
                 "price_to_rent_ratio": round(price_to_rent, 3),
-                "baseline_mean": mean_p2r,
-                "detail": f"Price-to-rent ratio is {price_to_rent:.3f} (mean: {mean_p2r:.3f}, AMBER >{mean_p2r+1.5*std_p2r:.3f})",
+                "baseline_mean": round(p2r_mean, 3),
+                "detail": f"Price-to-rent ratio er {price_to_rent:.3f} (Rullende μ: {p2r_mean:.3f}, σ: {p2r_std:.3f}, AMBER >{ewi6_amber_threshold:.3f})",
                 "data_sources": source_info(ewi_sources["EWI-6"]),
             },
             "EWI-7_credit_growth": {
                 "level": ewi7_level,
                 "amortization_free_share_pct": round(amort_free_share * 100, 1),
-                "detail": f"Amortization-free mortgage share is {amort_free_share*100:.1f}% (AMBER >50%, RED >60%)",
+                "detail": f"Afdragsfri andel er {amort_free_share*100:.1f}% (AMBER >50%, RED >60%)",
                 "data_sources": source_info(ewi_sources["EWI-7"]),
+            },
+            "EWI-8_dsr": {
+                "level": ewi8_level,
+                "dsr_ratio": round(dsr, 3),
+                "dsr_pct": round(dsr * 100, 1),
+                "detail": f"Debt-Servicing Ratio (DSR) er {dsr*100:.1f}% (AMBER 30-40%, RED >40%)",
+                "data_sources": source_info(ewi_sources["EWI-8"]),
             },
         },
         "composite_score": composite,
         "freshness_weighted_composite": freshness_weighted_composite,
-        "max_possible_score": 21,
+        "max_possible_score": 24,
         "alert_level": alert_level,
         "data_freshness_summary": {
             k: {

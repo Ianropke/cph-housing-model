@@ -17,9 +17,10 @@ const ewiTooltips = {
   'EWI-2': 'Udbud vs. efterspørgsel: Antal måneder det tager at sælge alle boliger til udbudt. Lavt tal = knaphed (prispres op). GRØN: over 3,5 mdr. GUL: 2,5-3,5 mdr. RØD: under 2,5 mdr.',
   'EWI-3': 'Volumen-pris divergens: Hvis priserne stiger men handelsvolumen falder, kan det betyde at markedet drives af få handler til høje priser — et faresignal. GUL: volumen falder >10% mens priser stiger. RØD: falder >15%.',
   'EWI-4': 'Prisnedsættelser: Andelen af udbudte boliger hvor sælger har sat prisen ned. Højt tal = sælgerne kan ikke opnå deres udbudspris. GRØN: under 30%. GUL: 30-40%. RØD: over 40% med store nedsættelser.',
-  'EWI-5': 'Liggetid: Hvor længe boliger ligger til salg. Lang liggetid = faldende momentum. GRØN: under 70 dage. GUL: 70-82 dage. RØD: over 82 dage.',
-  'EWI-6': 'Pris-til-leje ratio: Sammenligner boligpriser med lejeniveauet. Hvis det er meget dyrere at eje end at leje, kan der være en boble. GUL: 1,5σ over gennemsnit. RØD: 2,5σ over gennemsnit.',
+  'EWI-5': 'Liggetid: Hvor længe boliger ligger til salg. Tærsklerne beregnes dynamisk (Løsning A) vha. en rullende Z-score over 12 kvartaler. GUL: 1,0σ over gennemsnittet. RØD: 2,0σ over gennemsnittet.',
+  'EWI-6': 'Pris-til-leje ratio: Sammenligner boligpriser med lejeniveauet. Tærsklerne beregnes dynamisk (Løsning A) vha. en rullende Z-score over 12 kvartaler. GUL: 1,5σ over gennemsnittet. RØD: 2,5σ over gennemsnittet.',
   'EWI-7': 'Afdragsfrihed: Andelen af nye realkreditlån uden afdrag. Højt tal = låntagerne er sårbare overfor rentestigninger. GRØN: under 50%. GUL: 50-60%. RØD: over 60%.',
+  'EWI-8': 'Debt-Servicing Ratio (DSR): Måler husholdningernes gældsbetjeningsbyrde (årlige renteomkostninger + bidrag divideret med disponibel indkomst). GRØN: under 30%. GUL: 30-40%. RØD: over 40% (Kritisk niveau ifølge IMF).',
 };
 
 function FreshnessBadge({ weight, lastUpdated }) {
@@ -172,14 +173,14 @@ export default function EarlyWarningDashboard() {
         </div>
         <div className="ewi-summary-badges">
           <span className="panel-badge tooltip"
-            data-tooltip="Summen af alle 7 indikatorer: Normal=0, Advarsel=1, Alarm=3 point. Maks 21 point."
+            data-tooltip="Summen af alle 8 indikatorer: Normal=0, Advarsel=1, Alarm=3 point. Maks 24 point."
           >
-            Score: <strong>{compositeScore} / 21</strong>
+            Score: <strong>{compositeScore} / 24</strong>
           </span>
           <span className="panel-badge tooltip"
             data-tooltip="Samme score, men vægtet med datakilde-friskhed. Indikatorer med gammel data tæller mindre. Giver et mere retvisende billede."
           >
-            Friskheds-vægtet: <strong>{freshnessWeightedComposite} / 21</strong>
+            Friskheds-vægtet: <strong>{freshnessWeightedComposite} / 24</strong>
           </span>
           <span
             className="panel-badge"

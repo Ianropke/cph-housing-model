@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-12T19:40:39.777986",
+  "generated_at": "2026-06-12T19:51:46.505166",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg (2006=100)",
     "source": "Danmarks Statistik",
     "last_updated": "2026-05-29",
-    "query_timestamp": "2026-06-12T19:40:40.024980",
+    "query_timestamp": "2026-06-12T19:51:46.662065",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -135,7 +135,7 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-06-12T19:40:40.029171",
+      "evaluation_timestamp": "2026-06-12T19:51:46.664737",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -222,9 +222,9 @@
         "EWI-5_time_on_market": {
           "level": "GREEN",
           "median_dom_days": 62,
-          "baseline_mean_days": 58,
-          "baseline_std_days": 12,
-          "detail": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+          "baseline_mean_days": 58.7,
+          "baseline_std_days": 3.4,
+          "detail": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -237,10 +237,10 @@
           ]
         },
         "EWI-6_price_to_rent": {
-          "level": "GREEN",
-          "price_to_rent_ratio": 1.095,
-          "baseline_mean": 1.08,
-          "detail": "Price-to-rent ratio is 1.095 (mean: 1.080, AMBER >1.155)",
+          "level": "AMBER",
+          "price_to_rent_ratio": 1.112,
+          "baseline_mean": 0.946,
+          "detail": "Price-to-rent ratio er 1.112 (Rullende \u03bc: 0.946, \u03c3: 0.078, AMBER >1.063)",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -255,7 +255,7 @@
         "EWI-7_credit_growth": {
           "level": "GREEN",
           "amortization_free_share_pct": 46.0,
-          "detail": "Amortization-free mortgage share is 46.0% (AMBER >50%, RED >60%)",
+          "detail": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
           "data_sources": [
             {
               "key": "rkr_ul10",
@@ -266,11 +266,35 @@
               "freshness_weight": 0.544
             }
           ]
+        },
+        "EWI-8_dsr": {
+          "level": "AMBER",
+          "dsr_ratio": 0.348,
+          "dsr_pct": 34.8,
+          "detail": "Debt-Servicing Ratio (DSR) er 34.8% (AMBER 30-40%, RED >40%)",
+          "data_sources": [
+            {
+              "key": "dst_income",
+              "label": "Disponibel Indkomst (DST)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2025-12-20",
+              "frequency": "Annual",
+              "freshness_weight": 0.642
+            },
+            {
+              "key": "nationalbanken_rates",
+              "label": "Realkreditrenter (NB)",
+              "source": "Nationalbanken",
+              "last_updated": "2026-06-01",
+              "frequency": "Monthly",
+              "freshness_weight": 0.863
+            }
+          ]
         }
       },
-      "composite_score": 3,
-      "freshness_weighted_composite": 3.0,
-      "max_possible_score": 21,
+      "composite_score": 5,
+      "freshness_weighted_composite": 5.4,
+      "max_possible_score": 24,
       "alert_level": "ELEVATED",
       "data_freshness_summary": {
         "dst_ej56": {
@@ -314,12 +338,26 @@
           "frequency": "Quarterly",
           "source": "Danmarks Statistik",
           "freshness_weight": 0.444
+        },
+        "dst_income": {
+          "label": "Disponibel Indkomst (DST)",
+          "last_updated": "2025-12-20",
+          "frequency": "Annual",
+          "source": "Danmarks Statistik",
+          "freshness_weight": 0.642
+        },
+        "nationalbanken_rates": {
+          "label": "Realkreditrenter (NB)",
+          "last_updated": "2026-06-01",
+          "frequency": "Monthly",
+          "source": "Nationalbanken",
+          "freshness_weight": 0.863
         }
       }
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-06-12T19:40:40.029538",
+      "evaluation_timestamp": "2026-06-12T19:51:46.665064",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -406,9 +444,9 @@
         "EWI-5_time_on_market": {
           "level": "GREEN",
           "median_dom_days": 62,
-          "baseline_mean_days": 58,
-          "baseline_std_days": 12,
-          "detail": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+          "baseline_mean_days": 58.7,
+          "baseline_std_days": 3.4,
+          "detail": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -421,10 +459,10 @@
           ]
         },
         "EWI-6_price_to_rent": {
-          "level": "GREEN",
-          "price_to_rent_ratio": 1.004,
-          "baseline_mean": 1.08,
-          "detail": "Price-to-rent ratio is 1.004 (mean: 1.080, AMBER >1.155)",
+          "level": "AMBER",
+          "price_to_rent_ratio": 1.02,
+          "baseline_mean": 0.912,
+          "detail": "Price-to-rent ratio er 1.020 (Rullende \u03bc: 0.912, \u03c3: 0.048, AMBER >0.984)",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -439,7 +477,7 @@
         "EWI-7_credit_growth": {
           "level": "GREEN",
           "amortization_free_share_pct": 48.0,
-          "detail": "Amortization-free mortgage share is 48.0% (AMBER >50%, RED >60%)",
+          "detail": "Afdragsfri andel er 48.0% (AMBER >50%, RED >60%)",
           "data_sources": [
             {
               "key": "rkr_ul10",
@@ -450,11 +488,35 @@
               "freshness_weight": 0.544
             }
           ]
+        },
+        "EWI-8_dsr": {
+          "level": "GREEN",
+          "dsr_ratio": 0.285,
+          "dsr_pct": 28.5,
+          "detail": "Debt-Servicing Ratio (DSR) er 28.5% (AMBER 30-40%, RED >40%)",
+          "data_sources": [
+            {
+              "key": "dst_income",
+              "label": "Disponibel Indkomst (DST)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2025-12-20",
+              "frequency": "Annual",
+              "freshness_weight": 0.642
+            },
+            {
+              "key": "nationalbanken_rates",
+              "label": "Realkreditrenter (NB)",
+              "source": "Nationalbanken",
+              "last_updated": "2026-06-01",
+              "frequency": "Monthly",
+              "freshness_weight": 0.863
+            }
+          ]
         }
       },
-      "composite_score": 3,
-      "freshness_weighted_composite": 3.0,
-      "max_possible_score": 21,
+      "composite_score": 4,
+      "freshness_weighted_composite": 4.3,
+      "max_possible_score": 24,
       "alert_level": "ELEVATED",
       "data_freshness_summary": {
         "dst_ej56": {
@@ -498,12 +560,26 @@
           "frequency": "Quarterly",
           "source": "Danmarks Statistik",
           "freshness_weight": 0.444
+        },
+        "dst_income": {
+          "label": "Disponibel Indkomst (DST)",
+          "last_updated": "2025-12-20",
+          "frequency": "Annual",
+          "source": "Danmarks Statistik",
+          "freshness_weight": 0.642
+        },
+        "nationalbanken_rates": {
+          "label": "Realkreditrenter (NB)",
+          "last_updated": "2026-06-01",
+          "frequency": "Monthly",
+          "source": "Nationalbanken",
+          "freshness_weight": 0.863
         }
       }
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-06-12T19:40:40.029852",
+      "evaluation_timestamp": "2026-06-12T19:51:46.665381",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -590,9 +666,9 @@
         "EWI-5_time_on_market": {
           "level": "GREEN",
           "median_dom_days": 62,
-          "baseline_mean_days": 58,
-          "baseline_std_days": 12,
-          "detail": "Median DOM: 62 days (mean: 58, \u03c3: 12)",
+          "baseline_mean_days": 58.7,
+          "baseline_std_days": 3.4,
+          "detail": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -605,10 +681,10 @@
           ]
         },
         "EWI-6_price_to_rent": {
-          "level": "GREEN",
-          "price_to_rent_ratio": 0.971,
-          "baseline_mean": 1.08,
-          "detail": "Price-to-rent ratio is 0.971 (mean: 1.080, AMBER >1.155)",
+          "level": "AMBER",
+          "price_to_rent_ratio": 0.986,
+          "baseline_mean": 0.901,
+          "detail": "Price-to-rent ratio er 0.986 (Rullende \u03bc: 0.901, \u03c3: 0.042, AMBER >0.964)",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -623,7 +699,7 @@
         "EWI-7_credit_growth": {
           "level": "AMBER",
           "amortization_free_share_pct": 52.0,
-          "detail": "Amortization-free mortgage share is 52.0% (AMBER >50%, RED >60%)",
+          "detail": "Afdragsfri andel er 52.0% (AMBER >50%, RED >60%)",
           "data_sources": [
             {
               "key": "rkr_ul10",
@@ -634,11 +710,35 @@
               "freshness_weight": 0.544
             }
           ]
+        },
+        "EWI-8_dsr": {
+          "level": "GREEN",
+          "dsr_ratio": 0.285,
+          "dsr_pct": 28.5,
+          "detail": "Debt-Servicing Ratio (DSR) er 28.5% (AMBER 30-40%, RED >40%)",
+          "data_sources": [
+            {
+              "key": "dst_income",
+              "label": "Disponibel Indkomst (DST)",
+              "source": "Danmarks Statistik",
+              "last_updated": "2025-12-20",
+              "frequency": "Annual",
+              "freshness_weight": 0.642
+            },
+            {
+              "key": "nationalbanken_rates",
+              "label": "Realkreditrenter (NB)",
+              "source": "Nationalbanken",
+              "last_updated": "2026-06-01",
+              "frequency": "Monthly",
+              "freshness_weight": 0.863
+            }
+          ]
         }
       },
-      "composite_score": 4,
-      "freshness_weighted_composite": 3.8,
-      "max_possible_score": 21,
+      "composite_score": 5,
+      "freshness_weighted_composite": 5.1,
+      "max_possible_score": 24,
       "alert_level": "ELEVATED",
       "data_freshness_summary": {
         "dst_ej56": {
@@ -682,6 +782,20 @@
           "frequency": "Quarterly",
           "source": "Danmarks Statistik",
           "freshness_weight": 0.444
+        },
+        "dst_income": {
+          "label": "Disponibel Indkomst (DST)",
+          "last_updated": "2025-12-20",
+          "frequency": "Annual",
+          "source": "Danmarks Statistik",
+          "freshness_weight": 0.642
+        },
+        "nationalbanken_rates": {
+          "label": "Realkreditrenter (NB)",
+          "last_updated": "2026-06-01",
+          "frequency": "Monthly",
+          "source": "Nationalbanken",
+          "freshness_weight": 0.863
         }
       }
     }
@@ -691,7 +805,7 @@
       "segment": "copenhagen_apartments",
       "current_period": "2025Q4",
       "current_index": 129.2,
-      "forecast_date": "2026-06-12T19:40:40.042412",
+      "forecast_date": "2026-06-12T19:51:46.673628",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -746,7 +860,7 @@
             "confidence_bounds": {
               "p10": 128.4,
               "p50": 129.6,
-              "p90": 130.8
+              "p90": 130.7
             }
           }
         },
@@ -801,9 +915,9 @@
               143.7
             ],
             "confidence_bounds": {
-              "p10": 127.8,
-              "p50": 131.1,
-              "p90": 134.4
+              "p10": 127.9,
+              "p50": 131.3,
+              "p90": 134.6
             }
           }
         },
@@ -858,9 +972,9 @@
               176.1
             ],
             "confidence_bounds": {
-              "p10": 128.5,
-              "p50": 137.8,
-              "p90": 146.8
+              "p10": 127.9,
+              "p50": 137.5,
+              "p90": 146.6
             }
           }
         }
@@ -870,7 +984,7 @@
       "segment": "copenhagen_houses",
       "current_period": "2025Q4",
       "current_index": 118.5,
-      "forecast_date": "2026-06-12T19:40:40.052771",
+      "forecast_date": "2026-06-12T19:51:46.680926",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -925,7 +1039,7 @@
             "confidence_bounds": {
               "p10": 117.8,
               "p50": 118.9,
-              "p90": 120.0
+              "p90": 119.9
             }
           }
         },
@@ -980,9 +1094,9 @@
               130.3
             ],
             "confidence_bounds": {
-              "p10": 116.7,
-              "p50": 119.8,
-              "p90": 122.9
+              "p10": 117.0,
+              "p50": 120.1,
+              "p90": 123.0
             }
           }
         },
@@ -1037,9 +1151,9 @@
               158.2
             ],
             "confidence_bounds": {
-              "p10": 117.3,
-              "p50": 126.3,
-              "p90": 135.1
+              "p10": 116.8,
+              "p50": 125.8,
+              "p90": 133.9
             }
           }
         }
@@ -1049,7 +1163,7 @@
       "segment": "frederiksberg_apartments",
       "current_period": "2025Q4",
       "current_index": 114.6,
-      "forecast_date": "2026-06-12T19:40:40.061498",
+      "forecast_date": "2026-06-12T19:51:46.687707",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -1159,9 +1273,9 @@
               127.2
             ],
             "confidence_bounds": {
-              "p10": 113.2,
-              "p50": 116.2,
-              "p90": 119.0
+              "p10": 113.4,
+              "p50": 116.4,
+              "p90": 119.4
             }
           }
         },
@@ -1216,9 +1330,9 @@
               155.4
             ],
             "confidence_bounds": {
-              "p10": 113.4,
-              "p50": 121.8,
-              "p90": 130.3
+              "p10": 113.9,
+              "p50": 122.2,
+              "p90": 130.4
             }
           }
         }
@@ -1263,7 +1377,7 @@
           "assessment": "Elevated user cost (3-5%) \u2014 affordability stress"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061536"
+        "calculation_timestamp": "2026-06-12T19:51:46.687749"
       },
       "12m": {
         "input": {
@@ -1301,7 +1415,7 @@
           "assessment": "Moderate user cost (1-3%) \u2014 sustainable"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061552"
+        "calculation_timestamp": "2026-06-12T19:51:46.687764"
       },
       "24m": {
         "input": {
@@ -1339,7 +1453,7 @@
           "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061566"
+        "calculation_timestamp": "2026-06-12T19:51:46.687775"
       }
     },
     "min_risk": {
@@ -1379,7 +1493,7 @@
           "assessment": "Moderate user cost (1-3%) \u2014 sustainable"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061577"
+        "calculation_timestamp": "2026-06-12T19:51:46.687786"
       },
       "12m": {
         "input": {
@@ -1417,7 +1531,7 @@
           "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061589"
+        "calculation_timestamp": "2026-06-12T19:51:46.687796"
       },
       "24m": {
         "input": {
@@ -1455,7 +1569,7 @@
           "assessment": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061599"
+        "calculation_timestamp": "2026-06-12T19:51:46.687805"
       }
     },
     "max_risk": {
@@ -1495,7 +1609,7 @@
           "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061610"
+        "calculation_timestamp": "2026-06-12T19:51:46.687815"
       },
       "12m": {
         "input": {
@@ -1533,7 +1647,7 @@
           "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061621"
+        "calculation_timestamp": "2026-06-12T19:51:46.687824"
       },
       "24m": {
         "input": {
@@ -1571,13 +1685,13 @@
           "assessment": "High user cost (>5%) \u2014 severe affordability pressure"
         },
         "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
-        "calculation_timestamp": "2026-06-12T19:40:40.061631"
+        "calculation_timestamp": "2026-06-12T19:51:46.687833"
       }
     }
   },
   "alerts": [
-    "\u26a0\ufe0f copenhagen_apartments: ELEVATED (score 3)",
-    "\u26a0\ufe0f copenhagen_houses: ELEVATED (score 3)",
-    "\u26a0\ufe0f frederiksberg_apartments: ELEVATED (score 4)"
+    "\u26a0\ufe0f copenhagen_apartments: ELEVATED (score 5)",
+    "\u26a0\ufe0f copenhagen_houses: ELEVATED (score 4)",
+    "\u26a0\ufe0f frederiksberg_apartments: ELEVATED (score 5)"
   ]
 }
