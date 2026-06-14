@@ -97,9 +97,10 @@ DATA_FRESHNESS = {
 
 def freshness_weight(source_key: str, reference_date: Optional[datetime.date] = None) -> float:
     """
-    Compute a freshness weight for a data source.
+    Compute a freshness weight for a data source using exponential decay.
     Returns a value in [0.25, 1.0] where 1.0 = perfectly fresh.
-    The weight decays linearly from 1.0 to 0.25 over the source's half_life_days.
+    Formula: fw = e^(-lambda * t), where lambda = ln(2) / half_life.
+    Floored at 0.25 for safety.
     """
     if reference_date is None:
         reference_date = datetime.date.today()
@@ -112,8 +113,10 @@ def freshness_weight(source_key: str, reference_date: Optional[datetime.date] = 
     age_days = (reference_date - last_updated).days
     half_life = source["half_life_days"]
     
-    # Linear decay from 1.0 to 0.25 over half_life days, floored at 0.25
-    weight = max(0.25, 1.0 - 0.75 * (age_days / half_life))
+    # Exponential decay: weight = e^(-lambda * age_days), where lambda = ln(2) / half_life
+    # This ensures that weight is exactly 0.5 at half_life, floored at 0.25
+    decay_rate = math.log(2.0) / half_life
+    weight = max(0.25, math.exp(-decay_rate * age_days))
     return round(weight, 3)
 
 
