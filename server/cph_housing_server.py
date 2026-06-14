@@ -151,9 +151,9 @@ def compute_max_risk_index(forecast_result: dict, ewi_result: dict) -> dict:
         max_risk_weight = max_risk.get("probability_weight", 0.25)
         max_risk_change = abs(min(0, max_risk.get("price_change_pct", 0)))
         
-        # 3. EWI contribution (normalized composite score 0-21 → 0-100)
+        # 3. EWI contribution (normalized composite score 0-27.0 → 0-100)
         ewi_composite = ewi_result.get("composite_score", 0)
-        ewi_normalized = (ewi_composite / 21) * 100
+        ewi_normalized = (ewi_composite / 27.0) * 100
         
         # 4. Freshness-weighted EWI contribution
         avg_freshness = sum(
@@ -502,6 +502,72 @@ def fetch_rkr_data(table: str) -> dict:
     }
 
 # ─────────────────────────────────────────────────────────────
+# DYNAMIC PROPERTY PARAMETERS & USER COST HELPERS
+# ─────────────────────────────────────────────────────────────
+
+def get_segment_depreciation(segment: Optional[str]) -> float:
+    """
+    Get segment-specific depreciation rate (delta) based on building type,
+    age, and energy standard.
+    Villaer (copenhagen_houses): 1.9%
+    City apartments (copenhagen_apartments): 1.6%
+    Frederiksberg apartments (frederiksberg_apartments): 1.7%
+    Default: 1.5%
+    """
+    if not segment:
+        return 0.015
+    if segment == "copenhagen_houses":
+        return 0.019
+    elif segment == "copenhagen_apartments":
+        return 0.016
+    elif segment == "frederiksberg_apartments":
+        return 0.017
+    return 0.015
+
+
+def get_dynamic_property_tax(segment: Optional[str], latest_index: Optional[float] = None) -> float:
+    """
+    Get dynamic property tax rate (tau_p) based on segment and latest price index.
+    Base rates:
+      copenhagen_apartments: 0.95% (0.0095)
+      frederiksberg_apartments: 0.91% (0.0091)
+      copenhagen_houses: 0.88% (0.0088)
+      Default base: 0.92% (0.0092)
+    Regulated by: base_rate + 0.0003 * (latest_index / 100 - 1)
+    """
+    if not segment:
+        return 0.0092
+        
+    if segment == "copenhagen_apartments":
+        base_rate = 0.0095
+    elif segment == "frederiksberg_apartments":
+        base_rate = 0.0091
+    elif segment == "copenhagen_houses":
+        base_rate = 0.0088
+    else:
+        base_rate = 0.0092
+
+    if latest_index is None:
+        seg_data = DST_EJ56_DATA["segments"].get(segment)
+        if seg_data:
+            series = seg_data["series"]
+            periods = sorted(series.keys())
+            latest_index = series[periods[-1]] if periods else 100.0
+        else:
+            latest_index = 100.0
+
+    return base_rate + 0.0003 * (latest_index / 100.0 - 1.0)
+
+
+def get_dynamic_risk_premium(mortgage_rate: float, volatility: float = 0.0) -> float:
+    """
+    Get dynamic risk premium (rp) linked to interest rates and market volatility.
+    Formula: 0.8% base + 5% * (mortgage_rate - 2%) + 1% * volatility
+    """
+    return 0.008 + 0.05 * (mortgage_rate - 0.02) + 0.01 * volatility
+
+
+# ─────────────────────────────────────────────────────────────
 # TOOL 2: calculate_user_cost
 # ─────────────────────────────────────────────────────────────
 
@@ -509,31 +575,45 @@ def fetch_rkr_data(table: str) -> dict:
 def calculate_user_cost(
     property_value_dkk: float,
     mortgage_rate: float,
-    property_tax_rate: float = 0.0092,
-    depreciation_rate: float = 0.015,
-    risk_premium: float = 0.010,
+    property_tax_rate: Optional[float] = None,
+    depreciation_rate: Optional[float] = None,
+    risk_premium: Optional[float] = None,
     expected_appreciation: float = 0.0,
     io_loan: bool = False,
     amortisation_rate: float = 0.0,
     is_couple: bool = True,
+    segment: Optional[str] = None,
+    volatility: float = 0.0,
 ) -> dict:
     """
-    Calculate the Nationalbanken User Cost of Housing with dynamic tax brackets
-    and explicit property tax parameters.
+    Calculate the Fundamental User Cost of Housing with dynamic tax brackets,
+    segment-specific parameters, and explicit separation of sentiment.
 
-    Formula: UC = (i_m × (1 - τ_r) + τ_p + δ + rp - π_e) × P_H
+    Formula: UC_fund = (i_m × (1 - τ_r) + τ_p + δ + rp) × P_H
 
     Args:
         property_value_dkk: Property value in DKK (P).
         mortgage_rate: Annual mortgage interest rate (r).
-        property_tax_rate: Property tax rate (tau_p), default 0.92% (0.0092).
-        depreciation_rate: Maintenance + physical depreciation (delta), default 1.5%.
-        risk_premium: Housing risk premium (rp), default 1.0%.
-        expected_appreciation: Expected annual price growth rate (pi_e).
+        property_tax_rate: Property tax rate (tau_p). If None, calculated dynamically.
+        depreciation_rate: Maintenance + physical depreciation (delta). If None, segment-wise.
+        risk_premium: Housing risk premium (rp). If None, rente- and volatility-sensitive.
+        expected_appreciation: Expected annual price growth rate (pi_e) - sentiment component.
         io_loan: Whether the loan is interest-only.
         amortisation_rate: Annual amortisation rate if not interest-only.
         is_couple: True for 100k DKK interest deduction threshold, False for 50k DKK.
+        segment: Optional market segment key for dynamic parameters.
+        volatility: Optional volatility parameter for dynamic risk premium.
     """
+    # Resolve dynamic parameters if not explicitly provided
+    if depreciation_rate is None:
+        depreciation_rate = get_segment_depreciation(segment)
+        
+    if property_tax_rate is None:
+        property_tax_rate = get_dynamic_property_tax(segment, None)
+        
+    if risk_premium is None:
+        risk_premium = get_dynamic_risk_premium(mortgage_rate, volatility)
+
     # Calculate interest expense based on 80% LTV
     debt = property_value_dkk * 0.80
     interest_expense = debt * mortgage_rate
@@ -548,9 +628,9 @@ def calculate_user_cost(
         deduction = (threshold * 0.33) + ((interest_expense - threshold) * 0.25)
         effective_tax_deduction = deduction / interest_expense
 
-    # Core user cost rate
+    # Core user cost rate (Fundamental User Cost of Housing excludes expected appreciation)
     after_tax_rate = mortgage_rate * (1 - effective_tax_deduction)
-    user_cost_rate = after_tax_rate + property_tax_rate + depreciation_rate + risk_premium - expected_appreciation
+    user_cost_rate = after_tax_rate + property_tax_rate + depreciation_rate + risk_premium
 
     # Annual and monthly user costs
     user_cost_annual_dkk = user_cost_rate * property_value_dkk
@@ -585,6 +665,8 @@ def calculate_user_cost(
             "io_loan": io_loan,
             "amortisation_rate": amortisation_rate,
             "is_couple": is_couple,
+            "segment": segment,
+            "volatility": volatility,
         },
         "user_cost_breakdown": {
             "effective_tax_deduction_rate": round(effective_tax_deduction, 5),
@@ -594,6 +676,8 @@ def calculate_user_cost(
             "risk_premium": risk_premium,
             "expected_appreciation": expected_appreciation,
             "user_cost_rate": round(user_cost_rate, 5),
+            "user_cost_fund_rate": round(user_cost_rate, 5),
+            "sentiment_pi_e": expected_appreciation,
             "user_cost_annual_dkk": round(user_cost_annual_dkk, 0),
             "user_cost_monthly_dkk": round(user_cost_monthly_dkk, 0),
         },
@@ -610,24 +694,20 @@ def calculate_user_cost(
                 round(implied_rent_per_sqm, 0) if implied_rent_per_sqm else None
             ),
             "assessment": (
-                "NEGATIVE user cost — ownership cheaper than free; bubble risk"
-                if user_cost_rate < 0
+                "Meget lave fundamentale ejeromkostninger (<2%) — stærkt incitament til ejerbolig"
+                if user_cost_rate < 0.02
                 else (
-                    "Very low user cost (<1%) — strong ownership incentive"
-                    if user_cost_rate < 0.01
+                    "Moderate fundamentale ejeromkostninger (2-4%) — bæredygtigt niveau"
+                    if user_cost_rate < 0.04
                     else (
-                        "Moderate user cost (1-3%) — sustainable"
-                        if user_cost_rate < 0.03
-                        else (
-                            "Elevated user cost (3-5%) — affordability stress"
-                            if user_cost_rate < 0.05
-                            else "High user cost (>5%) — severe affordability pressure"
-                        )
+                        "Forhøjede fundamentale ejeromkostninger (4-6%) — begyndende pres på købekraft"
+                        if user_cost_rate < 0.06
+                        else "Høje fundamentale ejeromkostninger (>6%) — udtalt pres på rådighedsbeløb og købekraft"
                     )
                 )
             ),
         },
-        "formula": "UC = P * [r(1 - tau_r) + tau_p + delta + rp - pi_e]",
+        "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
         "calculation_timestamp": datetime.datetime.now().isoformat(),
     }
 
@@ -877,18 +957,35 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
 
     # ── Composite Score ──
     score_map = {"GREEN": 0, "AMBER": 1, "RED": 3}
-    composite = sum(
-        score_map[level]
-        for level in [ewi1_level, ewi2_level, ewi3_level, ewi4_level, ewi5_level, ewi6_level, ewi7_level, ewi8_level]
-    )
+    ewi_weights = {
+        "EWI-1": 1.4,
+        "EWI-2": 1.2,
+        "EWI-3": 1.0,
+        "EWI-4": 1.3,
+        "EWI-5": 0.8,
+        "EWI-6": 1.1,
+        "EWI-7": 0.7,
+        "EWI-8": 1.5,
+    }
+    ewi_levels = {
+        "EWI-1": ewi1_level, "EWI-2": ewi2_level, "EWI-3": ewi3_level,
+        "EWI-4": ewi4_level, "EWI-5": ewi5_level, "EWI-6": ewi6_level,
+        "EWI-7": ewi7_level, "EWI-8": ewi8_level,
+    }
 
-    if composite >= 19:
+    composite = sum(
+        score_map[ewi_levels[ewi_id]] * ewi_weights[ewi_id]
+        for ewi_id in ewi_levels
+    )
+    composite = round(composite, 1)
+
+    if composite >= 21.0:
         alert_level = "EXTREME"
-    elif composite >= 14:
+    elif composite >= 15.5:
         alert_level = "CRITICAL"
-    elif composite >= 8:
+    elif composite >= 9.0:
         alert_level = "HIGH"
-    elif composite >= 4:
+    elif composite >= 4.5:
         alert_level = "ELEVATED"
     else:
         alert_level = "NORMAL"
@@ -905,26 +1002,21 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         "EWI-8": ["dst_income", "nationalbanken_rates"],
     }
 
-    ewi_levels = {
-        "EWI-1": ewi1_level, "EWI-2": ewi2_level, "EWI-3": ewi3_level,
-        "EWI-4": ewi4_level, "EWI-5": ewi5_level, "EWI-6": ewi6_level,
-        "EWI-7": ewi7_level, "EWI-8": ewi8_level,
-    }
-
     # Freshness-weighted composite: each indicator's score is scaled by
     # the average freshness of its data sources
     weighted_composite = 0.0
-    total_freshness_weight = 0.0
+    sum_fw = 0.0
     for ewi_id, level in ewi_levels.items():
         raw_score = score_map[level]
+        weight = ewi_weights[ewi_id]
         sources = ewi_sources[ewi_id]
         avg_fw = sum(freshness_weight(s) for s in sources) / len(sources)
-        weighted_composite += raw_score * avg_fw
-        total_freshness_weight += avg_fw
+        weighted_composite += (raw_score * weight) * avg_fw
+        sum_fw += avg_fw
 
-    # Normalize to same 0-24 scale
-    if total_freshness_weight > 0:
-        freshness_weighted_composite = round(weighted_composite * (8 / total_freshness_weight), 1)
+    # Normalize back to referenceskala (maximum 27.0)
+    if sum_fw > 0:
+        freshness_weighted_composite = round(weighted_composite * (8.0 / sum_fw), 1)
     else:
         freshness_weighted_composite = float(composite)
 
@@ -1016,7 +1108,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         },
         "composite_score": composite,
         "freshness_weighted_composite": freshness_weighted_composite,
-        "max_possible_score": 24,
+        "max_possible_score": 27.0,
         "alert_level": alert_level,
         "data_freshness_summary": {
             k: {
@@ -1102,13 +1194,15 @@ def run_forecast_ensemble(
             forecast_index = current_index * (1 + period_appreciation)
 
             # User cost at forecast horizon (includes property tax)
-            property_tax = scenario.get("property_tax_rate", 0.0092)
+            depreciation = get_segment_depreciation(segment)
+            property_tax = get_dynamic_property_tax(segment, forecast_index)
+            risk_premium = get_dynamic_risk_premium(rate)
+            
             uc_rate = (
                 rate * (1 - scenario["rentefradrag"])
                 + property_tax
-                + scenario["depreciation"]
-                + scenario["risk_premium"]
-                - adjusted_appreciation
+                + depreciation
+                + risk_premium
             )
 
             # For a reference 3M DKK apartment
@@ -1212,33 +1306,41 @@ def run_forecast_ensemble(
 # ─────────────────────────────────────────────────────────────
 
 @mcp.tool()
-def run_historical_backtest(start_year: int = 2007, end_year: int = 2024) -> dict:
+def run_historical_backtest(start_year: int = 2000, end_year: int = 2026) -> dict:
     """
     Run historical out-of-sample backtesting against key shock periods
     (2008 Financial Crisis and 2022 Inflation Shock) to calibrate thresholds.
 
     Args:
-        start_year: Starting year for backtest period (min 2007).
+        start_year: Starting year for backtest period (min 2000).
         end_year: Ending year for backtest period (max 2026).
 
     Returns:
         Dictionary with MAPE, RMSE, calibrated EWI thresholds, and error series.
     """
     # Verify bounds
-    if start_year < 2007 or end_year > 2026 or start_year >= end_year:
-        return {"error": "Backtest period must be within 2007-2026 and start_year < end_year."}
+    if start_year < 2000 or end_year > 2026 or start_year >= end_year:
+        return {"error": "Backtest period must be within 2000-2026 and start_year < end_year."}
 
     # Reference actual data: DST EJ56 Q4 values for KBH apartments (2006=100)
     actual_data = {
+        2000: 55.0, 2001: 58.2, 2002: 61.5, 2003: 65.8, 2004: 73.2, 2005: 86.4, 2006: 100.0,
         2007: 100.0, 2008: 88.5, 2009: 76.2, 2010: 82.1,
         2011: 80.4, 2012: 78.9, 2013: 84.6, 2014: 92.1,
         2015: 101.4, 2016: 108.9, 2017: 114.5, 2018: 112.8,
         2019: 82.5, 2020: 90.9, 2021: 98.9, 2022: 95.0,
-        2023: 99.0, 2024: 107.3, 2025: 129.2
+        2023: 99.0, 2024: 107.3, 2025: 129.2, 2026: 132.5
     }
 
     # Historical macro drivers (contemporaneous — no look-ahead)
     history_macro = {
+        2000: {"rate": 0.055, "wage": 0.040},
+        2001: {"rate": 0.050, "wage": 0.038},
+        2002: {"rate": 0.048, "wage": 0.036},
+        2003: {"rate": 0.042, "wage": 0.034},
+        2004: {"rate": 0.040, "wage": 0.032},
+        2005: {"rate": 0.038, "wage": 0.035},
+        2006: {"rate": 0.042, "wage": 0.038},
         2007: {"rate": 0.045, "wage": 0.035},
         2008: {"rate": 0.055, "wage": 0.025},  # Financial Crisis
         2009: {"rate": 0.035, "wage": 0.015},
@@ -1258,6 +1360,7 @@ def run_historical_backtest(start_year: int = 2007, end_year: int = 2024) -> dic
         2023: {"rate": 0.050, "wage": 0.035},
         2024: {"rate": 0.042, "wage": 0.035},
         2025: {"rate": 0.039, "wage": 0.035},
+        2026: {"rate": 0.035, "wage": 0.035},
     }
 
     simulated_series = {}

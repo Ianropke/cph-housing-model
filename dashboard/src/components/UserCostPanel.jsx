@@ -4,13 +4,12 @@ import {
 } from 'recharts';
 import { userCostData } from '../data/housingData';
 
-const ucExplainer = `User Cost (brugeromkostning) er den samlede månedlige omkostning ved at eje en bolig — inkl. renter efter skat, ejendomsskat, vedligeholdelse, risikopræmie, minus forventet prisstigning. 
-Positiv UC = det koster at eje. Negativ UC = man "tjener" på at eje (boblerisiko). Beregnet for en 3M DKK bolig med 80% belåning.`;
+const ucExplainer = `Fundamental User Cost (brugeromkostning) er den løbende ejeromkostning ved at besidde en ejerbolig — inkl. renter efter skat, ejendomsskat, vedligeholdelse og risikopræmie. Forventet prisstigning (sentiment) er fuldt ud separeret for at undgå cirkulær adfærdslogik. Beregnet for en 3M DKK bolig med 80% belåning.`;
 
 const scenarioTips = {
-  'Baseline': 'Moderat renteniveau (3,7% → 3,5%). User cost inkluderer rentefradrag (33%), ejendomsskat (0,92%), vedligeholdelse (1,5%) og risikopræmie (1%). Forventet prisstigning modregnes.',
-  'Min Risk': 'Kraftig rentenedsættelse og høj prisstigning gør at forventet kapitalgevinst overstiger alle omkostninger — ejerskab er "gratis" eller billigere. Historisk set tegn på overophedning.',
-  'Max Risk': 'Stigende renter og faldende priser. Ejeren betaler høje renter OG taber på boligens værdi. Den samlede user cost svarer til en "leje" på over 44.000 DKK/måned.',
+  'Baseline': 'Moderat renteniveau (3,7% → 3,5%). De fundamentale ejeromkostninger inkluderer rentefradrag (blended rate), ejendomsskat (dynamisk), vedligeholdelse (segmenteret) og risikopræmie (rentefølsom).',
+  'Min Risk': 'Lavere renter reducerer de fundamentale ejeromkostninger betydeligt. Prisforventninger (sentiment) er udskilt separat som en uafhængig spekulativ overvågningsindikator.',
+  'Max Risk': 'Stigende renter og markant øget risikopræmie. Ejeren betaler væsentligt højere løbende finansierings- og risikoomkostninger fundamentalt.',
 };
 
 const CustomTooltip = ({ active, payload }) => {
@@ -25,7 +24,7 @@ const CustomTooltip = ({ active, payload }) => {
       <p style={{ color: d.color }}>
         Månedlig: <strong>{d?.monthly?.toLocaleString('da-DK') ?? '—'} DKK</strong>
       </p>
-      <p className="tooltip-hint">Positiv = omkostning · Negativ = "gevinst"</p>
+      <p className="tooltip-hint">Jo højere UC, jo dyrere er det løbende at besidde ejerboligen fundamentalt</p>
     </div>
   );
 };
@@ -90,7 +89,7 @@ export default function UserCostPanel() {
           <h2>Brugeromkostning (User Cost)</h2>
           <span className="panel-explainer">{ucExplainer}</span>
         </div>
-        <span className="panel-badge tooltip" data-tooltip="UC beregnes med Nationalbankens formel: UC = P × [r(1-τ) + τp + δ + rp - πe]">12-måneders horisont</span>
+        <span className="panel-badge tooltip" data-tooltip="UC_fund beregnes med Nationalbankens/OECD formel: UC_fund = P × [r(1-τ_r) + τ_p + δ + rp]">12-måneders horisont</span>
       </div>
       <div className="cost-layout">
         <div className="cost-cards-row">

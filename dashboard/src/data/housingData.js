@@ -177,8 +177,8 @@ export const ewiModes = {
         "last_updated": "2026-06-01"
       }
     ],
-    "compositeScore": 5,
-    "freshnessWeightedComposite": 5.5,
+    "compositeScore": 6.8,
+    "freshnessWeightedComposite": 7.3,
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
@@ -187,17 +187,17 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 15.0,
+          "ewi_contribution": 15.9,
           "avg_data_freshness": 0.63
         }
       },
       "12m": {
-        "score": 28,
+        "score": 29,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.0,
+          "mc_downside": 1.2,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 15.0,
+          "ewi_contribution": 15.9,
           "avg_data_freshness": 0.63
         }
       }
@@ -344,8 +344,8 @@ export const ewiModes = {
         "last_updated": "2026-06-01"
       }
     ],
-    "compositeScore": 5,
-    "freshnessWeightedComposite": 5.5,
+    "compositeScore": 6.8,
+    "freshnessWeightedComposite": 7.3,
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
@@ -354,17 +354,17 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 15.0,
+          "ewi_contribution": 15.9,
           "avg_data_freshness": 0.63
         }
       },
       "12m": {
-        "score": 28,
+        "score": 29,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.0,
+          "mc_downside": 1.2,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 15.0,
+          "ewi_contribution": 15.9,
           "avg_data_freshness": 0.63
         }
       }
@@ -511,8 +511,8 @@ export const ewiModes = {
         "last_updated": "2026-06-01"
       }
     ],
-    "compositeScore": 3,
-    "freshnessWeightedComposite": 3.5,
+    "compositeScore": 4.0,
+    "freshnessWeightedComposite": 4.6,
     "alertLevel": "NORMAL",
     "maxRiskIndex": {
       "6m": {
@@ -521,17 +521,17 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 9.0,
+          "ewi_contribution": 9.3,
           "avg_data_freshness": 0.63
         }
       },
       "12m": {
-        "score": 26,
+        "score": 27,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.0,
+          "mc_downside": 1.2,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 9.0,
+          "ewi_contribution": 9.3,
           "avg_data_freshness": 0.63
         }
       }
@@ -678,8 +678,8 @@ export const ewiModes = {
         "last_updated": "2026-06-01"
       }
     ],
-    "compositeScore": 3,
-    "freshnessWeightedComposite": 3.5,
+    "compositeScore": 4.0,
+    "freshnessWeightedComposite": 4.6,
     "alertLevel": "NORMAL",
     "maxRiskIndex": {
       "6m": {
@@ -688,17 +688,17 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 9.0,
+          "ewi_contribution": 9.3,
           "avg_data_freshness": 0.63
         }
       },
       "12m": {
-        "score": 26,
+        "score": 27,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.0,
+          "mc_downside": 1.2,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 9.0,
+          "ewi_contribution": 9.3,
           "avg_data_freshness": 0.63
         }
       }
@@ -764,8 +764,8 @@ export const ewiModes = {
   }
 };
 
-export const compositeScore = 5;
-export const freshnessWeightedComposite = 5.5;
+export const compositeScore = 6.8;
+export const freshnessWeightedComposite = 7.3;
 export const alertLevel = 'ELEVATED';
 export const lastUpdated = '2026-06-14 · 2025Q4 Data';
 
@@ -835,17 +835,17 @@ export const maxRiskIndex = {
     "components": {
       "mc_downside": 0.6,
       "max_risk_severity_pct": 2.8,
-      "ewi_contribution": 15.0,
+      "ewi_contribution": 15.9,
       "avg_data_freshness": 0.63
     }
   },
   "12m": {
-    "score": 28,
+    "score": 29,
     "label": "MODERAT",
     "components": {
-      "mc_downside": 1.0,
+      "mc_downside": 1.2,
       "max_risk_severity_pct": 12.8,
-      "ewi_contribution": 15.0,
+      "ewi_contribution": 15.9,
       "avg_data_freshness": 0.63
     }
   }
@@ -893,17 +893,17 @@ export const ensembleConfidenceBounds = {
   "6m": {
     "p10": 128.4,
     "p50": 129.6,
-    "p90": 130.9
+    "p90": 130.8
   },
   "12m": {
-    "p10": 127.9,
-    "p50": 131.1,
-    "p90": 134.3
+    "p10": 127.7,
+    "p50": 131.2,
+    "p90": 134.4
   },
   "24m": {
-    "p10": 128.3,
-    "p50": 137.4,
-    "p90": 147.0
+    "p10": 129.0,
+    "p50": 138.3,
+    "p90": 147.7
   }
 };
 
@@ -918,25 +918,25 @@ export const forecastBarData = ['6m', '12m', '24m'].map((horizon) => ({
 export const userCostData = [
   {
     "scenario": "Baseline",
-    "ucRate": 2.4,
-    "monthly": 5997,
-    "label": "Moderate user cost (1-3%) \u2014 sustainable",
+    "ucRate": 5.92,
+    "monthly": 14807,
+    "label": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft",
     "color": "#00d4aa",
-    "icon": "\u2713"
+    "icon": "\u2717"
   },
   {
     "scenario": "Min Risk",
-    "ucRate": -3.57,
-    "monthly": -8925,
-    "label": "NEGATIVE user cost \u2014 ownership cheaper than free; bubble risk",
+    "ucRate": 5.42,
+    "monthly": 13547,
+    "label": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft",
     "color": "#3b82f6",
-    "icon": "\u26a0"
+    "icon": "\u2717"
   },
   {
     "scenario": "Max Risk",
-    "ucRate": 17.71,
-    "monthly": 44279,
-    "label": "High user cost (>5%) \u2014 severe affordability pressure",
+    "ucRate": 7.32,
+    "monthly": 18314,
+    "label": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft",
     "color": "#ff6b6b",
     "icon": "\u2717"
   }

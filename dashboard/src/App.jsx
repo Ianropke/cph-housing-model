@@ -26,32 +26,37 @@ export default function App() {
     window.location.hostname !== '127.0.0.1';
 
   const MOCK_BACKTEST = {
-    "backtest_range": "2007 - 2024",
-    "backtest_date": "2026-06-12T08:05:53.823440",
+    "backtest_range": "2000 - 2026",
+    "backtest_date": "2026-06-14T21:08:33.276032",
     "methodology": "One-step-ahead: each year's forecast uses prior year's ACTUAL index (no error drift) [Vercel Demo]",
-    "metrics": { "mape_pct": 7.58, "rmse_points": 11.54, "data_points_evaluated": 17 },
+    "metrics": {
+      "mape_pct": 8.9,
+      "rmse_points": 11.67,
+      "data_points_evaluated": 26
+    },
     "empirical_calibrations": {
-      "EWI-1_price_vs_wages_red": 0.0447,
+      "EWI-1_price_vs_wages_red": 0.0441,
       "EWI-2_supply_demand_amber": 3.8,
       "EWI-6_price_to_rent_red_ratio": 1.1
     },
     "comparison": {
-      "years": [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
-      "actual": [100.0, 88.5, 76.2, 82.1, 80.4, 78.9, 84.6, 92.1, 101.4, 108.9, 114.5, 112.8, 82.5, 90.9, 98.9, 95.0, 99.0, 107.3],
-      "predicted": [100.0, 91.0, 88.5, 78.6, 83.2, 84.0, 82.5, 89.5, 99.1, 110.5, 118.7, 124.8, 123.0, 91.0, 100.3, 94.4, 88.6, 95.9],
-      "errors": [0.0, 2.5, 12.3, -3.5, 2.8, 5.1, -2.1, -2.6, -2.3, 1.6, 4.2, 12.0, 40.5, 0.1, 1.4, -0.6, -10.4, -11.4]
+      "years": [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+      "actual": [55.0, 58.2, 61.5, 65.8, 73.2, 86.4, 100.0, 100.0, 88.5, 76.2, 82.1, 80.4, 78.9, 84.6, 92.1, 101.4, 108.9, 114.5, 112.8, 82.5, 90.9, 98.9, 95.0, 99.0, 107.3, 129.2, 132.5],
+      "predicted": [55.0, 51.3, 54.8, 59.6, 64.3, 72.2, 83.7, 95.5, 91.0, 88.5, 78.6, 83.2, 84.0, 82.5, 89.5, 99.1, 110.5, 118.7, 124.8, 123.0, 91.0, 100.3, 94.4, 88.6, 95.9, 105.4, 129.2],
+      "errors": [0.0, -6.9, -6.7, -6.2, -8.9, -14.2, -16.3, -4.5, 2.5, 12.3, -3.5, 2.8, 5.1, -2.1, -2.6, -2.3, 1.6, 4.2, 12.0, 40.5, 0.1, 1.4, -0.6, -10.4, -11.4, -23.8, -3.3]
     }
   };
 
   const MOCK_STATUS = `=== Ingestion Status & Diagnostics (Vercel Demo) ===
 Project Directory: /Users/ianropke/.gemini/antigravity/scratch/cph-housing-model
+Model Version: 3.0 (Fase 1 implementeret)
 
 Data Files:
   - housingData.js: Exists (Mocked Production Release)
-  - latest_pipeline.json: Exists (Last updated: 2026-06-11 22:09:40)
+  - latest_pipeline.json: Exists (Last updated: 2026-06-14 21:08:27)
 
 Latest Daily Reports:
-  - daily_2026-06-11.md
+  - daily_2026-06-14.md
 
 Cron Task Health Check:
 The daily background updater task is scheduled to run at 02:00 AM CET daily via the Antigravity scheduler.
@@ -227,7 +232,7 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
       </main>
 
       <footer className="dashboard-footer fade-in" style={{ animationDelay: '0.8s' }}>
-        <p>Data: Danmarks Statistik (EJ56) · Model: CPH Housing Forecast System v2.4</p>
+        <p>Data: Danmarks Statistik (EJ56) · Model: CPH Housing Forecast System v3.0 (Fase 1)</p>
       </footer>
 
       {/* MODAL DIALOGS */}

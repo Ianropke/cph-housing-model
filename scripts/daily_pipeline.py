@@ -91,8 +91,8 @@ def run_daily_pipeline():
         ewi_results[segment] = ewi
         level = ewi["alert_level"]
         score = ewi["composite_score"]
-        print(f"   {segment}: Score {score}/24 — {level}")
-        if score >= 3:
+        print(f"   {segment}: Score {score}/27.0 — {level}")
+        if score >= 4.5:
             alert_summary.append(f"⚠️ {segment}: {level} (score {score})")
 
     # ── Step 3: Run forecast ensemble ──
@@ -120,6 +120,7 @@ def run_daily_pipeline():
                 expected_appreciation=params["expected_appreciation"][hk],
                 io_loan=True,
                 is_couple=True,
+                segment="copenhagen_apartments",
             )
             user_cost_results[scenario_name][hk] = uc
             rate = uc["user_cost_breakdown"]["user_cost_rate"]
@@ -475,7 +476,7 @@ def generate_daily_report(dst_data, ewi_results, forecast_results, user_cost_res
             if v["level"] != "GREEN"
         ]
         flagged_str = ", ".join(flagged) if flagged else "None"
-        lines.append(f"| {seg} | {ewi['composite_score']}/24 | {ewi['alert_level']} | {flagged_str} |")
+        lines.append(f"| {seg} | {ewi['composite_score']}/27.0 | {ewi['alert_level']} | {flagged_str} |")
 
     lines.extend(["", "## Forecast Ensemble (Probability-Weighted)", ""])
     lines.append("| Segment | 6m | 12m | 24m |")

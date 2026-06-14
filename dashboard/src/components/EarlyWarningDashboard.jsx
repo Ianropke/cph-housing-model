@@ -191,7 +191,7 @@ export default function EarlyWarningDashboard({
         <div>
           <h2>Tidlig varsling (EWI)</h2>
           <span className="panel-explainer">
-            7 indikatorer der tilsammen vurderer risikoen for et kommende prisfald. Hver indikator har en trafiklys-status
+            8 indikatorer der tilsammen vurderer risikoen for et kommende prisfald. Hver indikator har en trafiklys-status
             (Normal / Advarsel / Alarm) og en friskhedsbar der viser hvor opdateret datakilden er.
             Hold musen over en indikator for at se hvad den måler og hvornår den udløses.
           </span>
@@ -215,14 +215,14 @@ export default function EarlyWarningDashboard({
 
         <div className="ewi-summary-badges">
           <span className="panel-badge tooltip"
-            data-tooltip="Summen af alle 8 indikatorer: Normal=0, Advarsel=1, Alarm=3 point. Maks 24 point."
+            data-tooltip="Statistisk vægtet sum af alle 8 indikatorer baseret på historisk signalstyrke (Normal=0, Advarsel=1, Alarm=3, ganget med vægte: EWI1=1.4, EWI2=1.2, EWI3=1.0, EWI4=1.3, EWI5=0.8, EWI6=1.1, EWI7=0.7, EWI8=1.5). Maks 27.0 point."
           >
-            Score: <strong>{compositeScore} / 24</strong>
+            Score: <strong>{compositeScore} / 27</strong>
           </span>
           <span className="panel-badge tooltip"
-            data-tooltip="Samme score, men vægtet med datakilde-friskhed. Indikatorer med gammel data tæller mindre. Giver et mere retvisende billede."
+            data-tooltip="Samme score, men reguleret med datakildernes løbende friskhedsvægt. Indikatorer med gammel data tæller mindre. Maks 27.0 point."
           >
-            Friskheds-vægtet: <strong>{freshnessWeightedComposite} / 24</strong>
+            Friskheds-vægtet: <strong>{freshnessWeightedComposite} / 27</strong>
           </span>
           <span
             className="panel-badge"

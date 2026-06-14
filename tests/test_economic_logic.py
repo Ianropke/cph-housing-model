@@ -46,8 +46,8 @@ class TestUserCostFormula(unittest.TestCase):
 
         # Manual: debt = 2.4M, interest = 96k DKK < 100k threshold → τ_r = 0.33
         # after_tax_rate = 0.04 × (1 - 0.33) = 0.0268
-        # uc_rate = 0.0268 + 0.0092 + 0.015 + 0.010 - 0.03 = 0.031
-        expected_uc_rate = 0.04 * (1 - 0.33) + 0.0092 + 0.015 + 0.010 - 0.03
+        # uc_rate = 0.0268 + 0.0092 + 0.015 + 0.010 = 0.061 (expected appreciation not subtracted in UC_fund)
+        expected_uc_rate = 0.04 * (1 - 0.33) + 0.0092 + 0.015 + 0.010
 
         self.assertAlmostEqual(
             result["user_cost_breakdown"]["user_cost_rate"],
@@ -165,12 +165,10 @@ class TestForecastEnsembleUC(unittest.TestCase):
             after_tax_rate = rate_12m * (1 - rentefradrag)
             uc_without_tax = after_tax_rate + scenario["depreciation"] + scenario["risk_premium"]
             reported_uc = scenario_result["user_cost_rate"]
-            appreciation = scenario_result["annualised_return_pct"] / 100
 
-            # UC + appreciation should be > uc_without_tax + property_tax margin
-            uc_plus_appreciation = reported_uc + appreciation
+            # UC no longer subtracts expected appreciation, so reported_uc is already the fundamental UC
             self.assertGreater(
-                uc_plus_appreciation,
+                reported_uc,
                 uc_without_tax + 0.005,
                 f"Scenario '{scenario_id}' UC appears to be missing property tax",
             )
@@ -220,7 +218,7 @@ class TestCompositeEWI(unittest.TestCase):
             result = check_early_warnings(segment)
             score = result["composite_score"]
             self.assertGreaterEqual(score, 0, f"Score below 0 for {segment}")
-            self.assertLessEqual(score, 21, f"Score above 21 for {segment}")
+            self.assertLessEqual(score, 27.0, f"Score above 27 for {segment}")
 
     def test_all_indicators_present(self):
         result = check_early_warnings("copenhagen_apartments")
@@ -308,15 +306,22 @@ class TestEdgeCases(unittest.TestCase):
         # Should be > 0 because of property_tax (0.0092) + depreciation (0.015) + rp (0.01)
         self.assertGreater(uc_rate, 0.03, "UC should be positive even with 0% mortgage rate")
 
-    def test_high_appreciation_negative_uc(self):
-        """Very high expected appreciation should produce negative UC."""
-        result = calculate_user_cost(
+    def test_high_appreciation_does_not_affect_fundamental_uc(self):
+        """Expected appreciation is separated and should not affect fundamental UC."""
+        result_with_apprec = calculate_user_cost(
             property_value_dkk=3_000_000,
             mortgage_rate=0.04,
             expected_appreciation=0.15,
         )
-        uc_rate = result["user_cost_breakdown"]["user_cost_rate"]
-        self.assertLess(uc_rate, 0, "UC should be negative with 15% expected appreciation")
+        result_without_apprec = calculate_user_cost(
+            property_value_dkk=3_000_000,
+            mortgage_rate=0.04,
+            expected_appreciation=0.0,
+        )
+        uc_rate_with = result_with_apprec["user_cost_breakdown"]["user_cost_rate"]
+        uc_rate_without = result_without_apprec["user_cost_breakdown"]["user_cost_rate"]
+        self.assertEqual(uc_rate_with, uc_rate_without, "Expected appreciation should not affect fundamental user cost rate")
+        self.assertEqual(result_with_apprec["user_cost_breakdown"]["sentiment_pi_e"], 0.15)
 
 
 class TestDSTDataPlausibility(unittest.TestCase):

@@ -56,11 +56,11 @@ pp("User Cost — Baseline (IO loan, 4%, 3% appreciation)", result)
 # Manual verification:
 # interest_expense = 3M * 0.80 * 0.04 = 96k DKK (under 100k DKK couple threshold) -> tau_r = 0.33
 # after_tax_rate = 0.04 * (1 - 0.33) = 0.0268
-# UC_rate = 0.0268 + 0.0092 + 0.015 + 0.01 - 0.03 = 0.031
-# UC_annual = 0.031 * 3,000,000 = 93,000 DKK
-# UC_monthly = 93,000 / 12 = 7,750 DKK
+# UC_rate = 0.0268 + 0.0092 + 0.015 + 0.01 = 0.0618
+# UC_annual = 0.0618 * 3,000,000 = 185,400 DKK
+# UC_monthly = 185,400 / 12 = 15,450 DKK
 
-expected_uc_rate = 0.04 * (1 - 0.33) + 0.0092 + 0.015 + 0.01 - 0.03
+expected_uc_rate = 0.04 * (1 - 0.33) + 0.0092 + 0.015 + 0.01
 actual_uc_rate = result["user_cost_breakdown"]["user_cost_rate"]
 assert abs(actual_uc_rate - expected_uc_rate) < 0.0001, \
     f"UC rate mismatch: {actual_uc_rate} != {expected_uc_rate}"
