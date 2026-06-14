@@ -192,10 +192,10 @@ export const ewiModes = {
         }
       },
       "12m": {
-        "score": 30,
+        "score": 29,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.2,
+          "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
           "ewi_contribution": 19.9,
           "avg_data_freshness": 0.79
@@ -359,10 +359,10 @@ export const ewiModes = {
         }
       },
       "12m": {
-        "score": 30,
+        "score": 29,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.2,
+          "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
           "ewi_contribution": 19.9,
           "avg_data_freshness": 0.79
@@ -529,7 +529,7 @@ export const ewiModes = {
         "score": 27,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.2,
+          "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
           "ewi_contribution": 11.7,
           "avg_data_freshness": 0.79
@@ -696,7 +696,7 @@ export const ewiModes = {
         "score": 27,
         "label": "MODERAT",
         "components": {
-          "mc_downside": 1.2,
+          "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
           "ewi_contribution": 11.7,
           "avg_data_freshness": 0.79
@@ -840,10 +840,10 @@ export const maxRiskIndex = {
     }
   },
   "12m": {
-    "score": 30,
+    "score": 29,
     "label": "MODERAT",
     "components": {
-      "mc_downside": 1.2,
+      "mc_downside": 1.0,
       "max_risk_severity_pct": 12.8,
       "ewi_contribution": 19.9,
       "avg_data_freshness": 0.79
@@ -892,18 +892,18 @@ export const ensembleForecasts = {
 export const ensembleConfidenceBounds = {
   "6m": {
     "p10": 128.4,
-    "p50": 129.5,
-    "p90": 130.8
+    "p50": 129.6,
+    "p90": 130.7
   },
   "12m": {
-    "p10": 127.7,
-    "p50": 131.0,
-    "p90": 134.3
+    "p10": 127.9,
+    "p50": 131.1,
+    "p90": 134.2
   },
   "24m": {
-    "p10": 128.4,
-    "p50": 137.5,
-    "p90": 147.0
+    "p10": 128.5,
+    "p50": 138.0,
+    "p90": 146.8
   }
 };
 
