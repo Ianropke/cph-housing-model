@@ -46,21 +46,21 @@ DATA_FRESHNESS = {
     "rkr_bm011": {
         "label": "Realkreditlån (BM011)",
         "source": "Finansdanmark",
-        "last_updated": "2026-04-15",
+        "last_updated": "2026-05-15",
         "frequency": "Monthly",
         "half_life_days": 60,
     },
     "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "source": "Finansdanmark",
-        "last_updated": "2026-05-20",
+        "last_updated": "2026-06-05",
         "frequency": "Monthly",
         "half_life_days": 45,
     },
     "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "source": "Finansdanmark",
-        "last_updated": "2026-03-31",
+        "last_updated": "2026-06-10",
         "frequency": "Quarterly",
         "half_life_days": 120,
     },
@@ -74,7 +74,7 @@ DATA_FRESHNESS = {
     "wage_data": {
         "label": "Lønudvikling",
         "source": "Danmarks Statistik",
-        "last_updated": "2026-03-15",
+        "last_updated": "2026-06-05",
         "frequency": "Quarterly",
         "half_life_days": 120,
     },
@@ -345,6 +345,9 @@ def fetch_dst_housing_data(
     ]
     
     print(f"   --> Attempting HTTP POST to {api_url} for table {table}...")
+    
+    parsed_data = None
+    
     try:
         payload = {
             "table": table,
@@ -358,13 +361,119 @@ def fetch_dst_housing_data(
             headers={"Content-Type": "application/json"},
             method="POST"
         )
-        with urllib.request.urlopen(req, timeout=2.0, context=ssl_context) as res:
-            json.loads(res.read().decode("utf-8"))
-            print("   ✅ Real-time DST API connection successful.")
+        with urllib.request.urlopen(req, timeout=5.0, context=ssl_context) as res:
+            res_data = json.loads(res.read().decode("utf-8"))
+            dataset = res_data["dataset"]
+            
+            # Dimensions
+            dim_ids = dataset["dimension"]["id"]
+            dim_sizes = dataset["dimension"]["size"]
+            
+            area_keys = list(dataset["dimension"]["OMRÅDE"]["category"]["index"].keys())
+            cat_keys = list(dataset["dimension"]["EJENDOMSKATE"]["category"]["index"].keys())
+            tid_keys = list(dataset["dimension"]["Tid"]["category"]["index"].keys())
+            
+            size_area = dim_sizes[dim_ids.index("OMRÅDE")]
+            size_cat = dim_sizes[dim_ids.index("EJENDOMSKATE")]
+            size_tal = dim_sizes[dim_ids.index("TAL")]
+            size_tid = dim_sizes[dim_ids.index("Tid")]
+            
+            size_contents = 1
+            if "ContentsCode" in dim_ids:
+                size_contents = dim_sizes[dim_ids.index("ContentsCode")]
+                
+            values = dataset["value"]
+            
+            def get_val(area, cat, tid):
+                try:
+                    area_idx = area_keys.index(area)
+                    cat_idx = cat_keys.index(cat)
+                    tid_idx = tid_keys.index(tid)
+                    
+                    idx = 0
+                    multiplier = 1
+                    for dim in reversed(dim_ids):
+                        if dim == "Tid":
+                            idx += tid_idx * multiplier
+                            multiplier *= size_tid
+                        elif dim == "ContentsCode":
+                            multiplier *= size_contents
+                        elif dim == "TAL":
+                            multiplier *= size_tal
+                        elif dim == "EJENDOMSKATE":
+                            idx += cat_idx * multiplier
+                            multiplier *= size_cat
+                        elif dim == "OMRÅDE":
+                            idx += area_idx * multiplier
+                            multiplier *= size_area
+                    return values[idx]
+                except Exception:
+                    return None
+            
+            cph_apts_series = {}
+            cph_houses_series = {}
+            fred_apts_series = {}
+            
+            # If no start period is specified, filter to 2019Q1 to match design layout
+            start_limit = start_period if start_period else "2019Q1"
+            
+            for t in tid_keys:
+                q_key = t.replace("K", "Q")
+                if start_limit and q_key < start_limit:
+                    continue
+                if end_period and q_key > end_period:
+                    continue
+                    
+                v_apts = get_val("01", "2103", t)
+                if v_apts is not None:
+                    cph_apts_series[q_key] = v_apts
+                    
+                v_houses = get_val("02", "0111", t)
+                if v_houses is not None:
+                    cph_houses_series[q_key] = v_houses
+                    
+                v_fred = get_val("02", "2103", t)
+                if v_fred is not None:
+                    fred_apts_series[q_key] = v_fred
+            
+            parsed_data = {
+                "table": table,
+                "description": dataset.get("label", "Prisindeks for ejendomssalg (2006=100)"),
+                "source": dataset.get("source", "Danmarks Statistik"),
+                "last_updated": dataset.get("updated", "2026-05-29").split("T")[0],
+                "segments": {
+                    "copenhagen_apartments": {
+                        "label": "Ejerlejligheder, Byen København",
+                        "region": "Landsdel Byen København",
+                        "property_type": "Ejerlejligheder",
+                        "base_year": 2006,
+                        "series": cph_apts_series
+                    },
+                    "copenhagen_houses": {
+                        "label": "Enfamiliehuse, Københavns omegn",
+                        "region": "Landsdel Københavns omegn",
+                        "property_type": "Enfamiliehuse",
+                        "base_year": 2006,
+                        "series": cph_houses_series
+                    },
+                    "frederiksberg_apartments": {
+                        "label": "Ejerlejligheder, Københavns omegn",
+                        "region": "Landsdel Københavns omegn",
+                        "property_type": "Ejerlejligheder",
+                        "base_year": 2006,
+                        "series": fred_apts_series
+                    }
+                }
+            }
+            print("   ✅ Real-time DST API connection successful. Parsed live data.")
     except Exception as e:
         print(f"   ⚠️ DST API connection failed: {e}. Using high-fidelity local database.")
 
-    data = DST_EJ56_DATA.copy()
+    if parsed_data:
+        data = parsed_data
+    else:
+        data = DST_EJ56_DATA.copy()
+        
     result_segments = {}
 
     target_segments = (
@@ -375,7 +484,7 @@ def fetch_dst_housing_data(
 
     for seg_id, seg_data in target_segments.items():
         series = seg_data["series"]
-        if start_period or end_period:
+        if not parsed_data and (start_period or end_period):
             filtered = {}
             for period, value in sorted(series.items()):
                 if start_period and period < start_period:

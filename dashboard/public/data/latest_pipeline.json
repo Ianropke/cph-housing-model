@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-14T21:08:27.450259",
+  "generated_at": "2026-06-14T21:12:12.282815",
   "dst_data": {
     "table": "EJ56",
-    "description": "Prisindeks for ejendomssalg (2006=100)",
+    "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-05-29",
-    "query_timestamp": "2026-06-14T21:08:27.607223",
+    "query_timestamp": "2026-06-14T21:12:12.531331",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -28,14 +28,14 @@
           "2022Q1": 102.2,
           "2022Q2": 103.3,
           "2022Q3": 99.6,
-          "2022Q4": 95.0,
+          "2022Q4": 95,
           "2023Q1": 94.7,
           "2023Q2": 98.1,
           "2023Q3": 98.8,
-          "2023Q4": 99.0,
+          "2023Q4": 99,
           "2024Q1": 98.3,
           "2024Q2": 102.3,
-          "2024Q3": 105.0,
+          "2024Q3": 105,
           "2024Q4": 107.3,
           "2025Q1": 112.5,
           "2025Q2": 118.9,
@@ -55,7 +55,7 @@
         "base_year": 2006,
         "series": {
           "2019Q1": 79.3,
-          "2019Q2": 80.0,
+          "2019Q2": 80,
           "2019Q3": 80.9,
           "2019Q4": 79.9,
           "2020Q1": 81.6,
@@ -74,7 +74,7 @@
           "2023Q2": 95.7,
           "2023Q3": 97.8,
           "2023Q4": 99.6,
-          "2024Q1": 98.0,
+          "2024Q1": 98,
           "2024Q2": 100.3,
           "2024Q3": 101.7,
           "2024Q4": 104.1,
@@ -95,7 +95,7 @@
         "property_type": "Ejerlejligheder",
         "base_year": 2006,
         "series": {
-          "2019Q1": 84.0,
+          "2019Q1": 84,
           "2019Q2": 84.7,
           "2019Q3": 83.1,
           "2019Q4": 85.8,
@@ -115,7 +115,7 @@
           "2023Q2": 94.9,
           "2023Q3": 97.8,
           "2023Q4": 97.5,
-          "2024Q1": 98.0,
+          "2024Q1": 98,
           "2024Q2": 99.5,
           "2024Q3": 102.6,
           "2024Q4": 103.1,
@@ -135,7 +135,7 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-06-14T21:08:27.609595",
+      "evaluation_timestamp": "2026-06-14T21:12:12.534325",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -156,9 +156,9 @@
               "key": "wage_data",
               "label": "L\u00f8nudvikling",
               "source": "Danmarks Statistik",
-              "last_updated": "2026-03-15",
+              "last_updated": "2026-06-05",
               "frequency": "Quarterly",
-              "freshness_weight": 0.431
+              "freshness_weight": 0.944
             }
           ],
           "modes": {
@@ -198,9 +198,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -223,9 +223,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -239,9 +239,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -256,9 +256,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -287,9 +287,9 @@
               "key": "rkr_ul10",
               "label": "Afdragsfrihed (UL10)",
               "source": "Finansdanmark",
-              "last_updated": "2026-03-31",
+              "last_updated": "2026-06-10",
               "frequency": "Quarterly",
-              "freshness_weight": 0.531
+              "freshness_weight": 0.975
             }
           ]
         },
@@ -319,7 +319,7 @@
         }
       },
       "composite_score": 6.8,
-      "freshness_weighted_composite": 7.3,
+      "freshness_weighted_composite": 6.9,
       "max_possible_score": 27.0,
       "alert_level": "ELEVATED",
       "data_freshness_summary": {
@@ -332,24 +332,24 @@
         },
         "rkr_bm011": {
           "label": "Realkreditl\u00e5n (BM011)",
-          "last_updated": "2026-04-15",
+          "last_updated": "2026-05-15",
           "frequency": "Monthly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.25
+          "freshness_weight": 0.625
         },
         "rkr_udb010": {
           "label": "Boligudbud (UDB010)",
-          "last_updated": "2026-05-20",
+          "last_updated": "2026-06-05",
           "frequency": "Monthly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.583
+          "freshness_weight": 0.85
         },
         "rkr_ul10": {
           "label": "Afdragsfrihed (UL10)",
-          "last_updated": "2026-03-31",
+          "last_updated": "2026-06-10",
           "frequency": "Quarterly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.531
+          "freshness_weight": 0.975
         },
         "ecb_rates": {
           "label": "ECB renter",
@@ -360,10 +360,10 @@
         },
         "wage_data": {
           "label": "L\u00f8nudvikling",
-          "last_updated": "2026-03-15",
+          "last_updated": "2026-06-05",
           "frequency": "Quarterly",
           "source": "Danmarks Statistik",
-          "freshness_weight": 0.431
+          "freshness_weight": 0.944
         },
         "dst_income": {
           "label": "Disponibel Indkomst (DST)",
@@ -383,7 +383,7 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-06-14T21:08:27.610014",
+      "evaluation_timestamp": "2026-06-14T21:12:12.534882",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -404,9 +404,9 @@
               "key": "wage_data",
               "label": "L\u00f8nudvikling",
               "source": "Danmarks Statistik",
-              "last_updated": "2026-03-15",
+              "last_updated": "2026-06-05",
               "frequency": "Quarterly",
-              "freshness_weight": 0.431
+              "freshness_weight": 0.944
             }
           ],
           "modes": {
@@ -446,9 +446,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -471,9 +471,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -487,9 +487,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -504,9 +504,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -535,9 +535,9 @@
               "key": "rkr_ul10",
               "label": "Afdragsfrihed (UL10)",
               "source": "Finansdanmark",
-              "last_updated": "2026-03-31",
+              "last_updated": "2026-06-10",
               "frequency": "Quarterly",
-              "freshness_weight": 0.531
+              "freshness_weight": 0.975
             }
           ]
         },
@@ -567,7 +567,7 @@
         }
       },
       "composite_score": 5.3,
-      "freshness_weighted_composite": 5.7,
+      "freshness_weighted_composite": 5.6,
       "max_possible_score": 27.0,
       "alert_level": "ELEVATED",
       "data_freshness_summary": {
@@ -580,24 +580,24 @@
         },
         "rkr_bm011": {
           "label": "Realkreditl\u00e5n (BM011)",
-          "last_updated": "2026-04-15",
+          "last_updated": "2026-05-15",
           "frequency": "Monthly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.25
+          "freshness_weight": 0.625
         },
         "rkr_udb010": {
           "label": "Boligudbud (UDB010)",
-          "last_updated": "2026-05-20",
+          "last_updated": "2026-06-05",
           "frequency": "Monthly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.583
+          "freshness_weight": 0.85
         },
         "rkr_ul10": {
           "label": "Afdragsfrihed (UL10)",
-          "last_updated": "2026-03-31",
+          "last_updated": "2026-06-10",
           "frequency": "Quarterly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.531
+          "freshness_weight": 0.975
         },
         "ecb_rates": {
           "label": "ECB renter",
@@ -608,10 +608,10 @@
         },
         "wage_data": {
           "label": "L\u00f8nudvikling",
-          "last_updated": "2026-03-15",
+          "last_updated": "2026-06-05",
           "frequency": "Quarterly",
           "source": "Danmarks Statistik",
-          "freshness_weight": 0.431
+          "freshness_weight": 0.944
         },
         "dst_income": {
           "label": "Disponibel Indkomst (DST)",
@@ -631,7 +631,7 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-06-14T21:08:27.610370",
+      "evaluation_timestamp": "2026-06-14T21:12:12.535353",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -652,9 +652,9 @@
               "key": "wage_data",
               "label": "L\u00f8nudvikling",
               "source": "Danmarks Statistik",
-              "last_updated": "2026-03-15",
+              "last_updated": "2026-06-05",
               "frequency": "Quarterly",
-              "freshness_weight": 0.431
+              "freshness_weight": 0.944
             }
           ],
           "modes": {
@@ -694,9 +694,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -719,9 +719,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -735,9 +735,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -752,9 +752,9 @@
               "key": "rkr_udb010",
               "label": "Boligudbud (UDB010)",
               "source": "Finansdanmark",
-              "last_updated": "2026-05-20",
+              "last_updated": "2026-06-05",
               "frequency": "Monthly",
-              "freshness_weight": 0.583
+              "freshness_weight": 0.85
             }
           ]
         },
@@ -783,9 +783,9 @@
               "key": "rkr_ul10",
               "label": "Afdragsfrihed (UL10)",
               "source": "Finansdanmark",
-              "last_updated": "2026-03-31",
+              "last_updated": "2026-06-10",
               "frequency": "Quarterly",
-              "freshness_weight": 0.531
+              "freshness_weight": 0.975
             }
           ]
         },
@@ -815,7 +815,7 @@
         }
       },
       "composite_score": 6.0,
-      "freshness_weighted_composite": 6.2,
+      "freshness_weighted_composite": 6.4,
       "max_possible_score": 27.0,
       "alert_level": "ELEVATED",
       "data_freshness_summary": {
@@ -828,24 +828,24 @@
         },
         "rkr_bm011": {
           "label": "Realkreditl\u00e5n (BM011)",
-          "last_updated": "2026-04-15",
+          "last_updated": "2026-05-15",
           "frequency": "Monthly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.25
+          "freshness_weight": 0.625
         },
         "rkr_udb010": {
           "label": "Boligudbud (UDB010)",
-          "last_updated": "2026-05-20",
+          "last_updated": "2026-06-05",
           "frequency": "Monthly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.583
+          "freshness_weight": 0.85
         },
         "rkr_ul10": {
           "label": "Afdragsfrihed (UL10)",
-          "last_updated": "2026-03-31",
+          "last_updated": "2026-06-10",
           "frequency": "Quarterly",
           "source": "Finansdanmark",
-          "freshness_weight": 0.531
+          "freshness_weight": 0.975
         },
         "ecb_rates": {
           "label": "ECB renter",
@@ -856,10 +856,10 @@
         },
         "wage_data": {
           "label": "L\u00f8nudvikling",
-          "last_updated": "2026-03-15",
+          "last_updated": "2026-06-05",
           "frequency": "Quarterly",
           "source": "Danmarks Statistik",
-          "freshness_weight": 0.431
+          "freshness_weight": 0.944
         },
         "dst_income": {
           "label": "Disponibel Indkomst (DST)",
@@ -883,7 +883,7 @@
       "segment": "copenhagen_apartments",
       "current_period": "2025Q4",
       "current_index": 129.2,
-      "forecast_date": "2026-06-14T21:08:27.620000",
+      "forecast_date": "2026-06-14T21:12:12.547780",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -937,7 +937,7 @@
             ],
             "confidence_bounds": {
               "p10": 128.4,
-              "p50": 129.6,
+              "p50": 129.5,
               "p90": 130.8
             }
           }
@@ -994,8 +994,8 @@
             ],
             "confidence_bounds": {
               "p10": 127.7,
-              "p50": 131.2,
-              "p90": 134.4
+              "p50": 131.0,
+              "p90": 134.3
             }
           }
         },
@@ -1050,9 +1050,9 @@
               176.1
             ],
             "confidence_bounds": {
-              "p10": 129.0,
-              "p50": 138.3,
-              "p90": 147.7
+              "p10": 128.4,
+              "p50": 137.5,
+              "p90": 147.0
             }
           }
         }
@@ -1062,7 +1062,7 @@
       "segment": "copenhagen_houses",
       "current_period": "2025Q4",
       "current_index": 118.5,
-      "forecast_date": "2026-06-14T21:08:27.628230",
+      "forecast_date": "2026-06-14T21:12:12.557896",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -1116,8 +1116,8 @@
             ],
             "confidence_bounds": {
               "p10": 117.8,
-              "p50": 118.8,
-              "p90": 120.0
+              "p50": 118.9,
+              "p90": 119.9
             }
           }
         },
@@ -1172,8 +1172,8 @@
               130.3
             ],
             "confidence_bounds": {
-              "p10": 117.3,
-              "p50": 120.2,
+              "p10": 117.0,
+              "p50": 120.0,
               "p90": 123.1
             }
           }
@@ -1229,9 +1229,9 @@
               158.2
             ],
             "confidence_bounds": {
-              "p10": 117.2,
+              "p10": 117.0,
               "p50": 125.9,
-              "p90": 134.5
+              "p90": 134.8
             }
           }
         }
@@ -1241,7 +1241,7 @@
       "segment": "frederiksberg_apartments",
       "current_period": "2025Q4",
       "current_index": 114.6,
-      "forecast_date": "2026-06-14T21:08:27.635858",
+      "forecast_date": "2026-06-14T21:12:12.566453",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -1351,9 +1351,9 @@
               127.2
             ],
             "confidence_bounds": {
-              "p10": 113.3,
+              "p10": 113.4,
               "p50": 116.2,
-              "p90": 119.2
+              "p90": 119.1
             }
           }
         },
@@ -1408,9 +1408,9 @@
               155.4
             ],
             "confidence_bounds": {
-              "p10": 113.8,
-              "p50": 122.1,
-              "p90": 130.8
+              "p10": 113.5,
+              "p50": 122.0,
+              "p90": 130.2
             }
           }
         }
@@ -1459,7 +1459,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635896"
+        "calculation_timestamp": "2026-06-14T21:12:12.566510"
       },
       "12m": {
         "input": {
@@ -1501,7 +1501,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635915"
+        "calculation_timestamp": "2026-06-14T21:12:12.566531"
       },
       "24m": {
         "input": {
@@ -1543,7 +1543,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635929"
+        "calculation_timestamp": "2026-06-14T21:12:12.566546"
       }
     },
     "min_risk": {
@@ -1587,7 +1587,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635941"
+        "calculation_timestamp": "2026-06-14T21:12:12.566559"
       },
       "12m": {
         "input": {
@@ -1629,7 +1629,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635952"
+        "calculation_timestamp": "2026-06-14T21:12:12.566571"
       },
       "24m": {
         "input": {
@@ -1671,7 +1671,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635966"
+        "calculation_timestamp": "2026-06-14T21:12:12.566582"
       }
     },
     "max_risk": {
@@ -1715,7 +1715,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635978"
+        "calculation_timestamp": "2026-06-14T21:12:12.566596"
       },
       "12m": {
         "input": {
@@ -1757,7 +1757,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635989"
+        "calculation_timestamp": "2026-06-14T21:12:12.566607"
       },
       "24m": {
         "input": {
@@ -1799,7 +1799,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-06-14T21:08:27.635999"
+        "calculation_timestamp": "2026-06-14T21:12:12.566619"
       }
     }
   },
