@@ -5,7 +5,7 @@ import ForecastEnsemblePanel from './components/ForecastEnsemblePanel';
 import UserCostPanel from './components/UserCostPanel';
 import ScenarioAssumptionsPanel from './components/ScenarioAssumptionsPanel';
 import RiskBarometer from './components/RiskBarometer';
-import { maxRiskIndex, ewiModes } from './data/housingData';
+import { maxRiskIndex, ewiModes, lastUpdated } from './data/housingData';
 
 export default function App() {
   const [loading, setLoading] = useState(null); // 'update', 'backtest', 'status', or null
@@ -155,7 +155,7 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
           <div className="header-right">
             <div className="header-timestamp">
               <span className="timestamp-label">Last Updated</span>
-              <time>2026-06-11 · Q1 Data</time>
+              <time>{lastUpdated || '2026-06-11 · Q1 Data'}</time>
             </div>
             <div className="header-status">
               <span className="status-dot" />

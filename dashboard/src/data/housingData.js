@@ -19,7 +19,7 @@ export const earlyWarningIndicators = [
     "baseline": "<3pp",
     "status": "RED",
     "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Udvidet))",
-    "freshness_weight": 0.678,
+    "freshness_weight": 0.665,
     "last_updated": "2026-05-29"
   },
   {
@@ -29,7 +29,7 @@ export const earlyWarningIndicators = [
     "baseline": "4.5 months",
     "status": "GREEN",
     "description": "Months of supply: 4.1 (baseline: 4.5)",
-    "freshness_weight": 0.617,
+    "freshness_weight": 0.583,
     "last_updated": "2026-05-20"
   },
   {
@@ -39,7 +39,7 @@ export const earlyWarningIndicators = [
     "baseline": "AMBER at -10%",
     "status": "GREEN",
     "description": "Price YoY: +20.4%, Volume YoY: -3.0%",
-    "freshness_weight": 0.764,
+    "freshness_weight": 0.742,
     "last_updated": "2026-05-29"
   },
   {
@@ -49,7 +49,7 @@ export const earlyWarningIndicators = [
     "baseline": "AMBER at >30%",
     "status": "GREEN",
     "description": "22% of listings reduced, avg 3.2%",
-    "freshness_weight": 0.617,
+    "freshness_weight": 0.583,
     "last_updated": "2026-05-20"
   },
   {
@@ -59,7 +59,7 @@ export const earlyWarningIndicators = [
     "baseline": "Dynamisk Z-score",
     "status": "GREEN",
     "description": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
-    "freshness_weight": 0.617,
+    "freshness_weight": 0.583,
     "last_updated": "2026-05-20"
   },
   {
@@ -69,7 +69,7 @@ export const earlyWarningIndicators = [
     "baseline": "Dynamisk Z-score",
     "status": "AMBER",
     "description": "Price-to-rent ratio er 1.112 (Rullende \u03bc: 0.946, \u03c3: 0.078, AMBER >1.063)",
-    "freshness_weight": 0.912,
+    "freshness_weight": 0.9,
     "last_updated": "2026-05-29"
   },
   {
@@ -79,7 +79,7 @@ export const earlyWarningIndicators = [
     "baseline": "<50%",
     "status": "GREEN",
     "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
-    "freshness_weight": 0.544,
+    "freshness_weight": 0.531,
     "last_updated": "2026-03-31"
   },
   {
@@ -89,7 +89,7 @@ export const earlyWarningIndicators = [
     "baseline": "<30%",
     "status": "AMBER",
     "description": "Debt-Servicing Ratio (DSR) er 34.8% (AMBER 30-40%, RED >40%)",
-    "freshness_weight": 0.752,
+    "freshness_weight": 0.738,
     "last_updated": "2026-06-01"
   }
 ];
@@ -103,7 +103,7 @@ export const ewiModes = {
         "baseline": "<3pp",
         "status": "RED",
         "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Original))",
-        "freshness_weight": 0.678,
+        "freshness_weight": 0.665,
         "last_updated": "2026-05-29"
       },
       {
@@ -113,7 +113,7 @@ export const ewiModes = {
         "baseline": "4.5 months",
         "status": "GREEN",
         "description": "Months of supply: 4.1 (baseline: 4.5)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -123,7 +123,7 @@ export const ewiModes = {
         "baseline": "AMBER at -10%",
         "status": "GREEN",
         "description": "Price YoY: +20.4%, Volume YoY: -3.0%",
-        "freshness_weight": 0.764,
+        "freshness_weight": 0.742,
         "last_updated": "2026-05-29"
       },
       {
@@ -133,7 +133,7 @@ export const ewiModes = {
         "baseline": "AMBER at >30%",
         "status": "GREEN",
         "description": "22% of listings reduced, avg 3.2%",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -143,7 +143,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "GREEN",
         "description": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -153,7 +153,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
         "description": "Price-to-rent ratio er 1.112 (Rullende \u03bc: 0.946, \u03c3: 0.078, AMBER >1.063)",
-        "freshness_weight": 0.912,
+        "freshness_weight": 0.9,
         "last_updated": "2026-05-29"
       },
       {
@@ -163,7 +163,7 @@ export const ewiModes = {
         "baseline": "<50%",
         "status": "GREEN",
         "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
-        "freshness_weight": 0.544,
+        "freshness_weight": 0.531,
         "last_updated": "2026-03-31"
       },
       {
@@ -173,12 +173,12 @@ export const ewiModes = {
         "baseline": "<30%",
         "status": "AMBER",
         "description": "Debt-Servicing Ratio (DSR) er 34.8% (AMBER 30-40%, RED >40%)",
-        "freshness_weight": 0.752,
+        "freshness_weight": 0.738,
         "last_updated": "2026-06-01"
       }
     ],
     "compositeScore": 5,
-    "freshnessWeightedComposite": 5.4,
+    "freshnessWeightedComposite": 5.5,
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
@@ -187,8 +187,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 16.1,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 15.0,
+          "avg_data_freshness": 0.63
         }
       },
       "12m": {
@@ -197,8 +197,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 16.1,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 15.0,
+          "avg_data_freshness": 0.63
         }
       }
     },
@@ -208,56 +208,56 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.912
+        "freshness_weight": 0.9
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-04-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.275
+        "freshness_weight": 0.25
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-05-20",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.617
+        "freshness_weight": 0.583
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-03-31",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.544
+        "freshness_weight": 0.531
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.893
+        "freshness_weight": 0.786
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-03-15",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.444
+        "freshness_weight": 0.431
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.642
+        "freshness_weight": 0.638
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.863
+        "freshness_weight": 0.838
       }
     }
   },
@@ -270,7 +270,7 @@ export const ewiModes = {
         "baseline": "<4pp",
         "status": "RED",
         "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Udvidet))",
-        "freshness_weight": 0.678,
+        "freshness_weight": 0.665,
         "last_updated": "2026-05-29"
       },
       {
@@ -280,7 +280,7 @@ export const ewiModes = {
         "baseline": "4.5 months",
         "status": "GREEN",
         "description": "Months of supply: 4.1 (baseline: 4.5)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -290,7 +290,7 @@ export const ewiModes = {
         "baseline": "AMBER at -10%",
         "status": "GREEN",
         "description": "Price YoY: +20.4%, Volume YoY: -3.0%",
-        "freshness_weight": 0.764,
+        "freshness_weight": 0.742,
         "last_updated": "2026-05-29"
       },
       {
@@ -300,7 +300,7 @@ export const ewiModes = {
         "baseline": "AMBER at >30%",
         "status": "GREEN",
         "description": "22% of listings reduced, avg 3.2%",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -310,7 +310,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "GREEN",
         "description": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -320,7 +320,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
         "description": "Price-to-rent ratio er 1.112 (Rullende \u03bc: 0.946, \u03c3: 0.078, AMBER >1.063)",
-        "freshness_weight": 0.912,
+        "freshness_weight": 0.9,
         "last_updated": "2026-05-29"
       },
       {
@@ -330,7 +330,7 @@ export const ewiModes = {
         "baseline": "<50%",
         "status": "GREEN",
         "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
-        "freshness_weight": 0.544,
+        "freshness_weight": 0.531,
         "last_updated": "2026-03-31"
       },
       {
@@ -340,12 +340,12 @@ export const ewiModes = {
         "baseline": "<30%",
         "status": "AMBER",
         "description": "Debt-Servicing Ratio (DSR) er 34.8% (AMBER 30-40%, RED >40%)",
-        "freshness_weight": 0.752,
+        "freshness_weight": 0.738,
         "last_updated": "2026-06-01"
       }
     ],
     "compositeScore": 5,
-    "freshnessWeightedComposite": 5.4,
+    "freshnessWeightedComposite": 5.5,
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
@@ -354,8 +354,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 16.1,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 15.0,
+          "avg_data_freshness": 0.63
         }
       },
       "12m": {
@@ -364,8 +364,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 16.1,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 15.0,
+          "avg_data_freshness": 0.63
         }
       }
     },
@@ -375,56 +375,56 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.912
+        "freshness_weight": 0.9
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-04-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.275
+        "freshness_weight": 0.25
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-05-20",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.617
+        "freshness_weight": 0.583
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-03-31",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.544
+        "freshness_weight": 0.531
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.893
+        "freshness_weight": 0.786
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-03-15",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.444
+        "freshness_weight": 0.431
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.642
+        "freshness_weight": 0.638
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.863
+        "freshness_weight": 0.838
       }
     }
   },
@@ -437,7 +437,7 @@ export const ewiModes = {
         "baseline": "<3pp",
         "status": "AMBER",
         "description": "Price growth 6.7% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
-        "freshness_weight": 0.678,
+        "freshness_weight": 0.665,
         "last_updated": "2026-05-29"
       },
       {
@@ -447,7 +447,7 @@ export const ewiModes = {
         "baseline": "4.5 months",
         "status": "GREEN",
         "description": "Months of supply: 4.1 (baseline: 4.5)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -457,7 +457,7 @@ export const ewiModes = {
         "baseline": "AMBER at -10%",
         "status": "GREEN",
         "description": "Price YoY: +20.4%, Volume YoY: -3.0%",
-        "freshness_weight": 0.764,
+        "freshness_weight": 0.742,
         "last_updated": "2026-05-29"
       },
       {
@@ -467,7 +467,7 @@ export const ewiModes = {
         "baseline": "AMBER at >30%",
         "status": "GREEN",
         "description": "22% of listings reduced, avg 3.2%",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -477,7 +477,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "GREEN",
         "description": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -487,7 +487,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
         "description": "Price-to-rent ratio er 1.112 (Rullende \u03bc: 0.946, \u03c3: 0.078, AMBER >1.063)",
-        "freshness_weight": 0.912,
+        "freshness_weight": 0.9,
         "last_updated": "2026-05-29"
       },
       {
@@ -497,7 +497,7 @@ export const ewiModes = {
         "baseline": "<50%",
         "status": "GREEN",
         "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
-        "freshness_weight": 0.544,
+        "freshness_weight": 0.531,
         "last_updated": "2026-03-31"
       },
       {
@@ -507,12 +507,12 @@ export const ewiModes = {
         "baseline": "<30%",
         "status": "AMBER",
         "description": "Debt-Servicing Ratio (DSR) er 34.8% (AMBER 30-40%, RED >40%)",
-        "freshness_weight": 0.752,
+        "freshness_weight": 0.738,
         "last_updated": "2026-06-01"
       }
     ],
     "compositeScore": 3,
-    "freshnessWeightedComposite": 3.4,
+    "freshnessWeightedComposite": 3.5,
     "alertLevel": "NORMAL",
     "maxRiskIndex": {
       "6m": {
@@ -521,8 +521,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 9.6,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 9.0,
+          "avg_data_freshness": 0.63
         }
       },
       "12m": {
@@ -531,8 +531,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 9.6,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 9.0,
+          "avg_data_freshness": 0.63
         }
       }
     },
@@ -542,56 +542,56 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.912
+        "freshness_weight": 0.9
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-04-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.275
+        "freshness_weight": 0.25
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-05-20",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.617
+        "freshness_weight": 0.583
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-03-31",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.544
+        "freshness_weight": 0.531
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.893
+        "freshness_weight": 0.786
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-03-15",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.444
+        "freshness_weight": 0.431
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.642
+        "freshness_weight": 0.638
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.863
+        "freshness_weight": 0.838
       }
     }
   },
@@ -604,7 +604,7 @@ export const ewiModes = {
         "baseline": "<3pp",
         "status": "AMBER",
         "description": "Price growth 7.0% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
-        "freshness_weight": 0.678,
+        "freshness_weight": 0.665,
         "last_updated": "2026-05-29"
       },
       {
@@ -614,7 +614,7 @@ export const ewiModes = {
         "baseline": "4.5 months",
         "status": "GREEN",
         "description": "Months of supply: 4.1 (baseline: 4.5)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -624,7 +624,7 @@ export const ewiModes = {
         "baseline": "AMBER at -10%",
         "status": "GREEN",
         "description": "Price YoY: +20.4%, Volume YoY: -3.0%",
-        "freshness_weight": 0.764,
+        "freshness_weight": 0.742,
         "last_updated": "2026-05-29"
       },
       {
@@ -634,7 +634,7 @@ export const ewiModes = {
         "baseline": "AMBER at >30%",
         "status": "GREEN",
         "description": "22% of listings reduced, avg 3.2%",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -644,7 +644,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "GREEN",
         "description": "Median liggetid er 62 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
-        "freshness_weight": 0.617,
+        "freshness_weight": 0.583,
         "last_updated": "2026-05-20"
       },
       {
@@ -654,7 +654,7 @@ export const ewiModes = {
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
         "description": "Price-to-rent ratio er 1.112 (Rullende \u03bc: 0.946, \u03c3: 0.078, AMBER >1.063)",
-        "freshness_weight": 0.912,
+        "freshness_weight": 0.9,
         "last_updated": "2026-05-29"
       },
       {
@@ -664,7 +664,7 @@ export const ewiModes = {
         "baseline": "<50%",
         "status": "GREEN",
         "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
-        "freshness_weight": 0.544,
+        "freshness_weight": 0.531,
         "last_updated": "2026-03-31"
       },
       {
@@ -674,12 +674,12 @@ export const ewiModes = {
         "baseline": "<30%",
         "status": "AMBER",
         "description": "Debt-Servicing Ratio (DSR) er 34.8% (AMBER 30-40%, RED >40%)",
-        "freshness_weight": 0.752,
+        "freshness_weight": 0.738,
         "last_updated": "2026-06-01"
       }
     ],
     "compositeScore": 3,
-    "freshnessWeightedComposite": 3.4,
+    "freshnessWeightedComposite": 3.5,
     "alertLevel": "NORMAL",
     "maxRiskIndex": {
       "6m": {
@@ -688,8 +688,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
-          "ewi_contribution": 9.6,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 9.0,
+          "avg_data_freshness": 0.63
         }
       },
       "12m": {
@@ -698,8 +698,8 @@ export const ewiModes = {
         "components": {
           "mc_downside": 1.0,
           "max_risk_severity_pct": 12.8,
-          "ewi_contribution": 9.6,
-          "avg_data_freshness": 0.67
+          "ewi_contribution": 9.0,
+          "avg_data_freshness": 0.63
         }
       }
     },
@@ -709,64 +709,65 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.912
+        "freshness_weight": 0.9
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-04-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.275
+        "freshness_weight": 0.25
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-05-20",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.617
+        "freshness_weight": 0.583
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-03-31",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.544
+        "freshness_weight": 0.531
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.893
+        "freshness_weight": 0.786
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-03-15",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.444
+        "freshness_weight": 0.431
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.642
+        "freshness_weight": 0.638
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.863
+        "freshness_weight": 0.838
       }
     }
   }
 };
 
 export const compositeScore = 5;
-export const freshnessWeightedComposite = 5.4;
+export const freshnessWeightedComposite = 5.5;
 export const alertLevel = 'ELEVATED';
+export const lastUpdated = '2026-06-14 · 2025Q4 Data';
 
 export const dataFreshness = {
   "dst_ej56": {
@@ -774,56 +775,56 @@ export const dataFreshness = {
     "last_updated": "2026-05-29",
     "frequency": "Quarterly",
     "source": "Danmarks Statistik",
-    "freshness_weight": 0.912
+    "freshness_weight": 0.9
   },
   "rkr_bm011": {
     "label": "Realkreditl\u00e5n (BM011)",
     "last_updated": "2026-04-15",
     "frequency": "Monthly",
     "source": "Finansdanmark",
-    "freshness_weight": 0.275
+    "freshness_weight": 0.25
   },
   "rkr_udb010": {
     "label": "Boligudbud (UDB010)",
     "last_updated": "2026-05-20",
     "frequency": "Monthly",
     "source": "Finansdanmark",
-    "freshness_weight": 0.617
+    "freshness_weight": 0.583
   },
   "rkr_ul10": {
     "label": "Afdragsfrihed (UL10)",
     "last_updated": "2026-03-31",
     "frequency": "Quarterly",
     "source": "Finansdanmark",
-    "freshness_weight": 0.544
+    "freshness_weight": 0.531
   },
   "ecb_rates": {
     "label": "ECB renter",
     "last_updated": "2026-06-10",
     "frequency": "Daily",
     "source": "ECB / Nationalbanken",
-    "freshness_weight": 0.893
+    "freshness_weight": 0.786
   },
   "wage_data": {
     "label": "L\u00f8nudvikling",
     "last_updated": "2026-03-15",
     "frequency": "Quarterly",
     "source": "Danmarks Statistik",
-    "freshness_weight": 0.444
+    "freshness_weight": 0.431
   },
   "dst_income": {
     "label": "Disponibel Indkomst (DST)",
     "last_updated": "2025-12-20",
     "frequency": "Annual",
     "source": "Danmarks Statistik",
-    "freshness_weight": 0.642
+    "freshness_weight": 0.638
   },
   "nationalbanken_rates": {
     "label": "Realkreditrenter (NB)",
     "last_updated": "2026-06-01",
     "frequency": "Monthly",
     "source": "Nationalbanken",
-    "freshness_weight": 0.863
+    "freshness_weight": 0.838
   }
 };
 
@@ -834,8 +835,8 @@ export const maxRiskIndex = {
     "components": {
       "mc_downside": 0.6,
       "max_risk_severity_pct": 2.8,
-      "ewi_contribution": 16.1,
-      "avg_data_freshness": 0.67
+      "ewi_contribution": 15.0,
+      "avg_data_freshness": 0.63
     }
   },
   "12m": {
@@ -844,8 +845,8 @@ export const maxRiskIndex = {
     "components": {
       "mc_downside": 1.0,
       "max_risk_severity_pct": 12.8,
-      "ewi_contribution": 16.1,
-      "avg_data_freshness": 0.67
+      "ewi_contribution": 15.0,
+      "avg_data_freshness": 0.63
     }
   }
 };
@@ -892,17 +893,17 @@ export const ensembleConfidenceBounds = {
   "6m": {
     "p10": 128.4,
     "p50": 129.6,
-    "p90": 130.8
+    "p90": 130.9
   },
   "12m": {
     "p10": 127.9,
-    "p50": 131.0,
-    "p90": 134.4
+    "p50": 131.1,
+    "p90": 134.3
   },
   "24m": {
-    "p10": 127.9,
-    "p50": 137.8,
-    "p90": 146.4
+    "p10": 128.3,
+    "p50": 137.4,
+    "p90": 147.0
   }
 };
 
