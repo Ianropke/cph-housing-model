@@ -2,24 +2,31 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer, ReferenceLine
 } from 'recharts';
-import { priceIndexData } from '../data/housingData';
+import { priceIndexData, dataFreshness } from '../data/housingData';
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload) return null;
   return (
     <div className="chart-tooltip">
-      <p className="tooltip-label">{label}</p>
+      <div className="tooltip-title">{label}</div>
+      <div className="tooltip-divider" />
       {payload.map((entry) => (
-        <p key={entry.dataKey} style={{ color: entry.color }}>
-          {entry.name}: <strong>{entry.value?.toFixed(1) ?? '—'}</strong>
-        </p>
+        <div className="tooltip-row" key={entry.name}>
+          <span className="tooltip-dot" style={{ background: entry.color }} />
+          <span className="tooltip-label">{entry.name}:</span>
+          <span className="tooltip-value">{entry.value?.toFixed(1) ?? '—'}</span>
+        </div>
       ))}
-      <p className="tooltip-hint">Indeks 100 = prisniveauet i 2006</p>
+      <div className="tooltip-hint">Index (2006 = 100). Baseline 100.</div>
     </div>
   );
 };
 
 export default function PriceIndexPanel() {
+  const dstLastUpdated = dataFreshness?.dst_ej56?.last_updated || '2026-05-29';
+  const startQuarter = priceIndexData[0]?.quarter || '2019Q1';
+  const endQuarter = priceIndexData[priceIndexData.length - 1]?.quarter || '2025Q4';
+
   return (
     <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.1s' }}>
       <div className="panel-header">
@@ -28,10 +35,10 @@ export default function PriceIndexPanel() {
           <span className="panel-explainer">
             Kvartalsvise prisindeks for boliger i Hovedstadsområdet fra Danmarks Statistik (tabel EJ56).
             Base 2006 = 100, så en værdi på 129 betyder at priserne er steget 29% siden 2006.
-            Data opdateret 2026-05-29.
+            Data opdateret {dstLastUpdated}.
           </span>
         </div>
-        <span className="panel-badge">2019Q1 → 2025Q4</span>
+        <span className="panel-badge">{startQuarter} → {endQuarter}</span>
       </div>
       <div className="chart-container">
         <ResponsiveContainer width="100%" height={340}>
