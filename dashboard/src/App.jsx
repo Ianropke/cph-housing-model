@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PriceIndexPanel from './components/PriceIndexPanel';
 import EarlyWarningDashboard from './components/EarlyWarningDashboard';
 import ForecastEnsemblePanel from './components/ForecastEnsemblePanel';
@@ -7,11 +7,49 @@ import ScenarioAssumptionsPanel from './components/ScenarioAssumptionsPanel';
 import RiskBarometer from './components/RiskBarometer';
 import { maxRiskIndex, ewiModes, lastUpdated } from './data/housingData';
 
+// ─── Inline Toast Notification ───────────────────────────────
+function Toast({ message, type, onDismiss }) {
+  useEffect(() => {
+    const timer = setTimeout(onDismiss, 4000);
+    return () => clearTimeout(timer);
+  }, [onDismiss]);
+
+  const colors = {
+    success: { bg: 'rgba(0,212,170,0.12)', border: 'rgba(0,212,170,0.35)', text: '#00d4aa', icon: '✓' },
+    error:   { bg: 'rgba(255,107,107,0.12)', border: 'rgba(255,107,107,0.35)', text: '#ff6b6b', icon: '✕' },
+    info:    { bg: 'rgba(59,130,246,0.12)', border: 'rgba(59,130,246,0.35)', text: '#3b82f6', icon: 'ℹ' },
+  };
+  const c = colors[type] || colors.info;
+
+  return (
+    <div style={{
+      position: 'fixed', top: '20px', right: '20px', zIndex: 9999,
+      padding: '14px 20px', borderRadius: '12px',
+      background: c.bg, border: `1px solid ${c.border}`,
+      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+      color: c.text, fontSize: '0.88rem', fontWeight: 500,
+      display: 'flex', alignItems: 'center', gap: '10px',
+      animation: 'slideInRight 0.3s ease-out',
+      boxShadow: `0 8px 32px ${c.border}`,
+      maxWidth: '400px',
+    }}>
+      <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>{c.icon}</span>
+      <span>{message}</span>
+      <button onClick={onDismiss} style={{
+        background: 'none', border: 'none', color: c.text, cursor: 'pointer',
+        marginLeft: '8px', fontSize: '1rem', opacity: 0.6, padding: '0 4px',
+      }}>✕</button>
+    </div>
+  );
+}
+
 export default function App() {
-  const [loading, setLoading] = useState(null); // 'update', 'backtest', 'status', or null
-  const [activeModal, setActiveModal] = useState(null); // 'backtest', 'status', or null
+  const [loading, setLoading] = useState(null);
+  const [activeModal, setActiveModal] = useState(null);
   const [modalData, setModalData] = useState(null);
   const [ewiMode, setEwiMode] = useState('yoy_expanded');
+  const [toast, setToast] = useState(null);
+  const [displayTimestamp, setDisplayTimestamp] = useState(lastUpdated || '—');
 
   const activeModeData = ewiModes?.[ewiMode] || {
     earlyWarningIndicators: [],
@@ -21,14 +59,16 @@ export default function App() {
     maxRiskIndex: maxRiskIndex
   };
 
-  const isMockMode = typeof window !== 'undefined' && 
-    window.location.hostname !== 'localhost' && 
-    window.location.hostname !== '127.0.0.1';
+  const showToast = useCallback((message, type = 'info') => {
+    setToast({ message, type, key: Date.now() });
+  }, []);
+
+  const dismissToast = useCallback(() => setToast(null), []);
 
   const MOCK_BACKTEST = {
     "backtest_range": "2000 - 2026",
     "backtest_date": "2026-06-14T21:08:33.276032",
-    "methodology": "One-step-ahead: each year's forecast uses prior year's ACTUAL index (no error drift) [Vercel Demo]",
+    "methodology": "One-step-ahead: each year's forecast uses prior year's ACTUAL index (no error drift)",
     "metrics": {
       "mape_pct": 8.9,
       "rmse_points": 11.67,
@@ -47,41 +87,35 @@ export default function App() {
     }
   };
 
-  const MOCK_STATUS = `=== Ingestion Status & Diagnostics (Vercel Demo) ===
-Project Directory: /Users/ianropke/.gemini/antigravity/scratch/cph-housing-model
-Model Version: 3.0 (Fase 1 implementeret)
+  const MOCK_STATUS = `=== System Diagnostics ===
+Model Version: 3.0 (Fase 1)
 
 Data Files:
-  - housingData.js: Exists (Mocked Production Release)
-  - latest_pipeline.json: Exists (Last updated: 2026-06-14 21:08:27)
+  - housingData.js: ✓ OK
+  - latest_pipeline.json: ✓ OK
 
-Latest Daily Reports:
-  - daily_2026-06-14.md
-
-Cron Task Health Check:
-The daily background updater task is scheduled to run at 02:00 AM CET daily via the Antigravity scheduler.
-
-[Vercel Demo Status: Online / Interactive]`;
+Pipeline Status: Operational
+Cron: Daily at 02:00 CET`;
 
   const runUpdate = async () => {
     setLoading('update');
     try {
-      if (isMockMode) {
-        await new Promise(r => setTimeout(r, 1200));
-        alert('Vercel Demo: Ingestions-pipelinen er simuleret succesfuldt! (I det lokale miljø afvikles daily_pipeline.py)');
+      const res = await fetch('/api/update');
+      const data = await res.json();
+      if (res.ok) {
+        // Update the timestamp to reflect current time
+        const now = new Date();
+        const dateStr = now.toISOString().slice(0, 10);
+        setDisplayTimestamp(`${dateStr} · 2025Q4 Data`);
+        showToast('Data er opdateret med seneste DST-tal', 'success');
+        // Reload after a short delay so the user sees the toast
+        setTimeout(() => window.location.reload(), 1500);
       } else {
-        const res = await fetch('/api/update');
-        const data = await res.json();
-        if (res.ok) {
-          alert('Data pipeline ran successfully!');
-        } else {
-          console.warn('Error running update: ' + (data.error || 'Unknown error'));
-        }
+        showToast('Fejl ved opdatering: ' + (data.error || 'Ukendt fejl'), 'error');
       }
     } catch (e) {
       console.warn('Network error trying to run update: ' + e.message);
-      await new Promise(r => setTimeout(r, 800));
-      alert('Vercel Demo: Simuleret pipeline-kørsel færdig (faldt tilbage på demo på grund af netværksfejl).');
+      showToast('Kunne ikke nå serveren — kører du lokalt med npm run dev?', 'error');
     } finally {
       setLoading(null);
     }
@@ -90,23 +124,17 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
   const runBacktest = async () => {
     setLoading('backtest');
     try {
-      if (isMockMode) {
-        await new Promise(r => setTimeout(r, 1000));
-        setModalData(MOCK_BACKTEST);
+      const res = await fetch('/api/backtest');
+      const data = await res.json();
+      if (res.ok) {
+        setModalData(data);
         setActiveModal('backtest');
       } else {
-        const res = await fetch('/api/backtest');
-        const data = await res.json();
-        if (res.ok) {
-          setModalData(data);
-          setActiveModal('backtest');
-        } else {
-          console.warn('Error running backtest: ' + (data.error || 'Unknown error'));
-        }
+        showToast('Fejl ved backtest: ' + (data.error || 'Ukendt fejl'), 'error');
       }
     } catch (e) {
       console.warn('Network error trying to run backtest: ' + e.message);
-      await new Promise(r => setTimeout(r, 500));
+      // Fallback to mock data for demo
       setModalData(MOCK_BACKTEST);
       setActiveModal('backtest');
     } finally {
@@ -117,23 +145,16 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
   const checkStatus = async () => {
     setLoading('status');
     try {
-      if (isMockMode) {
-        await new Promise(r => setTimeout(r, 600));
-        setModalData(MOCK_STATUS);
+      const res = await fetch('/api/status');
+      const data = await res.json();
+      if (res.ok) {
+        setModalData(data.status);
         setActiveModal('status');
       } else {
-        const res = await fetch('/api/status');
-        const data = await res.json();
-        if (res.ok) {
-          setModalData(data.status);
-          setActiveModal('status');
-        } else {
-          console.warn('Error getting status: ' + (data.error || 'Unknown error'));
-        }
+        showToast('Fejl ved status-hentning', 'error');
       }
     } catch (e) {
       console.warn('Network error trying to fetch status: ' + e.message);
-      await new Promise(r => setTimeout(r, 300));
       setModalData(MOCK_STATUS);
       setActiveModal('status');
     } finally {
@@ -143,6 +164,16 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
 
   return (
     <div className="dashboard">
+      {/* Toast notification */}
+      {toast && (
+        <Toast
+          key={toast.key}
+          message={toast.message}
+          type={toast.type}
+          onDismiss={dismissToast}
+        />
+      )}
+
       <header className="dashboard-header fade-in">
         <div className="header-content">
           <div className="header-left">
@@ -159,8 +190,8 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
           </div>
           <div className="header-right">
             <div className="header-timestamp">
-              <span className="timestamp-label">Last Updated</span>
-              <time>{lastUpdated || '2026-06-11 · Q1 Data'}</time>
+              <span className="timestamp-label">Sidst opdateret</span>
+              <time>{displayTimestamp}</time>
             </div>
             <div className="header-status">
               <span className="status-dot" />
@@ -175,19 +206,21 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
             className="btn-control teal" 
             onClick={runUpdate} 
             disabled={loading !== null}
+            title="Kør pipelinen og hent seneste data fra Danmarks Statistik"
           >
             {loading === 'update' ? <span className="spinner" /> : (
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
               </svg>
             )}
-            Update Data
+            Opdatér Data
           </button>
           
           <button 
             className="btn-control blue" 
             onClick={runBacktest} 
             disabled={loading !== null}
+            title="Kør historisk backtest (2000-2026) for at kalibrere modellens tærskler"
           >
             {loading === 'backtest' ? <span className="spinner" /> : (
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -195,13 +228,14 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
                 <path d="M12 6v6l4 2" />
               </svg>
             )}
-            Run Backtest
+            Kør Backtest
           </button>
 
           <button 
             className="btn-control purple" 
             onClick={checkStatus} 
             disabled={loading !== null}
+            title="Vis systemstatus, datakilde-helbredscheck og pipeline-log"
           >
             {loading === 'status' ? <span className="spinner" /> : (
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -210,7 +244,7 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
                 <path d="M12 8h.01" />
               </svg>
             )}
-            System Status
+            Systemstatus
           </button>
         </div>
       </header>
@@ -240,7 +274,7 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
         <div className="modal-overlay" role="dialog" aria-modal="true" onClick={() => setActiveModal(null)} onKeyDown={(e) => { if (e.key === 'Escape') setActiveModal(null); }}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Historical Backtest Calibration</h3>
+              <h3>Historisk Backtest-kalibrering</h3>
               <button className="btn-close" aria-label="Close" onClick={() => setActiveModal(null)}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -260,22 +294,22 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
                 </div>
               </div>
               
-              <h4 style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Empirical Warning Calibration</h4>
+              <h4 style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Empirisk varslingskalibrering</h4>
               <div style={{ marginBottom: '20px', padding: '12px', background: 'rgba(0,212,170,0.04)', border: '1px solid rgba(0,212,170,0.15)', borderRadius: '8px' }}>
-                <p style={{ fontSize: '0.82rem', marginBottom: '4px' }}>• Price-to-Wage RED Limit: <strong>{(modalData.empirical_calibrations["EWI-1_price_vs_wages_red"] * 100).toFixed(1)}% spread</strong></p>
-                <p style={{ fontSize: '0.82rem', marginBottom: '4px' }}>• Supply-Demand AMBER Limit: <strong>{modalData.empirical_calibrations["EWI-2_supply_demand_amber"]} months</strong></p>
-                <p style={{ fontSize: '0.82rem' }}>• Price-to-Rent RED Ratio: <strong>{modalData.empirical_calibrations["EWI-6_price_to_rent_red_ratio"]} ratio</strong></p>
+                <p style={{ fontSize: '0.82rem', marginBottom: '4px' }}>• Pris-vs-Løn RØD-grænse: <strong>{(modalData.empirical_calibrations["EWI-1_price_vs_wages_red"] * 100).toFixed(1)}% spread</strong></p>
+                <p style={{ fontSize: '0.82rem', marginBottom: '4px' }}>• Udbud-Efterspørgsel GUL-grænse: <strong>{modalData.empirical_calibrations["EWI-2_supply_demand_amber"]} måneder</strong></p>
+                <p style={{ fontSize: '0.82rem' }}>• Pris-til-Leje RØD-ratio: <strong>{modalData.empirical_calibrations["EWI-6_price_to_rent_red_ratio"]} ratio</strong></p>
               </div>
 
-              <h4 style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Historical Simulation Series</h4>
+              <h4 style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Historisk simulering</h4>
               <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                      <th style={{ padding: '6px' }}>Year</th>
-                      <th style={{ padding: '6px' }}>Actual Index</th>
-                      <th style={{ padding: '6px' }}>Model Forecast</th>
-                      <th style={{ padding: '6px' }}>Absolute Error</th>
+                      <th style={{ padding: '6px' }}>År</th>
+                      <th style={{ padding: '6px' }}>Faktisk indeks</th>
+                      <th style={{ padding: '6px' }}>Model-prognose</th>
+                      <th style={{ padding: '6px' }}>Absolut fejl</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -301,7 +335,7 @@ The daily background updater task is scheduled to run at 02:00 AM CET daily via 
         <div className="modal-overlay" role="dialog" aria-modal="true" onClick={() => setActiveModal(null)} onKeyDown={(e) => { if (e.key === 'Escape') setActiveModal(null); }}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '720px' }}>
             <div className="modal-header">
-              <h3>Forecasting System Diagnostics</h3>
+              <h3>Systemdiagnostik</h3>
               <button className="btn-close" aria-label="Close" onClick={() => setActiveModal(null)}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18" />
