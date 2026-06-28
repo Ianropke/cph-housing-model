@@ -645,6 +645,30 @@ body {
     justify-content: space-between;
   }
 
+  .control-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .btn-control {
+    flex: 1 1 calc(50% - 4px);
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .btn-control:last-child {
+    flex: 1 1 100%;
+  }
+
+  .tooltip::before {
+    width: 200px;
+    font-size: 0.68rem;
+    padding: 6px 10px;
+    bottom: 115%;
+  }
+
   .ewi-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
@@ -663,6 +687,23 @@ body {
 
   .scenario-weights {
     display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-card {
+    padding: 16px;
+    width: calc(100% - 24px);
+    margin: 12px;
+  }
+
+  .backtest-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
 
