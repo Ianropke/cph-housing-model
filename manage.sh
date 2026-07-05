@@ -49,6 +49,7 @@ case "$1" in
         export PYTHONPATH="$PROJECT_DIR/server"
         python3 "$PROJECT_DIR/tests/test_tools.py"
         python3 "$PROJECT_DIR/tests/test_backtest.py"
+        python3 "$PROJECT_DIR/tests/test_data_integrity.py"
         echo -e "${GREEN}All tests passed successfully!${NC}"
         ;;
     backtest)
