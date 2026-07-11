@@ -234,35 +234,6 @@ Cron: Daily at 02:00 CET`;
         {/* Dynamic Action Control Bar */}
         <div className="control-bar fade-in" style={{ animationDelay: '0.1s' }}>
           <button 
-            className="btn-control teal" 
-            onClick={runUpdate} 
-            disabled={loading !== null}
-            title="Kør pipelinen og hent seneste data fra Danmarks Statistik"
-          >
-            {loading === 'update' ? <span className="spinner" /> : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
-              </svg>
-            )}
-            Opdatér Data
-          </button>
-          
-          <button 
-            className="btn-control blue" 
-            onClick={runBacktest} 
-            disabled={loading !== null}
-            title="Kør historisk backtest (2000-2026) for at kalibrere modellens tærskler"
-          >
-            {loading === 'backtest' ? <span className="spinner" /> : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-            )}
-            Kør Backtest
-          </button>
-
-          <button 
             className="btn-control purple" 
             onClick={checkStatus} 
             disabled={loading !== null}
