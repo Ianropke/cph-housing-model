@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-11T07:56:31.108850",
+  "generated_at": "2026-07-11T08:25:16.289663",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-06-29",
-    "query_timestamp": "2026-07-11T07:56:31.340926",
+    "query_timestamp": "2026-07-11T08:25:16.503870",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -138,8 +138,8 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-07-11T07:56:33.796692",
-      "ml_crash_probability": 0.5,
+      "evaluation_timestamp": "2026-07-11T08:25:20.946001",
+      "ml_crash_probability": 0.78,
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -509,7 +509,7 @@
               "score": 12,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 19.3,
                 "avg_data_freshness": 0.53
@@ -708,7 +708,7 @@
               "score": 12,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 19.3,
                 "avg_data_freshness": 0.53
@@ -904,10 +904,10 @@
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 10,
+              "score": 11,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 13.8,
                 "avg_data_freshness": 0.53
@@ -1103,10 +1103,10 @@
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 10,
+              "score": 11,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 13.8,
                 "avg_data_freshness": 0.53
@@ -1208,8 +1208,8 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-07-11T07:56:33.852209",
-      "ml_crash_probability": 0.51,
+      "evaluation_timestamp": "2026-07-11T08:25:21.239954",
+      "ml_crash_probability": 0.78,
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -1586,10 +1586,10 @@
               }
             },
             "12m": {
-              "score": 29,
+              "score": 28,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.5,
+                "mc_downside": 1.2,
                 "max_risk_severity_pct": 11.4,
                 "ewi_contribution": 19.3,
                 "avg_data_freshness": 0.53
@@ -1785,10 +1785,10 @@
               }
             },
             "12m": {
-              "score": 29,
+              "score": 28,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.5,
+                "mc_downside": 1.2,
                 "max_risk_severity_pct": 11.4,
                 "ewi_contribution": 19.3,
                 "avg_data_freshness": 0.53
@@ -1984,10 +1984,10 @@
               }
             },
             "12m": {
-              "score": 27,
+              "score": 25,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.5,
+                "mc_downside": 1.2,
                 "max_risk_severity_pct": 11.4,
                 "ewi_contribution": 11.0,
                 "avg_data_freshness": 0.53
@@ -2183,10 +2183,10 @@
               }
             },
             "12m": {
-              "score": 27,
+              "score": 25,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.5,
+                "mc_downside": 1.2,
                 "max_risk_severity_pct": 11.4,
                 "ewi_contribution": 11.0,
                 "avg_data_freshness": 0.53
@@ -2278,8 +2278,8 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-07-11T07:56:33.908347",
-      "ml_crash_probability": 0.49,
+      "evaluation_timestamp": "2026-07-11T08:25:21.592204",
+      "ml_crash_probability": 0.76,
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -2649,7 +2649,7 @@
               "score": 12,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 19.6,
                 "avg_data_freshness": 0.53
@@ -2659,7 +2659,7 @@
               "score": 29,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.0,
+                "mc_downside": 1.1,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 19.6,
                 "avg_data_freshness": 0.53
@@ -2848,7 +2848,7 @@
               "score": 12,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 19.6,
                 "avg_data_freshness": 0.53
@@ -2858,7 +2858,7 @@
               "score": 29,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.0,
+                "mc_downside": 1.1,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 19.6,
                 "avg_data_freshness": 0.53
@@ -3047,17 +3047,17 @@
               "score": 10,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 11.4,
                 "avg_data_freshness": 0.53
               }
             },
             "12m": {
-              "score": 26,
+              "score": 27,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.0,
+                "mc_downside": 1.1,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 11.4,
                 "avg_data_freshness": 0.53
@@ -3246,17 +3246,17 @@
               "score": 10,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 11.4,
                 "avg_data_freshness": 0.53
               }
             },
             "12m": {
-              "score": 26,
+              "score": 27,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.0,
+                "mc_downside": 1.1,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 11.4,
                 "avg_data_freshness": 0.53
@@ -3352,7 +3352,7 @@
       "segment": "copenhagen_apartments",
       "current_period": "2025Q4",
       "current_index": 129.2,
-      "forecast_date": "2026-07-11T07:56:31.354221",
+      "forecast_date": "2026-07-11T08:25:16.516430",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -3405,9 +3405,9 @@
               132.1
             ],
             "confidence_bounds": {
-              "p10": 128.5,
-              "p50": 129.7,
-              "p90": 130.8
+              "p10": 128.4,
+              "p50": 129.6,
+              "p90": 130.7
             }
           }
         },
@@ -3463,8 +3463,8 @@
             ],
             "confidence_bounds": {
               "p10": 127.9,
-              "p50": 131.0,
-              "p90": 134.2
+              "p50": 131.2,
+              "p90": 134.3
             }
           }
         },
@@ -3519,9 +3519,9 @@
               176.1
             ],
             "confidence_bounds": {
-              "p10": 129.1,
-              "p50": 137.9,
-              "p90": 147.3
+              "p10": 128.6,
+              "p50": 137.8,
+              "p90": 147.2
             }
           }
         }
@@ -3531,7 +3531,7 @@
       "segment": "copenhagen_houses",
       "current_period": "2025Q4",
       "current_index": 118.5,
-      "forecast_date": "2026-07-11T07:56:31.364893",
+      "forecast_date": "2026-07-11T08:25:16.526814",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -3585,8 +3585,8 @@
             ],
             "confidence_bounds": {
               "p10": 117.8,
-              "p50": 118.9,
-              "p90": 120.0
+              "p50": 118.8,
+              "p90": 119.9
             }
           }
         },
@@ -3641,8 +3641,8 @@
               130.3
             ],
             "confidence_bounds": {
-              "p10": 116.7,
-              "p50": 119.8,
+              "p10": 117.1,
+              "p50": 119.9,
               "p90": 122.9
             }
           }
@@ -3698,9 +3698,9 @@
               158.2
             ],
             "confidence_bounds": {
-              "p10": 117.4,
-              "p50": 125.7,
-              "p90": 133.8
+              "p10": 117.3,
+              "p50": 125.8,
+              "p90": 134.3
             }
           }
         }
@@ -3710,7 +3710,7 @@
       "segment": "frederiksberg_apartments",
       "current_period": "2025Q4",
       "current_index": 114.6,
-      "forecast_date": "2026-07-11T07:56:31.374098",
+      "forecast_date": "2026-07-11T08:25:16.535615",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -3763,8 +3763,8 @@
               117.2
             ],
             "confidence_bounds": {
-              "p10": 114.0,
-              "p50": 114.9,
+              "p10": 113.9,
+              "p50": 115.0,
               "p90": 116.0
             }
           }
@@ -3820,9 +3820,9 @@
               127.2
             ],
             "confidence_bounds": {
-              "p10": 113.4,
-              "p50": 116.4,
-              "p90": 119.2
+              "p10": 113.3,
+              "p50": 116.1,
+              "p90": 119.3
             }
           }
         },
@@ -3877,9 +3877,9 @@
               155.4
             ],
             "confidence_bounds": {
-              "p10": 113.3,
-              "p50": 122.1,
-              "p90": 130.0
+              "p10": 113.9,
+              "p50": 122.4,
+              "p90": 129.9
             }
           }
         }
@@ -3928,7 +3928,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953450"
+        "calculation_timestamp": "2026-07-11T08:25:21.827606"
       },
       "12m": {
         "input": {
@@ -3970,7 +3970,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953463"
+        "calculation_timestamp": "2026-07-11T08:25:21.827618"
       },
       "24m": {
         "input": {
@@ -4012,7 +4012,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953471"
+        "calculation_timestamp": "2026-07-11T08:25:21.827627"
       }
     },
     "min_risk": {
@@ -4056,7 +4056,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953479"
+        "calculation_timestamp": "2026-07-11T08:25:21.827634"
       },
       "12m": {
         "input": {
@@ -4098,7 +4098,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953486"
+        "calculation_timestamp": "2026-07-11T08:25:21.827641"
       },
       "24m": {
         "input": {
@@ -4140,7 +4140,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953492"
+        "calculation_timestamp": "2026-07-11T08:25:21.827648"
       }
     },
     "max_risk": {
@@ -4184,7 +4184,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953500"
+        "calculation_timestamp": "2026-07-11T08:25:21.827656"
       },
       "12m": {
         "input": {
@@ -4226,7 +4226,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953506"
+        "calculation_timestamp": "2026-07-11T08:25:21.827662"
       },
       "24m": {
         "input": {
@@ -4268,7 +4268,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-11T07:56:33.953512"
+        "calculation_timestamp": "2026-07-11T08:25:21.827668"
       }
     }
   },

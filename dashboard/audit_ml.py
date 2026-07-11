@@ -1,6 +1,6 @@
 import sys
 import os
-import joblib
+import skops.io as sio
 import numpy as np
 import pandas as pd
 
@@ -20,8 +20,8 @@ SEGMENTS = [
     "aalborg_houses",
 ]
 
-model_path = os.path.join(PROJECT_ROOT, "config", "ews_ml_model.joblib")
-clf = joblib.load(model_path)
+model_path = os.path.join(PROJECT_ROOT, "config", "ews_ml_model.skops")
+clf = sio.load(model_path, trusted=True)
 
 print("=== FEATURE IMPORTANCES ===")
 importances = clf.feature_importances_

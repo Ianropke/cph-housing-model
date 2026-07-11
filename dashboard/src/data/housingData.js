@@ -205,7 +205,7 @@ export const ewiModes = {
         "score": 12,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 19.3,
           "avg_data_freshness": 0.53
@@ -382,7 +382,7 @@ export const ewiModes = {
         "score": 12,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 19.3,
           "avg_data_freshness": 0.53
@@ -556,10 +556,10 @@ export const ewiModes = {
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
-        "score": 10,
+        "score": 11,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 13.8,
           "avg_data_freshness": 0.53
@@ -733,10 +733,10 @@ export const ewiModes = {
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
-        "score": 10,
+        "score": 11,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 13.8,
           "avg_data_freshness": 0.53
@@ -817,7 +817,7 @@ export const ewiModes = {
 export const compositeScore = 9.8;
 export const freshnessWeightedComposite = 9.2;
 export const alertLevel = 'HIGH';
-export const mlCrashProbability = 0.5;
+export const mlCrashProbability = 0.78;
 export const lastUpdated = '2026-07-11 · 2026Q1 Data';
 
 export const dataFreshness = {
@@ -884,7 +884,7 @@ export const maxRiskIndex = {
     "score": 12,
     "label": "LAV",
     "components": {
-      "mc_downside": 0.5,
+      "mc_downside": 0.6,
       "max_risk_severity_pct": 2.8,
       "ewi_contribution": 19.3,
       "avg_data_freshness": 0.53
@@ -942,19 +942,19 @@ export const ensembleForecasts = {
 };
 export const ensembleConfidenceBounds = {
   "6m": {
-    "p10": 128.5,
-    "p50": 129.7,
-    "p90": 130.8
+    "p10": 128.4,
+    "p50": 129.6,
+    "p90": 130.7
   },
   "12m": {
     "p10": 127.9,
-    "p50": 131.0,
-    "p90": 134.2
+    "p50": 131.2,
+    "p90": 134.3
   },
   "24m": {
-    "p10": 129.1,
-    "p50": 137.9,
-    "p90": 147.3
+    "p10": 128.6,
+    "p50": 137.8,
+    "p90": 147.2
   }
 };
 

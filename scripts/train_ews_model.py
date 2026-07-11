@@ -15,10 +15,10 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, roc_auc_score
-import joblib
+import skops.io as sio
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-MODEL_PATH = os.path.join(PROJECT_ROOT, "config", "ews_ml_model.joblib")
+MODEL_PATH = os.path.join(PROJECT_ROOT, "config", "ews_ml_model.skops")
 
 def generate_synthetic_data(n_samples=2000):
     """
@@ -30,20 +30,20 @@ def generate_synthetic_data(n_samples=2000):
     # Generate background normal market data (Label = 0)
     # EWI-1: Price vs Wages Spread (pp)
     ewi1_norm = np.random.normal(1.5, 1.0, n_samples)
-    # EWI-2: Months of Supply
+    # EWI-2: Months of Supply (Normal = ~3.5 months)
     ewi2_norm = np.random.normal(3.5, 0.5, n_samples)
-    # EWI-3: Volume YoY (%)
-    ewi3_norm = np.random.normal(5.0, 10.0, n_samples)
-    # EWI-4: Price reductions (%)
-    ewi4_norm = np.random.normal(20.0, 5.0, n_samples)
+    # EWI-3: Volume YoY (%) (Normal = slightly positive)
+    ewi3_norm = np.random.normal(5.0, 5.0, n_samples)
+    # EWI-4: Price reductions (%) (Normal = 4-5%)
+    ewi4_norm = np.random.normal(4.0, 1.5, n_samples)
     # EWI-5: DOM Z-score
     ewi5_norm = np.random.normal(0.0, 0.5, n_samples)
     # EWI-6: P/R Z-score
     ewi6_norm = np.random.normal(0.0, 0.5, n_samples)
-    # EWI-7: Interest Only %
+    # EWI-7: Interest Only % (Normal = ~45%)
     ewi7_norm = np.random.normal(45.0, 5.0, n_samples)
-    # EWI-8: DSR %
-    ewi8_norm = np.random.normal(25.0, 3.0, n_samples)
+    # EWI-8: DSR % (Normal = ~35%)
+    ewi8_norm = np.random.normal(35.0, 5.0, n_samples)
     
     normal_data = pd.DataFrame({
         'ewi1': ewi1_norm, 'ewi2': ewi2_norm, 'ewi3': ewi3_norm, 'ewi4': ewi4_norm,
@@ -55,13 +55,13 @@ def generate_synthetic_data(n_samples=2000):
     n_crash = int(n_samples * 0.15) # 15% of data points are pre-crash
     
     ewi1_crash = np.random.normal(6.5, 1.5, n_crash)   # High price/wage spread
-    ewi2_crash = np.random.normal(2.0, 0.4, n_crash)   # Very low supply (bubble peak) or rising supply
+    ewi2_crash = np.random.normal(6.0, 1.0, n_crash)   # High supply (inventory piling up)
     ewi3_crash = np.random.normal(-15.0, 5.0, n_crash) # Volume dropping fast
-    ewi4_crash = np.random.normal(45.0, 5.0, n_crash)  # High price reductions
+    ewi4_crash = np.random.normal(12.0, 3.0, n_crash)  # High price reductions (12%+)
     ewi5_crash = np.random.normal(2.5, 0.5, n_crash)   # High DOM
     ewi6_crash = np.random.normal(2.5, 0.5, n_crash)   # High P/R
-    ewi7_crash = np.random.normal(65.0, 5.0, n_crash)  # High IO
-    ewi8_crash = np.random.normal(45.0, 4.0, n_crash)  # High DSR
+    ewi7_crash = np.random.normal(55.0, 5.0, n_crash)  # High IO
+    ewi8_crash = np.random.normal(60.0, 5.0, n_crash)  # High DSR
     
     crash_data = pd.DataFrame({
         'ewi1': ewi1_crash, 'ewi2': ewi2_crash, 'ewi3': ewi3_crash, 'ewi4': ewi4_crash,
@@ -109,7 +109,7 @@ def train_model():
         
     # Save model
     os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
-    joblib.dump(clf, MODEL_PATH)
+    sio.dump(clf, MODEL_PATH)
     print(f"\n✅ Model saved to: {MODEL_PATH}")
 
 if __name__ == "__main__":

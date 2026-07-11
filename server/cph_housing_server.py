@@ -1162,11 +1162,12 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
 
     # ── ML Model Prediction ──
     try:
-        import joblib
+        import skops.io as sio
         import os
-        model_path = os.path.join(os.path.dirname(__file__), "..", "config", "ews_ml_model.joblib")
+        model_path = os.path.join(os.path.dirname(__file__), "..", "config", "ews_ml_model.skops")
         if os.path.exists(model_path):
-            clf = joblib.load(model_path)
+            untrusted = sio.get_untrusted_types(file=model_path)
+            clf = sio.load(model_path, trusted=untrusted)
             dom_z = (median_dom - dom_mean) / dom_std if dom_std > 0 else 0
             p2r_z = (price_to_rent - p2r_mean) / p2r_std if p2r_std > 0 else 0
             features = [[

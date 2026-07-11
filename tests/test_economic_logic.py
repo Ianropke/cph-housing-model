@@ -353,3 +353,38 @@ class TestDSTDataPlausibility(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+from unittest.mock import patch
+
+class TestEWSArbejdsloshed(unittest.TestCase):
+    @patch('dst_macro.fetch_dst_macro_data')
+    def test_ewi9_unemployment_thresholds(self, mock_fetch):
+        # Green: < 4.0%
+        mock_fetch.return_value = {'unemployment_rate': 0.035, 'rent_index': 120.0, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        res_green = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
+        self.assertEqual(res_green['indicators']['EWI-9_unemployment']['level'], 'GREEN')
+
+        # Amber: 4.0% - 5.5%
+        mock_fetch.return_value = {'unemployment_rate': 0.045, 'rent_index': 120.0, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        res_amber = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
+        self.assertEqual(res_amber['indicators']['EWI-9_unemployment']['level'], 'AMBER')
+
+        # Red: > 5.5%
+        mock_fetch.return_value = {'unemployment_rate': 0.060, 'rent_index': 120.0, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        res_red = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
+        self.assertEqual(res_red['indicators']['EWI-9_unemployment']['level'], 'RED')
+
+class TestMachineLearningCrashModel(unittest.TestCase):
+    @patch('dst_macro.fetch_dst_macro_data')
+    def test_ml_crash_probability_execution(self, mock_fetch):
+        # Test that ml_crash_probability is calculated and returned
+        mock_fetch.return_value = {'unemployment_rate': 0.035, 'rent_index': 120.0, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        res = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
+        self.assertIn('ml_crash_probability', res)
+        self.assertIsInstance(res['ml_crash_probability'], float)
+        self.assertGreaterEqual(res['ml_crash_probability'], 0.0)
+        self.assertLessEqual(res['ml_crash_probability'], 1.0)
+
+if __name__ == '__main__':
+    unittest.main()
