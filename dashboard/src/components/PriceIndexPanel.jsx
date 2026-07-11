@@ -2,7 +2,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer, ReferenceLine
 } from 'recharts';
-import { priceIndexData, dataFreshness } from '../data/housingData';
+import { useCity } from '../context/CityContext';
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload) return null;
@@ -23,7 +23,24 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function PriceIndexPanel() {
-  const dstLastUpdated = dataFreshness?.dst_ej56?.last_updated || '2026-05-29';
+  const { pipelineData, activeCity } = useCity();
+  
+  if (!pipelineData) return null;
+    
+  const aptSeg = `${activeCity}_apartments`;
+  const houseSeg = `${activeCity}_houses`;
+  
+  const aptData = pipelineData.dst_data.segments[aptSeg]?.series || {};
+  const houseData = pipelineData.dst_data.segments[houseSeg]?.series || {};
+  
+  const quarters = Object.keys(aptData).sort();
+  const priceIndexData = quarters.map(q => ({
+    quarter: q,
+    apartments: aptData[q],
+    houses: houseData[q]
+  }));
+
+  const dstLastUpdated = pipelineData.dst_data.last_updated || '2026-05-29';
   const startQuarter = priceIndexData[0]?.quarter || '2019Q1';
   const endQuarter = priceIndexData[priceIndexData.length - 1]?.quarter || '2025Q4';
 
@@ -31,7 +48,7 @@ export default function PriceIndexPanel() {
     <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.1s' }}>
       <div className="panel-header">
         <div>
-          <h2>Prisindeks — København</h2>
+          <h2>Prisindeks — {activeCity.charAt(0).toUpperCase() + activeCity.slice(1)}</h2>
           <span className="panel-explainer">
             Kvartalsvise prisindeks for boliger i Hovedstadsområdet fra Danmarks Statistik (tabel EJ56).
             Base 2006 = 100, så en værdi på 129 betyder at priserne er steget 29% siden 2006.
@@ -78,8 +95,8 @@ export default function PriceIndexPanel() {
             />
             <Line
               type="monotone"
-              dataKey="cphApartments"
-              name="KBH Ejerlejligheder"
+              dataKey="apartments"
+              name="Ejerlejligheder"
               stroke="url(#gradTeal)"
               strokeWidth={2.5}
               dot={false}
@@ -87,22 +104,14 @@ export default function PriceIndexPanel() {
             />
             <Line
               type="monotone"
-              dataKey="cphHouses"
-              name="KBH Omegn Huse"
+              dataKey="houses"
+              name="Huse"
               stroke="url(#gradAmber)"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5, fill: '#ffc107', stroke: '#0a0e1a', strokeWidth: 2 }}
             />
-            <Line
-              type="monotone"
-              dataKey="fredApartments"
-              name="KBH Omegn Lejl."
-              stroke="url(#gradPurple)"
-              strokeWidth={2.5}
-              dot={false}
-              activeDot={{ r: 5, fill: '#a78bfa', stroke: '#0a0e1a', strokeWidth: 2 }}
-            />
+            
           </LineChart>
         </ResponsiveContainer>
       </div>

@@ -1,4 +1,5 @@
-import { dataFreshness } from '../data/housingData';
+import React from 'react';
+import { ResponsiveContainer, AreaChart, Area, Tooltip } from 'recharts';
 
 const statusColors = {
   GREEN: '#00d4aa',
@@ -124,7 +125,8 @@ function EWICard({ indicator, index, ewiMode }) {
   );
 }
 
-function DataFreshnessTable() {
+function DataFreshnessTable({ dataFreshness }) {
+  if (!dataFreshness) return null;
   const sources = Object.values(dataFreshness);
 
   return (
@@ -140,6 +142,7 @@ function DataFreshnessTable() {
             <th>Datakilde</th>
             <th>Sidst opdateret</th>
             <th>Frekvens</th>
+            <th>Næste opdatering</th>
             <th>Friskhed</th>
           </tr>
         </thead>
@@ -152,6 +155,7 @@ function DataFreshnessTable() {
                 <td className="freshness-source-name">{src.label}</td>
                 <td>{src.last_updated}</td>
                 <td>{src.frequency}</td>
+                <td>{src.next_expected_update || 'Ukendt'}</td>
                 <td>
                   <div className="freshness-cell">
                     <div className="freshness-bar-bg small">
@@ -180,7 +184,10 @@ export default function EarlyWarningDashboard({
   indicators, 
   compositeScore, 
   freshnessWeightedComposite, 
-  alertLevel 
+  alertLevel,
+  mlCrashProbability,
+  dataFreshness,
+  mlProbabilityHistory
 }) {
   const alertColor = alertLevel === 'NORMAL' ? '#00d4aa' : alertLevel === 'ELEVATED' ? '#ffc107' : '#ff6b6b';
   const alertLabels = { NORMAL: 'Normal', ELEVATED: 'Forhøjet', HIGH: 'Høj', CRITICAL: 'Kritisk', EXTREME: 'Ekstrem' };
@@ -213,7 +220,7 @@ export default function EarlyWarningDashboard({
           </select>
         </div>
 
-        <div className="ewi-summary-badges">
+        <div className="ewi-summary-badges" style={{ alignItems: 'center' }}>
           <span className="panel-badge tooltip"
             data-tooltip="Statistisk vægtet sum af alle 8 indikatorer baseret på historisk signalstyrke (Normal=0, Advarsel=1, Alarm=3, ganget med vægte: EWI1=1.4, EWI2=1.2, EWI3=1.0, EWI4=1.3, EWI5=0.8, EWI6=1.1, EWI7=0.7, EWI8=1.5). Maks 27.0 point."
           >
@@ -230,6 +237,57 @@ export default function EarlyWarningDashboard({
           >
             Niveau: <strong>{alertLabels[alertLevel] || alertLevel}</strong>
           </span>
+          {mlCrashProbability !== null && (
+            <span className="panel-badge tooltip"
+              style={{ background: 'rgba(156, 39, 176, 0.1)', color: '#e040fb', borderColor: '#e040fb55' }}
+              data-tooltip="Machine Learning forudsigelse (Random Forest) trænet på EWI-data fra 2000-2026. Angiver sandsynligheden for et prisfald inden for 12 måneder."
+            >
+              ML Crash Sandsynlighed: <strong>{(mlCrashProbability * 100).toFixed(1)}%</strong>
+            </span>
+          )}
+
+          {/* ML Trend Sparkline Chart */}
+          {mlProbabilityHistory && mlProbabilityHistory.length > 0 && (
+            <div className="ml-trend-sparkline" style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '12px', 
+              background: 'rgba(156, 39, 176, 0.04)', 
+              border: '1px solid rgba(156, 39, 176, 0.15)', 
+              padding: '4px 10px', 
+              borderRadius: '6px',
+              height: '28px'
+            }}>
+              <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.5px' }}>
+                Trend (1 år):
+              </span>
+              <span style={{ fontSize: '10px', color: '#e040fb', fontWeight: 600, minWidth: '55px' }}>
+                {mlProbabilityHistory[0].probability < mlProbabilityHistory[mlProbabilityHistory.length - 1].probability ? '📈 Stigende' : '📉 Faldende'}
+              </span>
+              <AreaChart width={60} height={20} data={mlProbabilityHistory.map(h => ({ ...h, pct: h.probability * 100 }))} margin={{ top: 2, bottom: 2, left: 0, right: 0 }}>
+                <defs>
+                  <linearGradient id="mlSparklineGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#e040fb" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#e040fb" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div style={{ background: '#0a0e1a', border: '1px solid rgba(156, 39, 176, 0.3)', padding: '2px 6px', borderRadius: '4px', fontSize: '9px', color: '#e2e8f0' }}>
+                          {payload[0].payload.quarter}: <strong>{payload[0].value.toFixed(1)}%</strong>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                  cursor={false}
+                />
+                <Area type="monotone" dataKey="pct" stroke="#e040fb" strokeWidth={1.5} fillOpacity={1} fill="url(#mlSparklineGrad)" dot={false} />
+              </AreaChart>
+            </div>
+          )}
         </div>
       </div>
       <div className="ewi-grid">
@@ -237,7 +295,7 @@ export default function EarlyWarningDashboard({
           <EWICard key={ind.id} indicator={ind} index={i} ewiMode={ewiMode} />
         ))}
       </div>
-      <DataFreshnessTable />
+      <DataFreshnessTable dataFreshness={dataFreshness} />
     </section>
   );
 }

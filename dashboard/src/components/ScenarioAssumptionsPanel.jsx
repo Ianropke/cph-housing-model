@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { scenarioAssumptions } from '../data/housingData';
+import { useCity } from '../context/CityContext';
 
 const tooltipDescriptions = {
   'Mortgage Rate (30Y Fixed)': 'Den gennemsnitlige 30-årige fastforrentede realkreditrente i Danmark. Aktuelt ca. 3,5-4%. Påvirker direkte den månedlige ydelse og dermed købernes råderum.',
@@ -52,6 +52,46 @@ function ScenarioRow({ scenario, isOpen, onToggle, index }) {
 }
 
 export default function ScenarioAssumptionsPanel() {
+  const { pipelineData, activeCity } = useCity();
+  if (!pipelineData) return null;
+  const fc = pipelineData.forecasts[`${activeCity}_apartments`];
+  
+  const scenarioAssumptions = [
+    {
+      scenario: 'Baseline', weight: `${(fc?.horizons['12m']?.scenarios?.baseline?.probability_weight || 0.55)*100}%`, color: '#00d4aa',
+      assumptions: {
+        'Mortgage Rate': '3.7% → 3.5%',
+        'ECB Deposit': '2.75% → 2.0%',
+        'Wage Growth': '3.5%',
+        'Appreciation': '+2.0% → +6.0%',
+        'Net Migration': '+8,500/yr',
+        'Completions': '3,500 units'
+      }
+    },
+    {
+      scenario: 'Min Risk', weight: `${(fc?.horizons['12m']?.scenarios?.min_risk?.probability_weight || 0.20)*100}%`, color: '#3b82f6',
+      assumptions: {
+        'Mortgage Rate': '3.5% → 2.8%',
+        'ECB Deposit': '2.75% → 1.0%',
+        'Wage Growth': '4.5%',
+        'Appreciation': '+4.5% → +15.0%',
+        'Net Migration': '+11,000/yr',
+        'Completions': '2,800 units'
+      }
+    },
+    {
+      scenario: 'Max Risk', weight: `${(fc?.horizons['12m']?.scenarios?.max_risk?.probability_weight || 0.25)*100}%`, color: '#ff6b6b',
+      assumptions: {
+        'Mortgage Rate': '5.0% → 6.0%',
+        'ECB Deposit': '2.75% → 4.25%',
+        'Wage Growth': '2.5%',
+        'Appreciation': '-5.5% → -14.0%',
+        'Net Migration': '+4,000/yr',
+        'Completions': '5,500 units'
+      }
+    }
+  ];
+
   const [openIndex, setOpenIndex] = useState(0);
 
   return (

@@ -20,6 +20,7 @@ import urllib.request
 import urllib.error
 import random
 import ssl
+import dst_macro
 from typing import Optional
 
 from fastmcp import FastMCP
@@ -1005,7 +1006,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     p2r_mean = sum(p2r_history) / len(p2r_history)
     p2r_std = math.sqrt(sum((x - p2r_mean)**2 for x in p2r_history) / len(p2r_history))
     
-    rent_index = rent_baseline * (1.005 ** 11)
+    rent_index = dst_macro.fetch_dst_macro_data()['rent_index']
     price_to_rent = latest / rent_index
     
     ewi6_amber_threshold = p2r_mean + 1.5 * p2r_std
@@ -1051,12 +1052,13 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     annual_debt_service = loan_amount * total_financing_rate
     
     # Household disposable income by segment
+    macro = dst_macro.fetch_dst_macro_data()
     if segment == "copenhagen_houses":
-        disposable_income = 450000.0
+        disposable_income = macro["disposable_income_frb"]
     elif segment == "frederiksberg_apartments":
-        disposable_income = 440000.0
+        disposable_income = macro["disposable_income_frb"]
     else: # copenhagen_apartments
-        disposable_income = 390000.0
+        disposable_income = macro["disposable_income_cph"]
         
     dsr = annual_debt_service / disposable_income
     
@@ -1067,22 +1069,32 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     else:
         ewi8_level = "GREEN"
 
+    # ── EWI-9: Unemployment Rate ──
+    unemployment_rate = dst_macro.fetch_dst_macro_data()["unemployment_rate"]
+    if unemployment_rate > 0.055:
+        ewi9_level = "RED"
+    elif unemployment_rate > 0.040:
+        ewi9_level = "AMBER"
+    else:
+        ewi9_level = "GREEN"
+
     # ── Composite Score ──
     score_map = {"GREEN": 0, "AMBER": 1, "RED": 3}
     ewi_weights = {
         "EWI-1": 1.4,
         "EWI-2": 1.2,
-        "EWI-3": 1.0,
+        "EWI-3": 0.5,
         "EWI-4": 1.3,
-        "EWI-5": 0.8,
+        "EWI-5": 0.3,
         "EWI-6": 1.1,
-        "EWI-7": 0.7,
+        "EWI-7": 0.2,
         "EWI-8": 1.5,
+        "EWI-9": 1.5,
     }
     ewi_levels = {
         "EWI-1": ewi1_level, "EWI-2": ewi2_level, "EWI-3": ewi3_level,
         "EWI-4": ewi4_level, "EWI-5": ewi5_level, "EWI-6": ewi6_level,
-        "EWI-7": ewi7_level, "EWI-8": ewi8_level,
+        "EWI-7": ewi7_level, "EWI-8": ewi8_level, "EWI-9": ewi9_level,
     }
 
     composite = sum(
@@ -1109,9 +1121,10 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         "EWI-3": ["dst_ej56", "rkr_udb010"],
         "EWI-4": ["rkr_udb010"],
         "EWI-5": ["rkr_udb010"],
-        "EWI-6": ["dst_ej56"],
+        "EWI-6": ["dst_ej56", "dst_pris111"],
         "EWI-7": ["rkr_ul10"],
-        "EWI-8": ["dst_income", "nationalbanken_rates"],
+        "EWI-8": ["dst_indkp107", "nationalbanken_rates"],
+        "EWI-9": ["dst_aku111"],
     }
 
     # Freshness-weighted composite: each indicator's score is scaled by
@@ -1216,6 +1229,12 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
                 "dsr_pct": round(dsr * 100, 1),
                 "detail": f"Debt-Servicing Ratio (DSR) er {dsr*100:.1f}% (AMBER 30-40%, RED >40%)",
                 "data_sources": source_info(ewi_sources["EWI-8"]),
+            },
+            "EWI-9_unemployment": {
+                "level": ewi9_level,
+                "unemployment_rate_pct": round(unemployment_rate * 100, 1),
+                "detail": f"Ledighed er {unemployment_rate*100:.1f}% (AMBER >4.0%, RED >5.5%)",
+                "data_sources": source_info(ewi_sources["EWI-9"]),
             },
         },
         "composite_score": composite,

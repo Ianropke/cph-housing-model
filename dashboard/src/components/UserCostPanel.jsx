@@ -2,7 +2,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell, LabelList
 } from 'recharts';
-import { userCostData } from '../data/housingData';
+import { useCity } from '../context/CityContext';
 
 const ucExplainer = `Fundamental User Cost (brugeromkostning) er den løbende ejeromkostning ved at besidde en ejerbolig — inkl. renter efter skat, ejendomsskat, vedligeholdelse og risikopræmie. Forventet prisstigning (sentiment) er fuldt ud separeret for at undgå cirkulær adfærdslogik. Beregnet for en 3M DKK bolig med 80% belåning.`;
 
@@ -80,6 +80,16 @@ function CostCard({ data, index }) {
 }
 
 export default function UserCostPanel() {
+  const { pipelineData, activeCity } = useCity();
+  if (!pipelineData) return null;
+  
+  const uc = pipelineData.user_costs;
+  const userCostData = [
+    { scenario: 'Baseline', ucRate: Math.round(uc.baseline['12m'].user_cost_breakdown.user_cost_rate * 10000)/100, monthly: uc.baseline['12m'].user_cost_breakdown.user_cost_monthly_dkk, label: uc.baseline['12m'].interpretation.assessment, color: '#00d4aa', icon: '✓' },
+    { scenario: 'Min Risk', ucRate: Math.round(uc.min_risk['12m'].user_cost_breakdown.user_cost_rate * 10000)/100, monthly: uc.min_risk['12m'].user_cost_breakdown.user_cost_monthly_dkk, label: uc.min_risk['12m'].interpretation.assessment, color: '#3b82f6', icon: '✓' },
+    { scenario: 'Max Risk', ucRate: Math.round(uc.max_risk['12m'].user_cost_breakdown.user_cost_rate * 10000)/100, monthly: uc.max_risk['12m'].user_cost_breakdown.user_cost_monthly_dkk, label: uc.max_risk['12m'].interpretation.assessment, color: '#ff6b6b', icon: '✗' },
+  ];
+
   const chartData = userCostData;
 
   return (

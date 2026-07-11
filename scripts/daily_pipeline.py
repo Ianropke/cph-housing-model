@@ -30,6 +30,7 @@ from cph_housing_server import (
     fetch_dst_housing_data,
     calculate_user_cost,
     check_early_warnings,
+    get_historical_ml_probabilities,
     run_forecast_ensemble,
     compute_max_risk_index,
 )
@@ -42,6 +43,12 @@ SEGMENTS = [
     "copenhagen_apartments",
     "copenhagen_houses",
     "frederiksberg_apartments",
+    "aarhus_apartments",
+    "aarhus_houses",
+    "odense_apartments",
+    "odense_houses",
+    "aalborg_apartments",
+    "aalborg_houses",
 ]
 
 HORIZONS = [6, 12, 24]
@@ -82,21 +89,20 @@ def run_daily_pipeline():
     dst_data = fetch_dst_housing_data(table="EJ56")
     print(f"   ✅ Fetched {len(dst_data['segments'])} segments, last updated: {dst_data['last_updated']}")
 
-    # ── Step 2: Check early warnings ──
-    print("\n🚨 Step 2: Checking early warning indicators...")
-    ewi_results = {}
-    alert_summary = []
-    for segment in SEGMENTS:
-        ewi = check_early_warnings(segment=segment)
-        ewi_results[segment] = ewi
-        level = ewi["alert_level"]
-        score = ewi["composite_score"]
-        print(f"   {segment}: Score {score}/27.0 — {level}")
-        if score >= 4.5:
-            alert_summary.append(f"⚠️ {segment}: {level} (score {score})")
+    indicator_mapping = {
+        "EWI-1_price_vs_wages": ("EWI-1", "Price vs. Wages", "<3pp"),
+        "EWI-2_supply_demand": ("EWI-2", "Supply-Demand Balance", "4.5 months"),
+        "EWI-3_volume_price_divergence": ("EWI-3", "Volume-Price Divergence", "AMBER at -10%"),
+        "EWI-4_price_reductions": ("EWI-4", "Price Reductions", "AMBER at >30%"),
+        "EWI-5_time_on_market": ("EWI-5", "Time-on-Market", "Dynamisk Z-score"),
+        "EWI-6_price_to_rent": ("EWI-6", "Price-to-Rent Ratio", "Dynamisk Z-score"),
+        "EWI-7_credit_growth": ("EWI-7", "Amortization-Free Share", "<50%"),
+        "EWI-8_dsr": ("EWI-8", "Debt-Servicing Ratio (DSR)", "<30%"),
+        "EWI-9_unemployment": ("EWI-9", "Unemployment Rate", "<4.0%"),
+    }
 
-    # ── Step 3: Run forecast ensemble ──
-    print("\n📈 Step 3: Running forecast ensemble...")
+    # ── Step 2: Run forecast ensemble ──
+    print("\n📈 Step 2: Running forecast ensemble...")
     forecast_results = {}
     for segment in SEGMENTS:
         forecast = run_forecast_ensemble(segment=segment, horizons=HORIZONS)
@@ -106,6 +112,91 @@ def run_daily_pipeline():
             ensemble = forecast["horizons"][hk]["ensemble"]
             print(f"   {segment} [{hk}]: ensemble index {ensemble['probability_weighted_index']:.1f} "
                   f"({ensemble['probability_weighted_change_pct']:+.1f}%)")
+
+    # ── Step 3: Check early warnings ──
+    print("\n🚨 Step 3: Checking early warning indicators...")
+    ewi_results = {}
+    alert_summary = []
+    for segment in SEGMENTS:
+        # Get the default mode result first
+        ewi = check_early_warnings(segment=segment, ewi1_mode="yoy_expanded")
+        ewi_results[segment] = ewi
+        
+        # Calculate all modes and attach to ewi["modes"]
+        segment_modes = {}
+        for mode in ["yoy_original", "yoy_expanded", "structural_3y", "structural_5y"]:
+            ewi_mode_res = check_early_warnings(segment=segment, ewi1_mode=mode)
+            mode_ewi_list = []
+            for key, (ewi_id, ewi_name, baseline_val) in indicator_mapping.items():
+                ind_data = ewi_mode_res["indicators"][key]
+                if key == "EWI-1_price_vs_wages":
+                    val_str = f"+{ind_data['spread_pp']:.2f}pp"
+                    if mode == "yoy_original":
+                        baseline_val = "<3pp"
+                    elif mode == "yoy_expanded":
+                        baseline_val = "<4pp"
+                    elif mode == "structural_3y" or mode == "structural_5y":
+                        baseline_val = "<3pp"
+                elif key == "EWI-2_supply_demand":
+                    val_str = f"{ind_data['months_of_supply']:.1f} months"
+                elif key == "EWI-3_volume_price_divergence":
+                    val_str = f"Vol {ind_data['volume_yoy_pct']:.0f}%"
+                elif key == "EWI-4_price_reductions":
+                    val_str = f"{ind_data['reduction_rate_pct']:.0f}%"
+                elif key == "EWI-5_time_on_market":
+                    val_str = f"{ind_data['median_dom_days']:.0f} days"
+                elif key == "EWI-6_price_to_rent":
+                    val_str = f"{ind_data['price_to_rent_ratio']:.3f}"
+                elif key == "EWI-7_credit_growth":
+                    val_str = f"{ind_data['amortization_free_share_pct']:.1f}%"
+                elif key == "EWI-8_dsr":
+                    val_str = f"{ind_data['dsr_pct']:.1f}%"
+                elif key == "EWI-9_unemployment":
+                    val_str = f"{ind_data['unemployment_pct']:.1f}%"
+
+                sources = ind_data.get("data_sources", [])
+                if sources:
+                    avg_weight = sum(s.get("freshness_weight", 1.0) for s in sources) / len(sources)
+                    latest_update = max(s.get("last_updated", "") for s in sources)
+                else:
+                    avg_weight = 1.0
+                    latest_update = "N/A"
+
+                mode_ewi_list.append({
+                    "id": ewi_id,
+                    "name": ewi_name,
+                    "value": val_str,
+                    "baseline": baseline_val,
+                    "status": ind_data["level"],
+                    "description": ind_data["detail"],
+                    "freshness_weight": round(avg_weight, 3),
+                    "last_updated": latest_update
+                })
+            
+            # Forecasts for segment (to calculate max risk index)
+            fc_seg = forecast_results.get(segment)
+            mode_max_risk = compute_max_risk_index(fc_seg, ewi_mode_res)
+            
+            # Get historical ML probabilities for the trend graph
+            ml_history = get_historical_ml_probabilities(segment=segment, ewi1_mode=mode, limit=5)
+            
+            segment_modes[mode] = {
+                "earlyWarningIndicators": mode_ewi_list,
+                "compositeScore": ewi_mode_res["composite_score"],
+                "freshnessWeightedComposite": ewi_mode_res["freshness_weighted_composite"],
+                "alertLevel": ewi_mode_res["alert_level"],
+                "maxRiskIndex": mode_max_risk,
+                "dataFreshness": ewi_mode_res["data_freshness_summary"],
+                "mlProbabilityHistory": ml_history
+            }
+        
+        ewi_results[segment]["modes"] = segment_modes
+        
+        level = ewi["alert_level"]
+        score = ewi["composite_score"]
+        print(f"   {segment}: Score {score}/27.0 — {level}")
+        if score >= 4.5:
+            alert_summary.append(f"⚠️ {segment}: {level} (score {score})")
 
     # ── Step 4: Calculate user costs per scenario per horizon ──
     print("\n💰 Step 4: Computing user costs...")
@@ -167,6 +258,7 @@ def run_daily_pipeline():
         "EWI-6_price_to_rent": ("EWI-6", "Price-to-Rent Ratio", "Dynamisk Z-score"),
         "EWI-7_credit_growth": ("EWI-7", "Amortization-Free Share", "<50%"),
         "EWI-8_dsr": ("EWI-8", "Debt-Servicing Ratio (DSR)", "<30%"),
+        "EWI-9_unemployment": ("EWI-9", "Unemployment Rate", "<4.0%"),
     }
     
     for key, (ewi_id, ewi_name, baseline_val) in indicator_mapping.items():
@@ -187,6 +279,8 @@ def run_daily_pipeline():
             val_str = f"{ind_data['amortization_free_share_pct']:.1f}%"
         elif key == "EWI-8_dsr":
             val_str = f"{ind_data['dsr_pct']:.1f}%"
+        elif key == "EWI-9_unemployment":
+            val_str = f"{ind_data['unemployment_pct']:.1f}%"
             
         # Calculate indicator-specific freshness weight and latest update date
         sources = ind_data.get("data_sources", [])
@@ -241,6 +335,8 @@ def run_daily_pipeline():
                 val_str = f"{ind_data['amortization_free_share_pct']:.1f}%"
             elif key == "EWI-8_dsr":
                 val_str = f"{ind_data['dsr_pct']:.1f}%"
+            elif key == "EWI-9_unemployment":
+                val_str = f"{ind_data['unemployment_pct']:.1f}%"
 
             sources = ind_data.get("data_sources", [])
             if sources:
@@ -360,6 +456,7 @@ export const ewiModes = {json.dumps(ewi_modes_js, indent=2)};
 export const compositeScore = {ewi_cph_apts["composite_score"]};
 export const freshnessWeightedComposite = {ewi_cph_apts["freshness_weighted_composite"]};
 export const alertLevel = '{ewi_cph_apts["alert_level"]}';
+export const mlCrashProbability = {ewi_cph_apts.get("ml_crash_probability") if ewi_cph_apts.get("ml_crash_probability") is not None else "null"};
 export const lastUpdated = '{last_updated_str}';
 
 export const dataFreshness = {json.dumps(ewi_cph_apts["data_freshness_summary"], indent=2)};

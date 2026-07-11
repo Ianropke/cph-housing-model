@@ -5,7 +5,7 @@ import ForecastEnsemblePanel from './components/ForecastEnsemblePanel';
 import UserCostPanel from './components/UserCostPanel';
 import ScenarioAssumptionsPanel from './components/ScenarioAssumptionsPanel';
 import RiskBarometer from './components/RiskBarometer';
-import { maxRiskIndex, ewiModes, lastUpdated } from './data/housingData';
+import { useCity } from './context/CityContext';
 
 // ─── Inline Toast Notification ───────────────────────────────
 function Toast({ message, type, onDismiss }) {
@@ -44,20 +44,27 @@ function Toast({ message, type, onDismiss }) {
 }
 
 export default function App() {
+  const { pipelineData, activeCity, setActiveCity, loading: dataLoading } = useCity();
   const [loading, setLoading] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
   const [modalData, setModalData] = useState(null);
   const [ewiMode, setEwiMode] = useState('yoy_expanded');
   const [toast, setToast] = useState(null);
-  const [displayTimestamp, setDisplayTimestamp] = useState(lastUpdated || '—');
+  const [displayTimestamp, setDisplayTimestamp] = useState('—');
+  useEffect(() => {
+    if (pipelineData) setDisplayTimestamp(pipelineData.generated_at.substring(0, 10));
+  }, [pipelineData]);
 
+  const activeSegment = `${activeCity}_apartments`;
+  const ewiModes = pipelineData?.early_warnings?.[activeSegment]?.modes || {};
   const activeModeData = ewiModes?.[ewiMode] || {
     earlyWarningIndicators: [],
     compositeScore: 0,
     freshnessWeightedComposite: 0,
     alertLevel: 'NORMAL',
-    maxRiskIndex: maxRiskIndex
+    maxRiskIndex: 0
   };
+  const mlCrashProbability = pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability ?? null;
 
   const showToast = useCallback((message, type = 'info') => {
     setToast({ message, type, key: Date.now() });
@@ -162,6 +169,8 @@ Cron: Daily at 02:00 CET`;
     }
   };
 
+  if (dataLoading) return <div className="dashboard" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: 'white'}}>Indlæser model data...</div>;
+
   return (
     <div className="dashboard">
       {/* Toast notification */}
@@ -186,6 +195,28 @@ Cron: Daily at 02:00 CET`;
             <div>
               <h1>Copenhagen Housing Market</h1>
               <p className="header-subtitle">Forecast Dashboard & Controller</p>
+            <div className="city-selector" style={{ marginTop: '8px' }}>
+              <select 
+                value={activeCity} 
+                onChange={(e) => setActiveCity(e.target.value)}
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'white',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  fontSize: '0.9rem',
+                  outline: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="copenhagen">København</option>
+                <option value="aarhus">Aarhus</option>
+                <option value="odense">Odense</option>
+                <option value="aalborg">Aalborg</option>
+              </select>
+            </div>
+
             </div>
           </div>
           <div className="header-right">
@@ -259,6 +290,9 @@ Cron: Daily at 02:00 CET`;
           compositeScore={activeModeData.compositeScore}
           freshnessWeightedComposite={activeModeData.freshnessWeightedComposite}
           alertLevel={activeModeData.alertLevel}
+          mlCrashProbability={mlCrashProbability}
+          dataFreshness={activeModeData.dataFreshness}
+          mlProbabilityHistory={activeModeData.mlProbabilityHistory}
         />
         <ForecastEnsemblePanel />
         <UserCostPanel />

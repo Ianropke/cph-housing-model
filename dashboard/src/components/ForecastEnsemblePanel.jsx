@@ -2,7 +2,7 @@ import {
   Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer, Line, ComposedChart
 } from 'recharts';
-import { forecastBarData, forecastScenarios, ensembleForecasts, ensembleConfidenceBounds } from '../data/housingData';
+import { useCity } from '../context/CityContext';
 
 const scenarioTooltips = {
   'Baseline': 'Det mest sandsynlige scenarie (55% vægt). ECB sænker renten gradvist, lønvæksten er stabil, og boligpriserne stiger moderat.',
@@ -10,7 +10,7 @@ const scenarioTooltips = {
   'Max Risk': 'Negativt scenarie (25% vægt). Rentestigninger, lavkonjunktur, og overudbud fører til betydelige prisfald — stress-test af porteføljen.',
 };
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, ensembleConfidenceBounds }) => {
   if (!active || !payload) return null;
   const horizon = label;
   const bounds = ensembleConfidenceBounds ? ensembleConfidenceBounds[horizon] : null;
@@ -33,7 +33,45 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
+// We create a wrapper to pass down ensembleConfidenceBounds since CustomTooltip is instantiated by Recharts
+const CustomTooltipWrapper = (props) => {
+  return <CustomTooltip {...props} />;
+};
+
 export default function ForecastEnsemblePanel() {
+  const { pipelineData, activeCity } = useCity();
+  if (!pipelineData) return null;
+  
+  const segment = `${activeCity}_apartments`;
+  const fc = pipelineData.forecasts[segment];
+  if (!fc) return null;
+  
+  const forecastBarData = ['6m', '12m', '24m'].map(h => ({
+    horizon: h,
+    Baseline: fc.horizons[h].scenarios.baseline.forecast_index,
+    'Min Risk': fc.horizons[h].scenarios.min_risk.forecast_index,
+    'Max Risk': fc.horizons[h].scenarios.max_risk.forecast_index,
+    Ensemble: fc.horizons[h].ensemble.probability_weighted_index,
+  }));
+  
+  const forecastScenarios = [
+    { scenario: 'Baseline', weight: fc.horizons['12m'].scenarios.baseline.probability_weight, color: '#00d4aa' },
+    { scenario: 'Min Risk', weight: fc.horizons['12m'].scenarios.min_risk.probability_weight, color: '#3b82f6' },
+    { scenario: 'Max Risk', weight: fc.horizons['12m'].scenarios.max_risk.probability_weight, color: '#ff6b6b' },
+  ];
+
+  const ensembleForecasts = {
+    '6m': fc.horizons['6m'].ensemble.probability_weighted_index,
+    '12m': fc.horizons['12m'].ensemble.probability_weighted_index,
+    '24m': fc.horizons['24m'].ensemble.probability_weighted_index,
+  };
+  
+  const ensembleConfidenceBounds = {
+    '6m': fc.horizons['6m'].ensemble.confidence_bounds,
+    '12m': fc.horizons['12m'].ensemble.confidence_bounds,
+    '24m': fc.horizons['24m'].ensemble.confidence_bounds,
+  };
+
   return (
     <section className="glass-card fade-in" style={{ animationDelay: '0.4s' }}>
       <div className="panel-header">
@@ -71,7 +109,7 @@ export default function ForecastEnsemblePanel() {
               domain={['auto', 'auto']}
               label={{ value: 'Forventet indeks', angle: -90, position: 'insideLeft', style: { fill: 'rgba(255,255,255,0.4)', fontSize: 11 } }}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltipWrapper ensembleConfidenceBounds={ensembleConfidenceBounds} />} />
             <Legend
               wrapperStyle={{ paddingTop: 10 }}
               formatter={(value) => <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>{value}</span>}
