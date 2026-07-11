@@ -106,6 +106,9 @@ def run_daily_pipeline():
     forecast_results = {}
     for segment in SEGMENTS:
         forecast = run_forecast_ensemble(segment=segment, horizons=HORIZONS)
+        if "error" in forecast:
+            print(f"   {segment}: {forecast['error']}")
+            continue
         forecast_results[segment] = forecast
         for h in HORIZONS:
             hk = f"{h}m"
@@ -120,6 +123,8 @@ def run_daily_pipeline():
     for segment in SEGMENTS:
         # Get the default mode result first
         ewi = check_early_warnings(segment=segment, ewi1_mode="yoy_expanded")
+        if "error" in ewi:
+            continue
         ewi_results[segment] = ewi
         
         # Calculate all modes and attach to ewi["modes"]
@@ -152,7 +157,7 @@ def run_daily_pipeline():
                 elif key == "EWI-8_dsr":
                     val_str = f"{ind_data['dsr_pct']:.1f}%"
                 elif key == "EWI-9_unemployment":
-                    val_str = f"{ind_data['unemployment_pct']:.1f}%"
+                    val_str = f"{ind_data['unemployment_rate_pct']:.1f}%"
 
                 sources = ind_data.get("data_sources", [])
                 if sources:
@@ -280,7 +285,7 @@ def run_daily_pipeline():
         elif key == "EWI-8_dsr":
             val_str = f"{ind_data['dsr_pct']:.1f}%"
         elif key == "EWI-9_unemployment":
-            val_str = f"{ind_data['unemployment_pct']:.1f}%"
+            val_str = f"{ind_data['unemployment_rate_pct']:.1f}%"
             
         # Calculate indicator-specific freshness weight and latest update date
         sources = ind_data.get("data_sources", [])
@@ -336,7 +341,7 @@ def run_daily_pipeline():
             elif key == "EWI-8_dsr":
                 val_str = f"{ind_data['dsr_pct']:.1f}%"
             elif key == "EWI-9_unemployment":
-                val_str = f"{ind_data['unemployment_pct']:.1f}%"
+                val_str = f"{ind_data['unemployment_rate_pct']:.1f}%"
 
             sources = ind_data.get("data_sources", [])
             if sources:
