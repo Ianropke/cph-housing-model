@@ -1,0 +1,37 @@
+name: Daily Data Update
+
+on:
+  schedule:
+    # Runs at 03:00 UTC every day
+    - cron: '0 3 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        
+      - name: Run Data Pipeline
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server
+        run: python scripts/daily_pipeline.py
+        
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add dashboard/src/data/housingData.js
+          git add dashboard/public/data/latest_pipeline.json
+          git add reports/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-update data payload" && git push)
