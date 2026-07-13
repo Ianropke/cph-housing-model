@@ -1187,6 +1187,38 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         prob = None
         print(f"ML Warning: {e}")
 
+    data_freshness_summary = {}
+    for k, v in DATA_FRESHNESS.items():
+        last_date_str = v["last_updated"]
+        freq = v.get("frequency", "Unknown")
+        next_date_str = "Ukendt"
+        
+        try:
+            from dateutil.relativedelta import relativedelta
+            last_dt = datetime.datetime.strptime(last_date_str, "%Y-%m-%d").date()
+            if freq == "Daily":
+                next_dt = last_dt + relativedelta(days=1)
+            elif freq == "Monthly":
+                next_dt = last_dt + relativedelta(months=1)
+            elif freq == "Quarterly":
+                next_dt = last_dt + relativedelta(months=3)
+            elif freq == "Annual":
+                next_dt = last_dt + relativedelta(years=1)
+            else:
+                next_dt = last_dt + relativedelta(days=v.get("half_life_days", 30))
+            next_date_str = next_dt.strftime("%Y-%m-%d")
+        except Exception:
+            pass
+            
+        data_freshness_summary[k] = {
+            "label": v["label"],
+            "last_updated": last_date_str,
+            "frequency": freq,
+            "source": v.get("source", "Unknown"),
+            "freshness_weight": freshness_weight(k),
+            "next_expected_update": next_date_str
+        }
+
     return {
         "segment": segment,
         "evaluation_timestamp": datetime.datetime.now().isoformat(),
@@ -1269,16 +1301,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         "freshness_weighted_composite": freshness_weighted_composite,
         "max_possible_score": 27.0,
         "alert_level": alert_level,
-        "data_freshness_summary": {
-            k: {
-                "label": v["label"],
-                "last_updated": v["last_updated"],
-                "frequency": v.get("frequency", "Unknown"),
-                "source": v.get("source", "Unknown"),
-                "freshness_weight": freshness_weight(k),
-            }
-            for k, v in DATA_FRESHNESS.items()
-        },
+        "data_freshness_summary": data_freshness_summary,
     }
 
 

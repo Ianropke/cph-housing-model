@@ -228,56 +228,64 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.771
+        "freshness_weight": 0.771,
+        "next_expected_update": "2026-08-29"
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-05-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.506
+        "freshness_weight": 0.506,
+        "next_expected_update": "2026-06-15"
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-06-05",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.557
+        "freshness_weight": 0.557,
+        "next_expected_update": "2026-07-05"
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-06-10",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.826
+        "freshness_weight": 0.826,
+        "next_expected_update": "2026-09-10"
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.25
+        "freshness_weight": 0.25,
+        "next_expected_update": "2026-06-11"
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.803
+        "freshness_weight": 0.803,
+        "next_expected_update": "2026-09-05"
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.678
+        "freshness_weight": 0.678,
+        "next_expected_update": "2026-12-20"
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.616
+        "freshness_weight": 0.616,
+        "next_expected_update": "2026-07-01"
       }
     }
   },
@@ -405,56 +413,64 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.771
+        "freshness_weight": 0.771,
+        "next_expected_update": "2026-08-29"
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-05-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.506
+        "freshness_weight": 0.506,
+        "next_expected_update": "2026-06-15"
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-06-05",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.557
+        "freshness_weight": 0.557,
+        "next_expected_update": "2026-07-05"
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-06-10",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.826
+        "freshness_weight": 0.826,
+        "next_expected_update": "2026-09-10"
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.25
+        "freshness_weight": 0.25,
+        "next_expected_update": "2026-06-11"
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.803
+        "freshness_weight": 0.803,
+        "next_expected_update": "2026-09-05"
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.678
+        "freshness_weight": 0.678,
+        "next_expected_update": "2026-12-20"
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.616
+        "freshness_weight": 0.616,
+        "next_expected_update": "2026-07-01"
       }
     }
   },
@@ -582,56 +598,64 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.771
+        "freshness_weight": 0.771,
+        "next_expected_update": "2026-08-29"
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-05-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.506
+        "freshness_weight": 0.506,
+        "next_expected_update": "2026-06-15"
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-06-05",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.557
+        "freshness_weight": 0.557,
+        "next_expected_update": "2026-07-05"
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-06-10",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.826
+        "freshness_weight": 0.826,
+        "next_expected_update": "2026-09-10"
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.25
+        "freshness_weight": 0.25,
+        "next_expected_update": "2026-06-11"
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.803
+        "freshness_weight": 0.803,
+        "next_expected_update": "2026-09-05"
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.678
+        "freshness_weight": 0.678,
+        "next_expected_update": "2026-12-20"
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.616
+        "freshness_weight": 0.616,
+        "next_expected_update": "2026-07-01"
       }
     }
   },
@@ -759,56 +783,64 @@ export const ewiModes = {
         "last_updated": "2026-05-29",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.771
+        "freshness_weight": 0.771,
+        "next_expected_update": "2026-08-29"
       },
       "rkr_bm011": {
         "label": "Realkreditl\u00e5n (BM011)",
         "last_updated": "2026-05-15",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.506
+        "freshness_weight": 0.506,
+        "next_expected_update": "2026-06-15"
       },
       "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
         "last_updated": "2026-06-05",
         "frequency": "Monthly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.557
+        "freshness_weight": 0.557,
+        "next_expected_update": "2026-07-05"
       },
       "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
         "last_updated": "2026-06-10",
         "frequency": "Quarterly",
         "source": "Finansdanmark",
-        "freshness_weight": 0.826
+        "freshness_weight": 0.826,
+        "next_expected_update": "2026-09-10"
       },
       "ecb_rates": {
         "label": "ECB renter",
         "last_updated": "2026-06-10",
         "frequency": "Daily",
         "source": "ECB / Nationalbanken",
-        "freshness_weight": 0.25
+        "freshness_weight": 0.25,
+        "next_expected_update": "2026-06-11"
       },
       "wage_data": {
         "label": "L\u00f8nudvikling",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.803
+        "freshness_weight": 0.803,
+        "next_expected_update": "2026-09-05"
       },
       "dst_income": {
         "label": "Disponibel Indkomst (DST)",
         "last_updated": "2025-12-20",
         "frequency": "Annual",
         "source": "Danmarks Statistik",
-        "freshness_weight": 0.678
+        "freshness_weight": 0.678,
+        "next_expected_update": "2026-12-20"
       },
       "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "source": "Nationalbanken",
-        "freshness_weight": 0.616
+        "freshness_weight": 0.616,
+        "next_expected_update": "2026-07-01"
       }
     }
   }
@@ -826,56 +858,64 @@ export const dataFreshness = {
     "last_updated": "2026-05-29",
     "frequency": "Quarterly",
     "source": "Danmarks Statistik",
-    "freshness_weight": 0.771
+    "freshness_weight": 0.771,
+    "next_expected_update": "2026-08-29"
   },
   "rkr_bm011": {
     "label": "Realkreditl\u00e5n (BM011)",
     "last_updated": "2026-05-15",
     "frequency": "Monthly",
     "source": "Finansdanmark",
-    "freshness_weight": 0.506
+    "freshness_weight": 0.506,
+    "next_expected_update": "2026-06-15"
   },
   "rkr_udb010": {
     "label": "Boligudbud (UDB010)",
     "last_updated": "2026-06-05",
     "frequency": "Monthly",
     "source": "Finansdanmark",
-    "freshness_weight": 0.557
+    "freshness_weight": 0.557,
+    "next_expected_update": "2026-07-05"
   },
   "rkr_ul10": {
     "label": "Afdragsfrihed (UL10)",
     "last_updated": "2026-06-10",
     "frequency": "Quarterly",
     "source": "Finansdanmark",
-    "freshness_weight": 0.826
+    "freshness_weight": 0.826,
+    "next_expected_update": "2026-09-10"
   },
   "ecb_rates": {
     "label": "ECB renter",
     "last_updated": "2026-06-10",
     "frequency": "Daily",
     "source": "ECB / Nationalbanken",
-    "freshness_weight": 0.25
+    "freshness_weight": 0.25,
+    "next_expected_update": "2026-06-11"
   },
   "wage_data": {
     "label": "L\u00f8nudvikling",
     "last_updated": "2026-06-05",
     "frequency": "Quarterly",
     "source": "Danmarks Statistik",
-    "freshness_weight": 0.803
+    "freshness_weight": 0.803,
+    "next_expected_update": "2026-09-05"
   },
   "dst_income": {
     "label": "Disponibel Indkomst (DST)",
     "last_updated": "2025-12-20",
     "frequency": "Annual",
     "source": "Danmarks Statistik",
-    "freshness_weight": 0.678
+    "freshness_weight": 0.678,
+    "next_expected_update": "2026-12-20"
   },
   "nationalbanken_rates": {
     "label": "Realkreditrenter (NB)",
     "last_updated": "2026-06-01",
     "frequency": "Monthly",
     "source": "Nationalbanken",
-    "freshness_weight": 0.616
+    "freshness_weight": 0.616,
+    "next_expected_update": "2026-07-01"
   }
 };
 
@@ -943,18 +983,18 @@ export const ensembleForecasts = {
 export const ensembleConfidenceBounds = {
   "6m": {
     "p10": 128.4,
-    "p50": 129.7,
+    "p50": 129.6,
     "p90": 130.9
   },
   "12m": {
     "p10": 127.8,
-    "p50": 131.0,
-    "p90": 134.4
+    "p50": 131.1,
+    "p90": 134.7
   },
   "24m": {
-    "p10": 128.2,
+    "p10": 127.9,
     "p50": 137.4,
-    "p90": 147.0
+    "p90": 146.7
   }
 };
 

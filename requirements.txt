@@ -4,3 +4,4 @@ fastmcp
 pandas
 numpy
 skops
+python-dateutil
