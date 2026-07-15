@@ -22,6 +22,9 @@ show_help() {
     echo -e "  ${GREEN}update${NC}    Force an immediate update of the forecasting data pipeline"
     echo -e "  ${GREEN}test${NC}      Run the unit and integration test suite"
     echo -e "  ${GREEN}backtest${NC}  Run the historical backtesting engine & calibrate thresholds"
+    echo -e "  ${GREEN}deploy-preview${NC} Deploy the latest dashboard changes to Vercel Preview"
+    echo -e "  ${GREEN}deploy-prod${NC}    Deploy the latest dashboard changes to Vercel Production"
+    echo -e "  ${GREEN}env-pull${NC}       Pull Vercel environment variables to .env.local"
     echo -e "  ${GREEN}status${NC}    Check the status of data files, logs, and scheduled tasks"
     echo -e "  ${GREEN}help${NC}      Show this help menu"
     echo ""
@@ -56,6 +59,18 @@ case "$1" in
         echo -e "${BLUE}=== Running Historical Backtesting & Calibration ===${NC}"
         export PYTHONPATH="$PROJECT_DIR/server"
         python3 -c "import sys; sys.path.insert(0, '$PROJECT_DIR/server'); from cph_housing_server import run_historical_backtest; import json; print(json.dumps(run_historical_backtest(2007, 2024), indent=2))"
+        ;;
+    deploy-preview)
+        echo -e "${BLUE}=== Deploying to Vercel Preview ===${NC}"
+        npx vercel
+        ;;
+    deploy-prod)
+        echo -e "${BLUE}=== Deploying to Vercel Production ===${NC}"
+        npx vercel --prod
+        ;;
+    env-pull)
+        echo -e "${BLUE}=== Pulling Vercel Environment Variables ===${NC}"
+        npx vercel env pull .env.local
         ;;
     status)
         echo -e "${BLUE}=== Ingestion Status & Diagnostics ===${NC}"
