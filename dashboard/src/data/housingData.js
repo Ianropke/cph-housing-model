@@ -212,7 +212,7 @@ export const ewiModes = {
         }
       },
       "12m": {
-        "score": 29,
+        "score": 28,
         "label": "MODERAT",
         "components": {
           "mc_downside": 1.0,
@@ -421,7 +421,7 @@ export const ewiModes = {
         }
       },
       "12m": {
-        "score": 29,
+        "score": 28,
         "label": "MODERAT",
         "components": {
           "mc_downside": 1.0,
@@ -1051,7 +1051,7 @@ export const maxRiskIndex = {
     }
   },
   "12m": {
-    "score": 29,
+    "score": 28,
     "label": "MODERAT",
     "components": {
       "mc_downside": 1.0,

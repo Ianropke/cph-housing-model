@@ -704,7 +704,7 @@
               }
             },
             "12m": {
-              "score": 29,
+              "score": 28,
               "label": "MODERAT",
               "components": {
                 "mc_downside": 1.0,
@@ -1244,7 +1244,7 @@
               }
             },
             "12m": {
-              "score": 29,
+              "score": 28,
               "label": "MODERAT",
               "components": {
                 "mc_downside": 1.0,
@@ -6716,8 +6716,8 @@
               }
             },
             "12m": {
-              "score": 26,
-              "label": "MODERAT",
+              "score": 24,
+              "label": "LAV",
               "components": {
                 "mc_downside": 1.2,
                 "max_risk_severity_pct": 12.5,
@@ -7256,8 +7256,8 @@
               }
             },
             "12m": {
-              "score": 26,
-              "label": "MODERAT",
+              "score": 24,
+              "label": "LAV",
               "components": {
                 "mc_downside": 1.2,
                 "max_risk_severity_pct": 12.5,
