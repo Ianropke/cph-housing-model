@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveContainer, AreaChart, Area, Tooltip } from 'recharts';
+import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 const statusColors = {
   GREEN: '#00d4aa',
@@ -206,7 +206,7 @@ export default function EarlyWarningDashboard({
         
         {/* Dynamic Mode Selector */}
         <div className="ewi-mode-selector">
-          <label htmlFor="ewi1-mode-select" className="ewi-mode-label">EWI-1 Analysemodel:</label>
+          <label htmlFor="ewi1-mode-select" className="ewi-mode-label">Metode for EWI-1 (Pris/Løn):</label>
           <select 
             id="ewi1-mode-select" 
             value={ewiMode} 
@@ -237,57 +237,6 @@ export default function EarlyWarningDashboard({
           >
             Niveau: <strong>{alertLabels[alertLevel] || alertLevel}</strong>
           </span>
-          {mlCrashProbability !== null && (
-            <span className="panel-badge tooltip"
-              style={{ background: 'rgba(156, 39, 176, 0.1)', color: '#e040fb', borderColor: '#e040fb55' }}
-              data-tooltip="Machine Learning forudsigelse (Random Forest) trænet på EWI-data fra 2000-2026. Angiver sandsynligheden for et prisfald inden for 12 måneder."
-            >
-              ML Crash Sandsynlighed: <strong>{(mlCrashProbability * 100).toFixed(1)}%</strong>
-            </span>
-          )}
-
-          {/* ML Trend Sparkline Chart */}
-          {mlProbabilityHistory && mlProbabilityHistory.length > 0 && (
-            <div className="ml-trend-sparkline" style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '12px', 
-              background: 'rgba(156, 39, 176, 0.04)', 
-              border: '1px solid rgba(156, 39, 176, 0.15)', 
-              padding: '4px 10px', 
-              borderRadius: '6px',
-              height: '28px'
-            }}>
-              <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.5px' }}>
-                Trend (1 år):
-              </span>
-              <span style={{ fontSize: '10px', color: '#e040fb', fontWeight: 600, minWidth: '55px' }}>
-                {mlProbabilityHistory[0].probability < mlProbabilityHistory[mlProbabilityHistory.length - 1].probability ? '📈 Stigende' : '📉 Faldende'}
-              </span>
-              <AreaChart width={60} height={20} data={mlProbabilityHistory.map(h => ({ ...h, pct: h.probability * 100 }))} margin={{ top: 2, bottom: 2, left: 0, right: 0 }}>
-                <defs>
-                  <linearGradient id="mlSparklineGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#e040fb" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#e040fb" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <div style={{ background: '#0a0e1a', border: '1px solid rgba(156, 39, 176, 0.3)', padding: '2px 6px', borderRadius: '4px', fontSize: '9px', color: '#e2e8f0' }}>
-                          {payload[0].payload.quarter}: <strong>{payload[0].value.toFixed(1)}%</strong>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                  cursor={false}
-                />
-                <Area type="monotone" dataKey="pct" stroke="#e040fb" strokeWidth={1.5} fillOpacity={1} fill="url(#mlSparklineGrad)" dot={false} />
-              </AreaChart>
-            </div>
-          )}
         </div>
       </div>
       <div className="ewi-grid">
@@ -295,6 +244,74 @@ export default function EarlyWarningDashboard({
           <EWICard key={ind.id} indicator={ind} index={i} ewiMode={ewiMode} />
         ))}
       </div>
+
+      {/* NEW ML PREDICTION SECTION */}
+      {mlCrashProbability !== null && mlProbabilityHistory && mlProbabilityHistory.length > 0 && (
+        <div className="ml-prediction-section fade-in" style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(156, 39, 176, 0.04)', borderRadius: '12px', border: '1px solid rgba(156, 39, 176, 0.2)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <h3 style={{ margin: '0 0 0.5rem 0', color: '#e040fb', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                Machine Learning Forudsigelse
+              </h3>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', maxWidth: '600px' }}>
+                Random Forest model trænet på historiske EWI-data fra 2000-2026. Grafen viser trenden over de sidste 5 år, mens den store procentsats angiver den statistiske sandsynlighed for et mærkbart prisfald (Crash) inden for de næste 12 måneder baseret på det nuværende data-billede.
+              </p>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '3rem', fontWeight: 800, color: '#e040fb', lineHeight: 1, textShadow: '0 0 20px rgba(224, 64, 251, 0.4)' }}>
+                {(mlCrashProbability * 100).toFixed(1)}%
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
+                Crash Sandsynlighed (Nuværende)
+              </div>
+            </div>
+          </div>
+          
+          <div style={{ height: '260px', width: '100%' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={mlProbabilityHistory.map(h => ({ ...h, pct: h.probability * 100 }))} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="mlLargeGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#e040fb" stopOpacity={0.6}/>
+                    <stop offset="95%" stopColor="#e040fb" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <XAxis 
+                  dataKey="quarter" 
+                  stroke="rgba(255,255,255,0.2)" 
+                  tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }} 
+                  tickMargin={10} 
+                  minTickGap={20}
+                />
+                <YAxis 
+                  domain={[0, 100]} 
+                  stroke="rgba(255,255,255,0.2)" 
+                  tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }} 
+                  tickFormatter={(val) => `${val}%`}
+                />
+                <Tooltip
+                  contentStyle={{ backgroundColor: 'rgba(10, 14, 26, 0.95)', borderColor: 'rgba(156, 39, 176, 0.3)', borderRadius: '8px', color: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}
+                  itemStyle={{ color: '#e040fb', fontWeight: 600 }}
+                  labelStyle={{ color: 'rgba(255,255,255,0.6)', marginBottom: '4px' }}
+                  formatter={(value) => [`${value.toFixed(1)}%`, 'Sandsynlighed']}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="pct" 
+                  stroke="#e040fb" 
+                  strokeWidth={3} 
+                  fillOpacity={1} 
+                  fill="url(#mlLargeGrad)" 
+                  activeDot={{ r: 6, fill: '#e040fb', stroke: '#fff', strokeWidth: 2 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
       <DataFreshnessTable dataFreshness={dataFreshness} />
     </section>
   );

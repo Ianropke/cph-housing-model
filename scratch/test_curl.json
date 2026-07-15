@@ -1,0 +1,17 @@
+{
+  "contents": [
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "Søg på nettet efter 'Seneste udbudstal ejerlejligheder København'."
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "google_search": {}
+    }
+  ]
+}

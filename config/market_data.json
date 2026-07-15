@@ -1,0 +1,26 @@
+{
+  "copenhagen_apartments": {
+    "months_of_supply": 4.1,
+    "volume_yoy_change": -0.05,
+    "price_reduction_rate": 0.31,
+    "avg_reduction_magnitude": 0.05,
+    "median_dom": 49,
+    "amort_free_share": 0.46
+  },
+  "copenhagen_houses": {
+    "months_of_supply": 12.17,
+    "volume_yoy_change": -0.05,
+    "price_reduction_rate": 0.34,
+    "avg_reduction_magnitude": 0.057,
+    "median_dom": 65,
+    "amort_free_share": 0.46
+  },
+  "frederiksberg_apartments": {
+    "months_of_supply": 1.32,
+    "volume_yoy_change": -0.05,
+    "price_reduction_rate": 0.311,
+    "avg_reduction_magnitude": 0.044,
+    "median_dom": 44,
+    "amort_free_share": 0.46
+  }
+}

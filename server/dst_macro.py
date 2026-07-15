@@ -22,9 +22,14 @@ def fetch_dst_macro_data() -> dict:
     
     results = {
         "unemployment_rate": 0.042, # Fallback
+        "unemployment_period": None,
         "rent_index": 120.0,
+        "rent_period": None,
         "disposable_income_cph": 390000.0,
         "disposable_income_frb": 440000.0,
+        "income_period": None,
+        "interest_rate": 0.039, # Fallback
+        "interest_period": None,
     }
     
     def post_req(payload):
@@ -38,25 +43,50 @@ def fetch_dst_macro_data() -> dict:
         with urllib.request.urlopen(req, timeout=5.0, context=ssl_context) as res:
             return json.loads(res.read().decode("utf-8"))
 
-    # 1. Unemployment (AUP01 - 101 Kbh by)
+    # 1. Unemployment (AUS07 - Sæsonkorrigeret i pct af arbejdsstyrken)
     try:
         data = post_req({
-            "table": "AUP01",
+            "table": "AUS07",
             "format": "JSONSTAT",
             "variables": [
-                {"code": "OMRÅDE", "values": ["101"]},
-                {"code": "ALDER", "values": ["TOT"]},
-                {"code": "KØN", "values": ["TOT"]},
+                {"code": "YD", "values": ["TOT"]},
+                {"code": "SAESONFAK", "values": ["9"]},
                 {"code": "Tid", "values": ["*"]}
             ]
         })
-        val = data["dataset"]["value"][-1]
-        if val is not None:
-            results["unemployment_rate"] = val / 100.0
+        vals = data["dataset"]["value"]
+        tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
+        for i in range(len(vals)-1, -1, -1):
+            if vals[i] is not None:
+                results["unemployment_rate"] = vals[i] / 100.0
+                results["unemployment_period"] = tid_keys[i]
+                break
     except Exception as e:
-        print(f"Warning: Failed to fetch AUP01: {e}")
+        print(f"Warning: Failed to fetch AUS07: {e}")
 
-    # 2. Rent Index (PRIS111 - 041100 Faktisk husleje)
+    # 2. Interest Rate (DNRENTM - Nationalbankens Indskudsbevisrente)
+    try:
+        data = post_req({
+            "table": "DNRENTM",
+            "format": "JSONSTAT",
+            "variables": [
+                {"code": "INSTRUMENT", "values": ["OIBNAA"]},
+                {"code": "LAND", "values": ["DK"]},
+                {"code": "OPGOER", "values": ["E"]},
+                {"code": "Tid", "values": ["*"]}
+            ]
+        })
+        vals = data["dataset"]["value"]
+        tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
+        for i in range(len(vals)-1, -1, -1):
+            if vals[i] is not None:
+                results["interest_rate"] = vals[i] / 100.0
+                results["interest_period"] = tid_keys[i]
+                break
+    except Exception as e:
+        print(f"Warning: Failed to fetch DNRENTM: {e}")
+
+    # 3. Rent Index (PRIS111 - 041100 Faktisk husleje)
     try:
         data = post_req({
             "table": "PRIS111",
@@ -67,13 +97,17 @@ def fetch_dst_macro_data() -> dict:
                 {"code": "Tid", "values": ["*"]}
             ]
         })
-        val = data["dataset"]["value"][-1]
-        if val is not None:
-            results["rent_index"] = val
+        vals = data["dataset"]["value"]
+        tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
+        for i in range(len(vals)-1, -1, -1):
+            if vals[i] is not None:
+                results["rent_index"] = vals[i]
+                results["rent_period"] = tid_keys[i]
+                break
     except Exception as e:
         print(f"Warning: Failed to fetch PRIS111: {e}")
 
-    # 3. Income (INDKP107 - 105 Disponibel indkomst, 116 Gennemsnit)
+    # 4. Income (INDKP107 - 105 Disponibel indkomst, 116 Gennemsnit)
     try:
         for omrade in ["101", "147"]:
             data = post_req({
@@ -88,12 +122,16 @@ def fetch_dst_macro_data() -> dict:
                     {"code": "Tid", "values": ["*"]}
                 ]
             })
-            val = data["dataset"]["value"][-1]
-            if val is not None:
-                if omrade == "101":
-                    results["disposable_income_cph"] = float(val)
-                else:
-                    results["disposable_income_frb"] = float(val)
+            vals = data["dataset"]["value"]
+            tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
+            for i in range(len(vals)-1, -1, -1):
+                if vals[i] is not None:
+                    if omrade == "101":
+                        results["disposable_income_cph"] = float(vals[i])
+                    else:
+                        results["disposable_income_frb"] = float(vals[i])
+                    results["income_period"] = tid_keys[i]
+                    break
     except Exception as e:
         print(f"Warning: Failed to fetch INDKP107: {e}")
         

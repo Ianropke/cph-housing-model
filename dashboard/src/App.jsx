@@ -58,13 +58,18 @@ export default function App() {
   const activeSegment = `${activeCity}_apartments`;
   const ewiModes = pipelineData?.early_warnings?.[activeSegment]?.modes || {};
   const activeModeData = ewiModes?.[ewiMode] || {
-    earlyWarningIndicators: [],
-    compositeScore: 0,
-    freshnessWeightedComposite: 0,
-    alertLevel: 'NORMAL',
-    maxRiskIndex: 0
+    earlyWarningIndicators: pipelineData?.early_warnings?.[activeSegment]?.indicators || [],
+    compositeScore: pipelineData?.early_warnings?.[activeSegment]?.composite_score || 0,
+    freshnessWeightedComposite: pipelineData?.early_warnings?.[activeSegment]?.freshness_weighted_composite || 0,
+    alertLevel: pipelineData?.early_warnings?.[activeSegment]?.alert_level || 'NORMAL',
+    maxRiskIndex: pipelineData?.forecasts?.[activeSegment]?.horizons?.['24m']?.ensemble?.probability_weighted_index || 100,
+    dataFreshness: pipelineData?.early_warnings?.[activeSegment]?.data_freshness_summary || [],
+    mlCrashProbability: pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability ?? null,
+    mlProbabilityHistory: pipelineData?.early_warnings?.[activeSegment]?.ml_probability_history || []
   };
-  const mlCrashProbability = pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability ?? null;
+
+  // Keep top-level active references (some fallback if modes are missing)
+  const mlCrashProbability = activeModeData.mlCrashProbability;
 
   const showToast = useCallback((message, type = 'info') => {
     setToast({ message, type, key: Date.now() });
@@ -262,6 +267,7 @@ Cron: Daily at 02:00 CET`;
           freshnessWeightedComposite={activeModeData.freshnessWeightedComposite}
           alertLevel={activeModeData.alertLevel}
           mlCrashProbability={mlCrashProbability}
+          mlProbabilityHistory={activeModeData.mlProbabilityHistory}
           dataFreshness={activeModeData.dataFreshness}
           mlProbabilityHistory={activeModeData.mlProbabilityHistory}
         />

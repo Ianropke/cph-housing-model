@@ -5,3 +5,6 @@ pandas
 numpy
 skops
 python-dateutil
+curl_cffi
+pydantic
+python-dotenv

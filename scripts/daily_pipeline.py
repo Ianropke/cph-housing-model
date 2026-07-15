@@ -85,7 +85,15 @@ def run_daily_pipeline():
     print(f"{'='*60}\n")
 
     # ── Step 1: Fetch latest data ──
-    print("📊 Step 1: Fetching latest DST EJ56 data...")
+    print("🤖 Step 1a: Running Autonomous Market Data Agent...")
+    try:
+        import subprocess
+        agent_script = os.path.join(SCRIPT_DIR, "market_data_agent.py")
+        subprocess.run([sys.executable, agent_script], check=True)
+    except Exception as e:
+        print(f"   ⚠️ Agent failed or not found: {e}")
+
+    print("📊 Step 1b: Fetching latest DST EJ56 data...")
     dst_data = fetch_dst_housing_data(table="EJ56")
     print(f"   ✅ Fetched {len(dst_data['segments'])} segments, last updated: {dst_data['last_updated']}")
 
@@ -183,7 +191,14 @@ def run_daily_pipeline():
             mode_max_risk = compute_max_risk_index(fc_seg, ewi_mode_res)
             
             # Get historical ML probabilities for the trend graph
-            ml_history = get_historical_ml_probabilities(segment=segment, ewi1_mode=mode, limit=5)
+            ml_history = get_historical_ml_probabilities(segment=segment, ewi1_mode=mode, limit=120, dst_data=dst_data)
+            
+            # Append the current real-time probability to the graph so it connects to the big number
+            if ewi_mode_res.get("ml_crash_probability") is not None:
+                ml_history.append({
+                    "quarter": "Current",
+                    "probability": ewi_mode_res["ml_crash_probability"]
+                })
             
             segment_modes[mode] = {
                 "earlyWarningIndicators": mode_ewi_list,
@@ -192,6 +207,7 @@ def run_daily_pipeline():
                 "alertLevel": ewi_mode_res["alert_level"],
                 "maxRiskIndex": mode_max_risk,
                 "dataFreshness": ewi_mode_res["data_freshness_summary"],
+                "mlCrashProbability": ewi_mode_res.get("ml_crash_probability"),
                 "mlProbabilityHistory": ml_history
             }
         

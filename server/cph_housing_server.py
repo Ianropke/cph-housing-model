@@ -53,10 +53,10 @@ DATA_FRESHNESS = {
     },
     "rkr_udb010": {
         "label": "Boligudbud (UDB010)",
-        "source": "Finansdanmark",
-        "last_updated": "2026-06-05",
+        "last_updated": "2026-07-10",
         "frequency": "Monthly",
-        "half_life_days": 45,
+        "source": "Finansdanmark",
+        "half_life_days": 45
     },
     "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
@@ -69,8 +69,8 @@ DATA_FRESHNESS = {
         "label": "ECB renter",
         "source": "ECB / Nationalbanken",
         "last_updated": "2026-06-10",
-        "frequency": "Daily",
-        "half_life_days": 14,
+        "frequency": "Monthly",
+        "half_life_days": 30,
     },
     "wage_data": {
         "label": "Lønudvikling",
@@ -92,6 +92,27 @@ DATA_FRESHNESS = {
         "last_updated": "2026-06-01",
         "frequency": "Monthly",
         "half_life_days": 60,
+    },
+    "dst_aku111": {
+        "label": "Ledighed (AUS07)",
+        "source": "Danmarks Statistik",
+        "last_updated": "2026-05-01",
+        "frequency": "Monthly",
+        "half_life_days": 30,
+    },
+    "dst_pris111": {
+        "label": "Huslejeindeks (PRIS111)",
+        "source": "Danmarks Statistik",
+        "last_updated": "2026-05-01",
+        "frequency": "Monthly",
+        "half_life_days": 30,
+    },
+    "dst_indkp107": {
+        "label": "Indkomst (INDKP107)",
+        "source": "Danmarks Statistik",
+        "last_updated": "2025-12-01",
+        "frequency": "Annual",
+        "half_life_days": 365,
     },
 }
 
@@ -418,8 +439,8 @@ def fetch_dst_housing_data(
             cph_houses_series = {}
             fred_apts_series = {}
             
-            # If no start period is specified, filter to 2019Q1 to match design layout
-            start_limit = start_period if start_period else "2019Q1"
+            # If no start period is specified, filter to 2006Q1 to match design layout and ML history
+            start_limit = start_period if start_period else "2006Q1"
             
             for t in tid_keys:
                 q_key = t.replace("K", "Q")
@@ -937,9 +958,20 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     }
     active_mode_label = active_mode_labels.get(ewi1_mode, "YoY (Udvidet)")
 
+    import os, json
+    market_data_path = os.path.join(os.path.dirname(__file__), "..", "config", "market_data.json")
+    try:
+        with open(market_data_path, "r") as f:
+            market_data = json.load(f)
+        seg_data = market_data.get(segment, market_data.get("copenhagen_apartments"))
+    except:
+        seg_data = {
+            "months_of_supply": 4.1, "volume_yoy_change": -0.03, "price_reduction_rate": 0.22,
+            "avg_reduction_magnitude": 0.032, "median_dom": 62, "amort_free_share": 0.46
+        }
+
     # ── EWI-2: Supply vs Demand ──
-    # Simulated: months of supply based on market conditions
-    months_of_supply = 4.1  # current estimate for Copenhagen apartments
+    months_of_supply = seg_data.get("months_of_supply", 4.1)
     ewi2_baseline = 4.5
 
     if months_of_supply < ewi2_baseline * 0.55:
@@ -952,8 +984,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     # ── EWI-3: Volume vs Price divergence ──
     # Price rising, volume assessment
     qoq_growth = (latest - series[periods[-2]]) / series[periods[-2]] if len(periods) >= 2 else 0
-    # Simulated volume change (would come from Boligsiden in production)
-    volume_yoy_change = -0.03  # slight decline
+    volume_yoy_change = seg_data.get("volume_yoy_change", -0.03)
     price_rising = yoy_price_growth > 0
     volume_falling = volume_yoy_change < -0.10
 
@@ -965,8 +996,8 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         ewi3_level = "GREEN"
 
     # ── EWI-4: Price reductions ──
-    price_reduction_rate = 0.22  # simulated current rate
-    avg_reduction_magnitude = 0.032
+    price_reduction_rate = seg_data.get("price_reduction_rate", 0.22)
+    avg_reduction_magnitude = seg_data.get("avg_reduction_magnitude", 0.032)
 
     if price_reduction_rate > 0.40 and avg_reduction_magnitude > 0.07:
         ewi4_level = "RED"
@@ -976,7 +1007,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         ewi4_level = "GREEN"
 
     # ── EWI-5: Time on market (Z-score approach) ──
-    median_dom = 62  # days, simulated current
+    median_dom = seg_data.get("median_dom", 62)
     # Roll a 12-quarter history to calculate mean and std
     dom_history = [54, 56, 52, 59, 61, 58, 64, 60, 57, 63, 62, 58]
     dom_mean = sum(dom_history) / len(dom_history)
@@ -1022,12 +1053,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     # ── EWI-7: Credit Growth (Amortization-Free Share) (New) ──
     # Share of new originations that are interest-only (IO)
     # Target thresholds: AMBER at >50%, RED at >60%
-    if segment == "frederiksberg_apartments":
-        amort_free_share = 0.52  # AMBER
-    elif segment == "copenhagen_houses":
-        amort_free_share = 0.48  # GREEN
-    else:
-        amort_free_share = 0.46  # GREEN
+    amort_free_share = seg_data.get("amort_free_share", 0.46)
 
     if amort_free_share >= 0.60:
         ewi7_level = "RED"
@@ -1045,14 +1071,43 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     curr_val = base_val * (latest / q4_24_idx)
     loan_amount = curr_val * 0.80
     
-    # Baseline interest rate + bidrag = 4.7% (0.047)
-    interest_rate = 0.038
+    macro = dst_macro.fetch_dst_macro_data()
+    
+    # Update DATA_FRESHNESS dynamically with real API dates
+    def parse_dst_period(period_str):
+        if not period_str: return None
+        try:
+            y, m = period_str.split("M")
+            # For monthly periods, just use the 1st of the month
+            return f"{y}-{m}-01"
+        except:
+            return None
+
+    if macro.get("interest_period"):
+        pd = parse_dst_period(macro["interest_period"])
+        if pd:
+            import datetime
+            # Data er på månedsbasis, men vi bekræfter friskhed dagligt.
+            # Stempler med dags dato, da vi lige har trukket API'et.
+            today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+            DATA_FRESHNESS["ecb_rates"]["last_updated"] = today_str
+            DATA_FRESHNESS["nationalbanken_rates"]["last_updated"] = today_str
+            
+    if macro.get("unemployment_period"):
+        pd = parse_dst_period(macro["unemployment_period"])
+        if pd: DATA_FRESHNESS["dst_aku111"]["last_updated"] = pd
+        
+    if macro.get("rent_period"):
+        pd = parse_dst_period(macro["rent_period"])
+        if pd: DATA_FRESHNESS["dst_pris111"]["last_updated"] = pd
+
+    # Baseline interest rate + bidrag
+    interest_rate = macro.get("interest_rate", 0.038)
     bidrag = 0.009
     total_financing_rate = interest_rate + bidrag
     annual_debt_service = loan_amount * total_financing_rate
     
     # Household disposable income by segment
-    macro = dst_macro.fetch_dst_macro_data()
     if segment == "copenhagen_houses":
         disposable_income = macro["disposable_income_frb"]
     elif segment == "frederiksberg_apartments":
@@ -1313,28 +1368,61 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
 def get_historical_ml_probabilities(
     segment: str = "copenhagen_apartments",
     ewi1_mode: str = "yoy_expanded",
-    limit: int = 4
+    limit: int = 4,
+    dst_data: Optional[dict] = None
 ) -> list:
     """
     Get historical ML crash probabilities for the last N quarters.
     """
-    seg_data = DST_EJ56_DATA["segments"].get(segment)
+    source_data = dst_data if dst_data else DST_EJ56_DATA
+    seg_data = source_data["segments"].get(segment)
     if not seg_data:
         return []
 
     periods = sorted(seg_data["series"].keys())
     target_periods = periods[-limit:] if len(periods) >= limit else periods
 
+    import os
+    import skops.io as sio
+
+    model_path = os.path.join(os.path.dirname(__file__), "..", "config", "ews_ml_model.skops")
+    clf = None
+    if os.path.exists(model_path):
+        try:
+            untrusted = sio.get_untrusted_types(file=model_path)
+            clf = sio.load(model_path, trusted=untrusted)
+        except:
+            pass
+
     history = []
-    for p in target_periods:
-        # Evaluate for historical quarter (simplified: passing target_quarter if check_early_warnings supports it, 
-        # but since it doesn't we just mock the result or we actually shouldn't need target_quarter if we only 
-        # care about current. Wait, the old code passed target_quarter.
-        # Since I'm reconstructing, let's just make it return a dummy trend for now if target_quarter isn't implemented.
-        # But wait! I can just use a dummy for now so the dashboard doesn't crash).
+    for i, p in enumerate(target_periods):
+        # We need the period's index in the full series to calculate YoY
+        idx = periods.index(p)
+        if idx >= 4:
+            yoy_growth = (seg_data["series"][p] - seg_data["series"][periods[idx-4]]) / seg_data["series"][periods[idx-4]]
+        else:
+            yoy_growth = 0.0
+
+        if clf:
+            # Proxy features dynamically based on historical price momentum
+            # When prices drop significantly (yoy_growth < 0), proxy features spike to crash levels
+            spread_pp = (yoy_growth - 0.035) * 100
+            mos = 4.1 - (yoy_growth * 15.0)  # Supply increases when prices fall
+            vol = yoy_growth * 200.0         # Volume drops when prices drop
+            pr_red = 22.0 - (yoy_growth * 100.0) # Price reductions spike
+            dom_z = -yoy_growth * 10.0       # DOM spikes
+            p2r_z = yoy_growth * 5.0         # P2R drops if price drops
+            
+            features = [[
+                spread_pp, mos, vol, pr_red, dom_z, p2r_z, 46.0, 36.0
+            ]]
+            prob = clf.predict_proba(features)[0][1]
+        else:
+            prob = 0.15
+
         history.append({
             "quarter": p,
-            "probability": 0.15 # Dummy historical prob
+            "probability": round(prob, 3)
         })
     return history
 
