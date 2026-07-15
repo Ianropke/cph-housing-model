@@ -102,21 +102,28 @@ const RiskBarometer = ({ maxRiskIndex }) => {
         {/* Component breakdown */}
         <div className="risk-gauge-components">
           {['mc_downside', 'severity', 'ewi', 'freshness'].map((key) => {
+            const dataKey = key === 'severity'
+              ? 'max_risk_severity_pct'
+              : key === 'ewi'
+              ? 'ewi_contribution'
+              : key === 'freshness'
+              ? 'avg_data_freshness'
+              : 'mc_downside';
+            const componentValue = data.components?.[dataKey] ?? 0;
+
             const val = key === 'freshness'
-              ? data.components[key] * 100
-              : key === 'mc_downside'
-              ? data.components[key]
-              : data.components[key];
+              ? componentValue * 100
+              : componentValue;
             const displayVal = key === 'freshness'
-              ? `${Math.round(data.components[key] * 100)}%`
-              : `${data.components[key]}${key !== 'ewi' ? '%' : ''}`;
+              ? `${Math.round(componentValue * 100)}%`
+              : `${componentValue.toFixed(1)}${key !== 'ewi' ? '%' : ''}`;
             const barWidth = key === 'freshness'
-              ? data.components[key] * 100
+              ? componentValue * 100
               : key === 'mc_downside'
-              ? Math.min(100, data.components[key] * 10)
+              ? Math.min(100, componentValue * 10)
               : key === 'severity'
-              ? Math.min(100, data.components[key] * 3)
-              : Math.min(100, data.components[key]);
+              ? Math.min(100, componentValue * 3)
+              : Math.min(100, componentValue);
             const barGrad = key === 'freshness'
               ? 'linear-gradient(135deg, #3b82f6, #60a5fa)'
               : getGradient(barWidth);
