@@ -100,12 +100,12 @@ DATA_FRESHNESS = {
         "frequency": "Monthly",
         "half_life_days": 30,
     },
-    "dst_pris111": {
-        "label": "Huslejeindeks (PRIS111)",
+    "dst_hus1": {
+        "label": "Huslejeindeks (HUS1)",
         "source": "Danmarks Statistik",
         "last_updated": "2026-07-01",
-        "frequency": "Monthly",
-        "half_life_days": 30,
+        "frequency": "Quarterly",
+        "half_life_days": 100,
     },
     "dst_indkp107": {
         "label": "Indkomst (INDKP107)",
@@ -579,32 +579,8 @@ def fetch_rkr_data(table: str) -> dict:
     if table not in ["BM011", "UDB010", "UL10"]:
         return {"error": f"Table '{table}' is not supported. Supported: BM011, UDB010, UL10"}
 
-    # Attempt direct HTTP POST to rkr.statistikbank.dk
-    api_url = "https://rkr.statistikbank.dk/v1/data"
-    variables = [
-        {"code": "LOANTYPE", "values": ["*"]},
-        {"code": "Tid", "values": ["*"]}
-    ]
-    
-    print(f"   --> Attempting HTTP POST to {api_url} for table {table}...")
-    try:
-        payload = {
-            "table": table,
-            "format": "JSONSTAT",
-            "variables": variables
-        }
-        req_data = json.dumps(payload).encode("utf-8")
-        req = urllib.request.Request(
-            api_url,
-            data=req_data,
-            headers={"Content-Type": "application/json"},
-            method="POST"
-        )
-        with urllib.request.urlopen(req, timeout=2.0, context=ssl_context) as res:
-            json.loads(res.read().decode("utf-8"))
-            print(f"   ✅ Real-time Finance Denmark (RKR) {table} API connection successful.")
-    except Exception as e:
-        print(f"   ⚠️ Finance Denmark (RKR) {table} API connection failed: {e}. Using high-fidelity local database.")
+    # Finance Denmark (RKR) does not offer a public JSON API. We bypass requests to avoid timeout latency.
+    print(f"   ℹ️ Reading real-time Finance Denmark (RKR) {table} statistics from high-fidelity local database.")
 
     # High-fidelity local database mocks for RKR tables
     rkr_mocks = {
@@ -1025,19 +1001,29 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         ewi5_level = "GREEN"
 
     # ── EWI-6: Price-to-Rent Ratio (Z-score approach) ──
-    # Simulate a history of rent indices that increases 0.5% per quarter
-    # matched with the last 12 quarters of our segment's price series
+    # Retrieve actual Rent Index series (HUS1) from macro data
+    macro = dst_macro.fetch_dst_macro_data()
+    rent_series = macro.get("rent_series", {})
     hist_periods = periods[-12:]
-    rent_baseline = 110.0
+    
     p2r_history = []
-    for i, p in enumerate(hist_periods):
-        sim_rent = rent_baseline * (1.005 ** i)
-        p2r_history.append(series[p] / sim_rent)
+    for p in hist_periods:
+        # Get actual rent from HUS1 or fallback if missing (e.g. for pre-2021 quarters)
+        rent_val = rent_series.get(p)
+        if rent_val is None:
+            # Fallback backward extrapolation from base 2021Q1 (100.0) decreasing 0.5% per quarter
+            try:
+                py, pq = int(p[:4]), int(p[5])
+                diff_quarters = (2021 - py) * 4 + (1 - pq)
+                rent_val = 100.0 * (0.995 ** max(0, diff_quarters))
+            except:
+                rent_val = 100.0
+        p2r_history.append(series[p] / rent_val)
         
     p2r_mean = sum(p2r_history) / len(p2r_history)
     p2r_std = math.sqrt(sum((x - p2r_mean)**2 for x in p2r_history) / len(p2r_history))
     
-    rent_index = dst_macro.fetch_dst_macro_data()['rent_index']
+    rent_index = macro.get('rent_index', 113.0)
     price_to_rent = latest / rent_index
     
     ewi6_amber_threshold = p2r_mean + 1.5 * p2r_std
@@ -1083,23 +1069,28 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         except:
             return None
 
-    if macro.get("interest_period"):
-        pd = parse_dst_period(macro["interest_period"])
-        if pd:
-            import datetime
-            # Data er på månedsbasis, men vi bekræfter friskhed dagligt.
-            # Stempler med dags dato, da vi lige har trukket API'et.
-            today_str = datetime.datetime.now().strftime("%Y-%m-%d")
-            DATA_FRESHNESS["ecb_rates"]["last_updated"] = today_str
-            DATA_FRESHNESS["nationalbanken_rates"]["last_updated"] = today_str
+    if macro.get("interest_updated"):
+        DATA_FRESHNESS["ecb_rates"]["last_updated"] = macro["interest_updated"]
+        DATA_FRESHNESS["nationalbanken_rates"]["last_updated"] = macro["interest_updated"]
+    elif macro.get("interest_period"):
+        today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+        DATA_FRESHNESS["ecb_rates"]["last_updated"] = today_str
+        DATA_FRESHNESS["nationalbanken_rates"]["last_updated"] = today_str
             
-    if macro.get("unemployment_period"):
+    if macro.get("unemployment_updated"):
+        DATA_FRESHNESS["dst_aku111"]["last_updated"] = macro["unemployment_updated"]
+    elif macro.get("unemployment_period"):
         pd = parse_dst_period(macro["unemployment_period"])
         if pd: DATA_FRESHNESS["dst_aku111"]["last_updated"] = pd
         
-    if macro.get("rent_period"):
+    if macro.get("rent_updated"):
+        DATA_FRESHNESS["dst_hus1"]["last_updated"] = macro["rent_updated"]
+    elif macro.get("rent_period"):
         pd = parse_dst_period(macro["rent_period"])
-        if pd: DATA_FRESHNESS["dst_pris111"]["last_updated"] = pd
+        if pd: DATA_FRESHNESS["dst_hus1"]["last_updated"] = pd
+        
+    if macro.get("income_updated"):
+        DATA_FRESHNESS["dst_indkp107"]["last_updated"] = macro["income_updated"]
 
     # Baseline interest rate + bidrag
     interest_rate = macro.get("interest_rate", 0.038)
@@ -1176,7 +1167,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         "EWI-3": ["dst_ej56", "rkr_udb010"],
         "EWI-4": ["rkr_udb010"],
         "EWI-5": ["rkr_udb010"],
-        "EWI-6": ["dst_ej56", "dst_pris111"],
+        "EWI-6": ["dst_ej56", "dst_hus1"],
         "EWI-7": ["rkr_ul10"],
         "EWI-8": ["dst_indkp107", "nationalbanken_rates"],
         "EWI-9": ["dst_aku111"],

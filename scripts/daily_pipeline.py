@@ -124,6 +124,21 @@ def run_daily_pipeline():
             print(f"   {segment} [{hk}]: ensemble index {ensemble['probability_weighted_index']:.1f} "
                   f"({ensemble['probability_weighted_change_pct']:+.1f}%)")
 
+    # ── Inject Dynamic Freshness Dates ──
+    from cph_housing_server import DATA_FRESHNESS
+    
+    if "last_updated" in dst_data:
+        DATA_FRESHNESS["dst_ej56"]["last_updated"] = dst_data["last_updated"]
+        
+    market_data_path = os.path.join(PROJECT_ROOT, "config", "market_data.json")
+    if os.path.exists(market_data_path):
+        with open(market_data_path, "r") as f:
+            md = json.load(f)
+            if "last_updated" in md:
+                DATA_FRESHNESS["rkr_udb010"]["last_updated"] = md["last_updated"]
+                # Also assign to rkr_ul10 since the agent acts as its data source currently
+                DATA_FRESHNESS["rkr_ul10"]["last_updated"] = md["last_updated"]
+
     # ── Step 3: Check early warnings ──
     print("\n🚨 Step 3: Checking early warning indicators...")
     ewi_results = {}

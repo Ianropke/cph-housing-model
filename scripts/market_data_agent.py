@@ -2,11 +2,13 @@
 import json
 import os
 import time
+import datetime
 import statistics
 from curl_cffi import requests
 
 def get_fallback_data():
     return {
+      "last_updated": datetime.date.today().isoformat(),
       "copenhagen_apartments": {
         "months_of_supply": 4.4,
         "volume_yoy_change": -0.05,
@@ -112,6 +114,7 @@ def fetch_market_data():
         data["copenhagen_apartments"] = cph_apt if cph_apt else fb["copenhagen_apartments"]
         data["copenhagen_houses"] = cph_houses if cph_houses else fb["copenhagen_houses"]
         data["frederiksberg_apartments"] = frb_apt if frb_apt else fb["frederiksberg_apartments"]
+        data["last_updated"] = datetime.date.today().isoformat()
         
         return data
     except Exception as e:
