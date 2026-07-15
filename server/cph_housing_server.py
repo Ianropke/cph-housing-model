@@ -47,16 +47,16 @@ DATA_FRESHNESS = {
     "rkr_bm011": {
         "label": "Realkreditlån (BM011)",
         "source": "Finansdanmark",
-        "last_updated": "2026-05-15",
+        "last_updated": "2026-07-15",
         "frequency": "Monthly",
         "half_life_days": 60,
     },
     "rkr_udb010": {
-        "label": "Boligudbud (UDB010)",
-        "last_updated": "2026-07-10",
-        "frequency": "Monthly",
-        "source": "Finansdanmark",
-        "half_life_days": 45
+        "label": "Boliga Custom Scraper",
+        "last_updated": "2026-07-15",
+        "frequency": "Daily",
+        "source": "Boliga API",
+        "half_life_days": 10
     },
     "rkr_ul10": {
         "label": "Afdragsfrihed (UL10)",
@@ -96,14 +96,14 @@ DATA_FRESHNESS = {
     "dst_aku111": {
         "label": "Ledighed (AUS07)",
         "source": "Danmarks Statistik",
-        "last_updated": "2026-05-01",
+        "last_updated": "2026-07-01",
         "frequency": "Monthly",
         "half_life_days": 30,
     },
     "dst_pris111": {
         "label": "Huslejeindeks (PRIS111)",
         "source": "Danmarks Statistik",
-        "last_updated": "2026-05-01",
+        "last_updated": "2026-07-01",
         "frequency": "Monthly",
         "half_life_days": 30,
     },
