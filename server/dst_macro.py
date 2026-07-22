@@ -42,10 +42,13 @@ def fetch_dst_macro_data() -> dict:
         req = urllib.request.Request(
             api_url,
             data=req_data,
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+            },
             method="POST"
         )
-        with urllib.request.urlopen(req, timeout=5.0, context=ssl_context) as res:
+        with urllib.request.urlopen(req, timeout=8.0, context=ssl_context) as res:
             return json.loads(res.read().decode("utf-8"))
 
     # 1. Unemployment (AUS07 - Sæsonkorrigeret i pct af arbejdsstyrken)

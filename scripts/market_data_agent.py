@@ -44,30 +44,39 @@ def fetch_boliga_category(property_type: int, zip_from: int, zip_to: int, avg_mo
     
     while True:
         url = f"https://api.boliga.dk/api/v2/search/results?pageSize=500&page={page}&propertyType={property_type}&zipcodeFrom={zip_from}&zipcodeTo={zip_to}"
-        try:
-            r = requests.get(url, impersonate="chrome110", timeout=15)
-            if r.status_code != 200:
-                print(f"Error {r.status_code} fetching Boliga API.")
-                break
+        success = False
+        for attempt in range(3):
+            try:
+                r = requests.get(url, impersonate="chrome110", timeout=15)
+                if r.status_code == 200:
+                    data = r.json()
+                    results = data.get("results", [])
+                    all_results.extend(results)
+                    total_count = data.get("meta", {}).get("totalCount", 0)
+                    total_pages = data.get("meta", {}).get("totalPages", 1)
+                    success = True
+                    break
+                else:
+                    print(f"  --> Retry {attempt + 1}: Status {r.status_code} fetching page {page}")
+                    time.sleep(2)
+            except Exception as e:
+                print(f"  --> Retry {attempt + 1}: Exception on page {page}: {e}")
+                time.sleep(2)
                 
-            data = r.json()
-            results = data.get("results", [])
-            all_results.extend(results)
-            
-            total_count = data.get("meta", {}).get("totalCount", 0)
-            total_pages = data.get("meta", {}).get("totalPages", 1)
-            
-            if page >= total_pages or not results:
-                break
-            
-            page += 1
-            time.sleep(1) # Be polite to the API
-        except Exception as e:
-            print(f"Exception fetching Boliga: {e}")
+        if not success:
+            print(f"Failed to fetch page {page} for propertyType={property_type}")
             break
+            
+        if page >= total_pages or not results:
+            break
+            
+        page += 1
+        time.sleep(1) # Be polite to the API
             
     if not all_results:
         return None
+        
+    print(f"   ✅ Successfully processed {len(all_results)} active listings (total meta: {total_count})")
         
     days_on_market = [r.get("daysForSale", 0) for r in all_results if r.get("daysForSale") is not None]
     price_changes = [r.get("priceChangePercentTotal", 0) for r in all_results if r.get("priceChangePercentTotal") is not None]
