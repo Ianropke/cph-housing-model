@@ -52,7 +52,18 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [displayTimestamp, setDisplayTimestamp] = useState('—');
   useEffect(() => {
-    if (pipelineData) setDisplayTimestamp(pipelineData.generated_at.substring(0, 10));
+    if (pipelineData && pipelineData.generated_at) {
+      try {
+        const d = new Date(pipelineData.generated_at);
+        if (!isNaN(d.getTime())) {
+          setDisplayTimestamp(d.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' }));
+        } else {
+          setDisplayTimestamp(pipelineData.generated_at.substring(0, 10));
+        }
+      } catch {
+        setDisplayTimestamp(pipelineData.generated_at.substring(0, 10));
+      }
+    }
   }, [pipelineData]);
 
   const activeSegment = `${activeCity}_apartments`;
@@ -198,8 +209,8 @@ Cron: Daily at 02:00 CET`;
               </svg>
             </div>
             <div>
-              <h1>Copenhagen Housing Market</h1>
-              <p className="header-subtitle">Forecast Dashboard & Controller</p>
+              <h1>Det Københavnske Boligmarked</h1>
+              <p className="header-subtitle">Prognose- & Risikodashboard</p>
             <div className="city-selector" style={{ marginTop: '8px' }}>
               <select 
                 value={activeCity} 
@@ -215,10 +226,10 @@ Cron: Daily at 02:00 CET`;
                   cursor: 'pointer'
                 }}
               >
-                <option value="copenhagen">København</option>
-                <option value="aarhus">Aarhus</option>
-                <option value="odense">Odense</option>
-                <option value="aalborg">Aalborg</option>
+                <option value="copenhagen">København & Frederiksberg</option>
+                <option value="aarhus" disabled>Aarhus (Kommer snart)</option>
+                <option value="odense" disabled>Odense (Kommer snart)</option>
+                <option value="aalborg" disabled>Aalborg (Kommer snart)</option>
               </select>
             </div>
 
@@ -269,7 +280,6 @@ Cron: Daily at 02:00 CET`;
           mlCrashProbability={mlCrashProbability}
           mlProbabilityHistory={activeModeData.mlProbabilityHistory}
           dataFreshness={activeModeData.dataFreshness}
-          mlProbabilityHistory={activeModeData.mlProbabilityHistory}
         />
         <ForecastEnsemblePanel />
         <UserCostPanel />

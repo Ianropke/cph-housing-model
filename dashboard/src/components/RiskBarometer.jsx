@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 const componentTooltips = {
-  mc_downside: 'Monte Carlo Downside måler sandsynligheden for at prisindekset falder under det nuværende niveau, baseret på 1.000 simulerede scenarier med tilfældig variation i renter, risikopræmie og vedligeholdelse.',
-  severity: 'Scenarie-alvor viser hvor kraftigt boligpriserne falder i worst-case (Max Risk) scenariet. Jo højere tal, jo mere dramatisk er det beregnede prisfald.',
-  ewi: 'EWI-signal sammenfatter de 7 tidlige varslingsindikatorer (pris vs. løn, udbud, salgstider mv.) til ét tal. Vægtet med datakilde-friskhed, så ældre data tæller mindre.',
-  freshness: 'Data-friskhed viser hvor opdaterede datakilderne er i gennemsnit. 100% = alle kilder opdateret i dag. Lavere værdier betyder at nogle kilder er ældre, og modellens usikkerhed stiger.',
+  mc_downside: 'Monte Carlo-nedrisiko måler sandsynligheden for at prisindekset falder under det nuværende niveau, baseret på 1.000 simulerede scenarier med tilfældig variation i renter, risikopræmie og vedligeholdelse.',
+  severity: 'Nedside-potentiale viser hvor kraftigt boligpriserne falder i worst-case (Max Risk) scenariet. Jo højere tal, jo større er det beregnede prisfald.',
+  ewi: 'Varslingsscore sammenfatter de tidlige varslingsindikatorer (pris vs. løn, udbud, salgstider mv.) til ét tal. Vægtet med datakilde-friskhed, så ældre data tæller mindre.',
+  freshness: 'Datakilde-friskhed viser hvor opdaterede datakilderne er i gennemsnit. 100% = alle kilder opdateret i dag. Lavere værdier betyder at nogle kilder er ældre, hvormed usikkerheden stiger.',
 };
 
 const horizonExplainers = {
@@ -32,10 +32,10 @@ const RiskBarometer = ({ maxRiskIndex }) => {
   };
 
   const componentLabels = {
-    mc_downside: 'Simul. downside',
-    severity: 'Scenarie-alvor',
-    ewi: 'EWI-signal',
-    freshness: 'Data-friskhed',
+    mc_downside: 'Simuleret nedrisiko',
+    severity: 'Nedside-potentiale',
+    ewi: 'Varslingsscore',
+    freshness: 'Datakilde-friskhed',
   };
 
   const renderGauge = (horizon, data) => {

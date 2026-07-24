@@ -5,9 +5,9 @@ import {
 import { useCity } from '../context/CityContext';
 
 const scenarioTooltips = {
-  'Baseline': 'Det mest sandsynlige scenarie (55% vægt). ECB sænker renten gradvist, lønvæksten er stabil, og boligpriserne stiger moderat.',
-  'Min Risk': 'Optimistisk scenarie (20% vægt). Kraftige rentesænkninger, høj efterspørgsel, og forsinkede nybyggerier driver priserne markant op. Indikerer boblerisiko.',
-  'Max Risk': 'Negativt scenarie (25% vægt). Rentestigninger, lavkonjunktur, og overudbud fører til betydelige prisfald — stress-test af porteføljen.',
+  'Baseline': 'Hovedscenarie (55% vægt): Gradvis rentesænkning, stabil lønvækst og moderat prisstigning.',
+  'Min Risk': 'Optimistisk scenarie (20% vægt): Rentesænkninger og høj efterspørgsel driver priserne stærkere op.',
+  'Max Risk': 'Stress-test scenarie (25% vægt): Rentestigninger og konjunkturtilbagegang fører til beregnet prisfald.',
 };
 
 const CustomTooltip = ({ active, payload, label, ensembleConfidenceBounds }) => {
@@ -28,7 +28,7 @@ const CustomTooltip = ({ active, payload, label, ensembleConfidenceBounds }) => 
           Monte Carlo 90% konfidensinterval: <strong>[{bounds.p10.toFixed(1)} – {bounds.p90.toFixed(1)}]</strong>
         </p>
       )}
-      <p className="tooltip-hint">Indeksværdi — højere = højere boligpriser</p>
+      <p className="tooltip-hint">Forventet indeksværdi (Base 2006 = 100)</p>
     </div>
   );
 };

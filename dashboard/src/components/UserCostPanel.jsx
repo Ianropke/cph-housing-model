@@ -4,12 +4,12 @@ import {
 } from 'recharts';
 import { useCity } from '../context/CityContext';
 
-const ucExplainer = `Fundamental User Cost (brugeromkostning) er den løbende ejeromkostning ved at besidde en ejerbolig — inkl. renter efter skat, ejendomsskat, vedligeholdelse og risikopræmie. Forventet prisstigning (sentiment) er fuldt ud separeret for at undgå cirkulær adfærdslogik. Beregnet for en 3M DKK bolig med 80% belåning.`;
+const ucExplainer = `Fundamental User Cost (brugeromkostning) er den løbende ejeromkostning ved at besidde en ejerbolig — inklusive renter efter skat, ejendomsskatter, vedligeholdelse og risikopræmie. Beregnet for en bolig til 3,0 mio. DKK med 80% belåning.`;
 
 const scenarioTips = {
-  'Baseline': 'Moderat renteniveau (3,7% → 3,5%). De fundamentale ejeromkostninger inkluderer rentefradrag (blended rate), ejendomsskat (dynamisk), vedligeholdelse (segmenteret) og risikopræmie (rentefølsom).',
-  'Min Risk': 'Lavere renter reducerer de fundamentale ejeromkostninger betydeligt. Prisforventninger (sentiment) er udskilt separat som en uafhængig spekulativ overvågningsindikator.',
-  'Max Risk': 'Stigende renter og markant øget risikopræmie. Ejeren betaler væsentligt højere løbende finansierings- og risikoomkostninger fundamentalt.',
+  'Baseline': 'Hovedscenarie: Moderat renteniveau. De fundamentale ejeromkostninger inkluderer rentefradrag (vægtet skattesats), ejendomsskatter, vedligeholdelse og risikopræmie.',
+  'Min Risk': 'Optimistisk scenarie: Lavere renter reducerer de fundamentale ejeromkostninger betydeligt.',
+  'Max Risk': 'Stress-test scenarie: Stigende renter og øget risikopræmie fører til væsentligt højere løbende finansieringsomkostninger.',
 };
 
 const CustomTooltip = ({ active, payload }) => {
@@ -19,12 +19,12 @@ const CustomTooltip = ({ active, payload }) => {
     <div className="chart-tooltip">
       <p className="tooltip-label">{d.scenario}</p>
       <p style={{ color: d.color }}>
-        UC Rate: <strong>{d?.ucRate > 0 ? '+' : ''}{d?.ucRate}%</strong> af boligværdien pr. år
+        Årlig UC-rate: <strong>{d?.ucRate > 0 ? '+' : ''}{d?.ucRate}%</strong> af boligværdien
       </p>
       <p style={{ color: d.color }}>
-        Månedlig: <strong>{d?.monthly?.toLocaleString('da-DK') ?? '—'} DKK</strong>
+        Månedlig omkostning: <strong>{d?.monthly?.toLocaleString('da-DK') ?? '—'} DKK</strong>
       </p>
-      <p className="tooltip-hint">Jo højere UC, jo dyrere er det løbende at besidde ejerboligen fundamentalt</p>
+      <p className="tooltip-hint">Jo højere User Cost, jo større er den løbende ejerbyrde</p>
     </div>
   );
 };
