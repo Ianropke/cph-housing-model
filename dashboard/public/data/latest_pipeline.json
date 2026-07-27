@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-27T06:31:45.017944",
+  "generated_at": "2026-07-27T18:06:55.573670",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-06-29",
-    "query_timestamp": "2026-07-27T06:32:20.064049",
+    "query_timestamp": "2026-07-27T18:07:36.518300",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -294,7 +294,7 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-07-27T06:32:49.637440",
+      "evaluation_timestamp": "2026-07-27T18:07:50.429564",
       "ml_crash_probability": 0.37,
       "indicators": {
         "EWI-1_price_vs_wages": {
@@ -350,7 +350,7 @@
         },
         "EWI-2_supply_demand": {
           "level": "GREEN",
-          "months_of_supply": 4.09,
+          "months_of_supply": 4.13,
           "baseline_months": 4.5,
           "detail": "Months of supply: 4.1 (baseline: 4.5)",
           "data_sources": [
@@ -391,9 +391,9 @@
         },
         "EWI-4_price_reductions": {
           "level": "AMBER",
-          "reduction_rate_pct": 29.6,
+          "reduction_rate_pct": 29.3,
           "avg_reduction_magnitude_pct": 5.1,
-          "detail": "30% of listings reduced, avg 5.1%",
+          "detail": "29% of listings reduced, avg 5.1%",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -631,10 +631,10 @@
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "30%",
+              "value": "29%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "30% of listings reduced, avg 5.1%",
+              "description": "29% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -697,7 +697,7 @@
               "score": 14,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 24.5,
                 "avg_data_freshness": 0.82
@@ -1171,10 +1171,10 @@
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "30%",
+              "value": "29%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "30% of listings reduced, avg 5.1%",
+              "description": "29% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -1237,7 +1237,7 @@
               "score": 14,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 24.5,
                 "avg_data_freshness": 0.82
@@ -1711,10 +1711,10 @@
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "30%",
+              "value": "29%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "30% of listings reduced, avg 5.1%",
+              "description": "29% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -1777,7 +1777,7 @@
               "score": 11,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 16.0,
                 "avg_data_freshness": 0.82
@@ -2251,10 +2251,10 @@
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "30%",
+              "value": "29%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "30% of listings reduced, avg 5.1%",
+              "description": "29% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -2317,7 +2317,7 @@
               "score": 11,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 16.0,
                 "avg_data_freshness": 0.82
@@ -2760,7 +2760,7 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-07-27T06:32:51.309481",
+      "evaluation_timestamp": "2026-07-27T18:07:51.307839",
       "ml_crash_probability": 0.58,
       "indicators": {
         "EWI-1_price_vs_wages": {
@@ -2816,9 +2816,9 @@
         },
         "EWI-2_supply_demand": {
           "level": "GREEN",
-          "months_of_supply": 11.95,
+          "months_of_supply": 11.98,
           "baseline_months": 4.5,
-          "detail": "Months of supply: 11.9 (baseline: 4.5)",
+          "detail": "Months of supply: 12.0 (baseline: 4.5)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -2857,7 +2857,7 @@
         },
         "EWI-4_price_reductions": {
           "level": "AMBER",
-          "reduction_rate_pct": 33.4,
+          "reduction_rate_pct": 33.3,
           "avg_reduction_magnitude_pct": 5.7,
           "detail": "33% of listings reduced, avg 5.7%",
           "data_sources": [
@@ -2873,10 +2873,10 @@
         },
         "EWI-5_time_on_market": {
           "level": "RED",
-          "median_dom_days": 72,
+          "median_dom_days": 71,
           "baseline_mean_days": 58.7,
           "baseline_std_days": 3.4,
-          "detail": "Median liggetid er 72 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+          "detail": "Median liggetid er 71 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -3077,10 +3077,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "11.9 months",
+              "value": "12.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 11.9 (baseline: 4.5)",
+              "description": "Months of supply: 12.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -3107,10 +3107,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "72 days",
+              "value": "71 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 72 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 71 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -3617,10 +3617,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "11.9 months",
+              "value": "12.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 11.9 (baseline: 4.5)",
+              "description": "Months of supply: 12.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -3647,10 +3647,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "72 days",
+              "value": "71 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 72 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 71 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -4157,10 +4157,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "11.9 months",
+              "value": "12.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 11.9 (baseline: 4.5)",
+              "description": "Months of supply: 12.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -4187,10 +4187,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "72 days",
+              "value": "71 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 72 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 71 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -4697,10 +4697,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "11.9 months",
+              "value": "12.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 11.9 (baseline: 4.5)",
+              "description": "Months of supply: 12.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -4727,10 +4727,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "72 days",
+              "value": "71 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 72 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 71 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -5226,7 +5226,7 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-07-27T06:32:53.108184",
+      "evaluation_timestamp": "2026-07-27T18:07:52.296136",
       "ml_crash_probability": 0.35,
       "indicators": {
         "EWI-1_price_vs_wages": {
@@ -5282,9 +5282,9 @@
         },
         "EWI-2_supply_demand": {
           "level": "RED",
-          "months_of_supply": 1.34,
+          "months_of_supply": 1.35,
           "baseline_months": 4.5,
-          "detail": "Months of supply: 1.3 (baseline: 4.5)",
+          "detail": "Months of supply: 1.4 (baseline: 4.5)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -5323,7 +5323,7 @@
         },
         "EWI-4_price_reductions": {
           "level": "GREEN",
-          "reduction_rate_pct": 29.9,
+          "reduction_rate_pct": 29.6,
           "avg_reduction_magnitude_pct": 4.4,
           "detail": "30% of listings reduced, avg 4.4%",
           "data_sources": [
@@ -5543,10 +5543,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.3 months",
+              "value": "1.4 months",
               "baseline": "4.5 months",
               "status": "RED",
-              "description": "Months of supply: 1.3 (baseline: 4.5)",
+              "description": "Months of supply: 1.4 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -5636,10 +5636,10 @@
               }
             },
             "12m": {
-              "score": 33,
+              "score": 32,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 1.0,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 31.5,
                 "avg_data_freshness": 0.82
@@ -6083,10 +6083,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.3 months",
+              "value": "1.4 months",
               "baseline": "4.5 months",
               "status": "RED",
-              "description": "Months of supply: 1.3 (baseline: 4.5)",
+              "description": "Months of supply: 1.4 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -6176,10 +6176,10 @@
               }
             },
             "12m": {
-              "score": 33,
+              "score": 32,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 1.0,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 31.5,
                 "avg_data_freshness": 0.82
@@ -6623,10 +6623,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.3 months",
+              "value": "1.4 months",
               "baseline": "4.5 months",
               "status": "RED",
-              "description": "Months of supply: 1.3 (baseline: 4.5)",
+              "description": "Months of supply: 1.4 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -6719,7 +6719,7 @@
               "score": 29,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 1.0,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 18.8,
                 "avg_data_freshness": 0.82
@@ -7163,10 +7163,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.3 months",
+              "value": "1.4 months",
               "baseline": "4.5 months",
               "status": "RED",
-              "description": "Months of supply: 1.3 (baseline: 4.5)",
+              "description": "Months of supply: 1.4 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-07-27"
             },
@@ -7259,7 +7259,7 @@
               "score": 29,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 1.0,
                 "max_risk_severity_pct": 12.5,
                 "ewi_contribution": 18.8,
                 "avg_data_freshness": 0.82
@@ -7696,7 +7696,7 @@
       "segment": "copenhagen_apartments",
       "current_period": "2025Q4",
       "current_index": 129.2,
-      "forecast_date": "2026-07-27T06:32:20.070886",
+      "forecast_date": "2026-07-27T18:07:36.530136",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -7749,9 +7749,9 @@
               132.1
             ],
             "confidence_bounds": {
-              "p10": 128.5,
-              "p50": 129.6,
-              "p90": 130.7
+              "p10": 128.4,
+              "p50": 129.7,
+              "p90": 130.8
             }
           }
         },
@@ -7807,8 +7807,8 @@
             ],
             "confidence_bounds": {
               "p10": 127.7,
-              "p50": 131.2,
-              "p90": 134.2
+              "p50": 131.1,
+              "p90": 134.4
             }
           }
         },
@@ -7863,9 +7863,9 @@
               176.1
             ],
             "confidence_bounds": {
-              "p10": 128.8,
-              "p50": 138.2,
-              "p90": 146.9
+              "p10": 128.3,
+              "p50": 137.8,
+              "p90": 146.4
             }
           }
         }
@@ -7875,7 +7875,7 @@
       "segment": "copenhagen_houses",
       "current_period": "2025Q4",
       "current_index": 118.5,
-      "forecast_date": "2026-07-27T06:32:20.077713",
+      "forecast_date": "2026-07-27T18:07:36.541208",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -7986,8 +7986,8 @@
             ],
             "confidence_bounds": {
               "p10": 116.9,
-              "p50": 120.2,
-              "p90": 123.0
+              "p50": 120.0,
+              "p90": 123.1
             }
           }
         },
@@ -8042,9 +8042,9 @@
               158.2
             ],
             "confidence_bounds": {
-              "p10": 117.3,
-              "p50": 125.7,
-              "p90": 134.1
+              "p10": 116.9,
+              "p50": 126.1,
+              "p90": 135.5
             }
           }
         }
@@ -8054,7 +8054,7 @@
       "segment": "frederiksberg_apartments",
       "current_period": "2025Q4",
       "current_index": 114.6,
-      "forecast_date": "2026-07-27T06:32:20.084350",
+      "forecast_date": "2026-07-27T18:07:36.551248",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -8108,7 +8108,7 @@
             ],
             "confidence_bounds": {
               "p10": 113.9,
-              "p50": 115.0,
+              "p50": 114.9,
               "p90": 116.0
             }
           }
@@ -8164,9 +8164,9 @@
               127.2
             ],
             "confidence_bounds": {
-              "p10": 113.3,
-              "p50": 116.3,
-              "p90": 119.3
+              "p10": 113.4,
+              "p50": 116.4,
+              "p90": 119.2
             }
           }
         },
@@ -8221,9 +8221,9 @@
               155.4
             ],
             "confidence_bounds": {
-              "p10": 113.8,
-              "p50": 122.2,
-              "p90": 130.1
+              "p10": 114.6,
+              "p50": 122.1,
+              "p90": 130.3
             }
           }
         }
@@ -8272,7 +8272,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777802"
+        "calculation_timestamp": "2026-07-27T18:07:53.379850"
       },
       "12m": {
         "input": {
@@ -8314,7 +8314,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777830"
+        "calculation_timestamp": "2026-07-27T18:07:53.379871"
       },
       "24m": {
         "input": {
@@ -8356,7 +8356,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777845"
+        "calculation_timestamp": "2026-07-27T18:07:53.379882"
       }
     },
     "min_risk": {
@@ -8400,7 +8400,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777858"
+        "calculation_timestamp": "2026-07-27T18:07:53.379890"
       },
       "12m": {
         "input": {
@@ -8442,7 +8442,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777870"
+        "calculation_timestamp": "2026-07-27T18:07:53.379897"
       },
       "24m": {
         "input": {
@@ -8484,7 +8484,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777881"
+        "calculation_timestamp": "2026-07-27T18:07:53.379904"
       }
     },
     "max_risk": {
@@ -8528,7 +8528,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777894"
+        "calculation_timestamp": "2026-07-27T18:07:53.379911"
       },
       "12m": {
         "input": {
@@ -8570,7 +8570,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777913"
+        "calculation_timestamp": "2026-07-27T18:07:53.379918"
       },
       "24m": {
         "input": {
@@ -8612,7 +8612,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-07-27T06:32:54.777926"
+        "calculation_timestamp": "2026-07-27T18:07:53.379924"
       }
     }
   },

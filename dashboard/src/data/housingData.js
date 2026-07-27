@@ -45,10 +45,10 @@ export const earlyWarningIndicators = [
   {
     "id": "EWI-4",
     "name": "Price Reductions",
-    "value": "30%",
+    "value": "29%",
     "baseline": "AMBER at >30%",
     "status": "AMBER",
-    "description": "30% of listings reduced, avg 5.1%",
+    "description": "29% of listings reduced, avg 5.1%",
     "freshness_weight": 1.0,
     "last_updated": "2026-07-27"
   },
@@ -139,10 +139,10 @@ export const ewiModes = {
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "30%",
+        "value": "29%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "30% of listings reduced, avg 5.1%",
+        "description": "29% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-07-27"
       },
@@ -205,7 +205,7 @@ export const ewiModes = {
         "score": 14,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 24.5,
           "avg_data_freshness": 0.82
@@ -348,10 +348,10 @@ export const ewiModes = {
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "30%",
+        "value": "29%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "30% of listings reduced, avg 5.1%",
+        "description": "29% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-07-27"
       },
@@ -414,7 +414,7 @@ export const ewiModes = {
         "score": 14,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 24.5,
           "avg_data_freshness": 0.82
@@ -557,10 +557,10 @@ export const ewiModes = {
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "30%",
+        "value": "29%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "30% of listings reduced, avg 5.1%",
+        "description": "29% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-07-27"
       },
@@ -623,7 +623,7 @@ export const ewiModes = {
         "score": 11,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 16.0,
           "avg_data_freshness": 0.82
@@ -766,10 +766,10 @@ export const ewiModes = {
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "30%",
+        "value": "29%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "30% of listings reduced, avg 5.1%",
+        "description": "29% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-07-27"
       },
@@ -832,7 +832,7 @@ export const ewiModes = {
         "score": 11,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 16.0,
           "avg_data_freshness": 0.82
@@ -1044,7 +1044,7 @@ export const maxRiskIndex = {
     "score": 14,
     "label": "LAV",
     "components": {
-      "mc_downside": 0.5,
+      "mc_downside": 0.6,
       "max_risk_severity_pct": 2.8,
       "ewi_contribution": 24.5,
       "avg_data_freshness": 0.82
@@ -1102,19 +1102,19 @@ export const ensembleForecasts = {
 };
 export const ensembleConfidenceBounds = {
   "6m": {
-    "p10": 128.5,
-    "p50": 129.6,
-    "p90": 130.7
+    "p10": 128.4,
+    "p50": 129.7,
+    "p90": 130.8
   },
   "12m": {
     "p10": 127.7,
-    "p50": 131.2,
-    "p90": 134.2
+    "p50": 131.1,
+    "p90": 134.4
   },
   "24m": {
-    "p10": 128.8,
-    "p50": 138.2,
-    "p90": 146.9
+    "p10": 128.3,
+    "p50": 137.8,
+    "p90": 146.4
   }
 };
 
