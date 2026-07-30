@@ -1,27 +1,27 @@
 {
   "copenhagen_apartments": {
-    "months_of_supply": 4.13,
+    "months_of_supply": 4.2,
     "volume_yoy_change": -0.05,
-    "price_reduction_rate": 0.293,
+    "price_reduction_rate": 0.307,
     "avg_reduction_magnitude": 0.051,
-    "median_dom": 56,
+    "median_dom": 57,
     "amort_free_share": 0.46
   },
   "copenhagen_houses": {
-    "months_of_supply": 11.98,
+    "months_of_supply": 12.11,
     "volume_yoy_change": -0.05,
-    "price_reduction_rate": 0.333,
+    "price_reduction_rate": 0.33,
     "avg_reduction_magnitude": 0.057,
-    "median_dom": 71,
+    "median_dom": 72,
     "amort_free_share": 0.46
   },
   "frederiksberg_apartments": {
-    "months_of_supply": 1.35,
+    "months_of_supply": 1.37,
     "volume_yoy_change": -0.05,
-    "price_reduction_rate": 0.296,
+    "price_reduction_rate": 0.321,
     "avg_reduction_magnitude": 0.044,
-    "median_dom": 54,
+    "median_dom": 55,
     "amort_free_share": 0.46
   },
-  "last_updated": "2026-07-27"
+  "last_updated": "2026-07-30"
 }
