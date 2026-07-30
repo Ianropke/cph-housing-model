@@ -1,7 +1,7 @@
 # 📄 GLOBAL CODE QA & PROJECT LEARNINGS
 > **Projekter:** Ian & Lars' 50th Birthday Bash / Copenhagen Housing Market Forecasting Ecosystem  
 > **Dato:** Juli 2026  
-> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering og UI/UX best practices til fremtidige projekter.
+> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering, Machine Learning validering og UI/UX best practices til fremtidige projekter.
 
 ---
 
@@ -124,12 +124,12 @@
 
 ---
 
-## 6. CPH Housing Model (Data Pipelines, Real-Time Web Scraping & Financial Modeling)
+## 6. CPH Housing Model (Data Pipelines, Web Scraping & Financial Modeling & Data Science)
 
-### 🌐 Læring 6.1: Bypass af WAF og Cloudflare ved Web Scraping (TLS Impersonation)
+### 🌐 Læring 6.1: Bypass af WAF og Cloudflare ved Web Scraping (TLS Client Impersonation)
 * **Problem:** Standard HTTP-kald med `urllib` eller `requests` mod offentlige ejendomssider (som Boliga.dk) udløste `403 Forbidden` eller Cloudflare JS-challenges.
-* **Årsag:** Moderne WAF-løsninger analyserer ikke kun `User-Agent` headers, men også SSL/TLS handshaket (JA3/TLS fingerprints), som i standard Python skiller sig ud fra rigtige browsere.
-* **Løsning:** Anvend `curl_cffi` med eksplicit TLS-impersonation (`impersonate="chrome110"`):
+* **Årsag:** Moderne WAF-løsninger analyserer SSL/TLS handshaket (JA3/TLS fingerprints), som i standard Python skiller sig ud fra rigtige browsere.
+* **Løsning:** Anvend `curl_cffi` med eksplicit TLS client impersonation (`impersonate="chrome110"`):
   ```python
   from curl_cffi import requests
   
@@ -152,15 +152,14 @@
   ```
 
 ### 📊 Læring 6.3: Skala-invarians og skift af Indeks-basisår (HUS1 vs PRIS111)
-* **Problem:** Skift af lejeindeks-kilde fra `PRIS111` (base 2015=100) til det nyere og mere opdaterede `HUS1` (base 2021Q1=100) ændrede det absolutte lejeniveau fra ~120 til ~113. Det udløste bekymring for, om Z-score beregningerne i EWI-6 (Price-to-Rent Ratio) ville blive forvredet.
+* **Problem:** Skift af lejeindeks-kilde fra `PRIS111` (base 2015=100) til det nyere `HUS1` (base 2021Q1=100) ændrede det absolutte lejeniveau fra ~120 til ~113.
 * **Matematisk Indsigt:** Eftersom Z-scoren beregnes på historiske kvartalsvise forholdstal \(R_t = \frac{P_t}{Rent_t}\):
   \[ Z = \frac{R_{latest} - \mu_{12Q}}{\sigma_{12Q}} \]
   er indikatoren **skala-invariant** (scale-invariant). Enhver lineær skaleringsfaktor på lejeindekset forkortes væk i Z-score beregningen.
-* **Regel:** Ved skift af indekskilder behøver man ikke tilpasse absolutte tærskler, så længe beregningen anvender en rullende Z-score over en konsistent historisk tidsserie.
 
 ### 🧪 Læring 6.4: Isolation af Global Cache i Unit Testing (State Leakage)
-* **Problem:** En unittest for et API-nedbrud (`test_fetch_dst_macro_data_failure`) fejlede med `AssertionError: 0.031 != 0.042`, fordi den modtog data fra en tidligere unittest-kørsel i samme Python-proces.
-* **Årsag:** `dst_macro.py` benyttede en global in-memory cache `_macro_data_cache`, som ikke blev nulstilled mellem testcases.
+* **Problem:** En unittest for et API-nedbrud (`test_fetch_dst_macro_data_failure`) fejlede med `AssertionError`, fordi den modtog data fra en tidligere unittest-kørsel i samme Python-proces.
+* **Årsag:** `dst_macro.py` benyttede en global in-memory cache `_macro_data_cache`, som ikke blev nulstillet mellem testcases.
 * **Løsning:** Tilføj altid en `setUp()` metode i `unittest.TestCase`, som nulstiller alle globale tilstandsvariabler før hver test:
   ```python
   def setUp(self):
@@ -169,21 +168,31 @@
 
 ### ⏱️ Læring 6.5: Bypass af ikke-eksisterende API-endpoints for at undgå Latency
 * **Problem:** Hver kørsel af testen eller pipelinen brugte over 6 sekunders timeout-ventetid på at lave HTTP POST-kald mod `rkr.statistikbank.dk`.
-* **Årsag:** Finans Danmark (RKR) tilbyder ikke et offentligt JSON API. Koden fejlede med 404/Timeout og faldt derefter tilbage på den lokale mock-database.
 * **Løsning:** Bypass det fejlende HTTP-kald helt og returner den lokale højkvalitets-database direkte. Det fjerner 6 sekunders latency pr. kørsel og rydder logfilerne for falske advarsler.
 
 ### 🚀 Læring 6.6: Vercel C-Extension Build Caching & Git Commit Syncing
 * **Problem 1 (Build Timeouts):** Tunge Python-pakker med C-udvidelser (`numpy`, `pandas`, `scikit-learn`, `scipy`) tog op mod 8 minutter at kompilere på Vercel under første deployment.
 * **Løsning:** Vercel gemmer de kompilerede binære pakker i sin **build cache** efter første gennemførte udrulning. Efterfølgende udrulninger genbruger cachen og tager under 1 minut.
-* **Problem 2 (Genbrug af Commit-tekster):** Udrulning direkte via Vercel CLI uden et forudgående git-commit fik Vercel til at genbruge den seneste commit-besked (f.eks. *"Install and integrate @vercel/analytics...*"), selvom koden indeholdt nye rettelser.
-* **Løsning:** Lav altid `git commit` og `git push` *før* udrulning, så Vercels deployment-liste viser den korrekte ændringsbeskrivelse.
+* **Problem 2 (Genbrug af Commit-tekster):** Udrulning direkte via Vercel CLI uden et forudgående git-commit fik Vercel til at genbruge den seneste commit-besked.
+* **Løsning:** Lav altid `git commit` og `git push` *før* udrulning.
 
 ### ✍️ Læring 6.7: Webredaktionel & UX-Polering (Målgruppe-fokuseret Klarsprog)
-* **Læring:** Tekniske eller engelske udtryk (*"Danglish"*) som *"Simul. downside"*, *"severity"*, *"freshness"*, *"Crash Probability"* og rester af kravspecifikationer (som *"(Løsning A)"*) svækker troværdigheden over for slutbrugeren.
 * **UX Best Practice:**
   1. Oversæt alle UI-komponenter til konsekvent dansk (*Simuleret nedrisiko*, *Nedside-potentiale*, *Varslingsscore*, *Datakilde-friskhed*).
   2. Formater rå ISO-datostrenge (`2026-07-24`) til læselige datoer (`24. juli 2026`).
   3. Mærk u-implementerede muligheder (f.eks. byerne Aarhus/Odense i dropdown) som `(Kommer snart)` og deaktiver dem frem for at vise tomme fejlpaneler.
+
+### 📉 Læring 6.8: Model Validering & Performance Metrikker (Directional Accuracy vs. $R^2$)
+* **Læring:** I 1-step-ahead boligprisprognoser er $R^2$ sagligt set lav (~0,061), fordi kortsigtede prisbevægelser domineres af uobserverede stokastiske makrochok.
+* **Best Practice:** Evaluer operationelle modeller på **Directional Accuracy / Hit Rate (>56%)**, **MAPE (<7,58%)**, **MAE (<6,79 pts)** og **Mean Bias Error (+2,92 pts)** frem for udelukkende at se på $R^2$.
+
+### 🌲 Læring 6.9: Random Forest Validering på Små Tidsserier ($N \approx 100$)
+* **Læring:** Standard K-Fold cross-validation lækker fremtidige data ind i fortidige forudsigelser.
+* **Løsning:** Anvend altid **Walk-Forward Validation (`TimeSeriesSplit`)** kombineret med Out-of-Bag (`oob_score=True`) error estimation og stærk træ-regularisering (`max_depth=4`, `min_samples_leaf=3`) for at forhindre støj-overfitting på små tidsserier.
+
+### 🎲 Læring 6.10: Deterministisk Reproducerbarhed
+* **Læring:** Undgå at hævde "100% bit-eksakt reproducerbarhed på tværs af alle platforme".
+* **Løsning:** Formuler det som **"deterministisk reproducerbarhed inden for et identisk softwaremiljø"** ved brug af faste pseudo-random seeds (`seed=42`).
 
 ---
 
