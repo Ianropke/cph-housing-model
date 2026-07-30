@@ -1700,6 +1700,32 @@ def run_historical_backtest(start_year: int = 2000, end_year: int = 2026) -> dic
 
     mape = sum(absolute_percentage_errors) / len(absolute_percentage_errors) if absolute_percentage_errors else 0.0
     rmse = math.sqrt(sum(squared_errors) / len(squared_errors)) if squared_errors else 0.0
+    
+    # Advanced metrics requested by senior data science review:
+    # 1. MAE
+    mae = sum(abs(e) for e in errors.values()) / len(errors) if errors else 0.0
+    # 2. Mean Bias Error (Positive = Over-predicting, Negative = Under-predicting)
+    bias = sum(errors.values()) / len(errors) if errors else 0.0
+    # 3. Directional Accuracy / Hit Rate (% of correct direction changes)
+    directional_matches = 0
+    total_direction_evals = 0
+    eval_years = sorted(errors.keys())
+    for i in range(1, len(eval_years)):
+        y_curr = eval_years[i]
+        y_prev = eval_years[i-1]
+        actual_change = actual_data[y_curr] - actual_data[y_prev]
+        pred_change = simulated_series[y_curr] - actual_data[y_prev]
+        if (actual_change >= 0 and pred_change >= 0) or (actual_change < 0 and pred_change < 0):
+            directional_matches += 1
+        total_direction_evals += 1
+    directional_accuracy = (directional_matches / total_direction_evals * 100) if total_direction_evals > 0 else 100.0
+
+    # 4. R-squared (Coefficient of Determination)
+    actual_vals = [actual_data[y] for y in eval_years]
+    mean_actual = sum(actual_vals) / len(actual_vals) if actual_vals else 1.0
+    ss_tot = sum((y - mean_actual) ** 2 for y in actual_vals)
+    ss_res = sum(errors[y] ** 2 for y in eval_years)
+    r_squared = max(0.0, 1.0 - (ss_res / ss_tot)) if ss_tot > 0 else 1.0
 
     # Empirical EWI calibration: use error distribution percentiles
     sorted_apes = sorted(absolute_percentage_errors)
@@ -1724,6 +1750,10 @@ def run_historical_backtest(start_year: int = 2000, end_year: int = 2026) -> dic
         "metrics": {
             "mape_pct": round(mape * 100, 2),
             "rmse_points": round(rmse, 2),
+            "mae_points": round(mae, 2),
+            "mean_bias_points": round(bias, 2),
+            "directional_accuracy_pct": round(directional_accuracy, 1),
+            "r_squared": round(r_squared, 3),
             "data_points_evaluated": len(absolute_percentage_errors)
         },
         "empirical_calibrations": calibrated_ewi_thresholds,
