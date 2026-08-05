@@ -205,7 +205,7 @@ export const ewiModes = {
         "score": 15,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 27.8,
           "avg_data_freshness": 0.93
@@ -414,7 +414,7 @@ export const ewiModes = {
         "score": 15,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 27.8,
           "avg_data_freshness": 0.93
@@ -623,7 +623,7 @@ export const ewiModes = {
         "score": 12,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 18.2,
           "avg_data_freshness": 0.93
@@ -832,7 +832,7 @@ export const ewiModes = {
         "score": 12,
         "label": "LAV",
         "components": {
-          "mc_downside": 0.5,
+          "mc_downside": 0.6,
           "max_risk_severity_pct": 2.8,
           "ewi_contribution": 18.2,
           "avg_data_freshness": 0.93
@@ -1044,7 +1044,7 @@ export const maxRiskIndex = {
     "score": 15,
     "label": "LAV",
     "components": {
-      "mc_downside": 0.5,
+      "mc_downside": 0.6,
       "max_risk_severity_pct": 2.8,
       "ewi_contribution": 27.8,
       "avg_data_freshness": 0.93
@@ -1102,19 +1102,19 @@ export const ensembleForecasts = {
 };
 export const ensembleConfidenceBounds = {
   "6m": {
-    "p10": 128.5,
+    "p10": 128.4,
     "p50": 129.6,
-    "p90": 130.7
+    "p90": 130.8
   },
   "12m": {
     "p10": 127.8,
-    "p50": 131.2,
+    "p50": 131.0,
     "p90": 134.4
   },
   "24m": {
-    "p10": 128.5,
-    "p50": 137.9,
-    "p90": 147.5
+    "p10": 128.1,
+    "p50": 137.5,
+    "p90": 147.0
   }
 };
 

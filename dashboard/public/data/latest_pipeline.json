@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-05T11:05:12.447402",
+  "generated_at": "2026-08-05T11:06:17.071517",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-07-29",
-    "query_timestamp": "2026-08-05T11:05:30.298985",
+    "query_timestamp": "2026-08-05T11:06:34.500712",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -294,7 +294,7 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-08-05T11:05:46.435043",
+      "evaluation_timestamp": "2026-08-05T11:06:41.180993",
       "ml_crash_probability": 0.37,
       "indicators": {
         "EWI-1_price_vs_wages": {
@@ -697,7 +697,7 @@
               "score": 15,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 27.8,
                 "avg_data_freshness": 0.93
@@ -1237,7 +1237,7 @@
               "score": 15,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 27.8,
                 "avg_data_freshness": 0.93
@@ -1777,7 +1777,7 @@
               "score": 12,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 18.2,
                 "avg_data_freshness": 0.93
@@ -2317,7 +2317,7 @@
               "score": 12,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.5,
+                "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
                 "ewi_contribution": 18.2,
                 "avg_data_freshness": 0.93
@@ -2760,7 +2760,7 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-08-05T11:05:47.555622",
+      "evaluation_timestamp": "2026-08-05T11:06:42.512864",
       "ml_crash_probability": 0.58,
       "indicators": {
         "EWI-1_price_vs_wages": {
@@ -2928,10 +2928,10 @@
           ]
         },
         "EWI-8_dsr": {
-          "level": "GREEN",
-          "dsr_ratio": 0.171,
-          "dsr_pct": 17.1,
-          "detail": "Debt-Servicing Ratio (DSR) er 17.1% (AMBER 30-40%, RED >40%)",
+          "level": "AMBER",
+          "dsr_ratio": 0.344,
+          "dsr_pct": 34.4,
+          "detail": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
           "data_sources": [
             {
               "key": "dst_indkp107",
@@ -2967,10 +2967,10 @@
           ]
         }
       },
-      "composite_score": 7.5,
-      "freshness_weighted_composite": 6.4,
+      "composite_score": 9.0,
+      "freshness_weighted_composite": 7.5,
       "max_possible_score": 27.0,
-      "alert_level": "ELEVATED",
+      "alert_level": "HIGH",
       "data_freshness_summary": {
         "dst_ej56": {
           "label": "DST Prisindeks (EJ56)",
@@ -3137,10 +3137,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "17.1%",
+              "value": "34.4%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 17.1% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -3155,27 +3155,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 7.5,
-          "freshnessWeightedComposite": 6.4,
-          "alertLevel": "ELEVATED",
+          "compositeScore": 9.0,
+          "freshnessWeightedComposite": 7.5,
+          "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 14,
+              "score": 16,
               "label": "LAV",
               "components": {
                 "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 25.7,
+                "ewi_contribution": 30.8,
                 "avg_data_freshness": 0.93
               }
             },
             "12m": {
-              "score": 30,
+              "score": 31,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.4,
+                "mc_downside": 1.3,
                 "max_risk_severity_pct": 11.4,
-                "ewi_contribution": 25.7,
+                "ewi_contribution": 30.8,
                 "avg_data_freshness": 0.93
               }
             }
@@ -3677,10 +3677,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "17.1%",
+              "value": "34.4%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 17.1% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -3695,27 +3695,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 7.5,
-          "freshnessWeightedComposite": 6.4,
-          "alertLevel": "ELEVATED",
+          "compositeScore": 9.0,
+          "freshnessWeightedComposite": 7.5,
+          "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 14,
+              "score": 16,
               "label": "LAV",
               "components": {
                 "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 25.7,
+                "ewi_contribution": 30.8,
                 "avg_data_freshness": 0.93
               }
             },
             "12m": {
-              "score": 30,
+              "score": 31,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.4,
+                "mc_downside": 1.3,
                 "max_risk_severity_pct": 11.4,
-                "ewi_contribution": 25.7,
+                "ewi_contribution": 30.8,
                 "avg_data_freshness": 0.93
               }
             }
@@ -4217,10 +4217,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "17.1%",
+              "value": "34.4%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 17.1% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -4235,27 +4235,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 3.3,
-          "freshnessWeightedComposite": 3.1,
-          "alertLevel": "NORMAL",
+          "compositeScore": 4.8,
+          "freshnessWeightedComposite": 4.2,
+          "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 10,
+              "score": 11,
               "label": "LAV",
               "components": {
                 "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 11.3,
+                "ewi_contribution": 16.4,
                 "avg_data_freshness": 0.93
               }
             },
             "12m": {
-              "score": 26,
+              "score": 27,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.4,
+                "mc_downside": 1.3,
                 "max_risk_severity_pct": 11.4,
-                "ewi_contribution": 11.3,
+                "ewi_contribution": 16.4,
                 "avg_data_freshness": 0.93
               }
             }
@@ -4757,10 +4757,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "17.1%",
+              "value": "34.4%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 17.1% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -4775,27 +4775,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 3.3,
-          "freshnessWeightedComposite": 3.1,
-          "alertLevel": "NORMAL",
+          "compositeScore": 4.8,
+          "freshnessWeightedComposite": 4.2,
+          "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 10,
+              "score": 11,
               "label": "LAV",
               "components": {
                 "mc_downside": 0.6,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 11.3,
+                "ewi_contribution": 16.4,
                 "avg_data_freshness": 0.93
               }
             },
             "12m": {
-              "score": 26,
+              "score": 27,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.4,
+                "mc_downside": 1.3,
                 "max_risk_severity_pct": 11.4,
-                "ewi_contribution": 11.3,
+                "ewi_contribution": 16.4,
                 "avg_data_freshness": 0.93
               }
             }
@@ -5226,7 +5226,7 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-08-05T11:05:48.692244",
+      "evaluation_timestamp": "2026-08-05T11:06:44.457655",
       "ml_crash_probability": 0.35,
       "indicators": {
         "EWI-1_price_vs_wages": {
@@ -5394,10 +5394,10 @@
           ]
         },
         "EWI-8_dsr": {
-          "level": "GREEN",
-          "dsr_ratio": 0.167,
-          "dsr_pct": 16.7,
-          "detail": "Debt-Servicing Ratio (DSR) er 16.7% (AMBER 30-40%, RED >40%)",
+          "level": "AMBER",
+          "dsr_ratio": 0.335,
+          "dsr_pct": 33.5,
+          "detail": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
           "data_sources": [
             {
               "key": "dst_indkp107",
@@ -5433,8 +5433,8 @@
           ]
         }
       },
-      "composite_score": 10.2,
-      "freshness_weighted_composite": 9.0,
+      "composite_score": 11.7,
+      "freshness_weighted_composite": 10.1,
       "max_possible_score": 27.0,
       "alert_level": "HIGH",
       "data_freshness_summary": {
@@ -5603,10 +5603,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "16.7%",
+              "value": "33.5%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 16.7% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -5621,17 +5621,17 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 10.2,
-          "freshnessWeightedComposite": 9.0,
+          "compositeScore": 11.7,
+          "freshnessWeightedComposite": 10.1,
           "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 17,
+              "score": 18,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.6,
+                "mc_downside": 0.5,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 34.9,
+                "ewi_contribution": 40.1,
                 "avg_data_freshness": 0.93
               }
             },
@@ -5639,9 +5639,9 @@
               "score": 34,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 0.9,
                 "max_risk_severity_pct": 12.5,
-                "ewi_contribution": 34.9,
+                "ewi_contribution": 40.1,
                 "avg_data_freshness": 0.93
               }
             }
@@ -6143,10 +6143,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "16.7%",
+              "value": "33.5%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 16.7% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -6161,17 +6161,17 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 10.2,
-          "freshnessWeightedComposite": 9.0,
+          "compositeScore": 11.7,
+          "freshnessWeightedComposite": 10.1,
           "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 17,
+              "score": 18,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.6,
+                "mc_downside": 0.5,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 34.9,
+                "ewi_contribution": 40.1,
                 "avg_data_freshness": 0.93
               }
             },
@@ -6179,9 +6179,9 @@
               "score": 34,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 0.9,
                 "max_risk_severity_pct": 12.5,
-                "ewi_contribution": 34.9,
+                "ewi_contribution": 40.1,
                 "avg_data_freshness": 0.93
               }
             }
@@ -6683,10 +6683,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "16.7%",
+              "value": "33.5%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 16.7% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -6701,27 +6701,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 6.0,
-          "freshnessWeightedComposite": 5.6,
+          "compositeScore": 7.5,
+          "freshnessWeightedComposite": 6.8,
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 13,
+              "score": 14,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.6,
+                "mc_downside": 0.5,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 20.6,
+                "ewi_contribution": 25.7,
                 "avg_data_freshness": 0.93
               }
             },
             "12m": {
-              "score": 29,
+              "score": 30,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 0.9,
                 "max_risk_severity_pct": 12.5,
-                "ewi_contribution": 20.6,
+                "ewi_contribution": 25.7,
                 "avg_data_freshness": 0.93
               }
             }
@@ -7223,10 +7223,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "16.7%",
+              "value": "33.5%",
               "baseline": "<30%",
-              "status": "GREEN",
-              "description": "Debt-Servicing Ratio (DSR) er 16.7% (AMBER 30-40%, RED >40%)",
+              "status": "AMBER",
+              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.801,
               "last_updated": "2026-08-03"
             },
@@ -7241,27 +7241,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 6.0,
-          "freshnessWeightedComposite": 5.6,
+          "compositeScore": 7.5,
+          "freshnessWeightedComposite": 6.8,
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 13,
+              "score": 14,
               "label": "LAV",
               "components": {
-                "mc_downside": 0.6,
+                "mc_downside": 0.5,
                 "max_risk_severity_pct": 2.8,
-                "ewi_contribution": 20.6,
+                "ewi_contribution": 25.7,
                 "avg_data_freshness": 0.93
               }
             },
             "12m": {
-              "score": 29,
+              "score": 30,
               "label": "MODERAT",
               "components": {
-                "mc_downside": 1.1,
+                "mc_downside": 0.9,
                 "max_risk_severity_pct": 12.5,
-                "ewi_contribution": 20.6,
+                "ewi_contribution": 25.7,
                 "avg_data_freshness": 0.93
               }
             }
@@ -7696,7 +7696,7 @@
       "segment": "copenhagen_apartments",
       "current_period": "2025Q4",
       "current_index": 129.2,
-      "forecast_date": "2026-08-05T11:05:30.305197",
+      "forecast_date": "2026-08-05T11:06:34.509529",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -7749,9 +7749,9 @@
               132.1
             ],
             "confidence_bounds": {
-              "p10": 128.5,
+              "p10": 128.4,
               "p50": 129.6,
-              "p90": 130.7
+              "p90": 130.8
             }
           }
         },
@@ -7807,7 +7807,7 @@
             ],
             "confidence_bounds": {
               "p10": 127.8,
-              "p50": 131.2,
+              "p50": 131.0,
               "p90": 134.4
             }
           }
@@ -7863,9 +7863,9 @@
               176.1
             ],
             "confidence_bounds": {
-              "p10": 128.5,
-              "p50": 137.9,
-              "p90": 147.5
+              "p10": 128.1,
+              "p50": 137.5,
+              "p90": 147.0
             }
           }
         }
@@ -7875,7 +7875,7 @@
       "segment": "copenhagen_houses",
       "current_period": "2025Q4",
       "current_index": 118.5,
-      "forecast_date": "2026-08-05T11:05:30.310179",
+      "forecast_date": "2026-08-05T11:06:34.514757",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -7929,8 +7929,8 @@
             ],
             "confidence_bounds": {
               "p10": 117.8,
-              "p50": 118.8,
-              "p90": 119.9
+              "p50": 118.9,
+              "p90": 119.8
             }
           }
         },
@@ -7985,9 +7985,9 @@
               130.3
             ],
             "confidence_bounds": {
-              "p10": 116.9,
+              "p10": 117.0,
               "p50": 120.0,
-              "p90": 123.1
+              "p90": 123.0
             }
           }
         },
@@ -8042,9 +8042,9 @@
               158.2
             ],
             "confidence_bounds": {
-              "p10": 117.2,
-              "p50": 125.8,
-              "p90": 134.3
+              "p10": 117.1,
+              "p50": 125.6,
+              "p90": 134.4
             }
           }
         }
@@ -8054,7 +8054,7 @@
       "segment": "frederiksberg_apartments",
       "current_period": "2025Q4",
       "current_index": 114.6,
-      "forecast_date": "2026-08-05T11:05:30.314966",
+      "forecast_date": "2026-08-05T11:06:34.519184",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -8107,9 +8107,9 @@
               117.2
             ],
             "confidence_bounds": {
-              "p10": 113.9,
-              "p50": 114.9,
-              "p90": 115.9
+              "p10": 114.0,
+              "p50": 115.0,
+              "p90": 116.0
             }
           }
         },
@@ -8164,9 +8164,9 @@
               127.2
             ],
             "confidence_bounds": {
-              "p10": 113.3,
-              "p50": 116.1,
-              "p90": 119.1
+              "p10": 113.6,
+              "p50": 116.4,
+              "p90": 119.2
             }
           }
         },
@@ -8221,8 +8221,8 @@
               155.4
             ],
             "confidence_bounds": {
-              "p10": 114.0,
-              "p50": 122.3,
+              "p10": 113.6,
+              "p50": 121.9,
               "p90": 130.4
             }
           }
@@ -8272,7 +8272,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736276"
+        "calculation_timestamp": "2026-08-05T11:06:45.805494"
       },
       "12m": {
         "input": {
@@ -8314,7 +8314,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736303"
+        "calculation_timestamp": "2026-08-05T11:06:45.822619"
       },
       "24m": {
         "input": {
@@ -8356,7 +8356,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736313"
+        "calculation_timestamp": "2026-08-05T11:06:45.822676"
       }
     },
     "min_risk": {
@@ -8400,7 +8400,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736321"
+        "calculation_timestamp": "2026-08-05T11:06:45.825414"
       },
       "12m": {
         "input": {
@@ -8442,7 +8442,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736328"
+        "calculation_timestamp": "2026-08-05T11:06:45.825460"
       },
       "24m": {
         "input": {
@@ -8484,7 +8484,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736335"
+        "calculation_timestamp": "2026-08-05T11:06:45.825471"
       }
     },
     "max_risk": {
@@ -8528,7 +8528,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736343"
+        "calculation_timestamp": "2026-08-05T11:06:45.825482"
       },
       "12m": {
         "input": {
@@ -8570,7 +8570,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736350"
+        "calculation_timestamp": "2026-08-05T11:06:45.825516"
       },
       "24m": {
         "input": {
@@ -8612,13 +8612,13 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-05T11:05:49.736356"
+        "calculation_timestamp": "2026-08-05T11:06:45.825523"
       }
     }
   },
   "alerts": [
     "\u26a0\ufe0f copenhagen_apartments: ELEVATED (score 8.1)",
-    "\u26a0\ufe0f copenhagen_houses: ELEVATED (score 7.5)",
-    "\u26a0\ufe0f frederiksberg_apartments: HIGH (score 10.2)"
+    "\u26a0\ufe0f copenhagen_houses: HIGH (score 9.0)",
+    "\u26a0\ufe0f frederiksberg_apartments: HIGH (score 11.7)"
   ]
 }
