@@ -1,7 +1,7 @@
 # 📄 GLOBAL CODE QA & PROJECT LEARNINGS
 > **Projekter:** Ian & Lars' 50th Birthday Bash / Copenhagen Housing Market Forecasting Ecosystem  
-> **Dato:** Juli 2026  
-> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering, Machine Learning validering og UI/UX best practices til fremtidige projekter.
+> **Dato:** August 2026  
+> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering, Machine Learning validering, JSX-syntaks, Edge-caching og UI/UX best practices til fremtidige projekter.
 
 ---
 
@@ -124,7 +124,7 @@
 
 ---
 
-## 6. CPH Housing Model (Data Pipelines, Web Scraping & Financial Modeling & Data Science)
+## 6. CPH Housing Model (Data Pipelines, Web Scraping, Financial Modeling, React & Edge DevOps)
 
 ### 🌐 Læring 6.1: Bypass af WAF og Cloudflare ved Web Scraping (TLS Client Impersonation)
 * **Problem:** Standard HTTP-kald med `urllib` eller `requests` mod offentlige ejendomssider (som Boliga.dk) udløste `403 Forbidden` eller Cloudflare JS-challenges.
@@ -194,6 +194,25 @@
 * **Læring:** Undgå at hævde "100% bit-eksakt reproducerbarhed på tværs af alle platforme".
 * **Løsning:** Formuler det som **"deterministisk reproducerbarhed inden for et identisk softwaremiljø"** ved brug af faste pseudo-random seeds (`seed=42`).
 
+### ⚠️ Læring 6.11: Undgå Rå JSX Token-fælder (`>` / `<`) i Vite / Rolldown Build
+* **Problem:** Rå `>` eller `<` tegn i JSX brødtekst (f.eks. `(>10%)`) får Vite / Rolldown til at crashe Vercel-buildet med: `[builtin:vite-transform] Unexpected token. Did you mean '{'>'}' or '&gt;'?`.
+* **Løsning:** Erstat altid rå sammentællingstegn med HTML-entiteter (`&gt;10%`), JavaScript string-udtryk `({'>'}10%)` eller naturligt sprog (`mere end 10%`).
+
+### ⚡ Læring 6.12: Vercel Static Data Cache Invalidation (`Cache-Control: no-cache`)
+* **Problem:** Statiske data-payloads (f.eks. `/data/latest_pipeline.json`) blev gemt aggressivt af Vercels Edge CDN og browserens cache. Det medførte, at brugere så gamle tidsstempler (f.eks. `24. juli`), selvom nattens pipeline var opdateret dags dato (5. august).
+* **Løsning:** Tilføj altid eksplikte `Cache-Control` no-cache headers i `vercel.json` for statiske JSON data-endpoints:
+  ```json
+  {
+    "source": "/data/(.*)",
+    "headers": [
+      { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" }
+    ]
+  }
+  ```
+
+### 🧪 Læring 6.13: Integreret Frontend Build-validering i Test Runner
+* **Mønster:** For at garantere at frontend-syntaksfejl eller u-escapede JSX-tegn aldrig rammer produktion, bør `manage.sh test` køre en dedikeret unittest (`test_frontend_jsx.py`), som udover syntaksskanning eksekverer `npm run build` i headless-tilstand.
+
 ---
 
 ## 7. Kvalitetssikring (PO Launch Checklist)
@@ -205,6 +224,8 @@ Før udrulning til produktion skal følgende tjekliste altid gennemføres:
 - [x] **Performance Check**: Er der ingen enkeltfiler over 1-2 MB i `public/` mappen?
 - [x] **Touch & Interaktivitet**: Er dobbelt-tap zoom deaktiveret på hurtige klik-flader?
 - [x] **Fallback & Error Boundaries**: Er der poster-billeder på videoer og meningsfulde fejlmeddelelser ved manglende netværk?
+- [x] **No-Cache Data Headers**: Er `vercel.json` konfigureret med `no-cache` for statiske data-JSON filer?
+- [x] **JSX Build Validation**: Er `npm run build` verifieret uden unescaped JSX-tokens?
 
 ---
 *Filen gemt som en del af det globale læringskatalog.*
