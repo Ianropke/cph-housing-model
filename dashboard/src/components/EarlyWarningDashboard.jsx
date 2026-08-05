@@ -15,7 +15,7 @@ const statusGlow = {
 
 const ewiTooltips = {
   'EWI-2': 'Udbud vs. efterspørgsel: Antal måneder det tager at sælge alle boliger til udbudt. Lavt tal = knaphed (prispres op). GRØN: over 3,5 mdr. GUL: 2,5-3,5 mdr. RØD: under 2,5 mdr.',
-  'EWI-3': 'Volumen-pris divergens: Hvis priserne stiger men handelsvolumen falder, kan det betyde at markedet drives af få handler til høje priser — et faresignal. GUL: volumen falder >10% mens priser stiger. RØD: falder >15%.',
+  'EWI-3': 'Volumen-pris divergens: Hvis priserne stiger men handelsvolumen falder, kan det betyde at markedet drives af få handler til høje priser — et faresignal. GUL: volumen falder mere end 10% mens priser stiger. RØD: falder mere end 15%.',
   'EWI-4': 'Prisnedsættelser: Andelen af udbudte boliger hvor sælger har sat prisen ned. Højt tal = sælgerne kan ikke opnå deres udbudspris. GRØN: under 30%. GUL: 30-40%. RØD: over 40% med store nedsættelser.',
   'EWI-5': 'Liggetid: Hvor længe boliger ligger til salg. Tærsklerne beregnes dynamisk via en rullende Z-score over 12 kvartaler. GUL: 1,0σ over gennemsnittet. RØD: 2,0σ over gennemsnittet.',
   'EWI-6': 'Pris-til-leje ratio: Sammenligner boligpriser med lejeniveauet (HUS1). Tærsklerne beregnes dynamisk via en rullende Z-score over 12 kvartaler. GUL: 1,5σ over gennemsnittet. RØD: 2,5σ over gennemsnittet.',

@@ -48,12 +48,15 @@ case "$1" in
         echo -e "${GREEN}Data pipeline update complete!${NC}"
         ;;
     test)
-        echo -e "${BLUE}=== Running Model Test Suite ===${NC}"
+        echo -e "${BLUE}=== Running Complete Model & Frontend Test Suite ===${NC}"
         export PYTHONPATH="$PROJECT_DIR/server"
         python3 "$PROJECT_DIR/tests/test_tools.py"
         python3 "$PROJECT_DIR/tests/test_backtest.py"
         python3 "$PROJECT_DIR/tests/test_data_integrity.py"
-        echo -e "${GREEN}All tests passed successfully!${NC}"
+        python3 -m unittest "$PROJECT_DIR/tests/test_economic_logic.py"
+        python3 "$PROJECT_DIR/tests/test_pipeline_errors.py"
+        python3 -m unittest "$PROJECT_DIR/tests/test_frontend_jsx.py"
+        echo -e "${GREEN}All 6 test suites passed successfully!${NC}"
         ;;
     backtest)
         echo -e "${BLUE}=== Running Historical Backtesting & Calibration ===${NC}"
