@@ -255,7 +255,7 @@ export default function EarlyWarningDashboard({
                 Machine Learning Prognose
               </h3>
               <p style={{ margin: 0, fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', maxWidth: '600px' }}>
-                Random Forest model trænet på historiske EWI-data fra 2000-2026. Grafen viser trenden over de sidste 5 år, mens procentsatsen angiver den beregnede sandsynlighed for et mærkbart prisfald (>10%) inden for de næste 12 måneder.
+                Random Forest model trænet på historiske EWI-data fra 2000-2026. Grafen viser trenden over de sidste 5 år, mens procentsatsen angiver den beregnede sandsynlighed for et mærkbart prisfald (&gt;10%) inden for de næste 12 måneder.
               </p>
             </div>
             <div style={{ textAlign: 'right' }}>
@@ -263,7 +263,7 @@ export default function EarlyWarningDashboard({
                 {(mlCrashProbability * 100).toFixed(1)}%
               </div>
               <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
-                Risiko for markant prisfald (>10%)
+                Risiko for markant prisfald (&gt;10%)
               </div>
             </div>
           </div>
