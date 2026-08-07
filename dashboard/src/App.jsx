@@ -5,6 +5,7 @@ import ForecastEnsemblePanel from './components/ForecastEnsemblePanel';
 import UserCostPanel from './components/UserCostPanel';
 import ScenarioAssumptionsPanel from './components/ScenarioAssumptionsPanel';
 import RiskBarometer from './components/RiskBarometer';
+import ScenarioSandboxPanel from './components/ScenarioSandboxPanel';
 import { useCity } from './context/CityContext';
 
 // ─── Inline Toast Notification ───────────────────────────────
@@ -281,6 +282,7 @@ Cron: Daily at 02:00 CET`;
           mlProbabilityHistory={activeModeData.mlProbabilityHistory}
           dataFreshness={activeModeData.dataFreshness}
         />
+        <ScenarioSandboxPanel />
         <ForecastEnsemblePanel />
         <UserCostPanel />
         <ScenarioAssumptionsPanel />
