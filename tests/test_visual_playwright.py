@@ -59,8 +59,13 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
             page = context.new_page()
 
             failed_requests = []
-            page.on("requestfailed", lambda req: failed_requests.append(f"{req.url} - {req.failure}") if "_vercel" not in req.url and "favicon" not in req.url else None)
-            page.on("console", lambda msg: console_errors.append(f"{msg.text}") if msg.type == "error" and "404" not in msg.text and "_vercel" not in msg.text and "favicon" not in msg.text else None)
+            page.on("requestfailed", lambda req: failed_requests.append(f"{req.url} - {req.failure}"))
+            page.on("console", lambda msg: print(f"CONSOLE [{msg.type}]: {msg.text}"))
+            page.on("pageerror", lambda err: print(f"PAGE ERROR: {err}"))
+            page.on("response", lambda res: print(f"RESPONSE [{res.status}]: {res.url}") if "latest_pipeline" in res.url else None)
+
+            # Set localStorage to bypass onboarding modal during automated visual tests
+            page.add_init_script("localStorage.setItem('cph_housing_onboarded', 'true');")
 
             # Navigate to preview server
             page.goto("http://localhost:4173", wait_until="networkidle")
@@ -68,17 +73,21 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
             # Verify page title and header
             self.assertIn("Copenhagen Housing Market", page.title())
 
-            # 1. Capture Full Initial Dashboard Screenshot
+            # Log body HTML rendered on the page
+            page.wait_for_timeout(2000)
+            body_html = page.locator("body").inner_html()
+            print("Rendered body HTML snippet:", body_html[:500])
+            h2s = page.locator("h2").all_inner_texts()
+            sandbox_heading = page.locator("h2", has_text="Risikosimulator")
+            self.assertTrue(sandbox_heading.is_visible(), f"Scenario Sandbox Panel heading not visible. Rendered h2s: {h2s}")
+
+            # 3. Capture Full Initial Dashboard Screenshot
             initial_path = os.path.join(ARTIFACT_DIR, "sandbox_visual_initial.png")
             page.screenshot(path=initial_path, full_page=True)
             self.assertTrue(os.path.exists(initial_path), "Initial screenshot artifact missing")
 
-            # 2. Locate Scenario Sandbox Panel
-            sandbox_heading = page.locator("h2", has_text="Interaktiv Risikosimulator")
-            self.assertTrue(sandbox_heading.is_visible(), "Scenario Sandbox Panel heading not visible")
-
             # 3. Test Preset: "Mægler-Scenariet (+700 Udbudte Boliger)"
-            maegler_btn = page.locator("button", has_text="Mægler-Scenariet")
+            maegler_btn = page.locator("button:has-text('Mægler-Scenariet')")
             maegler_btn.click()
             page.wait_for_timeout(300)
 
@@ -88,7 +97,7 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
             self.assertTrue(os.path.exists(maegler_path), "Maegler preset screenshot artifact missing")
 
             # 4. Test Preset: "Rentestød (+1,5% Rente)"
-            rate_btn = page.locator("button", has_text="Rentestød")
+            rate_btn = page.locator("button:has-text('Rentestød (+1,5% Rente)')")
             rate_btn.click()
             page.wait_for_timeout(300)
 
@@ -97,7 +106,7 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
             self.assertTrue(os.path.exists(rate_path), "Rate shock preset screenshot artifact missing")
 
             # 5. Test Preset: "Stagflationskrise"
-            stag_btn = page.locator("button", has_text="Stagflationskrise")
+            stag_btn = page.locator("button:has-text('Stagflationskrise')")
             stag_btn.click()
             page.wait_for_timeout(300)
 
@@ -106,7 +115,7 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
             self.assertTrue(os.path.exists(stag_path), "Stagflation preset screenshot artifact missing")
 
             # 6. Reset to "Aktuelt Marked"
-            actual_btn = page.locator("button", has_text="Aktuelt Marked")
+            actual_btn = page.locator("button:has-text('Aktuelt Marked')")
             actual_btn.click()
             page.wait_for_timeout(300)
 

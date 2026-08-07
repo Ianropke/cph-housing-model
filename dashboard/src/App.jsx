@@ -6,6 +6,9 @@ import UserCostPanel from './components/UserCostPanel';
 import ScenarioAssumptionsPanel from './components/ScenarioAssumptionsPanel';
 import RiskBarometer from './components/RiskBarometer';
 import ScenarioSandboxPanel from './components/ScenarioSandboxPanel';
+import SkeletonLoader from './components/SkeletonLoader';
+import OnboardingModal from './components/OnboardingModal';
+import MethodologyModal from './components/MethodologyModal';
 import { useCity } from './context/CityContext';
 
 // ─── Inline Toast Notification ───────────────────────────────
@@ -48,6 +51,17 @@ export default function App() {
   const { pipelineData, activeCity, setActiveCity, loading: dataLoading } = useCity();
   const [loading, setLoading] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showMethodology, setShowMethodology] = useState(false);
+
+  // Auto-trigger onboarding on first visit
+  useEffect(() => {
+    const hasSeenOnboarding = localStorage.getItem('cph_housing_onboarded');
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+      localStorage.setItem('cph_housing_onboarded', 'true');
+    }
+  }, []);
   const [modalData, setModalData] = useState(null);
   const [ewiMode, setEwiMode] = useState('yoy_expanded');
   const [toast, setToast] = useState(null);
@@ -186,7 +200,7 @@ Cron: Daily at 02:00 CET`;
     }
   };
 
-  if (dataLoading) return <div className="dashboard" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: 'white'}}>Indlæser model data...</div>;
+  if (dataLoading) return <div className="dashboard"><SkeletonLoader /></div>;
 
   return (
     <div className="dashboard">
@@ -249,7 +263,23 @@ Cron: Daily at 02:00 CET`;
         </div>
 
         {/* Dynamic Action Control Bar */}
-        <div className="control-bar fade-in" style={{ animationDelay: '0.1s' }}>
+        <div className="control-bar fade-in" style={{ animationDelay: '0.1s', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <button 
+            className="btn-control purple" 
+            onClick={() => setShowOnboarding(true)}
+            title="Åbn onboarding intro og guide"
+          >
+            <span>❓</span> Guide & Intro
+          </button>
+          
+          <button 
+            className="btn-control purple" 
+            onClick={() => setShowMethodology(true)}
+            title="Åbn model-metodik, backtest-resultater og datadokumentation"
+          >
+            <span>🔬</span> Model-Metodik & Backtest
+          </button>
+
           <button 
             className="btn-control purple" 
             onClick={checkStatus} 
@@ -288,9 +318,31 @@ Cron: Daily at 02:00 CET`;
         <ScenarioAssumptionsPanel />
       </main>
 
-      <footer className="dashboard-footer fade-in" style={{ animationDelay: '0.8s' }}>
-        <p>Data: Danmarks Statistik (EJ56) · Model: CPH Housing Forecast System v3.0 (Fase 1)</p>
+      <footer className="dashboard-footer fade-in" style={{ animationDelay: '0.8s', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center', textAlign: 'center', padding: '30px 20px' }}>
+        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center', fontSize: '0.85rem' }}>
+          <button onClick={() => setShowOnboarding(true)} style={{ background: 'none', border: 'none', color: '#00d4aa', cursor: 'pointer', textDecoration: 'underline' }}>
+            ❓ Guide & Intro
+          </button>
+          <span>·</span>
+          <button onClick={() => setShowMethodology(true)} style={{ background: 'none', border: 'none', color: '#a78bfa', cursor: 'pointer', textDecoration: 'underline' }}>
+            🔬 Model-Metodik & Backtest
+          </button>
+          <span>·</span>
+          <a href="https://github.com/Ianropke/cph-housing-model" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'underline' }}>
+            💻 GitHub Repository & Kildekode
+          </a>
+        </div>
+        <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
+          Data: Danmarks Statistik (EJ56, HUS1), Boliga Web API & Finans Danmark (RKR) · CPH Housing Forecast System v3.2
+        </p>
+        <p style={{ margin: 0, fontSize: '0.74rem', color: 'rgba(255,255,255,0.3)', maxWidth: '800px' }}>
+          ⚖️ <em>Ansvarsfraskrivelse: Dette dashboard er et uafhængigt kvantitativt analyseværktøj udarbejdet til videnskabelig og analytisk brug. Indholdet udgør ikke finansiel investeringsrådgivning eller opfordring til køb/salg af ejendomme.</em>
+        </p>
       </footer>
+
+      {/* ONBOARDING & METHODOLOGY MODALS */}
+      <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
+      <MethodologyModal isOpen={showMethodology} onClose={() => setShowMethodology(false)} />
 
       {/* MODAL DIALOGS */}
       {activeModal === 'backtest' && modalData && (
