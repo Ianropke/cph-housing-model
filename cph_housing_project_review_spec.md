@@ -99,6 +99,7 @@ Systemet anvender en 9-lags teststrategi med interne operationelle KPI-grænser 
 │ 7. Stress Testing (2008 Finanskrise, COVID-19, 2022 Inflationschok)     │
 │ 8. Property-Based Testing (Hypothesis: User Cost > 0 ved r > 0)         │
 │ 9. Disaster Recovery & Fallback Audit (5-dags DST nedbrud)              │
+│ 10. Playwright E2E Visual Inspection & Scenario Sandbox Audit           │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
