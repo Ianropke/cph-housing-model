@@ -1,7 +1,7 @@
 # 📄 GLOBAL CODE QA & PROJECT LEARNINGS
 > **Projekter:** Ian & Lars' 50th Birthday Bash / Copenhagen Housing Market Forecasting Ecosystem  
 > **Dato:** August 2026  
-> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering, Machine Learning validering, JSX-syntaks, Edge-caching og UI/UX best practices til fremtidige projekter.
+> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering, Machine Learning validering, JSX-syntaks, Edge-caching, Playwright E2E visual inspection og UI/UX best practices til fremtidige projekter.
 
 ---
 
@@ -213,6 +213,24 @@
 ### 🧪 Læring 6.13: Integreret Frontend Build-validering i Test Runner
 * **Mønster:** For at garantere at frontend-syntaksfejl eller u-escapede JSX-tegn aldrig rammer produktion, bør `manage.sh test` køre en dedikeret unittest (`test_frontend_jsx.py`), som udover syntaksskanning eksekverer `npm run build` i headless-tilstand.
 
+### ⚓ Læring 6.14: Anchored Logit Calibration i Client-side Sandbox Simulatorer
+* **Problem:** En klient-side interaktiv risikosimulator (Sandbox) beregnede ML-crash sandsynlighed via en fritstående surrogat-formel. Ved det aktuelle marked evaluerede den til 20,2%, mens den reelle Python Random Forest model på serveren outputtede 37,0%. Det udløste forvirrende uoverensstemmelser og et falsk baseline-delta (-16,8%).
+* **Løsning:** Forankr altid klient-side surrogat-modeller i den reelle server-baseline via logit-transformation:
+  \[ \text{baseLogit} = \ln\left(\frac{P_{live}}{1 - P_{live}}\right) \]
+  Dermed evaluerer simuleringen til eksakt 37,0% ($P_{live}$) ved baseline ($0,0\%$ delta), og justeringer af slidere skalerer logit-afvigelsen ($\Delta Z$) direkte fra det sande udgangspunkt.
+
+### 🎭 Læring 6.15: Automated Playwright E2E Visual Inspection & Modal State Handling
+* **Mønster:** Playwright E2E visuelle tests mod SPA'er (React/Vite) skal tage højde for async data-loading (`fetch('/data/latest_pipeline.json')`) og første-besøgs onboarding modals.
+* **Best Practice:** Sæt enten `localStorage.setItem('cph_housing_onboarded', 'true')` via `page.add_init_script(...)` før navigation for deterministiske visuelle skud, eller vent eksplicit på modal-lukning (`page.get_by_role("button", name="...").click()`). Brug altid `page.wait_for_selector("h2", timeout=...)` for at sikre, at async React hydration er fully mounted før dom-asserts.
+
+### 🛠️ Læring 6.16: Vite / Rolldown Style Property Syntax (`fontWeight: 800`)
+* **Problem:** En manglende kolonsyntaks i et inline CSS JS-objekt (`fontWeight 800` i stedet for `fontWeight: 800`) fejlede rolldown-transformeringen under `npm run build` med fejl: `[builtin:vite-transform] Expected , or } but found decimal`.
+* **Løsning:** Integrer altid `test_frontend_jsx.py` i `./manage.sh test` for at fange syntaksfejl i inline stilobjekter og JSX tegn før push.
+
+### 💡 Læring 6.17: UX Onboarding, Metodenoter & 100% Dansk Sprog-konsistens
+* **Mønster:** Avancerede finansielle/kvantitative dashboards risikerer at fremstå uforståelige for målgruppen uden onboarding.
+* **Best Practice:** Tilføj 1) En automatisk velkomst-modal (`OnboardingModal`) ved første besøg, 2) Et dedikeret metodenotat (`MethodologyModal`) som dokumenterer model-arkitektur, backtest hit-rate (56,2%) og data lineage, 3) 100% dansk sprog-konsistens på alle labels og tooltips, og 4) En juridisk ansvarsfraskrivelse i footeren.
+
 ---
 
 ## 7. Kvalitetssikring (PO Launch Checklist)
@@ -226,6 +244,8 @@ Før udrulning til produktion skal følgende tjekliste altid gennemføres:
 - [x] **Fallback & Error Boundaries**: Er der poster-billeder på videoer og meningsfulde fejlmeddelelser ved manglende netværk?
 - [x] **No-Cache Data Headers**: Er `vercel.json` konfigureret med `no-cache` for statiske data-JSON filer?
 - [x] **JSX Build Validation**: Er `npm run build` verifieret uden unescaped JSX-tokens?
+- [x] **Anchored Logit Calibration**: Er risikosimulatorer kalibreret 1-til-1 mod serverens baseline?
+- [x] **Playwright E2E Visual Inspection**: Er visuelle skud verificeret uden konsolfejl eller layout-skift?
 
 ---
 *Filen gemt som en del af det globale læringskatalog.*
