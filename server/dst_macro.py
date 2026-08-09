@@ -8,6 +8,7 @@ import ssl
 # Cache to avoid re-fetching multiple times per segment
 _macro_data_cache = None
 
+
 def fetch_dst_macro_data() -> dict:
     """
     Fetches real macro economic data from Danmarks Statistik (DST)
@@ -17,9 +18,12 @@ def fetch_dst_macro_data() -> dict:
     if _macro_data_cache is not None:
         return _macro_data_cache
 
-    ssl_context = ssl._create_unverified_context()
+    # Keep normal certificate validation enabled. The data is used in
+    # production model calculations and must not be fetched over an
+    # unverified TLS connection.
+    ssl_context = ssl.create_default_context()
     api_url = "https://api.statbank.dk/v1/data"
-    
+
     results = {
         "unemployment_rate": 0.042, # Fallback
         "unemployment_period": None,
@@ -36,7 +40,7 @@ def fetch_dst_macro_data() -> dict:
         "interest_period": None,
         "interest_updated": None,
     }
-    
+
     def post_req(payload):
         req_data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
@@ -115,14 +119,14 @@ def fetch_dst_macro_data() -> dict:
         vals = data["dataset"]["value"]
         tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
         updated_str = data["dataset"].get("updated")
-        
+
         rent_series = {}
         for t, val in zip(tid_keys, vals):
             if val is not None:
                 q_key = t.replace("K", "Q")
                 rent_series[q_key] = val
         results["rent_series"] = rent_series
-        
+
         for i in range(len(vals)-1, -1, -1):
             if vals[i] is not None:
                 results["rent_index"] = vals[i]
@@ -163,6 +167,6 @@ def fetch_dst_macro_data() -> dict:
                     break
     except Exception as e:
         print(f"Warning: Failed to fetch INDKP107: {e}")
-        
+
     _macro_data_cache = results
     return results
