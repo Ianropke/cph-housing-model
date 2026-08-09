@@ -288,48 +288,13 @@ DST_EJ56_DATA = {
     },
 }
 
+from config_loader import load_scenarios, get_scenario_rates_and_appreciation
+
 # ─────────────────────────────────────────────────────────────
-# SCENARIO ASSUMPTIONS (loaded from config/scenarios.yaml logic)
+# SCENARIO ASSUMPTIONS (loaded dynamically from config/scenarios.yaml)
 # ─────────────────────────────────────────────────────────────
 
-SCENARIOS = {
-    "baseline": {
-        "label": "Baseline",
-        "probability_weight": 0.55,
-        "mortgage_rate": {"6m": 0.039, "12m": 0.037, "24m": 0.035},
-        "wage_growth": 0.035,
-        "rentefradrag": 0.33,
-        "depreciation": 0.015,
-        "risk_premium": 0.010,
-        "expected_appreciation": {"6m": 0.02, "12m": 0.035, "24m": 0.06},
-        "supply_adjustment": 0.0,
-        "demand_adjustment": 0.0,
-    },
-    "min_risk": {
-        "label": "Minimum Risk (Goldilocks)",
-        "probability_weight": 0.20,
-        "mortgage_rate": {"6m": 0.035, "12m": 0.030, "24m": 0.028},
-        "wage_growth": 0.045,
-        "rentefradrag": 0.33,
-        "depreciation": 0.015,
-        "risk_premium": 0.010,
-        "expected_appreciation": {"6m": 0.045, "12m": 0.09, "24m": 0.15},
-        "supply_adjustment": -0.05,
-        "demand_adjustment": 0.03,
-    },
-    "max_risk": {
-        "label": "Maximum Risk (Stagflation)",
-        "probability_weight": 0.25,
-        "mortgage_rate": {"6m": 0.050, "12m": 0.055, "24m": 0.060},
-        "wage_growth": 0.025,
-        "rentefradrag": 0.25,
-        "depreciation": 0.015,
-        "risk_premium": 0.010,
-        "expected_appreciation": {"6m": -0.055, "12m": -0.105, "24m": -0.14},
-        "supply_adjustment": 0.10,
-        "demand_adjustment": -0.08,
-    },
-}
+SCENARIOS = load_scenarios()
 
 # ─────────────────────────────────────────────────────────────
 # TOOL 1: fetch_dst_housing_data
@@ -1473,15 +1438,13 @@ def run_forecast_ensemble(
                 lag_factor = 1.0
 
         for scenario_id, scenario in SCENARIOS.items():
-            rate = scenario["mortgage_rate"].get(horizon_key, scenario["mortgage_rate"]["12m"])
-            appreciation = scenario["expected_appreciation"].get(
-                horizon_key, scenario["expected_appreciation"]["12m"]
-            )
+            if scenario_id not in ["baseline", "min_risk", "max_risk"]:
+                continue
+            rate, appreciation, scenario_implied_rate = get_scenario_rates_and_appreciation(scenario, horizon_key)
 
             # Apply credit shock only for UNEXPECTED rate deviation
             # The scenario's appreciation already embeds its own rate expectations,
             # so we only shock for the delta beyond the scenario's first-period rate
-            scenario_implied_rate = scenario["mortgage_rate"]["6m"]
             rate_shock = rate - scenario_implied_rate
             appreciation_shock = rate_shock * elasticity * lag_factor
             adjusted_appreciation = appreciation + appreciation_shock
@@ -1495,8 +1458,10 @@ def run_forecast_ensemble(
             property_tax = get_dynamic_property_tax(segment, forecast_index)
             risk_premium = get_dynamic_risk_premium(rate)
             
+            rentefradrag = scenario.get("drivers", {}).get("purchasing_power", {}).get("rentefradrag_rate", 0.33) if "drivers" in scenario else scenario.get("rentefradrag", 0.33)
+
             uc_rate = (
-                rate * (1 - scenario["rentefradrag"])
+                rate * (1 - rentefradrag)
                 + property_tax
                 + depreciation
                 + risk_premium
@@ -1509,8 +1474,8 @@ def run_forecast_ensemble(
             uc_monthly = uc_annual / 12
 
             horizon_results[scenario_id] = {
-                "label": scenario["label"],
-                "probability_weight": scenario["probability_weight"],
+                "label": scenario.get("label", scenario_id.capitalize()),
+                "probability_weight": scenario.get("probability_weight", 0.33),
                 "forecast_index": round(forecast_index, 1),
                 "price_change_pct": round(period_appreciation * 100, 2),
                 "annualised_return_pct": round(adjusted_appreciation * 100, 2),
@@ -1545,12 +1510,12 @@ def run_forecast_ensemble(
 
             mc_appreciation = 0.0
             for scenario_id, scenario in SCENARIOS.items():
-                w = scenario["probability_weight"]
-                sc_rate = scenario["mortgage_rate"].get(horizon_key, scenario["mortgage_rate"]["12m"])
-                sc_appreciation = scenario["expected_appreciation"].get(horizon_key, scenario["expected_appreciation"]["12m"])
+                if scenario_id not in ["baseline", "min_risk", "max_risk"]:
+                    continue
+                w = scenario.get("probability_weight", 0.33)
+                sc_rate, sc_appreciation, sc_implied_rate = get_scenario_rates_and_appreciation(scenario, horizon_key)
 
                 # Same corrected credit shock: only unexpected deviations
-                sc_implied_rate = scenario["mortgage_rate"]["6m"]
                 sc_rate_shock = sc_rate - sc_implied_rate
                 sc_appreciation_shock = sc_rate_shock * elasticity * lag_factor
                 sc_adjusted_appreciation = sc_appreciation + sc_appreciation_shock

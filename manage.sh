@@ -49,7 +49,7 @@ case "$1" in
         ;;
     test)
         echo -e "${BLUE}=== Running Complete Model & Frontend Test Suite ===${NC}"
-        export PYTHONPATH="$PROJECT_DIR/server"
+        export PYTHONPATH="$PROJECT_DIR/server:$PROJECT_DIR/scripts"
         python3 "$PROJECT_DIR/tests/test_tools.py"
         python3 "$PROJECT_DIR/tests/test_backtest.py"
         python3 "$PROJECT_DIR/tests/test_data_integrity.py"
@@ -57,7 +57,9 @@ case "$1" in
         python3 "$PROJECT_DIR/tests/test_pipeline_errors.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_frontend_jsx.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_visual_playwright.py"
-        echo -e "${GREEN}All 7 test suites passed successfully!${NC}"
+        python3 -m unittest "$PROJECT_DIR/tests/test_configuration_consistency.py"
+        python3 -m unittest "$PROJECT_DIR/tests/test_event_backtest.py"
+        echo -e "${GREEN}All 9 test suites passed successfully!${NC}"
         ;;
     backtest)
         echo -e "${BLUE}=== Running Historical Backtesting & Calibration ===${NC}"

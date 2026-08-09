@@ -53,20 +53,9 @@ SEGMENTS = [
 
 HORIZONS = [6, 12, 24]
 
-SCENARIOS_USER_COST_PARAMS = {
-    "baseline": {
-        "mortgage_rate": {"6m": 0.039, "12m": 0.037, "24m": 0.035},
-        "expected_appreciation": {"6m": 0.02, "12m": 0.035, "24m": 0.06},
-    },
-    "min_risk": {
-        "mortgage_rate": {"6m": 0.035, "12m": 0.030, "24m": 0.028},
-        "expected_appreciation": {"6m": 0.045, "12m": 0.09, "24m": 0.15},
-    },
-    "max_risk": {
-        "mortgage_rate": {"6m": 0.050, "12m": 0.055, "24m": 0.060},
-        "expected_appreciation": {"6m": -0.055, "12m": -0.105, "24m": -0.14},
-    },
-}
+from config_loader import get_scenario_user_cost_params, load_scenarios
+
+SCENARIOS_USER_COST_PARAMS = get_scenario_user_cost_params()
 
 REF_PROPERTY_VALUE = 3_000_000  # DKK
 

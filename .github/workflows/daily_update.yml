@@ -43,6 +43,11 @@ jobs:
           npm ci
           npm run build
 
+      - name: Run Quality Gate Test Suite
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/scripts
+        run: ./manage.sh test
+
       - name: Commit and push if changed
         run: |
           git config --global user.name 'github-actions[bot]'
