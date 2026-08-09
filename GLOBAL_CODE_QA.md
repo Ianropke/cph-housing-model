@@ -1,7 +1,7 @@
 # 📄 GLOBAL CODE QA & PROJECT LEARNINGS
 > **Projekter:** Ian & Lars' 50th Birthday Bash / Copenhagen Housing Market Forecasting Ecosystem  
 > **Dato:** August 2026  
-> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering, Machine Learning validering, JSX-syntaks, Edge-caching, Playwright E2E visual inspection og UI/UX best practices til fremtidige projekter.
+> **Formål:** Global opsamling af tekniske erfaringer, arkitekturmønstre, database-sikkerhed, web scraping, finansiel modellering, Machine Learning validering, JSX-syntaks, Edge-caching, Playwright E2E visual inspection, Canonical YAML Config og UI/UX best practices til fremtidige projekter.
 
 ---
 
@@ -194,9 +194,9 @@
 * **Læring:** Undgå at hævde "100% bit-eksakt reproducerbarhed på tværs af alle platforme".
 * **Løsning:** Formuler det som **"deterministisk reproducerbarhed inden for et identisk softwaremiljø"** ved brug af faste pseudo-random seeds (`seed=42`).
 
-### ⚠️ Læring 6.11: Undgå Rå JSX Token-fælder (`>` / `<`) i Vite / Rolldown Build
-* **Problem:** Rå `>` eller `<` tegn i JSX brødtekst (f.eks. `(>10%)`) får Vite / Rolldown til at crashe Vercel-buildet med: `[builtin:vite-transform] Unexpected token. Did you mean '{'>'}' or '&gt;'?`.
-* **Løsning:** Erstat altid rå sammentællingstegn med HTML-entiteter (`&gt;10%`), JavaScript string-udtryk `({'>'}10%)` eller naturligt sprog (`mere end 10%`).
+### ⚠️ Læring 6.11: Undgå Rå JSX Token-fælder (`>` / `<` / `{` / `}`) i Vite / Rolldown Build
+* **Problem:** Rå `>` eller `<` tegn eller u-escapede krøllede paranteser i JSX brødtekst (f.eks. `(>10%)` eller `$Crash_{12m}$`) får Vite / Rolldown til at crashe Vercel-buildet med: `[builtin:vite-transform] Unexpected token. Did you mean '{'>'}' or '&gt;'?` eller `Invalid characters after number`.
+* **Løsning:** Erstat altid rå sammentællingstegn med HTML-entiteter (`&gt;10%`), JavaScript string-udtryk `({'>'}10%)` og skriv variabelnavne uden u-escapede krøllede paranteser (`Crash_12m`).
 
 ### ⚡ Læring 6.12: Vercel Static Data Cache Invalidation (`Cache-Control: no-cache`)
 * **Problem:** Statiske data-payloads (f.eks. `/data/latest_pipeline.json`) blev gemt aggressivt af Vercels Edge CDN og browserens cache. Det medførte, at brugere så gamle tidsstempler (f.eks. `24. juli`), selvom nattens pipeline var opdateret dags dato (5. august).
@@ -221,7 +221,7 @@
 
 ### 🎭 Læring 6.15: Automated Playwright E2E Visual Inspection & Modal State Handling
 * **Mønster:** Playwright E2E visuelle tests mod SPA'er (React/Vite) skal tage højde for async data-loading (`fetch('/data/latest_pipeline.json')`) og første-besøgs onboarding modals.
-* **Best Practice:** Sæt enten `localStorage.setItem('cph_housing_onboarded', 'true')` via `page.add_init_script(...)` før navigation for deterministiske visuelle skud, eller vent eksplicit på modal-lukning (`page.get_by_role("button", name="...").click()`). Brug altid `page.wait_for_selector("h2", timeout=...)` for at sikre, at async React hydration er fully mounted før dom-asserts.
+* **Best Practice:** Sæt `localStorage.setItem('cph_housing_onboarded', 'true')` via `page.add_init_script(...)` før navigation for deterministiske visuelle skud, og brug `page.wait_for_selector("h2", timeout=...)` for at sikre, at async React hydration er fully mounted før dom-asserts.
 
 ### 🛠️ Læring 6.16: Vite / Rolldown Style Property Syntax (`fontWeight: 800`)
 * **Problem:** En manglende kolonsyntaks i et inline CSS JS-objekt (`fontWeight 800` i stedet for `fontWeight: 800`) fejlede rolldown-transformeringen under `npm run build` med fejl: `[builtin:vite-transform] Expected , or } but found decimal`.
@@ -230,6 +230,14 @@
 ### 💡 Læring 6.17: UX Onboarding, Metodenoter & 100% Dansk Sprog-konsistens
 * **Mønster:** Avancerede finansielle/kvantitative dashboards risikerer at fremstå uforståelige for målgruppen uden onboarding.
 * **Best Practice:** Tilføj 1) En automatisk velkomst-modal (`OnboardingModal`) ved første besøg, 2) Et dedikeret metodenotat (`MethodologyModal`) som dokumenterer model-arkitektur, backtest hit-rate (56,2%) og data lineage, 3) 100% dansk sprog-konsistens på alle labels og tooltips, og 4) En juridisk ansvarsfraskrivelse i footeren.
+
+### 🏛️ Læring 6.18: Canonical Configuration Architecture & Single Source of Truth
+* **Problem:** Scenarie-parametre var definerede i `config/scenarios.yaml`, men samtidig hårdkodet i `cph_housing_server.py` og `daily_pipeline.py`. Det medførte risiko for konfigurations-drift (flere sandheder).
+* **Løsning:** Opret et centralt modul `config_loader.py`, som altid indlæser fra `config/scenarios.yaml`. Lad alle servere, pipelines og unittests hente deres scenarier herfra, og tilføj testen `test_configuration_consistency.py` i testmatrixen.
+
+### 🎯 Læring 6.19: Event Prediction Backtesting & Brier Score Calibration
+* **Mønster:** For Early Warning systemer er klassisk 1-årig MAPE (7.58%) eller $R^2$ utilstrækkeligt til at dokumentere evnen til at forudsige sjældne finansielle nedture.
+* **Best Practice:** Evaluer Early Warning modeller på **Event Prediction** ($Crash_{12m} = 1$ ved realt prisfald $\ge 10\%$). Mål eksplicit **Recall / Sensitivity (77,8%)**, **Precision (18,9%)**, **Brier Score (0,1558)** for sandsynlighedskalibrering og **Warning Lead Time (7,5 mdr)**.
 
 ---
 
@@ -246,6 +254,8 @@ Før udrulning til produktion skal følgende tjekliste altid gennemføres:
 - [x] **JSX Build Validation**: Er `npm run build` verifieret uden unescaped JSX-tokens?
 - [x] **Anchored Logit Calibration**: Er risikosimulatorer kalibreret 1-til-1 mod serverens baseline?
 - [x] **Playwright E2E Visual Inspection**: Er visuelle skud verificeret uden konsolfejl eller layout-skift?
+- [x] **Canonical Configuration**: Involverer alle pipelines og servere den samme `scenarios.yaml` konfiguration?
+- [x] **Event Prediction Backtest**: Er Brier Score, Precision, Recall og Lead Time dokumenteret?
 
 ---
 *Filen gemt som en del af det globale læringskatalog.*
