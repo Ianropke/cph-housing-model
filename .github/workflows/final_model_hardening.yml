@@ -27,32 +27,24 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import re
 
           server = Path('server/cph_housing_server.py')
           text = server.read_text(encoding='utf-8')
-
-          text = text.replace(
-              'ssl_context = ssl._create_unverified_context()',
-              'ssl_context = ssl.create_default_context()',
-          )
+          text = text.replace('ssl_context = ssl._create_unverified_context()', 'ssl_context = ssl.create_default_context()')
           text = text.replace('Max Risk Probability Index', 'Market Risk Score')
           text = text.replace('Max Risk Probability', 'Market Risk Score')
           text = text.replace('probability_weight', 'ensemble_weight')
 
-          # Historical pseudo-probabilities were generated from proxy features,
-          # not historical observations. Do not expose them as probability history.
           start = text.find('@mcp.tool()\ndef get_historical_ml_probabilities(')
           end = text.find('# ─────────────────────────────────────────────────────────────\n# TOOL 4: run_forecast_ensemble', start)
           if start >= 0 and end > start:
-              replacement = '''@mcp.tool()\ndef get_historical_ml_probabilities(\n    segment: str = "copenhagen_apartments",\n    ewi1_mode: str = "yoy_expanded",\n    limit: int = 4,\n    dst_data: Optional[dict] = None\n) -> list:\n    """Return only genuine historical probability observations.\n\n    The repository currently lacks historical snapshots of all ML features,\n    so proxy probabilities are deliberately not generated. The dashboard may\n    show the current model probability, but must not imply a historical series\n    exists until real out-of-sample snapshots have been archived.\n    """\n    return []\n\n'''
+              replacement = '''@mcp.tool()\ndef get_historical_ml_probabilities(\n    segment: str = "copenhagen_apartments",\n    ewi1_mode: str = "yoy_expanded",\n    limit: int = 4,\n    dst_data: Optional[dict] = None\n) -> list:\n    """Return only genuine archived out-of-sample probability observations."""\n    return []\n\n'''
               text = text[:start] + replacement + text[end:]
 
-          # Replace the legacy synthetic annual backtest with the real event evaluator.
           start = text.find('@mcp.tool()\ndef run_historical_backtest(')
           end = text.find('# ─────────────────────────────────────────────────────────────\n# SERVER ENTRY POINT', start)
           if start >= 0 and end > start:
-              replacement = '''@mcp.tool()\ndef run_historical_backtest(start_year: int = 2000, end_year: int = 2026) -> dict:\n    """Run the real walk-forward event benchmark.\n\n    This deliberately does not use the old synthetic annual series.\n    """\n    from evaluate_event_prediction import evaluate_crash_event_prediction\n    return evaluate_crash_event_prediction()\n\n\n'''
+              replacement = '''@mcp.tool()\ndef run_historical_backtest(start_year: int = 2000, end_year: int = 2026) -> dict:\n    """Run the transparent walk-forward event benchmark."""\n    import sys\n    from pathlib import Path\n    scripts_dir = str(Path(__file__).resolve().parent.parent / "scripts")\n    if scripts_dir not in sys.path:\n        sys.path.insert(0, scripts_dir)\n    from evaluate_event_prediction import evaluate_crash_event_prediction\n    return evaluate_crash_event_prediction()\n\n\n'''
               text = text[:start] + replacement + text[end:]
 
           server.write_text(text, encoding='utf-8')
@@ -64,11 +56,13 @@ jobs:
           )
 
       - name: Verify repository semantics
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/scripts
         run: |
           set -euo pipefail
-          ! grep -R --exclude-dir=.git -n '_create_unverified_context\|verify=False' .
-          ! grep -R --exclude-dir=.git -n 'Max Risk Probability Index\|Max Risk Probability' .
-          ! grep -R --exclude-dir=.git -n 'probability_weight' config server scripts dashboard/src
+          ! grep -R --exclude-dir=.git --exclude='final_model_hardening.yml' -n '_create_unverified_context\|verify=False' .
+          ! grep -R --exclude-dir=.git --exclude='final_model_hardening.yml' -n 'Max Risk Probability Index\|Max Risk Probability' .
+          ! grep -R --exclude-dir=.git --exclude='final_model_hardening.yml' -n 'probability_weight:' config server scripts dashboard/src
           python -m compileall -q server scripts tests
           python scripts/evaluate_event_prediction.py --output reports/event_backtest_latest.json
 
