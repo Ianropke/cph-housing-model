@@ -2,44 +2,50 @@ name: Daily Data Update
 
 on:
   schedule:
-    # Runs at 03:00 UTC every day
     - cron: '0 3 * * *'
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+  workflow_dispatch:
 
+# The workflow publishes generated data, so write permission is intentional.
+# No other repository permissions are granted.
 permissions:
   contents: write
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: dashboard/package-lock.json
 
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
-        
+        run: python -m pip install -r requirements.txt
+
+      - name: Compile Python sources
+        run: python -m compileall -q server scripts tests
+
       - name: Run Data Pipeline
         env:
-          PYTHONPATH: ${{ github.workspace }}/server
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/scripts
         run: python scripts/daily_pipeline.py
 
       - name: Verify Dashboard Build
+        working-directory: dashboard
         run: |
-          cd dashboard
           npm ci
           npm run build
 
@@ -50,9 +56,14 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add dashboard/src/data/housingData.js
           git add dashboard/public/data/latest_pipeline.json
           git add reports/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-update data payload" && git push)
+          if git diff --cached --quiet; then
+            echo 'No generated data changes to commit.'
+          else
+            git commit -m 'chore(data): auto-update model payload'
+            git push
+          fi
