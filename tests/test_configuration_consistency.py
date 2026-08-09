@@ -1,13 +1,9 @@
-"""
-Unit test suite verifying canonical configuration consistency.
-Ensures config/scenarios.yaml is the single source of truth across server, pipeline, and tests.
-"""
+"""Tests for canonical scenario configuration and model semantics."""
 
-import unittest
 import os
 import sys
+import unittest
 
-# Ensure server module is on PYTHONPATH
 server_dir = os.path.join(os.path.dirname(__file__), "..", "server")
 if server_dir not in sys.path:
     sys.path.insert(0, server_dir)
@@ -16,40 +12,48 @@ from config_loader import load_scenarios, get_scenario_user_cost_params
 from cph_housing_server import SCENARIOS
 
 
+SCENARIO_KEYS = ("baseline", "min_risk", "max_risk")
+
+
 class TestConfigurationConsistency(unittest.TestCase):
     def test_canonical_scenarios_exist(self):
-        """Verifies that all three primary scenarios exist in scenarios.yaml."""
         scenarios = load_scenarios(force_reload=True)
-        self.assertIn("baseline", scenarios)
-        self.assertIn("min_risk", scenarios)
-        self.assertIn("max_risk", scenarios)
+        for key in SCENARIO_KEYS:
+            self.assertIn(key, scenarios)
 
-    def test_probability_weights_sum_to_one(self):
-        """Verifies that scenario probability weights sum to exactly 1.0."""
+    def test_ensemble_weights_sum_to_one(self):
         scenarios = load_scenarios()
-        total_weight = sum(
-            scenarios[key].get("probability_weight", 0)
-            for key in ["baseline", "min_risk", "max_risk"]
-        )
-        self.assertAlmostEqual(total_weight, 1.0, places=4, msg="Scenario probability weights must sum to 1.0")
+        weights = [scenarios[key]["ensemble_weight"] for key in SCENARIO_KEYS]
+        self.assertAlmostEqual(sum(weights), 1.0, places=6)
+        for weight in weights:
+            self.assertGreaterEqual(weight, 0.0)
+            self.assertLessEqual(weight, 1.0)
+
+    def test_weights_are_not_presented_as_calibrated_probabilities(self):
+        """Scenario weights are ensemble weights, not empirical probabilities."""
+        scenarios = load_scenarios()
+        for key in SCENARIO_KEYS:
+            self.assertIn("ensemble_weight", scenarios[key])
+            self.assertEqual(scenarios[key]["probability_weight"], scenarios[key]["ensemble_weight"])
 
     def test_server_scenarios_match_canonical_loader(self):
-        """Verifies that cph_housing_server.SCENARIOS is strictly aligned with config_loader."""
-        scenarios_from_loader = load_scenarios()
-        for key in ["baseline", "min_risk", "max_risk"]:
-            self.assertIn(key, SCENARIOS, f"Key '{key}' missing from cph_housing_server.SCENARIOS")
-            self.assertEqual(
-                SCENARIOS[key].get("probability_weight"),
-                scenarios_from_loader[key].get("probability_weight"),
-                f"Probability weight mismatch for scenario '{key}'"
+        canonical = load_scenarios()
+        for key in SCENARIO_KEYS:
+            self.assertIn(key, SCENARIOS)
+            self.assertAlmostEqual(
+                SCENARIOS[key]["ensemble_weight"],
+                canonical[key]["ensemble_weight"],
+                places=8,
+                msg=f"Ensemble weight mismatch for scenario '{key}'",
             )
 
     def test_user_cost_params_structure(self):
-        """Verifies that get_scenario_user_cost_params returns valid parameters."""
         params = get_scenario_user_cost_params()
-        for key in ["baseline", "min_risk", "max_risk"]:
+        for key in SCENARIO_KEYS:
             self.assertIn(key, params)
             p = params[key]
+            self.assertIn("ensemble_weight", p)
+            self.assertAlmostEqual(p["ensemble_weight"], p["probability_weight"])
             self.assertIn("mortgage_rate", p)
             self.assertIn("ecb_deposit_rate", p)
             self.assertIn("wage_growth", p)
