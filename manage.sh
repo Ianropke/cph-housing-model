@@ -1,16 +1,17 @@
 #!/bin/bash
 # Copenhagen Housing Market Forecasting Ecosystem Management Script
 
-set -e
+set -euo pipefail
 
-PROJECT_DIR="/Users/ianropke/.gemini/antigravity/scratch/cph-housing-model"
+# Resolve the repository from the script location so the command works both
+# locally and in GitHub Actions. Never depend on the developer's absolute path.
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Colors for pretty output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 BOLD='\033[1m'
 
 show_help() {
@@ -33,10 +34,10 @@ show_help() {
 case "$1" in
     start)
         echo -e "${BLUE}=== Starting Dashboard Dev Server ===${NC}"
-        # Make sure data is pre-seeded
         if [ ! -f "$PROJECT_DIR/dashboard/src/data/housingData.js" ]; then
             echo -e "${YELLOW}Data file not found. Running pipeline first...${NC}"
-            python3 "$PROJECT_DIR/scripts/daily_pipeline.py"
+            cd "$PROJECT_DIR"
+            PYTHONPATH="$PROJECT_DIR/server" python3 scripts/daily_pipeline.py
         fi
         cd "$PROJECT_DIR/dashboard"
         echo -e "${GREEN}Running: npm run dev -- --open${NC}"
@@ -44,11 +45,13 @@ case "$1" in
         ;;
     update)
         echo -e "${BLUE}=== Running Data Update Pipeline ===${NC}"
-        python3 "$PROJECT_DIR/scripts/daily_pipeline.py"
+        cd "$PROJECT_DIR"
+        PYTHONPATH="$PROJECT_DIR/server:$PROJECT_DIR/scripts" python3 scripts/daily_pipeline.py
         echo -e "${GREEN}Data pipeline update complete!${NC}"
         ;;
     test)
         echo -e "${BLUE}=== Running Complete Model & Frontend Test Suite ===${NC}"
+        cd "$PROJECT_DIR"
         export PYTHONPATH="$PROJECT_DIR/server:$PROJECT_DIR/scripts"
         python3 "$PROJECT_DIR/tests/test_tools.py"
         python3 "$PROJECT_DIR/tests/test_backtest.py"
@@ -63,19 +66,23 @@ case "$1" in
         ;;
     backtest)
         echo -e "${BLUE}=== Running Historical Backtesting & Calibration ===${NC}"
+        cd "$PROJECT_DIR"
         export PYTHONPATH="$PROJECT_DIR/server"
-        python3 -c "import sys; sys.path.insert(0, '$PROJECT_DIR/server'); from cph_housing_server import run_historical_backtest; import json; print(json.dumps(run_historical_backtest(2007, 2024), indent=2))"
+        python3 -c "from cph_housing_server import run_historical_backtest; import json; print(json.dumps(run_historical_backtest(2007, 2024), indent=2))"
         ;;
     deploy-preview)
-        echo -e "${BLUE}=== Deploying to Vercel Preview ===${NC}"
+        echo -e "${BLUE}=== Deploying Dashboard to Vercel Preview ===${NC}"
+        cd "$PROJECT_DIR"
         npx vercel
         ;;
     deploy-prod)
-        echo -e "${BLUE}=== Deploying to Vercel Production ===${NC}"
+        echo -e "${BLUE}=== Deploying Dashboard to Vercel Production ===${NC}"
+        cd "$PROJECT_DIR"
         npx vercel --prod
         ;;
     env-pull)
         echo -e "${BLUE}=== Pulling Vercel Environment Variables ===${NC}"
+        cd "$PROJECT_DIR"
         npx vercel env pull .env.local
         ;;
     status)
@@ -88,20 +95,19 @@ case "$1" in
         else
             echo -e "  - housingData.js: ${RED}Missing${NC}"
         fi
-        
         if [ -f "$PROJECT_DIR/dashboard/public/data/latest_pipeline.json" ]; then
             echo -e "  - latest_pipeline.json: ${GREEN}Exists${NC} (Last modified: $(date -r "$PROJECT_DIR/dashboard/public/data/latest_pipeline.json" "+%Y-%m-%d %H:%M:%S"))"
         else
             echo -e "  - latest_pipeline.json: ${RED}Missing${NC}"
         fi
-        
         echo ""
         echo -e "${BOLD}Latest Daily Reports:${NC}"
-        ls -lt "$PROJECT_DIR/reports" | head -n 4 | awk '{if (NR>1) print "  - " $9}'
-        
+        if [ -d "$PROJECT_DIR/reports" ]; then
+            ls -lt "$PROJECT_DIR/reports" | head -n 4 | awk '{if (NR>1) print "  - " $9}'
+        fi
         echo ""
-        echo -e "${BOLD}Cron Task Health Check:${NC}"
-        echo "The daily background updater task is scheduled to run at 02:00 AM CET daily via the Antigravity scheduler."
+        echo -e "${BOLD}Scheduler:${NC}"
+        echo "The daily background updater is expected to run at the configured scheduler time."
         ;;
     *)
         show_help
