@@ -12,6 +12,7 @@ import csv
 import io
 import json
 import math
+import sys
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -21,6 +22,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss, roc_auc_score
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+
+
+ROOT = Path(__file__).resolve().parent.parent
+SERVER_DIR = ROOT / "server"
+if str(SERVER_DIR) not in sys.path:
+    sys.path.insert(0, str(SERVER_DIR))
 
 
 def _fetch_dst_prices() -> tuple[list[str], list[float], str]:
@@ -42,7 +49,7 @@ def _fetch_dst_prices() -> tuple[list[str], list[float], str]:
         quarters, prices = [], []
         for row in rows:
             period = row.get("Tid") or row.get("TIME")
-            value = row.get("INDHOLD") or row.get("INDHOLD") or row.get("Value")
+            value = row.get("INDHOLD") or row.get("Value")
             if not period or value in (None, ""):
                 continue
             try:
@@ -54,7 +61,9 @@ def _fetch_dst_prices() -> tuple[list[str], list[float], str]:
             raise ValueError(f"Only {len(prices)} usable DST observations")
         return quarters, prices, "DST EJ56 live API"
     except Exception:
-        # Offline/unit-test fallback: use the repository's actual seeded series.
+        # Transparent offline fallback: use the repository's actual seeded
+        # historical series. This is a benchmark data source, not synthetic
+        # data, and the report identifies it explicitly.
         from cph_housing_server import DST_EJ56_DATA
         series = DST_EJ56_DATA["segments"]["copenhagen_apartments"]["series"]
         periods = sorted(series)
@@ -167,8 +176,6 @@ def evaluate_crash_event_prediction(
     auc = None if len(set(y_true)) < 2 else float(roc_auc_score(y_true, y_prob))
     ll = float(log_loss(y_true, y_prob, labels=[0, 1])) if len(set(y_true)) > 1 else None
 
-    # A warning lead time is only reported when a warning actually precedes
-    # an event. No hard-coded historical lead time is permitted.
     event_indices = [i for i, y in enumerate(y_true) if y == 1]
     lead_times = []
     for event_i in event_indices:
