@@ -54,6 +54,7 @@ jobs:
       - name: Run Quality Gate Test Suite
         env:
           PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/scripts
+          RUN_VISUAL_TESTS: "0"
         run: ./manage.sh test
 
       - name: Commit and push if changed

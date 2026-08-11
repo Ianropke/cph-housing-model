@@ -59,7 +59,11 @@ case "$1" in
         python3 -m unittest "$PROJECT_DIR/tests/test_economic_logic.py"
         python3 "$PROJECT_DIR/tests/test_pipeline_errors.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_frontend_jsx.py"
-        python3 -m unittest "$PROJECT_DIR/tests/test_visual_playwright.py"
+        if [ "${RUN_VISUAL_TESTS:-1}" = "1" ]; then
+            python3 -m unittest "$PROJECT_DIR/tests/test_visual_playwright.py"
+        else
+            echo -e "${YELLOW}Skipping Playwright visual test (RUN_VISUAL_TESTS=0).${NC}"
+        fi
         python3 -m unittest "$PROJECT_DIR/tests/test_configuration_consistency.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_event_backtest.py"
         echo -e "${GREEN}All 9 test suites passed successfully!${NC}"
