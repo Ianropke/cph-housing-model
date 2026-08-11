@@ -53,7 +53,7 @@ class TestDataIntegrity(unittest.TestCase):
 
     def test_rkr_mortgage_data_validity(self):
         """Verifies that the mortgage data from Finance Denmark is properly formatted and valid."""
-        tables = ["BM011", "UDB010", "UL10"]
+        tables = ["UDB010", "UDB030", "UL30"]
         for table in tables:
             data = fetch_rkr_data(table)
             self.assertEqual(data.get("table"), table)
@@ -61,17 +61,15 @@ class TestDataIntegrity(unittest.TestCase):
             
             payload = data.get("data", {})
             self.assertIn("description", payload)
-            self.assertEqual(payload.get("source"), "Finance Denmark (RKR)")
+            self.assertEqual(payload.get("source"), "Finans Danmark Statistikbank")
             
-            if table == "BM011":
-                self.assertGreater(payload.get("latest_value_dkk_billions", 0), 0)
-                self.assertIsNotNone(payload.get("growth_yoy_pct"))
-            elif table == "UDB010":
+            self.assertEqual(payload.get("status"), "live")
+            if table == "UDB010":
                 self.assertGreater(payload.get("active_listings", 0), 0)
+            elif table == "UDB030":
                 self.assertGreater(payload.get("median_days_on_market", 0), 0)
-            elif table == "UL10":
+            elif table == "UL30":
                 self.assertGreater(payload.get("interest_only_share_pct", 0), 0)
-                self.assertGreater(payload.get("interest_only_share_red_threshold", 0), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

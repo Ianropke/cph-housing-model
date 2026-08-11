@@ -43,12 +43,6 @@ SEGMENTS = [
     "copenhagen_apartments",
     "copenhagen_houses",
     "frederiksberg_apartments",
-    "aarhus_apartments",
-    "aarhus_houses",
-    "odense_apartments",
-    "odense_houses",
-    "aalborg_apartments",
-    "aalborg_houses",
 ]
 
 HORIZONS = [6, 12, 24]
@@ -75,12 +69,19 @@ def run_daily_pipeline():
 
     # ── Step 1: Fetch latest data ──
     print("🤖 Step 1a: Running Autonomous Market Data Agent...")
-    try:
-        import subprocess
-        agent_script = os.path.join(SCRIPT_DIR, "market_data_agent.py")
-        subprocess.run([sys.executable, agent_script], check=True)
-    except Exception as e:
-        print(f"   ⚠️ Agent failed or not found: {e}")
+    import subprocess
+    agent_script = os.path.join(SCRIPT_DIR, "market_data_agent.py")
+    subprocess.run([sys.executable, agent_script], check=True)
+
+    market_data_path = os.path.join(PROJECT_ROOT, "config", "market_data.json")
+    with open(market_data_path, "r") as f:
+        market_data = json.load(f)
+    if market_data.get("source_status") != "live":
+        raise RuntimeError("Market data is not marked live; refusing to publish a dashboard payload")
+    for segment in SEGMENTS:
+        segment_data = market_data.get(segment, {})
+        if segment_data.get("source_status") != "live" or not segment_data.get("provenance"):
+            raise RuntimeError(f"{segment} is missing live source provenance")
 
     print("📊 Step 1b: Fetching latest DST EJ56 data...")
     dst_data = fetch_dst_housing_data(table="EJ56")
@@ -119,14 +120,9 @@ def run_daily_pipeline():
     if "last_updated" in dst_data:
         DATA_FRESHNESS["dst_ej56"]["last_updated"] = dst_data["last_updated"]
         
-    market_data_path = os.path.join(PROJECT_ROOT, "config", "market_data.json")
-    if os.path.exists(market_data_path):
-        with open(market_data_path, "r") as f:
-            md = json.load(f)
-            if "last_updated" in md:
-                DATA_FRESHNESS["rkr_udb010"]["last_updated"] = md["last_updated"]
-                # Also assign to rkr_ul10 since the agent acts as its data source currently
-                DATA_FRESHNESS["rkr_ul10"]["last_updated"] = md["last_updated"]
+    if "last_updated" in market_data:
+        DATA_FRESHNESS["rkr_udb010"]["last_updated"] = market_data["last_updated"]
+        DATA_FRESHNESS["rkr_ul10"]["last_updated"] = market_data["last_updated"]
 
     # ── Step 3: Check early warnings ──
     print("\n🚨 Step 3: Checking early warning indicators...")
@@ -252,6 +248,11 @@ def run_daily_pipeline():
         "forecasts": forecast_results,
         "user_costs": user_cost_results,
         "alerts": alert_summary,
+        "market_data_status": {
+            "status": market_data["source_status"],
+            "generated_at": market_data["generated_at"],
+            "sources": market_data["sources"],
+        },
     }
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -583,7 +584,7 @@ def generate_daily_report(dst_data, ewi_results, forecast_results, user_cost_res
     lines = [
         f"# CPH Housing Model — Daily Report",
         f"> **Date**: {now.strftime('%Y-%m-%d')}  ",
-        f"> **Generated**: {now.isoformat()}  ",
+        f"> **Generated**: {now.isoformat()}",
         "",
         "## Early Warning Status",
         "",

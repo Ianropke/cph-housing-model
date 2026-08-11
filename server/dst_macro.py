@@ -1,9 +1,8 @@
 """
 Module to fetch real macro economic data from Danmarks Statistik (DST).
 """
-import urllib.request
 import json
-import ssl
+from curl_cffi import requests
 
 # Cache to avoid re-fetching multiple times per segment
 _macro_data_cache = None
@@ -18,42 +17,31 @@ def fetch_dst_macro_data() -> dict:
     if _macro_data_cache is not None:
         return _macro_data_cache
 
-    # Keep normal certificate validation enabled. The data is used in
-    # production model calculations and must not be fetched over an
-    # unverified TLS connection.
-    ssl_context = ssl.create_default_context()
     api_url = "https://api.statbank.dk/v1/data"
 
     results = {
-        "unemployment_rate": 0.042, # Fallback
+        "unemployment_rate": None,
         "unemployment_period": None,
         "unemployment_updated": None,
-        "rent_index": 120.0,
+        "rent_index": None,
         "rent_period": None,
         "rent_updated": None,
         "rent_series": {},
-        "disposable_income_cph": 390000.0,
-        "disposable_income_frb": 440000.0,
+        "disposable_income_cph": None,
+        "disposable_income_frb": None,
         "income_period": None,
         "income_updated": None,
-        "interest_rate": 0.039, # Fallback
+        "interest_rate": None,
         "interest_period": None,
         "interest_updated": None,
     }
 
     def post_req(payload):
-        req_data = json.dumps(payload).encode("utf-8")
-        req = urllib.request.Request(
-            api_url,
-            data=req_data,
-            headers={
-                "Content-Type": "application/json",
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-            },
-            method="POST"
-        )
-        with urllib.request.urlopen(req, timeout=8.0, context=ssl_context) as res:
-            return json.loads(res.read().decode("utf-8"))
+        response = requests.post(api_url, json=payload, impersonate="chrome110", timeout=15)
+        response.raise_for_status()
+        return response.json()
+
+    failures = []
 
     # 1. Unemployment (AUS07 - Sæsonkorrigeret i pct af arbejdsstyrken)
     try:
@@ -77,7 +65,7 @@ def fetch_dst_macro_data() -> dict:
                     results["unemployment_updated"] = updated_str.split("T")[0]
                 break
     except Exception as e:
-        print(f"Warning: Failed to fetch AUS07: {e}")
+        failures.append(f"AUS07: {e}")
 
     # 2. Interest Rate (DNRENTM - Nationalbankens Indskudsbevisrente)
     try:
@@ -102,7 +90,7 @@ def fetch_dst_macro_data() -> dict:
                     results["interest_updated"] = updated_str.split("T")[0]
                 break
     except Exception as e:
-        print(f"Warning: Failed to fetch DNRENTM: {e}")
+        failures.append(f"DNRENTM: {e}")
 
     # 3. Rent Index (HUS1 - Huslejeindeks for boliger, Region Hovedstaden, Boliger i alt)
     try:
@@ -135,7 +123,7 @@ def fetch_dst_macro_data() -> dict:
                     results["rent_updated"] = updated_str.split("T")[0]
                 break
     except Exception as e:
-        print(f"Warning: Failed to fetch HUS1: {e}")
+        failures.append(f"HUS1: {e}")
 
     # 4. Income (INDKP107 - 105 Disponibel indkomst, 116 Gennemsnit)
     try:
@@ -166,7 +154,11 @@ def fetch_dst_macro_data() -> dict:
                         results["income_updated"] = updated_str.split("T")[0]
                     break
     except Exception as e:
-        print(f"Warning: Failed to fetch INDKP107: {e}")
+        failures.append(f"INDKP107: {e}")
+
+    required = ("unemployment_rate", "interest_rate", "rent_index", "disposable_income_cph", "disposable_income_frb")
+    if failures or any(results[key] is None for key in required) or not results["rent_series"]:
+        raise RuntimeError("DST macro data is incomplete; refusing fallback values: " + "; ".join(failures))
 
     _macro_data_cache = results
     return results

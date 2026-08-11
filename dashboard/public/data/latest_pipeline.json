@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-11T20:08:32.633285",
+  "generated_at": "2026-08-11T22:49:20.934606",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-07-29",
-    "query_timestamp": "2026-08-11T20:09:00.759239",
+    "query_timestamp": "2026-08-11T22:49:43.071525",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -294,8 +294,8 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-08-11T20:09:32.706150",
-      "ml_crash_probability": 0.36,
+      "evaluation_timestamp": "2026-08-11T22:49:46.952359",
+      "ml_crash_probability": 0.6,
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -350,9 +350,9 @@
         },
         "EWI-2_supply_demand": {
           "level": "GREEN",
-          "months_of_supply": 4.44,
+          "months_of_supply": 4.46,
           "baseline_months": 4.5,
-          "detail": "Months of supply: 4.4 (baseline: 4.5)",
+          "detail": "Months of supply: 4.5 (baseline: 4.5)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -365,11 +365,11 @@
           ]
         },
         "EWI-3_volume_price_divergence": {
-          "level": "GREEN",
+          "level": "RED",
           "price_yoy_pct": 20.41,
-          "volume_yoy_pct": -5.0,
-          "divergence": false,
-          "detail": "Price YoY: +20.4%, Volume YoY: -5.0%",
+          "volume_yoy_pct": -23.9,
+          "divergence": true,
+          "detail": "Price YoY: +20.4%, Volume YoY: -23.9%",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -406,11 +406,11 @@
           ]
         },
         "EWI-5_time_on_market": {
-          "level": "GREEN",
-          "median_dom_days": 60,
+          "level": "RED",
+          "median_dom_days": 67,
           "baseline_mean_days": 58.7,
           "baseline_std_days": 3.4,
-          "detail": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+          "detail": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -448,8 +448,8 @@
         },
         "EWI-7_credit_growth": {
           "level": "GREEN",
-          "amortization_free_share_pct": 46.0,
-          "detail": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+          "amortization_free_share_pct": 48.4,
+          "detail": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
           "data_sources": [
             {
               "key": "rkr_ul10",
@@ -501,10 +501,10 @@
           ]
         }
       },
-      "composite_score": 8.1,
-      "freshness_weighted_composite": 6.6,
+      "composite_score": 10.5,
+      "freshness_weighted_composite": 8.9,
       "max_possible_score": 27.0,
-      "alert_level": "ELEVATED",
+      "alert_level": "HIGH",
       "data_freshness_summary": {
         "dst_ej56": {
           "label": "DST Prisindeks (EJ56)",
@@ -611,20 +611,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "4.4 months",
+              "value": "4.5 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 4.4 (baseline: 4.5)",
+              "description": "Months of supply: 4.5 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -24%",
               "baseline": "AMBER at -10%",
-              "status": "GREEN",
-              "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+              "status": "RED",
+              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -641,10 +641,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "60 days",
+              "value": "67 days",
               "baseline": "Dynamisk Z-score",
-              "status": "GREEN",
-              "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "status": "RED",
+              "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -661,10 +661,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -689,27 +689,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 8.1,
-          "freshnessWeightedComposite": 6.6,
-          "alertLevel": "ELEVATED",
+          "compositeScore": 10.5,
+          "freshnessWeightedComposite": 8.9,
+          "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 8,
+              "score": 10,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 26.2,
+                "ewi_contribution": 33.9,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 8,
+              "score": 10,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 26.2,
+                "ewi_contribution": 33.9,
                 "avg_data_freshness": 0.87
               }
             }
@@ -804,7 +804,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.36,
+          "mlCrashProbability": 0.6,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -1132,7 +1132,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.36
+              "probability": 0.6
             }
           ]
         },
@@ -1151,20 +1151,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "4.4 months",
+              "value": "4.5 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 4.4 (baseline: 4.5)",
+              "description": "Months of supply: 4.5 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -24%",
               "baseline": "AMBER at -10%",
-              "status": "GREEN",
-              "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+              "status": "RED",
+              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -1181,10 +1181,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "60 days",
+              "value": "67 days",
               "baseline": "Dynamisk Z-score",
-              "status": "GREEN",
-              "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "status": "RED",
+              "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -1201,10 +1201,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -1229,27 +1229,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 8.1,
-          "freshnessWeightedComposite": 6.6,
-          "alertLevel": "ELEVATED",
+          "compositeScore": 10.5,
+          "freshnessWeightedComposite": 8.9,
+          "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 8,
+              "score": 10,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 26.2,
+                "ewi_contribution": 33.9,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 8,
+              "score": 10,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 26.2,
+                "ewi_contribution": 33.9,
                 "avg_data_freshness": 0.87
               }
             }
@@ -1344,7 +1344,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.36,
+          "mlCrashProbability": 0.6,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -1672,7 +1672,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.36
+              "probability": 0.6
             }
           ]
         },
@@ -1691,20 +1691,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "4.4 months",
+              "value": "4.5 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 4.4 (baseline: 4.5)",
+              "description": "Months of supply: 4.5 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -24%",
               "baseline": "AMBER at -10%",
-              "status": "GREEN",
-              "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+              "status": "RED",
+              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -1721,10 +1721,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "60 days",
+              "value": "67 days",
               "baseline": "Dynamisk Z-score",
-              "status": "GREEN",
-              "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "status": "RED",
+              "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -1741,10 +1741,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -1769,27 +1769,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 5.3,
-          "freshnessWeightedComposite": 4.4,
+          "compositeScore": 7.7,
+          "freshnessWeightedComposite": 6.7,
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 5,
+              "score": 8,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 17.1,
+                "ewi_contribution": 24.9,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 5,
+              "score": 7,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 17.1,
+                "ewi_contribution": 24.9,
                 "avg_data_freshness": 0.87
               }
             }
@@ -1884,7 +1884,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.3,
+          "mlCrashProbability": 0.61,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -2212,7 +2212,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.3
+              "probability": 0.61
             }
           ]
         },
@@ -2231,20 +2231,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "4.4 months",
+              "value": "4.5 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 4.4 (baseline: 4.5)",
+              "description": "Months of supply: 4.5 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -24%",
               "baseline": "AMBER at -10%",
-              "status": "GREEN",
-              "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+              "status": "RED",
+              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -2261,10 +2261,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "60 days",
+              "value": "67 days",
               "baseline": "Dynamisk Z-score",
-              "status": "GREEN",
-              "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "status": "RED",
+              "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -2281,10 +2281,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -2309,27 +2309,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 5.3,
-          "freshnessWeightedComposite": 4.4,
+          "compositeScore": 7.7,
+          "freshnessWeightedComposite": 6.7,
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 5,
+              "score": 8,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 17.1,
+                "ewi_contribution": 24.9,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 5,
+              "score": 7,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 17.1,
+                "ewi_contribution": 24.9,
                 "avg_data_freshness": 0.87
               }
             }
@@ -2424,7 +2424,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.3,
+          "mlCrashProbability": 0.61,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -2752,7 +2752,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.3
+              "probability": 0.61
             }
           ]
         }
@@ -2760,8 +2760,8 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-08-11T20:09:33.912622",
-      "ml_crash_probability": 0.58,
+      "evaluation_timestamp": "2026-08-11T22:49:47.859627",
+      "ml_crash_probability": 0.57,
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -2816,9 +2816,9 @@
         },
         "EWI-2_supply_demand": {
           "level": "GREEN",
-          "months_of_supply": 12.55,
+          "months_of_supply": 4.97,
           "baseline_months": 4.5,
-          "detail": "Months of supply: 12.6 (baseline: 4.5)",
+          "detail": "Months of supply: 5.0 (baseline: 4.5)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -2833,9 +2833,9 @@
         "EWI-3_volume_price_divergence": {
           "level": "GREEN",
           "price_yoy_pct": 13.83,
-          "volume_yoy_pct": -5.0,
+          "volume_yoy_pct": -5.41,
           "divergence": false,
-          "detail": "Price YoY: +13.8%, Volume YoY: -5.0%",
+          "detail": "Price YoY: +13.8%, Volume YoY: -5.4%",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -2873,10 +2873,10 @@
         },
         "EWI-5_time_on_market": {
           "level": "RED",
-          "median_dom_days": 75,
+          "median_dom_days": 82,
           "baseline_mean_days": 58.7,
           "baseline_std_days": 3.4,
-          "detail": "Median liggetid er 75 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+          "detail": "Median liggetid er 82 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -2914,8 +2914,8 @@
         },
         "EWI-7_credit_growth": {
           "level": "GREEN",
-          "amortization_free_share_pct": 46.0,
-          "detail": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+          "amortization_free_share_pct": 48.4,
+          "detail": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
           "data_sources": [
             {
               "key": "rkr_ul10",
@@ -3077,10 +3077,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "12.6 months",
+              "value": "5.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 12.6 (baseline: 4.5)",
+              "description": "Months of supply: 5.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -3090,7 +3090,7 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.0%",
+              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -3107,10 +3107,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "75 days",
+              "value": "82 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 75 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 82 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -3127,10 +3127,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -3163,7 +3163,7 @@
               "score": 9,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 29.1,
                 "avg_data_freshness": 0.87
@@ -3270,7 +3270,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.58,
+          "mlCrashProbability": 0.57,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -3598,7 +3598,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.58
+              "probability": 0.57
             }
           ]
         },
@@ -3617,10 +3617,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "12.6 months",
+              "value": "5.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 12.6 (baseline: 4.5)",
+              "description": "Months of supply: 5.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -3630,7 +3630,7 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.0%",
+              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -3647,10 +3647,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "75 days",
+              "value": "82 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 75 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 82 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -3667,10 +3667,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -3703,7 +3703,7 @@
               "score": 9,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 29.1,
                 "avg_data_freshness": 0.87
@@ -3810,7 +3810,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.58,
+          "mlCrashProbability": 0.57,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -4138,7 +4138,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.58
+              "probability": 0.57
             }
           ]
         },
@@ -4157,10 +4157,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "12.6 months",
+              "value": "5.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 12.6 (baseline: 4.5)",
+              "description": "Months of supply: 5.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -4170,7 +4170,7 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.0%",
+              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -4187,10 +4187,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "75 days",
+              "value": "82 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 75 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 82 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -4207,10 +4207,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -4243,7 +4243,7 @@
               "score": 5,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 15.5,
                 "avg_data_freshness": 0.87
@@ -4350,7 +4350,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.44,
+          "mlCrashProbability": 0.41,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -4678,7 +4678,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.44
+              "probability": 0.41
             }
           ]
         },
@@ -4697,10 +4697,10 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "12.6 months",
+              "value": "5.0 months",
               "baseline": "4.5 months",
               "status": "GREEN",
-              "description": "Months of supply: 12.6 (baseline: 4.5)",
+              "description": "Months of supply: 5.0 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -4710,7 +4710,7 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.0%",
+              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -4727,10 +4727,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "75 days",
+              "value": "82 days",
               "baseline": "Dynamisk Z-score",
               "status": "RED",
-              "description": "Median liggetid er 75 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 82 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -4747,10 +4747,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -4783,7 +4783,7 @@
               "score": 5,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 15.5,
                 "avg_data_freshness": 0.87
@@ -4890,7 +4890,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.46,
+          "mlCrashProbability": 0.43,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -5218,7 +5218,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.46
+              "probability": 0.43
             }
           ]
         }
@@ -5226,8 +5226,8 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-08-11T20:09:35.074114",
-      "ml_crash_probability": 0.35,
+      "evaluation_timestamp": "2026-08-11T22:49:48.708315",
+      "ml_crash_probability": 0.36,
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
@@ -5281,10 +5281,10 @@
           }
         },
         "EWI-2_supply_demand": {
-          "level": "RED",
-          "months_of_supply": 1.45,
+          "level": "AMBER",
+          "months_of_supply": 2.83,
           "baseline_months": 4.5,
-          "detail": "Months of supply: 1.4 (baseline: 4.5)",
+          "detail": "Months of supply: 2.8 (baseline: 4.5)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -5299,9 +5299,9 @@
         "EWI-3_volume_price_divergence": {
           "level": "GREEN",
           "price_yoy_pct": 11.15,
-          "volume_yoy_pct": -5.0,
+          "volume_yoy_pct": -8.33,
           "divergence": false,
-          "detail": "Price YoY: +11.2%, Volume YoY: -5.0%",
+          "detail": "Price YoY: +11.2%, Volume YoY: -8.3%",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -5339,10 +5339,10 @@
         },
         "EWI-5_time_on_market": {
           "level": "GREEN",
-          "median_dom_days": 46,
+          "median_dom_days": 49,
           "baseline_mean_days": 58.7,
           "baseline_std_days": 3.4,
-          "detail": "Median liggetid er 46 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+          "detail": "Median liggetid er 49 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -5380,8 +5380,8 @@
         },
         "EWI-7_credit_growth": {
           "level": "GREEN",
-          "amortization_free_share_pct": 46.0,
-          "detail": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+          "amortization_free_share_pct": 48.4,
+          "detail": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
           "data_sources": [
             {
               "key": "rkr_ul10",
@@ -5433,8 +5433,8 @@
           ]
         }
       },
-      "composite_score": 11.7,
-      "freshness_weighted_composite": 10.2,
+      "composite_score": 9.3,
+      "freshness_weighted_composite": 7.8,
       "max_possible_score": 27.0,
       "alert_level": "HIGH",
       "data_freshness_summary": {
@@ -5543,20 +5543,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.4 months",
+              "value": "2.8 months",
               "baseline": "4.5 months",
-              "status": "RED",
-              "description": "Months of supply: 1.4 (baseline: 4.5)",
+              "status": "AMBER",
+              "description": "Months of supply: 2.8 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -5.0%",
+              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -5573,10 +5573,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "46 days",
+              "value": "49 days",
               "baseline": "Dynamisk Z-score",
               "status": "GREEN",
-              "description": "Median liggetid er 46 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 49 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -5593,10 +5593,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -5621,27 +5621,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 11.7,
-          "freshnessWeightedComposite": 10.2,
+          "compositeScore": 9.3,
+          "freshnessWeightedComposite": 7.8,
           "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 11,
+              "score": 9,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 37.8,
+                "ewi_contribution": 30.1,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 11,
+              "score": 9,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 37.8,
+                "ewi_contribution": 30.1,
                 "avg_data_freshness": 0.87
               }
             }
@@ -5736,7 +5736,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.35,
+          "mlCrashProbability": 0.36,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -6064,7 +6064,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.35
+              "probability": 0.36
             }
           ]
         },
@@ -6083,20 +6083,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.4 months",
+              "value": "2.8 months",
               "baseline": "4.5 months",
-              "status": "RED",
-              "description": "Months of supply: 1.4 (baseline: 4.5)",
+              "status": "AMBER",
+              "description": "Months of supply: 2.8 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -5.0%",
+              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -6113,10 +6113,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "46 days",
+              "value": "49 days",
               "baseline": "Dynamisk Z-score",
               "status": "GREEN",
-              "description": "Median liggetid er 46 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 49 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -6133,10 +6133,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -6161,27 +6161,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 11.7,
-          "freshnessWeightedComposite": 10.2,
+          "compositeScore": 9.3,
+          "freshnessWeightedComposite": 7.8,
           "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 11,
+              "score": 9,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 37.8,
+                "ewi_contribution": 30.1,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 11,
+              "score": 9,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 37.8,
+                "ewi_contribution": 30.1,
                 "avg_data_freshness": 0.87
               }
             }
@@ -6276,7 +6276,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.35,
+          "mlCrashProbability": 0.36,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -6604,7 +6604,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.35
+              "probability": 0.36
             }
           ]
         },
@@ -6623,20 +6623,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.4 months",
+              "value": "2.8 months",
               "baseline": "4.5 months",
-              "status": "RED",
-              "description": "Months of supply: 1.4 (baseline: 4.5)",
+              "status": "AMBER",
+              "description": "Months of supply: 2.8 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -5.0%",
+              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -6653,10 +6653,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "46 days",
+              "value": "49 days",
               "baseline": "Dynamisk Z-score",
               "status": "GREEN",
-              "description": "Median liggetid er 46 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 49 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -6673,10 +6673,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -6701,27 +6701,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 7.5,
-          "freshnessWeightedComposite": 6.9,
+          "compositeScore": 5.1,
+          "freshnessWeightedComposite": 4.5,
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 7,
+              "score": 5,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 24.2,
+                "ewi_contribution": 16.5,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 7,
+              "score": 5,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 24.2,
+                "ewi_contribution": 16.5,
                 "avg_data_freshness": 0.87
               }
             }
@@ -6816,7 +6816,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.15,
+          "mlCrashProbability": 0.19,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -7144,7 +7144,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.15
+              "probability": 0.19
             }
           ]
         },
@@ -7163,20 +7163,20 @@
             {
               "id": "EWI-2",
               "name": "Supply-Demand Balance",
-              "value": "1.4 months",
+              "value": "2.8 months",
               "baseline": "4.5 months",
-              "status": "RED",
-              "description": "Months of supply: 1.4 (baseline: 4.5)",
+              "status": "AMBER",
+              "description": "Months of supply: 2.8 (baseline: 4.5)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
             {
               "id": "EWI-3",
               "name": "Volume-Price Divergence",
-              "value": "Vol -5%",
+              "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -5.0%",
+              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
               "freshness_weight": 0.964,
               "last_updated": "2026-08-11"
             },
@@ -7193,10 +7193,10 @@
             {
               "id": "EWI-5",
               "name": "Time-on-Market",
-              "value": "46 days",
+              "value": "49 days",
               "baseline": "Dynamisk Z-score",
               "status": "GREEN",
-              "description": "Median liggetid er 46 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+              "description": "Median liggetid er 49 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -7213,10 +7213,10 @@
             {
               "id": "EWI-7",
               "name": "Amortization-Free Share",
-              "value": "46.0%",
+              "value": "48.4%",
               "baseline": "<50%",
               "status": "GREEN",
-              "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+              "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-11"
             },
@@ -7241,27 +7241,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 7.5,
-          "freshnessWeightedComposite": 6.9,
+          "compositeScore": 5.1,
+          "freshnessWeightedComposite": 4.5,
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 7,
+              "score": 5,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 24.2,
+                "ewi_contribution": 16.5,
                 "avg_data_freshness": 0.87
               }
             },
             "12m": {
-              "score": 7,
+              "score": 5,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 24.2,
+                "ewi_contribution": 16.5,
                 "avg_data_freshness": 0.87
               }
             }
@@ -7356,7 +7356,7 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.15,
+          "mlCrashProbability": 0.19,
           "mlProbabilityHistory": [
             {
               "quarter": "2006Q1",
@@ -7684,7 +7684,7 @@
             },
             {
               "quarter": "Current",
-              "probability": 0.15
+              "probability": 0.19
             }
           ]
         }
@@ -7696,7 +7696,7 @@
       "segment": "copenhagen_apartments",
       "current_period": "2025Q4",
       "current_index": 129.2,
-      "forecast_date": "2026-08-11T20:09:00.764979",
+      "forecast_date": "2026-08-11T22:49:43.081040",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -7749,9 +7749,9 @@
               130.3
             ],
             "confidence_bounds": {
-              "p10": 129.2,
-              "p50": 130.4,
-              "p90": 131.6
+              "p10": 129.1,
+              "p50": 130.3,
+              "p90": 131.5
             }
           }
         },
@@ -7807,8 +7807,8 @@
             ],
             "confidence_bounds": {
               "p10": 130.8,
-              "p50": 134.2,
-              "p90": 137.7
+              "p50": 134.0,
+              "p90": 137.6
             }
           }
         },
@@ -7863,9 +7863,9 @@
               152.8
             ],
             "confidence_bounds": {
-              "p10": 135.7,
-              "p50": 145.4,
-              "p90": 154.6
+              "p10": 136.0,
+              "p50": 145.6,
+              "p90": 155.0
             }
           }
         }
@@ -7875,7 +7875,7 @@
       "segment": "copenhagen_houses",
       "current_period": "2025Q4",
       "current_index": 118.5,
-      "forecast_date": "2026-08-11T20:09:00.770623",
+      "forecast_date": "2026-08-11T22:49:43.087634",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -7928,8 +7928,8 @@
               119.5
             ],
             "confidence_bounds": {
-              "p10": 118.5,
-              "p50": 119.6,
+              "p10": 118.4,
+              "p50": 119.5,
               "p90": 120.6
             }
           }
@@ -7986,8 +7986,8 @@
             ],
             "confidence_bounds": {
               "p10": 119.8,
-              "p50": 122.8,
-              "p90": 125.9
+              "p50": 122.9,
+              "p90": 126.0
             }
           }
         },
@@ -8042,9 +8042,9 @@
               136.9
             ],
             "confidence_bounds": {
-              "p10": 124.7,
-              "p50": 133.3,
-              "p90": 142.1
+              "p10": 124.9,
+              "p50": 133.4,
+              "p90": 141.9
             }
           }
         }
@@ -8054,7 +8054,7 @@
       "segment": "frederiksberg_apartments",
       "current_period": "2025Q4",
       "current_index": 114.6,
-      "forecast_date": "2026-08-11T20:09:00.776296",
+      "forecast_date": "2026-08-11T22:49:43.094056",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -8107,9 +8107,9 @@
               115.6
             ],
             "confidence_bounds": {
-              "p10": 114.6,
+              "p10": 114.5,
               "p50": 115.6,
-              "p90": 116.7
+              "p90": 116.6
             }
           }
         },
@@ -8166,7 +8166,7 @@
             "confidence_bounds": {
               "p10": 116.0,
               "p50": 119.1,
-              "p90": 121.9
+              "p90": 122.0
             }
           }
         },
@@ -8221,9 +8221,9 @@
               134.8
             ],
             "confidence_bounds": {
-              "p10": 121.3,
-              "p50": 129.4,
-              "p90": 137.2
+              "p10": 121.1,
+              "p50": 129.9,
+              "p90": 138.2
             }
           }
         }
@@ -8272,7 +8272,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217743"
+        "calculation_timestamp": "2026-08-11T22:49:49.535043"
       },
       "12m": {
         "input": {
@@ -8314,7 +8314,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217763"
+        "calculation_timestamp": "2026-08-11T22:49:49.535064"
       },
       "24m": {
         "input": {
@@ -8356,7 +8356,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217772"
+        "calculation_timestamp": "2026-08-11T22:49:49.535074"
       }
     },
     "min_risk": {
@@ -8400,7 +8400,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217781"
+        "calculation_timestamp": "2026-08-11T22:49:49.535083"
       },
       "12m": {
         "input": {
@@ -8442,7 +8442,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217789"
+        "calculation_timestamp": "2026-08-11T22:49:49.535091"
       },
       "24m": {
         "input": {
@@ -8484,7 +8484,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217796"
+        "calculation_timestamp": "2026-08-11T22:49:49.535098"
       }
     },
     "max_risk": {
@@ -8528,7 +8528,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217805"
+        "calculation_timestamp": "2026-08-11T22:49:49.535105"
       },
       "12m": {
         "input": {
@@ -8570,7 +8570,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217818"
+        "calculation_timestamp": "2026-08-11T22:49:49.535112"
       },
       "24m": {
         "input": {
@@ -8612,13 +8612,21 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-11T20:09:36.217827"
+        "calculation_timestamp": "2026-08-11T22:49:49.535118"
       }
     }
   },
   "alerts": [
-    "\u26a0\ufe0f copenhagen_apartments: ELEVATED (score 8.1)",
+    "\u26a0\ufe0f copenhagen_apartments: HIGH (score 10.5)",
     "\u26a0\ufe0f copenhagen_houses: HIGH (score 9.0)",
-    "\u26a0\ufe0f frederiksberg_apartments: HIGH (score 11.7)"
-  ]
+    "\u26a0\ufe0f frederiksberg_apartments: HIGH (score 9.3)"
+  ],
+  "market_data_status": {
+    "status": "live",
+    "generated_at": "2026-08-11T20:49:22.565027+00:00",
+    "sources": {
+      "rkr": "Finans Danmark Statistikbank",
+      "boliga": "Boliga API"
+    }
+  }
 }

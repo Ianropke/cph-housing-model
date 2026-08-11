@@ -13,8 +13,11 @@ class TestDSTMacro(unittest.TestCase):
         # Clear the global cache before each test case
         dst_macro._macro_data_cache = None
 
-    @patch("dst_macro.urllib.request.urlopen")
-    def test_fetch_dst_macro_data_success(self, mock_urlopen):
+    def tearDown(self):
+        dst_macro._macro_data_cache = None
+
+    @patch("dst_macro.requests.post")
+    def test_fetch_dst_macro_data_success(self, mock_post):
         def generate_mock_response(val):
             mock_response = MagicMock()
             mock_data = {
@@ -42,13 +45,12 @@ class TestDSTMacro(unittest.TestCase):
                     "updated": "2026-07-15T00:00:00Z"
                 }
             }
-            mock_response.read.return_value = json.dumps(mock_data).encode("utf-8")
-            mock_cm = MagicMock()
-            mock_cm.__enter__.return_value = mock_response
-            return mock_cm
+            mock_response.json.return_value = mock_data
+            mock_response.raise_for_status.return_value = None
+            return mock_response
 
         # Return mock responses in order: AUS07, DNRENTM, HUS1, INDKP107 (twice for CPH and FRB)
-        mock_urlopen.side_effect = [
+        mock_post.side_effect = [
             generate_mock_response(4.2),   # AUS07: 4.2% unemployment
             generate_mock_response(3.9),   # DNRENTM: 3.9% interest rate
             generate_mock_response(120.0), # HUS1: 120.0 rent index
@@ -66,15 +68,12 @@ class TestDSTMacro(unittest.TestCase):
         self.assertEqual(data["unemployment_rate"], 0.042)
         self.assertEqual(data["rent_index"], 120.0)
 
-    @patch("dst_macro.urllib.request.urlopen")
-    def test_fetch_dst_macro_data_failure(self, mock_urlopen):
-        mock_urlopen.side_effect = Exception("API Down")
-        
-        data = dst_macro.fetch_dst_macro_data()
-        
-        self.assertIn("unemployment_rate", data)
-        self.assertEqual(data["unemployment_rate"], 0.042)
-        self.assertEqual(data["rent_index"], 120.0)
+    @patch("dst_macro.requests.post")
+    def test_fetch_dst_macro_data_failure(self, mock_post):
+        mock_post.side_effect = Exception("API Down")
+
+        with self.assertRaisesRegex(RuntimeError, "refusing fallback"):
+            dst_macro.fetch_dst_macro_data()
 
 if __name__ == "__main__":
     unittest.main()

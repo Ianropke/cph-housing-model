@@ -21,6 +21,8 @@ import urllib.error
 import random
 import ssl
 import dst_macro
+from rkr_statbank import fetch_scalar as fetch_rkr_scalar
+from curl_cffi import requests as curl_requests
 from typing import Optional
 
 from fastmcp import FastMCP
@@ -308,8 +310,8 @@ def fetch_dst_housing_data(
     end_period: Optional[str] = None,
 ) -> dict:
     """
-    Fetch housing price index data from Statistics Denmark using direct HTTP POST,
-    falling back to high-fidelity reference data if the server is offline.
+    Fetch housing price index data from Statistics Denmark using direct HTTP POST.
+    A source failure is reported instead of substituted with reference data.
 
     Args:
         table: DST table ID (default: EJ56 — property price index).
@@ -325,7 +327,7 @@ def fetch_dst_housing_data(
     if table != "EJ56":
         return {"error": f"Table '{table}' not yet supported. Available: EJ56"}
 
-    # Attempt direct HTTP POST to api.statbank.dk (correct variable codes)
+    # Fetch direct from api.statbank.dk (correct variable codes).
     api_url = "https://api.statbank.dk/v1/data"
     variables = [
         {"code": "OMRÅDE", "values": ["01", "02"]},
@@ -344,18 +346,10 @@ def fetch_dst_housing_data(
             "format": "JSONSTAT",
             "variables": variables
         }
-        req_data = json.dumps(payload).encode("utf-8")
-        req = urllib.request.Request(
-            api_url,
-            data=req_data,
-            headers={
-                "Content-Type": "application/json",
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-            },
-            method="POST"
-        )
-        with urllib.request.urlopen(req, timeout=8.0, context=ssl_context) as res:
-            res_data = json.loads(res.read().decode("utf-8"))
+        response = curl_requests.post(api_url, json=payload, impersonate="chrome110", timeout=20)
+        response.raise_for_status()
+        res_data = response.json()
+        if True:
             dataset = res_data["dataset"]
             
             # Dimensions
@@ -460,12 +454,11 @@ def fetch_dst_housing_data(
             }
             print("   ✅ Real-time DST API connection successful. Parsed live data.")
     except Exception as e:
-        print(f"   ⚠️ DST API connection failed: {e}. Using high-fidelity local database.")
+        return {"error": f"DST API connection failed; no reference data was used: {e}"}
 
-    if parsed_data:
-        data = parsed_data
-    else:
-        data = DST_EJ56_DATA.copy()
+    if not parsed_data or any(not item["series"] for item in parsed_data["segments"].values()):
+        return {"error": "DST API returned incomplete EJ56 data"}
+    data = parsed_data
         
     result_segments = {}
 
@@ -477,16 +470,6 @@ def fetch_dst_housing_data(
 
     for seg_id, seg_data in target_segments.items():
         series = seg_data["series"]
-        if not parsed_data and (start_period or end_period):
-            filtered = {}
-            for period, value in sorted(series.items()):
-                if start_period and period < start_period:
-                    continue
-                if end_period and period > end_period:
-                    continue
-                filtered[period] = value
-            series = filtered
-
         # Compute derived metrics
         periods = sorted(series.keys())
         latest = periods[-1] if periods else None
@@ -535,49 +518,26 @@ def fetch_dst_housing_data(
 @mcp.tool()
 def fetch_rkr_data(table: str) -> dict:
     """
-    Fetch mortgage statistics from Finance Denmark (RKR) using direct HTTP POST,
-    supporting tables BM011, UDB010, and UL10 with high-fidelity local database fallback.
+    Fetch official Finance Denmark Statistikbank observations. No local
+    substitutes are returned when the source cannot be reached.
 
     Args:
-        table: RKR table ID (BM011, UDB010, or UL10).
+        table: RKR table ID (UDB010, UDB030, or UL30).
 
     Returns:
         Dictionary containing table metadata and statistics.
     """
-    if table not in ["BM011", "UDB010", "UL10"]:
-        return {"error": f"Table '{table}' is not supported. Supported: BM011, UDB010, UL10"}
-
-    # Finance Denmark (RKR) does not offer a public JSON API. We bypass requests to avoid timeout latency.
-    print(f"   ℹ️ Reading real-time Finance Denmark (RKR) {table} statistics from high-fidelity local database.")
-
-    # High-fidelity local database mocks for RKR tables
-    rkr_mocks = {
-        "BM011": {
-            "description": "Mortgage lending by region (realkreditudlån)",
-            "source": "Finance Denmark (RKR)",
-            "latest_value_dkk_billions": 3150.8,
-            "growth_yoy_pct": 3.8
-        },
-        "UDB010": {
-            "description": "Active housing listings and market supply (udbudte ejendomme)",
-            "source": "Finance Denmark (RKR)",
-            "active_listings": 8450,
-            "median_days_on_market": 62
-        },
-        "UL10": {
-            "description": "Lending by amortization profile (afdragsfrie lån share)",
-            "source": "Finance Denmark (RKR)",
-            "interest_only_share_pct": 46.2,
-            "interest_only_share_amber_threshold": 50.0,
-            "interest_only_share_red_threshold": 60.0
-        }
-    }
-
-    return {
-        "table": table,
-        "query_timestamp": datetime.datetime.now().isoformat(),
-        "data": rkr_mocks[table]
-    }
+    if table == "UDB010":
+        data = fetch_rkr_scalar("UDB010", {1: "101", 2: "2", 3: "6"})
+        return {"table": table, "query_timestamp": data["retrieved_at"], "data": {"description": "Udbudte ejerlejligheder i København", "source": data["source"], "active_listings": data["value"], "period": data["period"], "status": data["status"]}}
+    if table == "UDB030":
+        data = fetch_rkr_scalar("UDB030", {1: "101", 2: "2", 3: "9"})
+        return {"table": table, "query_timestamp": data["retrieved_at"], "data": {"description": "Liggetid for ejerlejligheder i København", "source": data["source"], "median_days_on_market": data["value"], "period": data["period"], "status": data["status"]}}
+    if table == "UL30":
+        interest_only = fetch_rkr_scalar("UL30", {1: "A", 2: "1", 3: "33", 4: "111"})
+        total = fetch_rkr_scalar("UL30", {1: "A", 2: "0", 3: "33", 4: "111"}, interest_only["period"])
+        return {"table": table, "query_timestamp": interest_only["retrieved_at"], "data": {"description": "Afdragsfri andel af samlet realkreditudlån til ejerboliger og fritidshuse", "source": interest_only["source"], "interest_only_share_pct": interest_only["value"] / total["value"] * 100, "period": interest_only["period"], "status": "live"}}
+    return {"error": f"Table '{table}' is not supported. Supported: UDB010, UDB030, UL30"}
 
 # ─────────────────────────────────────────────────────────────
 # DYNAMIC PROPERTY PARAMETERS & USER COST HELPERS
@@ -907,15 +867,20 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     try:
         with open(market_data_path, "r") as f:
             market_data = json.load(f)
-        seg_data = market_data.get(segment, market_data.get("copenhagen_apartments"))
-    except:
-        seg_data = {
-            "months_of_supply": 4.1, "volume_yoy_change": -0.03, "price_reduction_rate": 0.22,
-            "avg_reduction_magnitude": 0.032, "median_dom": 62, "amort_free_share": 0.46
-        }
+        seg_data = market_data[segment]
+    except (OSError, KeyError, json.JSONDecodeError) as error:
+        return {"error": f"Live market data is unavailable for {segment}: {error}"}
+    if market_data.get("source_status") != "live" or seg_data.get("source_status") != "live":
+        return {"error": f"Live market data is not verified for {segment}"}
+    required_market_fields = {
+        "months_of_supply", "volume_yoy_change", "price_reduction_rate",
+        "avg_reduction_magnitude", "median_dom", "amort_free_share",
+    }
+    if not required_market_fields.issubset(seg_data) or not seg_data.get("provenance"):
+        return {"error": f"Live market data is incomplete for {segment}"}
 
     # ── EWI-2: Supply vs Demand ──
-    months_of_supply = seg_data.get("months_of_supply", 4.1)
+    months_of_supply = seg_data["months_of_supply"]
     ewi2_baseline = 4.5
 
     if months_of_supply < ewi2_baseline * 0.55:
@@ -928,7 +893,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     # ── EWI-3: Volume vs Price divergence ──
     # Price rising, volume assessment
     qoq_growth = (latest - series[periods[-2]]) / series[periods[-2]] if len(periods) >= 2 else 0
-    volume_yoy_change = seg_data.get("volume_yoy_change", -0.03)
+    volume_yoy_change = seg_data["volume_yoy_change"]
     price_rising = yoy_price_growth > 0
     volume_falling = volume_yoy_change < -0.10
 
@@ -940,8 +905,8 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         ewi3_level = "GREEN"
 
     # ── EWI-4: Price reductions ──
-    price_reduction_rate = seg_data.get("price_reduction_rate", 0.22)
-    avg_reduction_magnitude = seg_data.get("avg_reduction_magnitude", 0.032)
+    price_reduction_rate = seg_data["price_reduction_rate"]
+    avg_reduction_magnitude = seg_data["avg_reduction_magnitude"]
 
     if price_reduction_rate > 0.40 and avg_reduction_magnitude > 0.07:
         ewi4_level = "RED"
@@ -951,7 +916,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
         ewi4_level = "GREEN"
 
     # ── EWI-5: Time on market (Z-score approach) ──
-    median_dom = seg_data.get("median_dom", 62)
+    median_dom = seg_data["median_dom"]
     # Roll a 12-quarter history to calculate mean and std
     dom_history = [54, 56, 52, 59, 61, 58, 64, 60, 57, 63, 62, 58]
     dom_mean = sum(dom_history) / len(dom_history)
@@ -976,22 +941,16 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     
     p2r_history = []
     for p in hist_periods:
-        # Get actual rent from HUS1 or fallback if missing (e.g. for pre-2021 quarters)
+        # All periods used in the EWI must be covered by the live HUS1 series.
         rent_val = rent_series.get(p)
         if rent_val is None:
-            # Fallback backward extrapolation from base 2021Q1 (100.0) decreasing 0.5% per quarter
-            try:
-                py, pq = int(p[:4]), int(p[5])
-                diff_quarters = (2021 - py) * 4 + (1 - pq)
-                rent_val = 100.0 * (0.995 ** max(0, diff_quarters))
-            except:
-                rent_val = 100.0
+            return {"error": f"Live rent index is missing for {p}"}
         p2r_history.append(series[p] / rent_val)
         
     p2r_mean = sum(p2r_history) / len(p2r_history)
     p2r_std = math.sqrt(sum((x - p2r_mean)**2 for x in p2r_history) / len(p2r_history))
     
-    rent_index = macro.get('rent_index', 113.0)
+    rent_index = macro['rent_index']
     price_to_rent = latest / rent_index
     
     ewi6_amber_threshold = p2r_mean + 1.5 * p2r_std
@@ -1007,7 +966,7 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     # ── EWI-7: Credit Growth (Amortization-Free Share) (New) ──
     # Share of new originations that are interest-only (IO)
     # Target thresholds: AMBER at >50%, RED at >60%
-    amort_free_share = seg_data.get("amort_free_share", 0.46)
+    amort_free_share = seg_data["amort_free_share"]
 
     if amort_free_share >= 0.60:
         ewi7_level = "RED"

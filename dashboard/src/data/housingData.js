@@ -25,20 +25,20 @@ export const earlyWarningIndicators = [
   {
     "id": "EWI-2",
     "name": "Supply-Demand Balance",
-    "value": "4.4 months",
+    "value": "4.5 months",
     "baseline": "4.5 months",
     "status": "GREEN",
-    "description": "Months of supply: 4.4 (baseline: 4.5)",
+    "description": "Months of supply: 4.5 (baseline: 4.5)",
     "freshness_weight": 1.0,
     "last_updated": "2026-08-11"
   },
   {
     "id": "EWI-3",
     "name": "Volume-Price Divergence",
-    "value": "Vol -5%",
+    "value": "Vol -24%",
     "baseline": "AMBER at -10%",
-    "status": "GREEN",
-    "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+    "status": "RED",
+    "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
     "freshness_weight": 0.964,
     "last_updated": "2026-08-11"
   },
@@ -55,10 +55,10 @@ export const earlyWarningIndicators = [
   {
     "id": "EWI-5",
     "name": "Time-on-Market",
-    "value": "60 days",
+    "value": "67 days",
     "baseline": "Dynamisk Z-score",
-    "status": "GREEN",
-    "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+    "status": "RED",
+    "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
     "freshness_weight": 1.0,
     "last_updated": "2026-08-11"
   },
@@ -75,10 +75,10 @@ export const earlyWarningIndicators = [
   {
     "id": "EWI-7",
     "name": "Amortization-Free Share",
-    "value": "46.0%",
+    "value": "48.4%",
     "baseline": "<50%",
     "status": "GREEN",
-    "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+    "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
     "freshness_weight": 1.0,
     "last_updated": "2026-08-11"
   },
@@ -119,20 +119,20 @@ export const ewiModes = {
       {
         "id": "EWI-2",
         "name": "Supply-Demand Balance",
-        "value": "4.4 months",
+        "value": "4.5 months",
         "baseline": "4.5 months",
         "status": "GREEN",
-        "description": "Months of supply: 4.4 (baseline: 4.5)",
+        "description": "Months of supply: 4.5 (baseline: 4.5)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
       {
         "id": "EWI-3",
         "name": "Volume-Price Divergence",
-        "value": "Vol -5%",
+        "value": "Vol -24%",
         "baseline": "AMBER at -10%",
-        "status": "GREEN",
-        "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+        "status": "RED",
+        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
         "freshness_weight": 0.964,
         "last_updated": "2026-08-11"
       },
@@ -149,10 +149,10 @@ export const ewiModes = {
       {
         "id": "EWI-5",
         "name": "Time-on-Market",
-        "value": "60 days",
+        "value": "67 days",
         "baseline": "Dynamisk Z-score",
-        "status": "GREEN",
-        "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+        "status": "RED",
+        "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -169,10 +169,10 @@ export const ewiModes = {
       {
         "id": "EWI-7",
         "name": "Amortization-Free Share",
-        "value": "46.0%",
+        "value": "48.4%",
         "baseline": "<50%",
         "status": "GREEN",
-        "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+        "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -197,27 +197,27 @@ export const ewiModes = {
         "last_updated": "2026-07-30"
       }
     ],
-    "compositeScore": 8.1,
-    "freshnessWeightedComposite": 6.6,
-    "alertLevel": "ELEVATED",
+    "compositeScore": 10.5,
+    "freshnessWeightedComposite": 8.9,
+    "alertLevel": "HIGH",
     "maxRiskIndex": {
       "6m": {
-        "score": 8,
+        "score": 10,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 26.2,
+          "ewi_contribution": 33.9,
           "avg_data_freshness": 0.87
         }
       },
       "12m": {
-        "score": 8,
+        "score": 10,
         "label": "LAV",
         "components": {
           "mc_downside": 0,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 26.2,
+          "ewi_contribution": 33.9,
           "avg_data_freshness": 0.87
         }
       }
@@ -328,20 +328,20 @@ export const ewiModes = {
       {
         "id": "EWI-2",
         "name": "Supply-Demand Balance",
-        "value": "4.4 months",
+        "value": "4.5 months",
         "baseline": "4.5 months",
         "status": "GREEN",
-        "description": "Months of supply: 4.4 (baseline: 4.5)",
+        "description": "Months of supply: 4.5 (baseline: 4.5)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
       {
         "id": "EWI-3",
         "name": "Volume-Price Divergence",
-        "value": "Vol -5%",
+        "value": "Vol -24%",
         "baseline": "AMBER at -10%",
-        "status": "GREEN",
-        "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+        "status": "RED",
+        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
         "freshness_weight": 0.964,
         "last_updated": "2026-08-11"
       },
@@ -358,10 +358,10 @@ export const ewiModes = {
       {
         "id": "EWI-5",
         "name": "Time-on-Market",
-        "value": "60 days",
+        "value": "67 days",
         "baseline": "Dynamisk Z-score",
-        "status": "GREEN",
-        "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+        "status": "RED",
+        "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -378,10 +378,10 @@ export const ewiModes = {
       {
         "id": "EWI-7",
         "name": "Amortization-Free Share",
-        "value": "46.0%",
+        "value": "48.4%",
         "baseline": "<50%",
         "status": "GREEN",
-        "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+        "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -406,27 +406,27 @@ export const ewiModes = {
         "last_updated": "2026-07-30"
       }
     ],
-    "compositeScore": 8.1,
-    "freshnessWeightedComposite": 6.6,
-    "alertLevel": "ELEVATED",
+    "compositeScore": 10.5,
+    "freshnessWeightedComposite": 8.9,
+    "alertLevel": "HIGH",
     "maxRiskIndex": {
       "6m": {
-        "score": 8,
+        "score": 10,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 26.2,
+          "ewi_contribution": 33.9,
           "avg_data_freshness": 0.87
         }
       },
       "12m": {
-        "score": 8,
+        "score": 10,
         "label": "LAV",
         "components": {
           "mc_downside": 0,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 26.2,
+          "ewi_contribution": 33.9,
           "avg_data_freshness": 0.87
         }
       }
@@ -537,20 +537,20 @@ export const ewiModes = {
       {
         "id": "EWI-2",
         "name": "Supply-Demand Balance",
-        "value": "4.4 months",
+        "value": "4.5 months",
         "baseline": "4.5 months",
         "status": "GREEN",
-        "description": "Months of supply: 4.4 (baseline: 4.5)",
+        "description": "Months of supply: 4.5 (baseline: 4.5)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
       {
         "id": "EWI-3",
         "name": "Volume-Price Divergence",
-        "value": "Vol -5%",
+        "value": "Vol -24%",
         "baseline": "AMBER at -10%",
-        "status": "GREEN",
-        "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+        "status": "RED",
+        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
         "freshness_weight": 0.964,
         "last_updated": "2026-08-11"
       },
@@ -567,10 +567,10 @@ export const ewiModes = {
       {
         "id": "EWI-5",
         "name": "Time-on-Market",
-        "value": "60 days",
+        "value": "67 days",
         "baseline": "Dynamisk Z-score",
-        "status": "GREEN",
-        "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+        "status": "RED",
+        "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -587,10 +587,10 @@ export const ewiModes = {
       {
         "id": "EWI-7",
         "name": "Amortization-Free Share",
-        "value": "46.0%",
+        "value": "48.4%",
         "baseline": "<50%",
         "status": "GREEN",
-        "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+        "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -615,27 +615,27 @@ export const ewiModes = {
         "last_updated": "2026-07-30"
       }
     ],
-    "compositeScore": 5.3,
-    "freshnessWeightedComposite": 4.4,
+    "compositeScore": 7.7,
+    "freshnessWeightedComposite": 6.7,
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
-        "score": 5,
+        "score": 8,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 17.1,
+          "ewi_contribution": 24.9,
           "avg_data_freshness": 0.87
         }
       },
       "12m": {
-        "score": 5,
+        "score": 7,
         "label": "LAV",
         "components": {
           "mc_downside": 0,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 17.1,
+          "ewi_contribution": 24.9,
           "avg_data_freshness": 0.87
         }
       }
@@ -746,20 +746,20 @@ export const ewiModes = {
       {
         "id": "EWI-2",
         "name": "Supply-Demand Balance",
-        "value": "4.4 months",
+        "value": "4.5 months",
         "baseline": "4.5 months",
         "status": "GREEN",
-        "description": "Months of supply: 4.4 (baseline: 4.5)",
+        "description": "Months of supply: 4.5 (baseline: 4.5)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
       {
         "id": "EWI-3",
         "name": "Volume-Price Divergence",
-        "value": "Vol -5%",
+        "value": "Vol -24%",
         "baseline": "AMBER at -10%",
-        "status": "GREEN",
-        "description": "Price YoY: +20.4%, Volume YoY: -5.0%",
+        "status": "RED",
+        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
         "freshness_weight": 0.964,
         "last_updated": "2026-08-11"
       },
@@ -776,10 +776,10 @@ export const ewiModes = {
       {
         "id": "EWI-5",
         "name": "Time-on-Market",
-        "value": "60 days",
+        "value": "67 days",
         "baseline": "Dynamisk Z-score",
-        "status": "GREEN",
-        "description": "Median liggetid er 60 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
+        "status": "RED",
+        "description": "Median liggetid er 67 dage (Rullende \u03bc: 58.7, \u03c3: 3.4, AMBER >62.1d)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -796,10 +796,10 @@ export const ewiModes = {
       {
         "id": "EWI-7",
         "name": "Amortization-Free Share",
-        "value": "46.0%",
+        "value": "48.4%",
         "baseline": "<50%",
         "status": "GREEN",
-        "description": "Afdragsfri andel er 46.0% (AMBER >50%, RED >60%)",
+        "description": "Afdragsfri andel er 48.4% (AMBER >50%, RED >60%)",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-11"
       },
@@ -824,27 +824,27 @@ export const ewiModes = {
         "last_updated": "2026-07-30"
       }
     ],
-    "compositeScore": 5.3,
-    "freshnessWeightedComposite": 4.4,
+    "compositeScore": 7.7,
+    "freshnessWeightedComposite": 6.7,
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
-        "score": 5,
+        "score": 8,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 17.1,
+          "ewi_contribution": 24.9,
           "avg_data_freshness": 0.87
         }
       },
       "12m": {
-        "score": 5,
+        "score": 7,
         "label": "LAV",
         "components": {
           "mc_downside": 0,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 17.1,
+          "ewi_contribution": 24.9,
           "avg_data_freshness": 0.87
         }
       }
@@ -942,10 +942,10 @@ export const ewiModes = {
   }
 };
 
-export const compositeScore = 8.1;
-export const freshnessWeightedComposite = 6.6;
-export const alertLevel = 'ELEVATED';
-export const mlCrashProbability = 0.36;
+export const compositeScore = 10.5;
+export const freshnessWeightedComposite = 8.9;
+export const alertLevel = 'HIGH';
+export const mlCrashProbability = 0.6;
 export const lastUpdated = '2026-08-11 · 2026Q1 Data';
 
 export const dataFreshness = {
@@ -1041,22 +1041,22 @@ export const dataFreshness = {
 
 export const maxRiskIndex = {
   "6m": {
-    "score": 8,
+    "score": 10,
     "label": "LAV",
     "components": {
-      "mc_downside": 0,
+      "mc_downside": 0.1,
       "max_risk_severity_pct": 0,
-      "ewi_contribution": 26.2,
+      "ewi_contribution": 33.9,
       "avg_data_freshness": 0.87
     }
   },
   "12m": {
-    "score": 8,
+    "score": 10,
     "label": "LAV",
     "components": {
       "mc_downside": 0,
       "max_risk_severity_pct": 0,
-      "ewi_contribution": 26.2,
+      "ewi_contribution": 33.9,
       "avg_data_freshness": 0.87
     }
   }
@@ -1102,19 +1102,19 @@ export const ensembleForecasts = {
 };
 export const ensembleConfidenceBounds = {
   "6m": {
-    "p10": 129.2,
-    "p50": 130.4,
-    "p90": 131.6
+    "p10": 129.1,
+    "p50": 130.3,
+    "p90": 131.5
   },
   "12m": {
     "p10": 130.8,
-    "p50": 134.2,
-    "p90": 137.7
+    "p50": 134.0,
+    "p90": 137.6
   },
   "24m": {
-    "p10": 135.7,
-    "p50": 145.4,
-    "p90": 154.6
+    "p10": 136.0,
+    "p50": 145.6,
+    "p90": 155.0
   }
 };
 
