@@ -8,13 +8,9 @@ the deployed ML probability.
 """
 from __future__ import annotations
 
-import csv
-import io
 import json
 import math
 import sys
-import urllib.parse
-import urllib.request
 from pathlib import Path
 
 import numpy as np
@@ -31,43 +27,19 @@ if str(SERVER_DIR) not in sys.path:
 
 
 def _fetch_dst_prices() -> tuple[list[str], list[float], str]:
-    params = urllib.parse.urlencode({
-        "valuePresentation": "CodeAndValue",
-        "timeOrder": "Ascending",
-        "OMRÅDE": "01",
-        "EJENDOMSKATE": "2103",
-        "TAL": "100",
-    })
-    url = f"https://api.statbank.dk/v1/data/EJ56/CSV?{params}"
-    request = urllib.request.Request(url, headers={"User-Agent": "cph-housing-model/1.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=20) as response:
-            text = response.read().decode("utf-8-sig")
-        rows = list(csv.DictReader(io.StringIO(text), delimiter=","))
-        if not rows:
-            raise ValueError("DST returned no rows")
-        quarters, prices = [], []
-        for row in rows:
-            period = row.get("Tid") or row.get("TIME")
-            value = row.get("INDHOLD") or row.get("Value")
-            if not period or value in (None, ""):
-                continue
-            try:
-                prices.append(float(str(value).replace(",", ".")))
-                quarters.append(period.replace("K", "Q"))
-            except ValueError:
-                continue
-        if len(prices) < 40:
-            raise ValueError(f"Only {len(prices)} usable DST observations")
-        return quarters, prices, "DST EJ56 live API"
-    except Exception:
-        # Transparent offline fallback: use the repository's actual seeded
-        # historical series. This is a benchmark data source, not synthetic
-        # data, and the report identifies it explicitly.
-        from cph_housing_server import DST_EJ56_DATA
-        series = DST_EJ56_DATA["segments"]["copenhagen_apartments"]["series"]
-        periods = sorted(series)
-        return periods, [float(series[p]) for p in periods], "repository seed data"
+    """Use the same EJ56 adapter as the production pipeline.
+
+    The former GET query omitted the time dimension and consistently fell back
+    to the short repository seed. Keeping one adapter avoids testing a
+    different data path from the one used to produce the dashboard payload.
+    """
+    from cph_housing_server import fetch_dst_housing_data
+
+    data = fetch_dst_housing_data(segment="copenhagen_apartments")
+    series = data["segments"]["copenhagen_apartments"]["series"]
+    periods = sorted(series)
+    source = data.get("source", "DST EJ56 live API")
+    return periods, [float(series[p]) for p in periods], source
 
 
 def _features(prices: list[float], i: int) -> list[float] | None:
@@ -130,7 +102,39 @@ def evaluate_crash_event_prediction(
             rows.append((i, feature, _event(prices, i, threshold_crash_pct)))
 
     if len(rows) <= min_train_observations:
-        raise ValueError("Insufficient historical observations for walk-forward evaluation")
+        # A missing historical archive is a limitation of the benchmark, not a
+        # reason to manufacture a statistically invalid score or fail a data
+        # publication. The report remains explicit that no validation exists.
+        return {
+            "model_type": "walk_forward_price_only_benchmark",
+            "deployed_model_validated": False,
+            "data_source": source,
+            "event_definition": f"Real housing-price decline >= {abs(threshold_crash_pct) * 100:.0f}% over following 12 months",
+            "sample_quarters_available": len(rows),
+            "sample_quarters_evaluated": 0,
+            "total_crashes_observed": 0,
+            "confusion_matrix": {
+                "true_positives": 0,
+                "false_positives": 0,
+                "true_negatives": 0,
+                "false_negatives": 0,
+            },
+            "metrics": {
+                "precision": None,
+                "recall_sensitivity": None,
+                "specificity": None,
+                "f1_score": None,
+                "brier_score": None,
+                "log_loss": None,
+                "roc_auc": None,
+                "average_lead_time_months": None,
+                "events_with_pre_event_warning": 0,
+            },
+            "calibration": [],
+            "status": "INSUFFICIENT_HISTORY",
+            "reason": f"Need more than {min_train_observations} labelled quarters; only {len(rows)} are available.",
+            "predictions": [],
+        }
 
     predictions = []
     for position, (i, feature, actual) in enumerate(rows):
@@ -188,6 +192,7 @@ def evaluate_crash_event_prediction(
         "deployed_model_validated": False,
         "data_source": source,
         "event_definition": f"Real housing-price decline >= {abs(threshold_crash_pct) * 100:.0f}% over following 12 months",
+        "sample_quarters_available": len(rows),
         "sample_quarters_evaluated": len(predictions),
         "total_crashes_observed": sum(y_true),
         "confusion_matrix": {

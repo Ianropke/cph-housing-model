@@ -35,6 +35,10 @@ jobs:
       - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
 
+      - name: Install dashboard dependencies
+        working-directory: dashboard
+        run: npm ci
+
       - name: Compile Python sources
         run: python -m compileall -q server scripts tests
 
@@ -45,9 +49,7 @@ jobs:
 
       - name: Verify Dashboard Build
         working-directory: dashboard
-        run: |
-          npm ci
-          npm run build
+        run: npm run build
 
       - name: Run Quality Gate Test Suite
         env:

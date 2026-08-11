@@ -5,11 +5,13 @@ Launches a headless Chromium browser, tests interactive scenario sandbox UI cont
 verifies real-time recalculations, asserts zero console errors, and captures screenshot artifacts.
 """
 
+import json
 import os
 import sys
 import time
 import subprocess
 import unittest
+from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -80,6 +82,14 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
             h2s = page.locator("h2").all_inner_texts()
             sandbox_heading = page.locator("h2", has_text="Risikosimulator")
             self.assertTrue(sandbox_heading.is_visible(), f"Scenario Sandbox Panel heading not visible. Rendered h2s: {h2s}")
+            sandbox = sandbox_heading.locator("xpath=ancestor::section")
+            payload = json.loads(
+                Path(DASHBOARD_DIR, "public", "data", "latest_pipeline.json").read_text(encoding="utf-8")
+            )
+            baseline = payload["forecasts"]["copenhagen_apartments"]["horizons"]["12m"]["ensemble"]["probability_weighted_change_pct"]
+            expected_baseline = f"{baseline:+.1f}%"
+            self.assertIn(expected_baseline, sandbox.inner_text())
+            self.assertIn("Matcher live-baseline", sandbox.inner_text())
 
             # 3. Capture Full Initial Dashboard Screenshot
             initial_path = os.path.join(ARTIFACT_DIR, "sandbox_visual_initial.png")
@@ -100,6 +110,7 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
             rate_btn = page.locator("button:has-text('Rentestød (+1,5% Rente)')")
             rate_btn.click()
             page.wait_for_timeout(300)
+            self.assertNotIn(expected_baseline, sandbox.inner_text())
 
             rate_path = os.path.join(ARTIFACT_DIR, "sandbox_preset_ratestreet.png")
             page.screenshot(path=rate_path, full_page=True)

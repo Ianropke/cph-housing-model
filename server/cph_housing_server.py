@@ -25,8 +25,8 @@ from typing import Optional
 
 from fastmcp import FastMCP
 
-# Create unverified SSL context to avoid certificate verification errors on macOS
-ssl_context = ssl._create_unverified_context()
+# Verify TLS certificates for all external data sources.
+ssl_context = ssl.create_default_context()
 
 mcp = FastMCP("CphHousingModel")
 

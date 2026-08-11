@@ -1,26 +1,46 @@
-import React, { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useCity } from '../context/CityContext';
 
 export default function ScenarioSandboxPanel() {
   const { pipelineData, activeCity } = useCity();
   const activeSegment = `${activeCity}_apartments`;
 
-  // Get current actual live values as default state
+  // The pipeline payload is the sole source of truth for the actual-market
+  // preset. Never substitute historical constants for incomplete live data.
   const liveIndicators = pipelineData?.early_warnings?.[activeSegment]?.indicators || {};
-  const liveComposite = pipelineData?.early_warnings?.[activeSegment]?.composite_score || 8.1;
-  const liveMlCrash = pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability ?? 0.37;
+  const liveComposite = Number(pipelineData?.early_warnings?.[activeSegment]?.composite_score);
+  const liveMlCrash = Number(pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability);
+  const liveForecastChangePct = Number(
+    pipelineData?.forecasts?.[activeSegment]?.horizons?.['12m']?.ensemble?.probability_weighted_change_pct,
+  );
+  const liveDom = Number(liveIndicators['EWI-5_time_on_market']?.median_dom_days);
+  const liveSupply = Number(liveIndicators['EWI-2_supply_demand']?.months_of_supply);
+  const liveReductions = Number(liveIndicators['EWI-4_price_reductions']?.reduction_rate_pct);
+  const liveMortgageRate = Number(pipelineData?.user_costs?.baseline?.['12m']?.input?.mortgage_rate) * 100;
+  const liveWageSpread = Number(liveIndicators['EWI-1_price_vs_wages']?.spread_pp);
+  const liveAmortFreeShare = Number(liveIndicators['EWI-7_credit_growth']?.amortization_free_share_pct);
+  const liveDsrPct = Number(liveIndicators['EWI-8_dsr']?.dsr_pct);
+  const liveInputs = useMemo(() => ({
+    dom: liveDom,
+    supply: liveSupply,
+    reductions: liveReductions,
+    mortgageRate: liveMortgageRate,
+    wageSpread: liveWageSpread,
+    amortFreeShare: liveAmortFreeShare,
+    dsrPct: liveDsrPct,
+  }), [liveDom, liveSupply, liveReductions, liveMortgageRate, liveWageSpread, liveAmortFreeShare, liveDsrPct]);
+  const hasLiveBaseline = [
+    liveComposite,
+    liveMlCrash,
+    liveForecastChangePct,
+    ...Object.values(liveInputs),
+  ].every(Number.isFinite) && liveMlCrash > 0 && liveMlCrash < 1;
 
   // Preset definitions
   const PRESETS = {
     actual: {
       label: 'Aktuelt Marked (Live Data)',
-      dom: liveIndicators['EWI-5_time_on_market']?.median_dom_days ?? 58,
-      supply: liveIndicators['EWI-2_supply_demand']?.months_of_supply ?? 4.3,
-      reductions: liveIndicators['EWI-4_price_reductions']?.reduction_rate_pct ?? 30.1,
-      mortgageRate: 3.7,
-      wageSpread: liveIndicators['EWI-1_price_vs_wages']?.spread_pp ?? 16.91,
-      amortFreeShare: liveIndicators['EWI-7_credit_growth']?.amortization_free_share_pct ?? 46.0,
-      dsrPct: liveIndicators['EWI-8_dsr']?.dsr_pct ?? 35.9,
+      ...liveInputs,
     },
     maegler: {
       label: 'Mægler-Scenariet (+700 Udbudte Boliger)',
@@ -175,32 +195,32 @@ export default function ScenarioSandboxPanel() {
       alertColor = '#ffc107';
     }
 
-    // Anchored Logistic Model for Random Forest ML Crash Probability
-    // Anchors directly to liveMlCrash (37.0%) at baseline
+    // Anchored logistic approximation. It starts at the pipeline's live ML
+    // probability and then applies scenario deltas.
     const baseLogit = Math.log(liveMlCrash / (1 - liveMlCrash));
     const deltaZ = 0.15 * (compositeScore - liveComposite) 
-                 + 0.30 * (mortgageRate - 3.7) 
-                 + 0.02 * (dom - 58) 
-                 + 0.03 * (reductions - 30.1) 
-                 + 0.08 * (wageSpread - 16.91);
+                 + 0.30 * (mortgageRate - liveInputs.mortgageRate)
+                 + 0.02 * (dom - liveInputs.dom)
+                 + 0.03 * (reductions - liveInputs.reductions)
+                 + 0.08 * (wageSpread - liveInputs.wageSpread);
     const zMl = baseLogit + deltaZ;
     const mlCrashProb = activePreset === 'actual' 
       ? liveMlCrash 
       : Math.min(0.95, Math.max(0.02, 1 / (1 + Math.exp(-zMl))));
 
-    // Simulated 12m forecast price change %
-    const baseAppreciation = 0.035;
-    const rateEffect = -4.5 * (mortgageRate - 0.035);
-    const supplyEffect = -1.2 * (supply - 4.5);
-    const domEffect = -0.05 * (dom - 58);
-    const sim12mChangePct = baseAppreciation + rateEffect / 100 + supplyEffect / 100 + domEffect / 100;
+    // Anchor the price scenario to the live 12m ensemble. Inputs use native
+    // units / percentage points, preventing the former decimal-rate mix-up.
+    const sim12mChangePct = liveForecastChangePct
+      - 4.5 * (mortgageRate - liveInputs.mortgageRate)
+      - 1.2 * (supply - liveInputs.supply)
+      - 0.05 * (dom - liveInputs.dom);
 
     return {
       compositeScore,
       alertLevel,
       alertColor,
       mlCrashProb,
-      sim12mChangePct: sim12mChangePct * 100,
+      sim12mChangePct,
       ewi1Level,
       ewi2Level,
       ewi4Level,
@@ -208,7 +228,7 @@ export default function ScenarioSandboxPanel() {
       ewi7Level,
       ewi8Level,
     };
-  }, [dom, supply, reductions, mortgageRate, wageSpread, amortFreeShare, dsrPct, activePreset, liveComposite, liveMlCrash]);
+  }, [dom, supply, reductions, mortgageRate, wageSpread, amortFreeShare, dsrPct, activePreset, liveComposite, liveMlCrash, liveForecastChangePct, liveInputs]);
 
   // Status helper badge renderer
   const renderStatusBadge = (level) => {
@@ -220,6 +240,17 @@ export default function ScenarioSandboxPanel() {
   const deltaScore = simResults.compositeScore - liveComposite;
   const deltaMl = simResults.mlCrashProb - liveMlCrash;
 
+  if (!hasLiveBaseline) {
+    return (
+      <section className="glass-card panel-wide fade-in" style={{ marginTop: '1rem' }}>
+        <h2>🧪 Interaktiv Risikosimulator</h2>
+        <p className="panel-explainer">
+          Simulatoren afventer et komplet live-payload. Den bruger ikke fallback-tal som aktuelt marked.
+        </p>
+      </section>
+    );
+  }
+
   return (
     <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.65s', marginTop: '1rem' }}>
       {/* Panel Header */}
@@ -229,7 +260,7 @@ export default function ScenarioSandboxPanel() {
             <span>🧪</span> Interaktiv Risikosimulator (Hvad-Nu-Hvis Sandbox)
           </h2>
           <span className="panel-explainer">
-            Juster markedsparametre for at se hvordan risikoscoren, advarselssignalerne og ML-crash sandsynligheden reagerer i forhold til det aktuelt opdaterede marked (37,0% live baseline).
+            Juster markedsparametre for at se hvordan risikoscoren, advarselssignalerne og ML-crash sandsynligheden reagerer i forhold til det aktuelt opdaterede marked ({(liveMlCrash * 100).toFixed(1).replace('.', ',')}% live-baseline).
           </span>
         </div>
         <span className="panel-badge" style={{ background: 'rgba(167, 139, 250, 0.15)', color: '#a78bfa', borderColor: 'rgba(167, 139, 250, 0.3)' }}>
@@ -392,7 +423,7 @@ export default function ScenarioSandboxPanel() {
                 {simResults.compositeScore.toFixed(1)} <small style={{ fontSize: '0.8rem', fontWeight: 400, color: 'rgba(255,255,255,0.4)' }}>/ 27.0</small>
               </div>
               <div style={{ fontSize: '0.75rem', color: Math.abs(deltaScore) < 0.05 ? 'rgba(255,255,255,0.5)' : (deltaScore >= 0 ? '#ff6b6b' : '#00d4aa') }}>
-                {Math.abs(deltaScore) < 0.05 ? '0.0pt (Aktuel live score)' : (deltaScore >= 0 ? `+${deltaScore.toFixed(1)}pt i forhold til nu` : `${deltaScore.toFixed(1)}pt i forhold til nu`)}
+                {Math.abs(deltaScore) < 0.05 ? `Matcher live-baseline (${liveComposite.toFixed(1)} / 27.0)` : (deltaScore >= 0 ? `+${deltaScore.toFixed(1)}pt i forhold til nu` : `${deltaScore.toFixed(1)}pt i forhold til nu`)}
               </div>
             </div>
 
@@ -414,7 +445,7 @@ export default function ScenarioSandboxPanel() {
                 {(simResults.mlCrashProb * 100).toFixed(1)}%
               </div>
               <div style={{ fontSize: '0.75rem', color: Math.abs(deltaMl) < 0.001 ? 'rgba(255,255,255,0.5)' : (deltaMl >= 0 ? '#ff6b6b' : '#00d4aa') }}>
-                {Math.abs(deltaMl) < 0.001 ? '0.0% (Aktuel live ML model)' : (deltaMl >= 0 ? `+${(deltaMl * 100).toFixed(1)}% risiko` : `${(deltaMl * 100).toFixed(1)}% risiko`)}
+                {Math.abs(deltaMl) < 0.001 ? `Matcher live-baseline (${(liveMlCrash * 100).toFixed(1)}%)` : (deltaMl >= 0 ? `+${(deltaMl * 100).toFixed(1)}% risiko` : `${(deltaMl * 100).toFixed(1)}% risiko`)}
               </div>
             </div>
 

@@ -29,6 +29,9 @@ class TestEventBacktest(unittest.TestCase):
 
     def test_brier_score_validity(self):
         brier = self.result["metrics"]["brier_score"]
+        if brier is None:
+            self.assertEqual(self.result["status"], "INSUFFICIENT_HISTORY")
+            return
         self.assertGreaterEqual(brier, 0.0)
         self.assertLessEqual(brier, 1.0)
 
