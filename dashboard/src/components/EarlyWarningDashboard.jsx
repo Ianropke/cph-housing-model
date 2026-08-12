@@ -255,7 +255,7 @@ export default function EarlyWarningDashboard({
                 Machine Learning Prognose
               </h3>
               <p style={{ margin: 0, fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', maxWidth: '600px' }}>
-                Random Forest model trænet på historiske EWI-data fra 2000-2026. Grafen viser trenden over de sidste 5 år, mens procentsatsen angiver den beregnede sandsynlighed for et mærkbart prisfald (&gt;10%) inden for de næste 12 måneder.
+                Selvstændigt ML-modelestimat trænet på historiske EWI-data fra 2000-2026. Procentsatsen angiver den estimerede sandsynlighed for et mærkbart prisfald (&gt;10%) inden for de næste 12 måneder — ikke den forventede prisudvikling og ikke Risikobarometerets score.
               </p>
             </div>
             <div style={{ textAlign: 'right' }}>
@@ -263,9 +263,12 @@ export default function EarlyWarningDashboard({
                 {(mlCrashProbability * 100).toFixed(1)}%
               </div>
               <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
-                Risiko for markant prisfald (&gt;10%)
+                Modelestimat: prisfald &gt;10% (12 mdr.)
               </div>
             </div>
+          </div>
+          <div style={{ margin: '0 0 1.25rem', padding: '0.75rem 1rem', borderLeft: '3px solid #e040fb', background: 'rgba(156, 39, 176, 0.08)', color: 'rgba(255,255,255,0.72)', fontSize: '0.82rem', lineHeight: 1.5 }}>
+            <strong style={{ color: '#f0b6ff' }}>Sådan læses tallet:</strong> Et højt ML-estimat kan godt forekomme samtidig med en lav forecast-score, hvis de aktuelle advarselssignaler ligner historiske faldperioder, men forecastets scenarier fortsat overvejende peger opad. Det er modeluenighed — ikke to modstridende procentchancer.
           </div>
           
           <div style={{ height: '260px', width: '100%' }}>

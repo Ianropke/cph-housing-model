@@ -95,7 +95,7 @@ const RiskBarometer = ({ maxRiskIndex }) => {
             </text>
             <text x="80" y="96" textAnchor="middle" fill="rgba(255,255,255,0.5)"
               fontSize="9" fontFamily="Inter, system-ui">
-              af 100
+              score / 100
             </text>
           </svg>
         </div>
@@ -159,7 +159,7 @@ const RiskBarometer = ({ maxRiskIndex }) => {
         <div>
           <h2>Risikobarometer</h2>
           <span className="panel-subtitle">
-            Samlet risikoscore for negativ prisudvikling (1-100). Kombinerer Monte Carlo-simuleringer, stress-scenarier og markedsindikatorer. Klik på en gauge for detaljer.
+            Forecast- og EWI-baseret indeks-score (1-100) for negativ prisudvikling. Det er ikke en procentchance og kan derfor ikke sammenlignes direkte med ML-modellens sandsynlighed for et stort prisfald. Klik på en gauge for detaljer.
           </span>
         </div>
       </div>
