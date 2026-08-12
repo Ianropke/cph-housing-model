@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import PriceIndexPanel from './components/PriceIndexPanel';
 import EarlyWarningDashboard from './components/EarlyWarningDashboard';
 import ForecastEnsemblePanel from './components/ForecastEnsemblePanel';
@@ -11,206 +11,67 @@ import OnboardingModal from './components/OnboardingModal';
 import MethodologyModal from './components/MethodologyModal';
 import { useCity } from './context/CityContext';
 
-// ─── Inline Toast Notification ───────────────────────────────
-function Toast({ message, type, onDismiss }) {
-  useEffect(() => {
-    const timer = setTimeout(onDismiss, 4000);
-    return () => clearTimeout(timer);
-  }, [onDismiss]);
-
-  const colors = {
-    success: { bg: 'rgba(0,212,170,0.12)', border: 'rgba(0,212,170,0.35)', text: '#00d4aa', icon: '✓' },
-    error:   { bg: 'rgba(255,107,107,0.12)', border: 'rgba(255,107,107,0.35)', text: '#ff6b6b', icon: '✕' },
-    info:    { bg: 'rgba(59,130,246,0.12)', border: 'rgba(59,130,246,0.35)', text: '#3b82f6', icon: 'ℹ' },
-  };
-  const c = colors[type] || colors.info;
-
-  return (
-    <div style={{
-      position: 'fixed', top: '20px', right: '20px', zIndex: 9999,
-      padding: '14px 20px', borderRadius: '12px',
-      background: c.bg, border: `1px solid ${c.border}`,
-      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-      color: c.text, fontSize: '0.88rem', fontWeight: 500,
-      display: 'flex', alignItems: 'center', gap: '10px',
-      animation: 'slideInRight 0.3s ease-out',
-      boxShadow: `0 8px 32px ${c.border}`,
-      maxWidth: '400px',
-    }}>
-      <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>{c.icon}</span>
-      <span>{message}</span>
-      <button onClick={onDismiss} style={{
-        background: 'none', border: 'none', color: c.text, cursor: 'pointer',
-        marginLeft: '8px', fontSize: '1rem', opacity: 0.6, padding: '0 4px',
-      }}>✕</button>
-    </div>
-  );
-}
-
 export default function App() {
-  const { pipelineData, activeCity, setActiveCity, loading: dataLoading } = useCity();
-  const [loading, setLoading] = useState(null);
+  const {
+    pipelineData,
+    activeCity,
+    setActiveCity,
+    loading: dataLoading,
+    dataStatus,
+    dataErrors,
+  } = useCity();
   const [activeModal, setActiveModal] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showMethodology, setShowMethodology] = useState(false);
-
-  // Auto-trigger onboarding on first visit
-  useEffect(() => {
-    const hasSeenOnboarding = localStorage.getItem('cph_housing_onboarded');
-    if (!hasSeenOnboarding) {
-      setShowOnboarding(true);
-      localStorage.setItem('cph_housing_onboarded', 'true');
-    }
-  }, []);
   const [modalData, setModalData] = useState(null);
   const [ewiMode, setEwiMode] = useState('yoy_expanded');
-  const [toast, setToast] = useState(null);
-  const [displayTimestamp, setDisplayTimestamp] = useState('—');
-  useEffect(() => {
-    if (pipelineData && pipelineData.generated_at) {
-      try {
-        const d = new Date(pipelineData.generated_at);
-        if (!isNaN(d.getTime())) {
-          setDisplayTimestamp(d.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' }));
-        } else {
-          setDisplayTimestamp(pipelineData.generated_at.substring(0, 10));
-        }
-      } catch {
-        setDisplayTimestamp(pipelineData.generated_at.substring(0, 10));
-      }
-    }
+  const displayTimestamp = useMemo(() => {
+    if (!pipelineData?.generated_at) return '—';
+    const date = new Date(pipelineData.generated_at);
+    return Number.isNaN(date.getTime())
+      ? pipelineData.generated_at.slice(0, 10)
+      : date.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
   }, [pipelineData]);
 
   const activeSegment = `${activeCity}_apartments`;
   const ewiModes = pipelineData?.early_warnings?.[activeSegment]?.modes || {};
-  const activeModeData = ewiModes?.[ewiMode] || {
-    earlyWarningIndicators: pipelineData?.early_warnings?.[activeSegment]?.indicators || [],
-    compositeScore: pipelineData?.early_warnings?.[activeSegment]?.composite_score || 0,
-    freshnessWeightedComposite: pipelineData?.early_warnings?.[activeSegment]?.freshness_weighted_composite || 0,
-    alertLevel: pipelineData?.early_warnings?.[activeSegment]?.alert_level || 'NORMAL',
-    maxRiskIndex: pipelineData?.forecasts?.[activeSegment]?.horizons?.['24m']?.ensemble?.probability_weighted_index || 100,
-    dataFreshness: pipelineData?.early_warnings?.[activeSegment]?.data_freshness_summary || [],
-    mlCrashProbability: pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability ?? null,
-    mlProbabilityHistory: pipelineData?.early_warnings?.[activeSegment]?.ml_probability_history || []
-  };
-
-  // Keep top-level active references (some fallback if modes are missing)
-  const mlCrashProbability = activeModeData.mlCrashProbability;
-
-  const showToast = useCallback((message, type = 'info') => {
-    setToast({ message, type, key: Date.now() });
-  }, []);
-
-  const dismissToast = useCallback(() => setToast(null), []);
-
-  const MOCK_BACKTEST = {
-    "backtest_range": "2000 - 2026",
-    "backtest_date": "2026-06-14T21:08:33.276032",
-    "methodology": "One-step-ahead: each year's forecast uses prior year's ACTUAL index (no error drift)",
-    "metrics": {
-      "mape_pct": 8.9,
-      "rmse_points": 11.67,
-      "data_points_evaluated": 26
-    },
-    "empirical_calibrations": {
-      "EWI-1_price_vs_wages_red": 0.0441,
-      "EWI-2_supply_demand_amber": 3.8,
-      "EWI-6_price_to_rent_red_ratio": 1.1
-    },
-    "comparison": {
-      "years": [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
-      "actual": [55.0, 58.2, 61.5, 65.8, 73.2, 86.4, 100.0, 100.0, 88.5, 76.2, 82.1, 80.4, 78.9, 84.6, 92.1, 101.4, 108.9, 114.5, 112.8, 82.5, 90.9, 98.9, 95.0, 99.0, 107.3, 129.2, 132.5],
-      "predicted": [55.0, 51.3, 54.8, 59.6, 64.3, 72.2, 83.7, 95.5, 91.0, 88.5, 78.6, 83.2, 84.0, 82.5, 89.5, 99.1, 110.5, 118.7, 124.8, 123.0, 91.0, 100.3, 94.4, 88.6, 95.9, 105.4, 129.2],
-      "errors": [0.0, -6.9, -6.7, -6.2, -8.9, -14.2, -16.3, -4.5, 2.5, 12.3, -3.5, 2.8, 5.1, -2.1, -2.6, -2.3, 1.6, 4.2, 12.0, 40.5, 0.1, 1.4, -0.6, -10.4, -11.4, -23.8, -3.3]
-    }
-  };
-
-  const MOCK_STATUS = `=== System Diagnostics ===
-Model Version: 3.0 (Fase 1)
-
-Data Files:
-  - housingData.js: ✓ OK
-  - latest_pipeline.json: ✓ OK
-
-Pipeline Status: Operational
-Cron: Daily at 02:00 CET`;
-
-  const runUpdate = async () => {
-    setLoading('update');
-    try {
-      const res = await fetch('/api/update');
-      const data = await res.json();
-      if (res.ok) {
-        // Update the timestamp to reflect current time
-        const now = new Date();
-        const dateStr = now.toISOString().slice(0, 10);
-        setDisplayTimestamp(`${dateStr} · 2025Q4 Data`);
-        showToast('Data er opdateret med seneste DST-tal', 'success');
-        // Reload after a short delay so the user sees the toast
-        setTimeout(() => window.location.reload(), 1500);
-      } else {
-        showToast('Fejl ved opdatering: ' + (data.error || 'Ukendt fejl'), 'error');
-      }
-    } catch (e) {
-      console.warn('Network error trying to run update: ' + e.message);
-      showToast('Kunne ikke nå serveren — kører du lokalt med npm run dev?', 'error');
-    } finally {
-      setLoading(null);
-    }
-  };
-
-  const runBacktest = async () => {
-    setLoading('backtest');
-    try {
-      const res = await fetch('/api/backtest');
-      const data = await res.json();
-      if (res.ok) {
-        setModalData(data);
-        setActiveModal('backtest');
-      } else {
-        showToast('Fejl ved backtest: ' + (data.error || 'Ukendt fejl'), 'error');
-      }
-    } catch (e) {
-      console.warn('Network error trying to run backtest: ' + e.message);
-      setShowMethodology(true);
-    } finally {
-      setLoading(null);
-    }
-  };
+  const activeModeData = ewiModes[ewiMode];
+  const mlCrashProbability = activeModeData?.mlCrashProbability ?? null;
 
   const checkStatus = async () => {
-    setLoading('status');
-    try {
-      const res = await fetch('/api/status');
-      const data = await res.json();
-      if (res.ok) {
-        setModalData(data.status);
-        setActiveModal('status');
-      } else {
-        const liveDiag = `=== System Diagnostics ===\nGenereret: ${pipelineData?.generated_at || 'Ukendt'}\nPipeline: Aktiv\nDatakilder: DST EJ56, HUS1, Boliga, Finance Denmark`;
-        setModalData(liveDiag);
-        setActiveModal('status');
-      }
-    } catch (e) {
-      const liveDiag = `=== System Diagnostics ===\nGenereret: ${pipelineData?.generated_at || 'Ukendt'}\nPipeline: Aktiv (Static CDN Payload)\nDatakilder: DST EJ56, HUS1, Boliga, Finance Denmark`;
-      setModalData(liveDiag);
-      setActiveModal('status');
-    } finally {
-      setLoading(null);
-    }
+    const status = pipelineData?.market_data_status;
+    const sourceNames = Object.keys(status?.sources || {}).join(', ') || 'Ingen verificerede kilder';
+    setModalData([
+      '=== Systemdiagnostik ===',
+      `Payload: ${dataStatus === 'live' ? 'LIVE' : dataStatus.toUpperCase()}`,
+      `Genereret: ${pipelineData?.generated_at || 'Ukendt'}`,
+      `Markedsdata: ${status?.status || 'Ukendt'}`,
+      `Datakilder: ${sourceNames}`,
+    ].join('\n'));
+    setActiveModal('status');
   };
 
   if (dataLoading) return <div className="dashboard"><SkeletonLoader /></div>;
 
   if (!dataLoading && !pipelineData) {
+    const isStale = dataStatus === 'stale';
     return (
       <div className="dashboard" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
         <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', maxWidth: '500px' }}>
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
-          <h2 style={{ color: '#ff6b6b', marginBottom: '0.5rem' }}>Data Midlertidigt Utilgængelig</h2>
+          <h2 style={{ color: '#ff6b6b', marginBottom: '0.5rem' }}>
+            {isStale ? 'Data er forældet' : 'Data Midlertidigt Utilgængelig'}
+          </h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-            Der kunne ikke oprettes forbindelse til Edge API eller datalageret. Prøv venligst igen.
+            {isStale
+              ? 'Dashboardet viser ikke modeltal, før pipeline-payloaden er opdateret og valideret.'
+              : 'Dashboardet viser ikke modeltal, fordi den seneste pipeline-payload ikke kan verificeres.'}
           </p>
+          {dataErrors.length > 0 && (
+            <ul style={{ textAlign: 'left', color: 'rgba(255,255,255,0.55)', fontSize: '0.8rem', marginBottom: '1.5rem' }}>
+              {dataErrors.slice(0, 4).map((error) => <li key={error}>{error}</li>)}
+            </ul>
+          )}
           <button 
             onClick={() => window.location.reload()} 
             style={{ padding: '10px 24px', borderRadius: '8px', background: '#3b82f6', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 600 }}
@@ -224,16 +85,6 @@ Cron: Daily at 02:00 CET`;
 
   return (
     <div className="dashboard">
-      {/* Toast notification */}
-      {toast && (
-        <Toast
-          key={toast.key}
-          message={toast.message}
-          type={toast.type}
-          onDismiss={dismissToast}
-        />
-      )}
-
       <header className="dashboard-header fade-in">
         <div className="header-content">
           <div className="header-left">
@@ -303,16 +154,13 @@ Cron: Daily at 02:00 CET`;
           <button 
             className="btn-control purple" 
             onClick={checkStatus} 
-            disabled={loading !== null}
             title="Vis systemstatus, datakilde-helbredscheck og pipeline-log"
           >
-            {loading === 'status' ? <span className="spinner" /> : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                <path d="M12 16v-4" />
-                <path d="M12 8h.01" />
-              </svg>
-            )}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
             Systemstatus
           </button>
         </div>
@@ -329,6 +177,7 @@ Cron: Daily at 02:00 CET`;
           freshnessWeightedComposite={activeModeData.freshnessWeightedComposite}
           alertLevel={activeModeData.alertLevel}
           mlCrashProbability={mlCrashProbability}
+          mlModelStatus={activeModeData.mlModelStatus}
           mlProbabilityHistory={activeModeData.mlProbabilityHistory}
           dataFreshness={activeModeData.dataFreshness}
         />

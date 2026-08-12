@@ -1,14 +1,12 @@
-# Copenhagen Housing Market Model & Dashboard (v3.0)
+# Copenhagen Housing Market Model & Dashboard
 
-Dette repository indeholder kildekoden til Københavns Boligmarkedsmodel og det tilhørende styringsdashboard (version 3.0). Modellen fungerer som et Early Warning System (EWS) og beregner de fundamentale ejeromkostninger (User Cost of Housing) for at identificere systemiske ubalancer og bobletendenser.
+Dette repository indeholder kildekoden til Københavns Boligmarkedsmodel og det tilhørende styringsdashboard. Modellen fungerer som et Early Warning System (EWS) og beregner de fundamentale ejeromkostninger (User Cost of Housing) for at identificere systemiske ubalancer og bobletendenser.
 
 ## 🚀 Live Demo (Vercel)
-Dashboardet er implementeret og udgivet på Vercel:
-* **Produktions-URL:** [https://dashboard-pi-ten-15.vercel.app](https://dashboard-pi-ten-15.vercel.app)
-* **Vercel Project:** `dashboard` under `ianropkes-projects`
+Dashboardprojektet administreres i [Vercel-projektet](https://vercel.com/ianropkes-projects/cph-housing-model).
 
 > [!NOTE]
-> Vercel hoster dashboardet som en statisk frontend-applikation. Knapperne "Opdatér Data", "Kør Backtest" og "Systemstatus" kalder API-endpoints. Ved lokal kørsel afvikles disse via en integreret Python-backend (Vite server middleware), mens de på det statiske Vercel-miljø falder tilbage på præ-genererede datasæt og simuleringsresultater.
+> Vercel hoster dashboardet som en statisk frontend-applikation. Den daglige Python-pipeline genererer `dashboard/public/data/latest_pipeline.json`, som valideres før publicering. Hvis payloaden mangler, er forældet eller ikke matcher sine perioder, viser UI’et en eksplicit unavailable/stale-status; det bruger ikke mocktal som fallback. Python-kald via Vite middleware er kun lokal udviklingsintegration.
 
 ---
 
@@ -33,18 +31,19 @@ Hvor:
 ---
 
 ### 2. Early Warning System (EWS)
-Risikovurderingen foretages på tværs af **8 ledende indikatorer (EWIs)**. Hver indikator tildeles en statistisk vægt baseret på dens historiske evne til at varsle priskorrektioner (f.eks. under finanskrisen i 2006-2008):
+Risikovurderingen foretages på tværs af **9 ledende indikatorer (EWIs)**. Hver indikator tildeles en modelvægt:
 
-| Indikator | Beskrivelse | Statistisk Vægt |
+| Indikator | Beskrivelse | Modelvægt |
 |---|---|---|
 | **EWI-1** | Prisudvikling vs. Lønvækst (YoY spread) | 1,4 |
 | **EWI-2** | Udbudslager (måneder af salg) | 1,2 |
-| **EWI-3** | Volumen-Pris Divergens (YoY) | 1,0 |
+| **EWI-3** | Volumen-Pris Divergens (YoY) | 0,5 |
 | **EWI-4** | Prisnedslag (andel nedsat + gns. nedslag) | 1,3 |
-| **EWI-5** | Liggetid (median-liggetid i forhold til Z-score) | 0,8 |
+| **EWI-5** | Liggetid (median-liggetid i forhold til Z-score) | 0,3 |
 | **EWI-6** | Pris/Leje-forhold (Z-score afvigelse) | 1,1 |
-| **EWI-7** | Kreditvækst & Afdragsfri andel (RKR) | 0,7 |
+| **EWI-7** | Kreditvækst & Afdragsfri andel (RKR) | 0,2 |
 | **EWI-8** | Gældsbetjeningsgrad (Debt Service Ratio) | 1,5 |
+| **EWI-9** | Ledighed | 1,5 |
 
 Den samlede kompositscore beregnes som summen af de vægtede indikatorscores (0 for grøn, 1 for gul, 3 for rød), hvilket giver en maksimal samlet risikoscore på **27,0 point**.
 
@@ -78,7 +77,8 @@ cph-housing-model/
 │   ├── src/
 │   │   ├── components/    # UI Paneler (UserCost, EarlyWarning, Forecast)
 │   │   ├── data/          # Genererede data-assets (housingData.js)
-│   │   └── App.jsx        # Hovedkomponent & Vercel API mock/fallbacks
+│   │   ├── context/       # Payload loading, schema- og freshness-checks
+│   │   └── App.jsx        # Hovedkomponent uden data-mocks
 │   └── index.html
 ├── reports/               # Automatiske daglige rapporter (Markdown)
 ├── scripts/               # Datapipeline-scripts (daily_pipeline.py)
@@ -103,10 +103,14 @@ For at afvikle hele systemet med live Python-integration i dashboardet:
    ```bash
    ./manage.sh start
    ```
-   Dette vil starte dashboardet på `http://localhost:5173/` og automatisk proxy'e API-kaldene (`/api/update`, `/api/backtest`, `/api/status`) til Python-miljøet.
+   Dette vil starte dashboardet på `http://localhost:5173/`. Vite-middleware kan bruges til lokal udvikling, men produktionen læser kun den genererede statiske payload.
 
 ### Testdækning
 Integrationstests dækker:
 * Korrekt beregning af den dynamiske ejendomsskat ($\tau_p$) og det blandede rentefradrag ($\tau_r$).
-* Backtesting på tværs af perioden **2000–2026** for at validere modellens evne til at fange it-boblen, finanskrisen og COVID-boomet.
+* Periodematch mellem live DST-payload, forecast og EWI-beregning.
+* Payload-schema, freshness og afvisning af uvaliderede ML-procenter.
+* Walk-forward benchmark af crash-eventdefinitionen; den viste produktions-ML-probability er utilgængelig, indtil kalibrering på point-in-time live features er bestået.
 * Korrekt skalering af EWS til den nye vægtede 27,0-pointskala.
+
+Kvalitetsgates kan køres samlet med `RUN_VISUAL_TESTS=0 ./manage.sh test`, eller separat med `python scripts/validate_payload.py dashboard/public/data/latest_pipeline.json`, `npm run lint` og `npm run build` fra `dashboard/`.

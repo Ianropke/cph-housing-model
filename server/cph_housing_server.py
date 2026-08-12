@@ -9,7 +9,7 @@ forecast ensemble execution.
 Tools:
   - fetch_dst_housing_data: Fetch price index from DST (table EJ56)
   - calculate_user_cost: Compute Nationalbanken user cost of housing
-  - check_early_warnings: Evaluate EWI-1 through EWI-5 status
+  - check_early_warnings: Evaluate EWI-1 through EWI-9 status
   - run_forecast_ensemble: Generate 6/12/24m forecasts across scenarios
 """
 
@@ -755,21 +755,28 @@ def calculate_user_cost(
 # ─────────────────────────────────────────────────────────────
 
 @mcp.tool()
-def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str = "yoy_expanded") -> dict:
+def check_early_warnings(
+    segment: str = "copenhagen_apartments",
+    ewi1_mode: str = "yoy_expanded",
+    dst_data: Optional[dict] = None,
+) -> dict:
     """
-    Check Early Warning Indicators (EWI-1 through EWI-8) for a segment.
+    Check Early Warning Indicators (EWI-1 through EWI-9) for a segment.
 
     Evaluates against thresholds defined in early_warning_system.md.
 
     Args:
         segment: Market segment to evaluate.
         ewi1_mode: Evaluation mode for EWI-1 ("yoy_original", "yoy_expanded", "structural_3y", "structural_5y").
+        dst_data: Optional live EJ56 payload. If omitted, the bundled reference series is used for local/manual calls.
 
     Returns:
-        Status of all eight EWIs plus composite score and alert level.
+        Status of all nine EWIs plus composite score and alert level.
     """
-    # Get price data for the segment
-    seg_data = DST_EJ56_DATA["segments"].get(segment)
+    # Get price data for the segment. Production callers must pass the live
+    # payload so EWI and forecast calculations share the same observation.
+    source_data = dst_data if dst_data is not None else DST_EJ56_DATA
+    seg_data = source_data.get("segments", {}).get(segment)
     if not seg_data:
         return {"error": f"Unknown segment: {segment}"}
 
@@ -1133,32 +1140,12 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
             })
         return info
 
-    # ── ML Model Prediction ──
-    try:
-        import skops.io as sio
-        import os
-        model_path = os.path.join(os.path.dirname(__file__), "..", "config", "ews_ml_model.skops")
-        if os.path.exists(model_path):
-            untrusted = sio.get_untrusted_types(file=model_path)
-            clf = sio.load(model_path, trusted=untrusted)
-            dom_z = (median_dom - dom_mean) / dom_std if dom_std > 0 else 0
-            p2r_z = (price_to_rent - p2r_mean) / p2r_std if p2r_std > 0 else 0
-            features = [[
-                price_wage_spread * 100,
-                months_of_supply,
-                volume_yoy_change * 100,
-                price_reduction_rate * 100,
-                dom_z,
-                p2r_z,
-                amort_free_share * 100,
-                dsr * 100
-            ]]
-            prob = clf.predict_proba(features)[0][1]
-        else:
-            prob = None
-    except Exception as e:
-        prob = None
-        print(f"ML Warning: {e}")
+    # The checked-in skops artifact was trained on synthetic feature rows and
+    # historical feature snapshots are not available for point-in-time
+    # validation. Keep it out of the production payload: a probability is only
+    # valid here once a live-feature, out-of-sample calibration gate passes.
+    prob = None
+    ml_model_status = "UNAVAILABLE_UNVALIDATED_MODEL"
 
     data_freshness_summary = {}
     for k, v in DATA_FRESHNESS.items():
@@ -1195,7 +1182,10 @@ def check_early_warnings(segment: str = "copenhagen_apartments", ewi1_mode: str 
     return {
         "segment": segment,
         "evaluation_timestamp": datetime.datetime.now().isoformat(),
+        "data_source": source_data.get("source", "bundled reference series"),
+        "data_observation_period": periods[-1],
         "ml_crash_probability": round(prob, 3) if prob is not None else None,
+        "ml_model_status": ml_model_status,
         "indicators": {
             "EWI-1_price_vs_wages": {
                 "level": ewi1_level,
@@ -1292,7 +1282,7 @@ def get_historical_ml_probabilities(
     """
     Get historical ML crash probabilities for the last N quarters.
     """
-    source_data = dst_data if dst_data else DST_EJ56_DATA
+    source_data = dst_data if dst_data is not None else DST_EJ56_DATA
     seg_data = source_data["segments"].get(segment)
     if not seg_data:
         return []
@@ -1300,49 +1290,10 @@ def get_historical_ml_probabilities(
     periods = sorted(seg_data["series"].keys())
     target_periods = periods[-limit:] if len(periods) >= limit else periods
 
-    import os
-    import skops.io as sio
-
-    model_path = os.path.join(os.path.dirname(__file__), "..", "config", "ews_ml_model.skops")
-    clf = None
-    if os.path.exists(model_path):
-        try:
-            untrusted = sio.get_untrusted_types(file=model_path)
-            clf = sio.load(model_path, trusted=untrusted)
-        except:
-            pass
-
-    history = []
-    for i, p in enumerate(target_periods):
-        # We need the period's index in the full series to calculate YoY
-        idx = periods.index(p)
-        if idx >= 4:
-            yoy_growth = (seg_data["series"][p] - seg_data["series"][periods[idx-4]]) / seg_data["series"][periods[idx-4]]
-        else:
-            yoy_growth = 0.0
-
-        if clf:
-            # Proxy features dynamically based on historical price momentum
-            # When prices drop significantly (yoy_growth < 0), proxy features spike to crash levels
-            spread_pp = (yoy_growth - 0.035) * 100
-            mos = 4.1 - (yoy_growth * 15.0)  # Supply increases when prices fall
-            vol = yoy_growth * 200.0         # Volume drops when prices drop
-            pr_red = 22.0 - (yoy_growth * 100.0) # Price reductions spike
-            dom_z = -yoy_growth * 10.0       # DOM spikes
-            p2r_z = yoy_growth * 5.0         # P2R drops if price drops
-            
-            features = [[
-                spread_pp, mos, vol, pr_red, dom_z, p2r_z, 46.0, 36.0
-            ]]
-            prob = clf.predict_proba(features)[0][1]
-        else:
-            prob = 0.15
-
-        history.append({
-            "quarter": p,
-            "probability": round(prob, 3)
-        })
-    return history
+    # Do not fabricate a historical ML curve from price momentum proxies. The
+    # dashboard may still show the transparent EWI history, but an ML series
+    # must remain empty until the validated live-feature model is deployed.
+    return []
 
 # ─────────────────────────────────────────────────────────────
 # TOOL 4: run_forecast_ensemble
@@ -1352,6 +1303,7 @@ def get_historical_ml_probabilities(
 def run_forecast_ensemble(
     segment: str = "copenhagen_apartments",
     horizons: Optional[list[int]] = None,
+    dst_data: Optional[dict] = None,
 ) -> dict:
     """
     Run the forecast ensemble across all scenarios for specified horizons,
@@ -1360,11 +1312,13 @@ def run_forecast_ensemble(
     Args:
         segment: Market segment to forecast.
         horizons: List of forecast horizons in months. Default: [6, 12, 24].
+        dst_data: Optional live EJ56 payload. If omitted, the bundled reference series is used for local/manual calls.
     """
     if horizons is None:
         horizons = [6, 12, 24]
 
-    seg_data = DST_EJ56_DATA["segments"].get(segment)
+    source_data = dst_data if dst_data is not None else DST_EJ56_DATA
+    seg_data = source_data.get("segments", {}).get(segment)
     if not seg_data:
         return {"error": f"Unknown segment: {segment}"}
 
@@ -1374,6 +1328,7 @@ def run_forecast_ensemble(
     current_period = periods[-1]
 
     results = {}
+    rng = random.Random(42)
 
     for horizon in horizons:
         horizon_key = f"{horizon}m"
@@ -1460,13 +1415,9 @@ def run_forecast_ensemble(
             for s in horizon_results
         )
 
-        # Monte Carlo Simulation (1,000 iterations)
+        # Monte Carlo Simulation (1,000 deterministic iterations)
         mc_indices = []
         for _ in range(1000):
-            # Draw stochastic risk premium and depreciation
-            rp_sim = random.gauss(0.010, 0.003)
-            delta_sim = random.gauss(0.015, 0.002)
-
             mc_appreciation = 0.0
             for scenario_id, scenario in SCENARIOS.items():
                 if scenario_id not in ["baseline", "min_risk", "max_risk"]:
@@ -1483,7 +1434,7 @@ def run_forecast_ensemble(
 
             # Add stochastic macro shock scaled by horizon
             sigma_macro = 0.02 * math.sqrt(horizon / 12.0)
-            macro_shock = random.gauss(0, sigma_macro)
+            macro_shock = rng.gauss(0, sigma_macro)
 
             # Use stochastic rp_sim and delta_sim to compute MC user cost variation
             mc_period_appreciation = (mc_appreciation + macro_shock) * (horizon / 12)
@@ -1517,6 +1468,8 @@ def run_forecast_ensemble(
         "segment": segment,
         "current_period": current_period,
         "current_index": current_index,
+        "data_source": source_data.get("source", "bundled reference series"),
+        "data_observation_period": current_period,
         "forecast_date": datetime.datetime.now().isoformat(),
         "horizons": results,
     }

@@ -80,7 +80,7 @@ function CostCard({ data, index }) {
 }
 
 export default function UserCostPanel() {
-  const { pipelineData, activeCity } = useCity();
+  const { pipelineData } = useCity();
   if (!pipelineData) return null;
   
   const uc = pipelineData.user_costs;

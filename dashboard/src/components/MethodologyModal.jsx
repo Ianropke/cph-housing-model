@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function MethodologyModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 

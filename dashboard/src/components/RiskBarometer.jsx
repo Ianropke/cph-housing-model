@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const componentTooltips = {
   mc_downside: 'Monte Carlo-nedrisiko måler sandsynligheden for at prisindekset falder under det nuværende niveau, baseret på 1.000 simulerede scenarier med tilfældig variation i renter, risikopræmie og vedligeholdelse.',
@@ -111,9 +111,6 @@ const RiskBarometer = ({ maxRiskIndex }) => {
               : 'mc_downside';
             const componentValue = data.components?.[dataKey] ?? 0;
 
-            const val = key === 'freshness'
-              ? componentValue * 100
-              : componentValue;
             const displayVal = key === 'freshness'
               ? `${Math.round(componentValue * 100)}%`
               : `${componentValue.toFixed(1)}${key !== 'ewi' ? '%' : ''}`;

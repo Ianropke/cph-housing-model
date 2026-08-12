@@ -53,6 +53,7 @@ function ScenarioRow({ scenario, isOpen, onToggle, index }) {
 
 export default function ScenarioAssumptionsPanel() {
   const { pipelineData, activeCity } = useCity();
+  const [openIndex, setOpenIndex] = useState(0);
   if (!pipelineData) return null;
   const fc = pipelineData.forecasts[`${activeCity}_apartments`];
   
@@ -91,8 +92,6 @@ export default function ScenarioAssumptionsPanel() {
       }
     }
   ];
-
-  const [openIndex, setOpenIndex] = useState(0);
 
   return (
     <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.7s' }}>

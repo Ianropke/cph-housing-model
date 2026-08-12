@@ -1,4 +1,3 @@
-import React from 'react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 const statusColors = {
@@ -187,7 +186,8 @@ export default function EarlyWarningDashboard({
   alertLevel,
   mlCrashProbability,
   dataFreshness,
-  mlProbabilityHistory
+  mlProbabilityHistory,
+  mlModelStatus,
 }) {
   const alertColor = alertLevel === 'NORMAL' ? '#00d4aa' : alertLevel === 'ELEVATED' ? '#ffc107' : '#ff6b6b';
   const alertLabels = { NORMAL: 'Normal', ELEVATED: 'Forhøjet', HIGH: 'Høj', CRITICAL: 'Kritisk', EXTREME: 'Ekstrem' };
@@ -198,7 +198,7 @@ export default function EarlyWarningDashboard({
         <div>
           <h2>Tidlig varsling (EWI)</h2>
           <span className="panel-explainer">
-            8 indikatorer der tilsammen vurderer risikoen for et kommende prisfald. Hver indikator har en trafiklys-status
+            9 indikatorer der tilsammen vurderer markedets sårbarhed. Hver indikator har en trafiklys-status
             (Normal / Advarsel / Alarm) og en friskhedsbar der viser hvor opdateret datakilden er.
             Hold musen over en indikator for at se hvad den måler og hvornår den udløses.
           </span>
@@ -222,12 +222,12 @@ export default function EarlyWarningDashboard({
 
         <div className="ewi-summary-badges" style={{ alignItems: 'center' }}>
           <span className="panel-badge tooltip"
-            data-tooltip="Statistisk vægtet sum af alle 8 indikatorer baseret på historisk signalstyrke (Normal=0, Advarsel=1, Alarm=3, ganget med vægte: EWI1=1.4, EWI2=1.2, EWI3=1.0, EWI4=1.3, EWI5=0.8, EWI6=1.1, EWI7=0.7, EWI8=1.5). Maks 27.0 point."
+            data-tooltip="Statistisk vægtet sum af 9 indikatorer baseret på signalstyrke (Normal=0, Advarsel=1, Alarm=3). EWI-score er et indeks — ikke en procentchance. Maks 27.0 point."
           >
             Score: <strong>{compositeScore} / 27</strong>
           </span>
           <span className="panel-badge tooltip"
-            data-tooltip="Samme score, men reguleret med datakildernes løbende friskhedsvægt. Indikatorer med gammel data tæller mindre. Maks 27.0 point."
+            data-tooltip="Samme score, men reguleret med datakildernes løbende friskhedsvægt. Indikatorer med gammel data tæller mindre. Det er stadig et indeks, ikke en sandsynlighed."
           >
             Friskheds-vægtet: <strong>{freshnessWeightedComposite} / 27</strong>
           </span>
@@ -312,6 +312,18 @@ export default function EarlyWarningDashboard({
               </AreaChart>
             </ResponsiveContainer>
           </div>
+        </div>
+      )}
+
+      {mlCrashProbability == null && (
+        <div className="ml-prediction-section fade-in" style={{ marginTop: '2rem', padding: '1.25rem 1.5rem', background: 'rgba(255,193,7,0.04)', borderRadius: '12px', border: '1px solid rgba(255,193,7,0.2)' }}>
+          <h3 style={{ margin: '0 0 0.5rem', color: '#ffc107' }}>ML-prognose ikke publiceret</h3>
+          <p style={{ margin: 0, color: 'rgba(255,255,255,0.68)', fontSize: '0.88rem', lineHeight: 1.5 }}>
+            Der vises ingen procentchance, fordi den nuværende ML-model er trænet på syntetiske feature-rækker og ikke er valideret out-of-sample på point-in-time live data. EWI-scoren og forecast-scenarierne ovenfor er de publicerede modeloutputs.
+          </p>
+          <span style={{ display: 'inline-block', marginTop: '0.75rem', color: 'rgba(255,255,255,0.45)', fontSize: '0.76rem' }}>
+            Status: {mlModelStatus || 'UNAVAILABLE_UNVALIDATED_MODEL'}
+          </span>
         </div>
       )}
 

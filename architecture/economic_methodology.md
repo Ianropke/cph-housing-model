@@ -1,6 +1,8 @@
-# Økonomisk & Matematisk Metodedokumentation: CPH Housing Market Model (v3.0)
+# Økonomisk & Matematisk Metodedokumentation: CPH Housing Market Model
 
-Dette dokument indeholder en dybdegående dokumentation af de økonomiske teorier, matematiske formler og empiriske antagelser, der ligger til grund for beregningerne i Københavns Boligmarkedsmodel (version 3.0).
+> **Implementation note (2026):** This methodology document contains the economic derivations. For current EWI weights, source lineage, payload validation and ML publication status, use `docs/model_governance.md` and the production code in `server/cph_housing_server.py`.
+
+Dette dokument indeholder en dybdegående dokumentation af de økonomiske teorier, matematiske formler og empiriske antagelser, der ligger til grund for beregningerne i Københavns Boligmarkedsmodel.
 
 ---
 

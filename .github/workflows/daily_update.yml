@@ -47,6 +47,18 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/scripts
         run: python scripts/daily_pipeline.py
 
+      - name: Validate generated payload schema and data alignment
+        env:
+          PYTHONPATH: ${{ github.workspace }}/server:${{ github.workspace }}/scripts
+        run: python scripts/validate_payload.py dashboard/public/data/latest_pipeline.json
+
+      - name: Validate crash-probability benchmark contract
+        run: python -m pytest -q tests/test_crash_probability_validation.py
+
+      - name: Run frontend lint gate
+        working-directory: dashboard
+        run: npm run lint
+
       - name: Verify Dashboard Build
         working-directory: dashboard
         run: npm run build
@@ -63,6 +75,7 @@ jobs:
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add dashboard/src/data/housingData.js
           git add dashboard/public/data/latest_pipeline.json
+          git add config/market_data.json
           git add reports/
           if git diff --cached --quiet; then
             echo 'No generated data changes to commit.'

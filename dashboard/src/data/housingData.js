@@ -15,10 +15,10 @@ export const earlyWarningIndicators = [
   {
     "id": "EWI-1",
     "name": "Price vs. Wages",
-    "value": "+16.91pp",
+    "value": "+17.74pp",
     "baseline": "<3pp",
     "status": "RED",
-    "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Udvidet))",
+    "description": "Price growth 21.2% vs wage growth 3.5% (YoY (Udvidet))",
     "freshness_weight": 0.798,
     "last_updated": "2026-07-29"
   },
@@ -38,17 +38,17 @@ export const earlyWarningIndicators = [
     "value": "Vol -24%",
     "baseline": "AMBER at -10%",
     "status": "RED",
-    "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+    "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
     "freshness_weight": 0.961,
     "last_updated": "2026-08-12"
   },
   {
     "id": "EWI-4",
     "name": "Price Reductions",
-    "value": "31%",
+    "value": "30%",
     "baseline": "AMBER at >30%",
     "status": "AMBER",
-    "description": "31% of listings reduced, avg 5.1%",
+    "description": "30% of listings reduced, avg 5.1%",
     "freshness_weight": 1.0,
     "last_updated": "2026-08-12"
   },
@@ -65,10 +65,10 @@ export const earlyWarningIndicators = [
   {
     "id": "EWI-6",
     "name": "Price-to-Rent Ratio",
-    "value": "1.140",
+    "value": "1.204",
     "baseline": "Dynamisk Z-score",
     "status": "AMBER",
-    "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+    "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
     "freshness_weight": 0.87,
     "last_updated": "2026-07-29"
   },
@@ -85,10 +85,10 @@ export const earlyWarningIndicators = [
   {
     "id": "EWI-8",
     "name": "Debt-Servicing Ratio (DSR)",
-    "value": "35.9%",
+    "value": "37.9%",
     "baseline": "<30%",
     "status": "AMBER",
-    "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+    "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
     "freshness_weight": 0.759,
     "last_updated": "2026-08-03"
   },
@@ -109,10 +109,10 @@ export const ewiModes = {
       {
         "id": "EWI-1",
         "name": "Price vs. Wages",
-        "value": "+16.91pp",
+        "value": "+17.74pp",
         "baseline": "<3pp",
         "status": "RED",
-        "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Original))",
+        "description": "Price growth 21.2% vs wage growth 3.5% (YoY (Original))",
         "freshness_weight": 0.798,
         "last_updated": "2026-07-29"
       },
@@ -132,17 +132,17 @@ export const ewiModes = {
         "value": "Vol -24%",
         "baseline": "AMBER at -10%",
         "status": "RED",
-        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+        "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
         "freshness_weight": 0.961,
         "last_updated": "2026-08-12"
       },
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "31%",
+        "value": "30%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "31% of listings reduced, avg 5.1%",
+        "description": "30% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-12"
       },
@@ -159,10 +159,10 @@ export const ewiModes = {
       {
         "id": "EWI-6",
         "name": "Price-to-Rent Ratio",
-        "value": "1.140",
+        "value": "1.204",
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
-        "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+        "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
         "freshness_weight": 0.87,
         "last_updated": "2026-07-29"
       },
@@ -179,10 +179,10 @@ export const ewiModes = {
       {
         "id": "EWI-8",
         "name": "Debt-Servicing Ratio (DSR)",
-        "value": "35.9%",
+        "value": "37.9%",
         "baseline": "<30%",
         "status": "AMBER",
-        "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+        "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
         "freshness_weight": 0.759,
         "last_updated": "2026-08-03"
       },
@@ -205,7 +205,7 @@ export const ewiModes = {
         "score": 10,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
           "ewi_contribution": 33.6,
           "avg_data_freshness": 0.86
@@ -311,17 +311,20 @@ export const ewiModes = {
         "freshness_weight": 0.617,
         "next_expected_update": "2026-12-01"
       }
-    }
+    },
+    "mlCrashProbability": null,
+    "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+    "mlProbabilityHistory": []
   },
   "yoy_expanded": {
     "earlyWarningIndicators": [
       {
         "id": "EWI-1",
         "name": "Price vs. Wages",
-        "value": "+16.91pp",
+        "value": "+17.74pp",
         "baseline": "<4pp",
         "status": "RED",
-        "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Udvidet))",
+        "description": "Price growth 21.2% vs wage growth 3.5% (YoY (Udvidet))",
         "freshness_weight": 0.798,
         "last_updated": "2026-07-29"
       },
@@ -341,17 +344,17 @@ export const ewiModes = {
         "value": "Vol -24%",
         "baseline": "AMBER at -10%",
         "status": "RED",
-        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+        "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
         "freshness_weight": 0.961,
         "last_updated": "2026-08-12"
       },
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "31%",
+        "value": "30%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "31% of listings reduced, avg 5.1%",
+        "description": "30% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-12"
       },
@@ -368,10 +371,10 @@ export const ewiModes = {
       {
         "id": "EWI-6",
         "name": "Price-to-Rent Ratio",
-        "value": "1.140",
+        "value": "1.204",
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
-        "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+        "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
         "freshness_weight": 0.87,
         "last_updated": "2026-07-29"
       },
@@ -388,10 +391,10 @@ export const ewiModes = {
       {
         "id": "EWI-8",
         "name": "Debt-Servicing Ratio (DSR)",
-        "value": "35.9%",
+        "value": "37.9%",
         "baseline": "<30%",
         "status": "AMBER",
-        "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+        "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
         "freshness_weight": 0.759,
         "last_updated": "2026-08-03"
       },
@@ -414,7 +417,7 @@ export const ewiModes = {
         "score": 10,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
           "ewi_contribution": 33.6,
           "avg_data_freshness": 0.86
@@ -520,17 +523,20 @@ export const ewiModes = {
         "freshness_weight": 0.617,
         "next_expected_update": "2026-12-01"
       }
-    }
+    },
+    "mlCrashProbability": null,
+    "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+    "mlProbabilityHistory": []
   },
   "structural_3y": {
     "earlyWarningIndicators": [
       {
         "id": "EWI-1",
         "name": "Price vs. Wages",
-        "value": "+3.24pp",
+        "value": "+5.61pp",
         "baseline": "<3pp",
-        "status": "AMBER",
-        "description": "Price growth 6.7% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
+        "status": "RED",
+        "description": "Price growth 9.1% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
         "freshness_weight": 0.798,
         "last_updated": "2026-07-29"
       },
@@ -550,17 +556,17 @@ export const ewiModes = {
         "value": "Vol -24%",
         "baseline": "AMBER at -10%",
         "status": "RED",
-        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+        "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
         "freshness_weight": 0.961,
         "last_updated": "2026-08-12"
       },
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "31%",
+        "value": "30%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "31% of listings reduced, avg 5.1%",
+        "description": "30% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-12"
       },
@@ -577,10 +583,10 @@ export const ewiModes = {
       {
         "id": "EWI-6",
         "name": "Price-to-Rent Ratio",
-        "value": "1.140",
+        "value": "1.204",
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
-        "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+        "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
         "freshness_weight": 0.87,
         "last_updated": "2026-07-29"
       },
@@ -597,10 +603,10 @@ export const ewiModes = {
       {
         "id": "EWI-8",
         "name": "Debt-Servicing Ratio (DSR)",
-        "value": "35.9%",
+        "value": "37.9%",
         "baseline": "<30%",
         "status": "AMBER",
-        "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+        "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
         "freshness_weight": 0.759,
         "last_updated": "2026-08-03"
       },
@@ -615,27 +621,27 @@ export const ewiModes = {
         "last_updated": "2026-07-30"
       }
     ],
-    "compositeScore": 7.7,
-    "freshnessWeightedComposite": 6.7,
-    "alertLevel": "ELEVATED",
+    "compositeScore": 10.5,
+    "freshnessWeightedComposite": 8.9,
+    "alertLevel": "HIGH",
     "maxRiskIndex": {
       "6m": {
-        "score": 7,
+        "score": 10,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 24.7,
+          "ewi_contribution": 33.6,
           "avg_data_freshness": 0.86
         }
       },
       "12m": {
-        "score": 7,
+        "score": 10,
         "label": "LAV",
         "components": {
           "mc_downside": 0,
           "max_risk_severity_pct": 0,
-          "ewi_contribution": 24.7,
+          "ewi_contribution": 33.6,
           "avg_data_freshness": 0.86
         }
       }
@@ -729,17 +735,20 @@ export const ewiModes = {
         "freshness_weight": 0.617,
         "next_expected_update": "2026-12-01"
       }
-    }
+    },
+    "mlCrashProbability": null,
+    "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+    "mlProbabilityHistory": []
   },
   "structural_5y": {
     "earlyWarningIndicators": [
       {
         "id": "EWI-1",
         "name": "Price vs. Wages",
-        "value": "+3.47pp",
+        "value": "+3.83pp",
         "baseline": "<3pp",
         "status": "AMBER",
-        "description": "Price growth 7.0% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
+        "description": "Price growth 7.3% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
         "freshness_weight": 0.798,
         "last_updated": "2026-07-29"
       },
@@ -759,17 +768,17 @@ export const ewiModes = {
         "value": "Vol -24%",
         "baseline": "AMBER at -10%",
         "status": "RED",
-        "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+        "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
         "freshness_weight": 0.961,
         "last_updated": "2026-08-12"
       },
       {
         "id": "EWI-4",
         "name": "Price Reductions",
-        "value": "31%",
+        "value": "30%",
         "baseline": "AMBER at >30%",
         "status": "AMBER",
-        "description": "31% of listings reduced, avg 5.1%",
+        "description": "30% of listings reduced, avg 5.1%",
         "freshness_weight": 1.0,
         "last_updated": "2026-08-12"
       },
@@ -786,10 +795,10 @@ export const ewiModes = {
       {
         "id": "EWI-6",
         "name": "Price-to-Rent Ratio",
-        "value": "1.140",
+        "value": "1.204",
         "baseline": "Dynamisk Z-score",
         "status": "AMBER",
-        "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+        "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
         "freshness_weight": 0.87,
         "last_updated": "2026-07-29"
       },
@@ -806,10 +815,10 @@ export const ewiModes = {
       {
         "id": "EWI-8",
         "name": "Debt-Servicing Ratio (DSR)",
-        "value": "35.9%",
+        "value": "37.9%",
         "baseline": "<30%",
         "status": "AMBER",
-        "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+        "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
         "freshness_weight": 0.759,
         "last_updated": "2026-08-03"
       },
@@ -829,10 +838,10 @@ export const ewiModes = {
     "alertLevel": "ELEVATED",
     "maxRiskIndex": {
       "6m": {
-        "score": 7,
+        "score": 8,
         "label": "LAV",
         "components": {
-          "mc_downside": 0,
+          "mc_downside": 0.1,
           "max_risk_severity_pct": 0,
           "ewi_contribution": 24.7,
           "avg_data_freshness": 0.86
@@ -938,14 +947,17 @@ export const ewiModes = {
         "freshness_weight": 0.617,
         "next_expected_update": "2026-12-01"
       }
-    }
+    },
+    "mlCrashProbability": null,
+    "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+    "mlProbabilityHistory": []
   }
 };
 
 export const compositeScore = 10.5;
 export const freshnessWeightedComposite = 8.9;
 export const alertLevel = 'HIGH';
-export const mlCrashProbability = 0.6;
+export const mlCrashProbability = null;
 export const lastUpdated = '2026-08-12 · 2026Q1 Data';
 
 export const dataFreshness = {
@@ -1044,7 +1056,7 @@ export const maxRiskIndex = {
     "score": 10,
     "label": "LAV",
     "components": {
-      "mc_downside": 0,
+      "mc_downside": 0.1,
       "max_risk_severity_pct": 0,
       "ewi_contribution": 33.6,
       "avg_data_freshness": 0.86
@@ -1068,9 +1080,9 @@ export const forecastScenarios = [
     "weight": 0.55,
     "color": "#00d4aa",
     "forecasts": {
-      "6m": 130.3,
-      "12m": 134.9,
-      "24m": 149.4
+      "6m": 137.6,
+      "12m": 142.4,
+      "24m": 157.7
     }
   },
   {
@@ -1078,9 +1090,9 @@ export const forecastScenarios = [
     "weight": 0.2,
     "color": "#3b82f6",
     "forecasts": {
-      "6m": 130.3,
-      "12m": 136.6,
-      "24m": 152.8
+      "6m": 137.6,
+      "12m": 144.2,
+      "24m": 161.4
     }
   },
   {
@@ -1088,33 +1100,33 @@ export const forecastScenarios = [
     "weight": 0.25,
     "color": "#ff6b6b",
     "forecasts": {
-      "6m": 130.3,
-      "12m": 130.8,
-      "24m": 133.1
+      "6m": 137.6,
+      "12m": 138.1,
+      "24m": 140.5
     }
   }
 ];
 
 export const ensembleForecasts = {
-  "6m": 130.3,
-  "12m": 134.2,
-  "24m": 146.0
+  "6m": 137.6,
+  "12m": 141.7,
+  "24m": 154.1
 };
 export const ensembleConfidenceBounds = {
   "6m": {
-    "p10": 129.2,
-    "p50": 130.4,
-    "p90": 131.6
+    "p10": 136.3,
+    "p50": 137.6,
+    "p90": 138.8
   },
   "12m": {
-    "p10": 130.7,
-    "p50": 134.0,
-    "p90": 137.4
+    "p10": 138.3,
+    "p50": 141.6,
+    "p90": 145.1
   },
   "24m": {
-    "p10": 136.7,
-    "p50": 145.8,
-    "p90": 155.7
+    "p10": 144.0,
+    "p50": 154.3,
+    "p90": 164.3
   }
 };
 

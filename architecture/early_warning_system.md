@@ -3,6 +3,8 @@
 > **Version**: 0.1.0  
 > **Last Updated**: 2026-06-11  
 > **Depends on**: `architecture/market_framework.md`, `architecture/market_segmentation.md`  
+
+> **Implementation note (2026):** This is the conceptual architecture document. The production implementation is in `server/cph_housing_server.py` and currently evaluates EWI-1 through EWI-9. `docs/model_governance.md` is normative for output semantics, payload freshness and ML publication rules; older examples in this document are not a claim that every proposed control is deployed.
 > **MCP Server**: `CphHousingModel`
 
 ---

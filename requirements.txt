@@ -8,3 +8,4 @@ python-dateutil
 curl_cffi
 pydantic
 python-dotenv
+pytest>=8,<9

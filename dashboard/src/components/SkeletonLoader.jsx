@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function SkeletonLoader() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '20px 0' }}>

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function OnboardingModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 

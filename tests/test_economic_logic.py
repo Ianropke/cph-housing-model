@@ -17,6 +17,7 @@ Tests:
 import sys
 import math
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, "../server")
 
@@ -213,6 +214,25 @@ class TestCreditShockNoDoubleCounting(unittest.TestCase):
 class TestCompositeEWI(unittest.TestCase):
     """Verify EWI composite score is correctly bounded."""
 
+    def setUp(self):
+        self.macro_patch = patch("dst_macro.fetch_dst_macro_data")
+        self.mock_fetch = self.macro_patch.start()
+        rent_series = {
+            period: 120.0
+            for period in DST_EJ56_DATA["segments"]["copenhagen_apartments"]["series"]
+        }
+        self.mock_fetch.return_value = {
+            "unemployment_rate": 0.035,
+            "rent_index": 120.0,
+            "rent_series": rent_series,
+            "disposable_income_cph": 400000.0,
+            "disposable_income_frb": 400000.0,
+            "interest_rate": 0.03,
+        }
+
+    def tearDown(self):
+        self.macro_patch.stop()
+
     def test_composite_score_within_bounds(self):
         for segment in ["copenhagen_apartments", "copenhagen_houses", "frederiksberg_apartments"]:
             result = check_early_warnings(segment)
@@ -379,14 +399,15 @@ class TestEWSArbejdsloshed(unittest.TestCase):
 
 class TestMachineLearningCrashModel(unittest.TestCase):
     @patch('dst_macro.fetch_dst_macro_data')
-    def test_ml_crash_probability_execution(self, mock_fetch):
-        # Test that ml_crash_probability is calculated and returned
+    def test_unvalidated_ml_probability_is_not_published(self, mock_fetch):
+        # The former checked-in model was trained on synthetic feature rows.
+        # Until a point-in-time, out-of-sample gate passes, no percentage may
+        # be presented as a production crash probability.
         mock_fetch.return_value = {'unemployment_rate': 0.035, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
         res = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
         self.assertIn('ml_crash_probability', res)
-        self.assertIsInstance(res['ml_crash_probability'], float)
-        self.assertGreaterEqual(res['ml_crash_probability'], 0.0)
-        self.assertLessEqual(res['ml_crash_probability'], 1.0)
+        self.assertIsNone(res['ml_crash_probability'])
+        self.assertEqual(res['ml_model_status'], 'UNAVAILABLE_UNVALIDATED_MODEL')
 
 if __name__ == '__main__':
     unittest.main()

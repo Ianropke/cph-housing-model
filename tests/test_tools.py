@@ -101,8 +101,8 @@ print("  TEST 2: Fetch DST Housing Data (EJ56)")
 print("█"*70)
 
 # Fetch all segments, last 2 years
-data = fetch_dst_housing_data(table="EJ56", start_period="2024Q1")
-pp("DST EJ56 — All segments from 2024Q1", data)
+live_housing_data = fetch_dst_housing_data(table="EJ56", start_period="2024Q1")
+pp("DST EJ56 — All segments from 2024Q1", live_housing_data)
 
 # Fetch single segment
 data_cph = fetch_dst_housing_data(
@@ -122,7 +122,7 @@ print("  TEST 3: Early Warning System Check")
 print("█"*70)
 
 for segment in ["copenhagen_apartments", "copenhagen_houses", "frederiksberg_apartments"]:
-    ewi = check_early_warnings(segment=segment)
+    ewi = check_early_warnings(segment=segment, dst_data=live_housing_data)
     pp(f"EWI Status — {segment}", ewi)
 
 
@@ -135,7 +135,7 @@ print("  TEST 4: Forecast Ensemble (6m, 12m, 24m)")
 print("█"*70)
 
 for segment in ["copenhagen_apartments", "copenhagen_houses"]:
-    forecast = run_forecast_ensemble(segment=segment, horizons=[6, 12, 24])
+    forecast = run_forecast_ensemble(segment=segment, horizons=[6, 12, 24], dst_data=live_housing_data)
     pp(f"Forecast Ensemble — {segment}", forecast)
 
 

@@ -1,11 +1,12 @@
 {
-  "generated_at": "2026-08-12T04:46:35.807537",
+  "schema_version": 1,
+  "generated_at": "2026-08-12T17:34:14.106491",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-07-29",
-    "query_timestamp": "2026-08-12T04:47:20.390080",
+    "query_timestamp": "2026-08-12T17:34:35.188023",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -294,15 +295,18 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-08-12T04:47:52.131152",
-      "ml_crash_probability": 0.6,
+      "evaluation_timestamp": "2026-08-12T17:34:35.939930",
+      "data_source": "Danmarks Statistik",
+      "data_observation_period": "2026Q1",
+      "ml_crash_probability": null,
+      "ml_model_status": "UNAVAILABLE_UNVALIDATED_MODEL",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
-          "price_growth_yoy": 20.41,
+          "price_growth_yoy": 21.24,
           "wage_growth_yoy": 3.5,
-          "spread_pp": 16.91,
-          "detail": "Price growth 20.4% vs wage growth 3.5% (YoY (Udvidet))",
+          "spread_pp": 17.74,
+          "detail": "Price growth 21.2% vs wage growth 3.5% (YoY (Udvidet))",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -324,26 +328,26 @@
           "modes": {
             "yoy_original": {
               "level": "RED",
-              "spread_pp": 16.91,
-              "price_growth": 20.41,
+              "spread_pp": 17.74,
+              "price_growth": 21.24,
               "baseline": "<3pp"
             },
             "yoy_expanded": {
               "level": "RED",
-              "spread_pp": 16.91,
-              "price_growth": 20.41,
+              "spread_pp": 17.74,
+              "price_growth": 21.24,
               "baseline": "<4pp (AMBER) / <7pp (RED)"
             },
             "structural_3y": {
-              "level": "AMBER",
-              "spread_pp": 3.24,
-              "price_growth": 6.74,
+              "level": "RED",
+              "spread_pp": 5.61,
+              "price_growth": 9.11,
               "baseline": "<3pp (AMBER) / <5pp (RED)"
             },
             "structural_5y": {
               "level": "AMBER",
-              "spread_pp": 3.47,
-              "price_growth": 6.97,
+              "spread_pp": 3.83,
+              "price_growth": 7.33,
               "baseline": "<3pp (AMBER) / <5pp (RED)"
             }
           }
@@ -366,10 +370,10 @@
         },
         "EWI-3_volume_price_divergence": {
           "level": "RED",
-          "price_yoy_pct": 20.41,
+          "price_yoy_pct": 21.24,
           "volume_yoy_pct": -23.9,
           "divergence": true,
-          "detail": "Price YoY: +20.4%, Volume YoY: -23.9%",
+          "detail": "Price YoY: +21.2%, Volume YoY: -23.9%",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -391,9 +395,9 @@
         },
         "EWI-4_price_reductions": {
           "level": "AMBER",
-          "reduction_rate_pct": 30.8,
+          "reduction_rate_pct": 30.5,
           "avg_reduction_magnitude_pct": 5.1,
-          "detail": "31% of listings reduced, avg 5.1%",
+          "detail": "30% of listings reduced, avg 5.1%",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -424,9 +428,9 @@
         },
         "EWI-6_price_to_rent": {
           "level": "AMBER",
-          "price_to_rent_ratio": 1.14,
-          "baseline_mean": 0.995,
-          "detail": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+          "price_to_rent_ratio": 1.204,
+          "baseline_mean": 1.02,
+          "detail": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -463,9 +467,9 @@
         },
         "EWI-8_dsr": {
           "level": "AMBER",
-          "dsr_ratio": 0.359,
-          "dsr_pct": 35.9,
-          "detail": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+          "dsr_ratio": 0.379,
+          "dsr_pct": 37.9,
+          "detail": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
           "data_sources": [
             {
               "key": "dst_indkp107",
@@ -601,10 +605,10 @@
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+16.91pp",
+              "value": "+17.74pp",
               "baseline": "<3pp",
               "status": "RED",
-              "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Original))",
+              "description": "Price growth 21.2% vs wage growth 3.5% (YoY (Original))",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -624,17 +628,17 @@
               "value": "Vol -24%",
               "baseline": "AMBER at -10%",
               "status": "RED",
-              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+              "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "31%",
+              "value": "30%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "31% of listings reduced, avg 5.1%",
+              "description": "30% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -651,10 +655,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.140",
+              "value": "1.204",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+              "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -671,10 +675,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "35.9%",
+              "value": "37.9%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -697,7 +701,7 @@
               "score": 10,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 33.6,
                 "avg_data_freshness": 0.86
@@ -804,347 +808,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.6,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.6
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "yoy_expanded": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+16.91pp",
+              "value": "+17.74pp",
               "baseline": "<4pp",
               "status": "RED",
-              "description": "Price growth 20.4% vs wage growth 3.5% (YoY (Udvidet))",
+              "description": "Price growth 21.2% vs wage growth 3.5% (YoY (Udvidet))",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -1164,17 +840,17 @@
               "value": "Vol -24%",
               "baseline": "AMBER at -10%",
               "status": "RED",
-              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+              "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "31%",
+              "value": "30%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "31% of listings reduced, avg 5.1%",
+              "description": "30% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -1191,10 +867,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.140",
+              "value": "1.204",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+              "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -1211,10 +887,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "35.9%",
+              "value": "37.9%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -1237,7 +913,7 @@
               "score": 10,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 33.6,
                 "avg_data_freshness": 0.86
@@ -1344,347 +1020,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.6,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.6
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "structural_3y": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+3.24pp",
+              "value": "+5.61pp",
               "baseline": "<3pp",
-              "status": "AMBER",
-              "description": "Price growth 6.7% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
+              "status": "RED",
+              "description": "Price growth 9.1% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -1704,17 +1052,17 @@
               "value": "Vol -24%",
               "baseline": "AMBER at -10%",
               "status": "RED",
-              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+              "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "31%",
+              "value": "30%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "31% of listings reduced, avg 5.1%",
+              "description": "30% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -1731,10 +1079,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.140",
+              "value": "1.204",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+              "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -1751,10 +1099,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "35.9%",
+              "value": "37.9%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -1769,27 +1117,27 @@
               "last_updated": "2026-07-30"
             }
           ],
-          "compositeScore": 7.7,
-          "freshnessWeightedComposite": 6.7,
-          "alertLevel": "ELEVATED",
+          "compositeScore": 10.5,
+          "freshnessWeightedComposite": 8.9,
+          "alertLevel": "HIGH",
           "maxRiskIndex": {
             "6m": {
-              "score": 7,
+              "score": 10,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 24.7,
+                "ewi_contribution": 33.6,
                 "avg_data_freshness": 0.86
               }
             },
             "12m": {
-              "score": 7,
+              "score": 10,
               "label": "LAV",
               "components": {
                 "mc_downside": 0,
                 "max_risk_severity_pct": 0,
-                "ewi_contribution": 24.7,
+                "ewi_contribution": 33.6,
                 "avg_data_freshness": 0.86
               }
             }
@@ -1884,347 +1232,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.61,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.61
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "structural_5y": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+3.47pp",
+              "value": "+3.83pp",
               "baseline": "<3pp",
               "status": "AMBER",
-              "description": "Price growth 7.0% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
+              "description": "Price growth 7.3% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -2244,17 +1264,17 @@
               "value": "Vol -24%",
               "baseline": "AMBER at -10%",
               "status": "RED",
-              "description": "Price YoY: +20.4%, Volume YoY: -23.9%",
+              "description": "Price YoY: +21.2%, Volume YoY: -23.9%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "31%",
+              "value": "30%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "31% of listings reduced, avg 5.1%",
+              "description": "30% of listings reduced, avg 5.1%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -2271,10 +1291,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.140",
+              "value": "1.204",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.140 (Rullende \u03bc: 0.995, \u03c3: 0.079, AMBER >1.114)",
+              "description": "Price-to-rent ratio er 1.204 (Rullende \u03bc: 1.020, \u03c3: 0.093, AMBER >1.160)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -2291,10 +1311,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "35.9%",
+              "value": "37.9%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 35.9% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 37.9% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -2314,10 +1334,10 @@
           "alertLevel": "ELEVATED",
           "maxRiskIndex": {
             "6m": {
-              "score": 7,
+              "score": 8,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 24.7,
                 "avg_data_freshness": 0.86
@@ -2424,351 +1444,26 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.61,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.07
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.61
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         }
       }
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-08-12T04:47:54.350552",
-      "ml_crash_probability": 0.57,
+      "evaluation_timestamp": "2026-08-12T17:34:35.942226",
+      "data_source": "Danmarks Statistik",
+      "data_observation_period": "2026Q1",
+      "ml_crash_probability": null,
+      "ml_model_status": "UNAVAILABLE_UNVALIDATED_MODEL",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
-          "price_growth_yoy": 13.83,
+          "price_growth_yoy": 11.7,
           "wage_growth_yoy": 3.5,
-          "spread_pp": 10.33,
-          "detail": "Price growth 13.8% vs wage growth 3.5% (YoY (Udvidet))",
+          "spread_pp": 8.2,
+          "detail": "Price growth 11.7% vs wage growth 3.5% (YoY (Udvidet))",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -2790,26 +1485,26 @@
           "modes": {
             "yoy_original": {
               "level": "RED",
-              "spread_pp": 10.33,
-              "price_growth": 13.83,
+              "spread_pp": 8.2,
+              "price_growth": 11.7,
               "baseline": "<3pp"
             },
             "yoy_expanded": {
               "level": "RED",
-              "spread_pp": 10.33,
-              "price_growth": 13.83,
+              "spread_pp": 8.2,
+              "price_growth": 11.7,
               "baseline": "<4pp (AMBER) / <7pp (RED)"
             },
             "structural_3y": {
               "level": "GREEN",
-              "spread_pp": 0.56,
-              "price_growth": 4.06,
+              "spread_pp": 2.29,
+              "price_growth": 5.79,
               "baseline": "<3pp (AMBER) / <5pp (RED)"
             },
             "structural_5y": {
               "level": "GREEN",
-              "spread_pp": 2.52,
-              "price_growth": 6.02,
+              "spread_pp": 2.26,
+              "price_growth": 5.76,
               "baseline": "<3pp (AMBER) / <5pp (RED)"
             }
           }
@@ -2832,10 +1527,10 @@
         },
         "EWI-3_volume_price_divergence": {
           "level": "GREEN",
-          "price_yoy_pct": 13.83,
+          "price_yoy_pct": 11.7,
           "volume_yoy_pct": -5.41,
           "divergence": false,
-          "detail": "Price YoY: +13.8%, Volume YoY: -5.4%",
+          "detail": "Price YoY: +11.7%, Volume YoY: -5.4%",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -2857,9 +1552,9 @@
         },
         "EWI-4_price_reductions": {
           "level": "AMBER",
-          "reduction_rate_pct": 32.7,
+          "reduction_rate_pct": 32.4,
           "avg_reduction_magnitude_pct": 5.7,
-          "detail": "33% of listings reduced, avg 5.7%",
+          "detail": "32% of listings reduced, avg 5.7%",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -2890,9 +1585,9 @@
         },
         "EWI-6_price_to_rent": {
           "level": "AMBER",
-          "price_to_rent_ratio": 1.046,
-          "baseline_mean": 0.959,
-          "detail": "Price-to-rent ratio er 1.046 (Rullende \u03bc: 0.959, \u03c3: 0.048, AMBER >1.032)",
+          "price_to_rent_ratio": 1.053,
+          "baseline_mean": 0.972,
+          "detail": "Price-to-rent ratio er 1.053 (Rullende \u03bc: 0.972, \u03c3: 0.050, AMBER >1.047)",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -2929,9 +1624,9 @@
         },
         "EWI-8_dsr": {
           "level": "AMBER",
-          "dsr_ratio": 0.344,
-          "dsr_pct": 34.4,
-          "detail": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
+          "dsr_ratio": 0.346,
+          "dsr_pct": 34.6,
+          "detail": "Debt-Servicing Ratio (DSR) er 34.6% (AMBER 30-40%, RED >40%)",
           "data_sources": [
             {
               "key": "dst_indkp107",
@@ -3067,10 +1762,10 @@
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+10.33pp",
+              "value": "+8.20pp",
               "baseline": "<3pp",
               "status": "RED",
-              "description": "Price growth 13.8% vs wage growth 3.5% (YoY (Original))",
+              "description": "Price growth 11.7% vs wage growth 3.5% (YoY (Original))",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -3090,17 +1785,17 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
+              "description": "Price YoY: +11.7%, Volume YoY: -5.4%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "33%",
+              "value": "32%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "33% of listings reduced, avg 5.7%",
+              "description": "32% of listings reduced, avg 5.7%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -3117,10 +1812,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.046",
+              "value": "1.053",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.046 (Rullende \u03bc: 0.959, \u03c3: 0.048, AMBER >1.032)",
+              "description": "Price-to-rent ratio er 1.053 (Rullende \u03bc: 0.972, \u03c3: 0.050, AMBER >1.047)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -3137,10 +1832,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "34.4%",
+              "value": "34.6%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 34.6% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -3270,347 +1965,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.57,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.57
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "yoy_expanded": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+10.33pp",
+              "value": "+8.20pp",
               "baseline": "<4pp",
               "status": "RED",
-              "description": "Price growth 13.8% vs wage growth 3.5% (YoY (Udvidet))",
+              "description": "Price growth 11.7% vs wage growth 3.5% (YoY (Udvidet))",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -3630,17 +1997,17 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
+              "description": "Price YoY: +11.7%, Volume YoY: -5.4%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "33%",
+              "value": "32%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "33% of listings reduced, avg 5.7%",
+              "description": "32% of listings reduced, avg 5.7%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -3657,10 +2024,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.046",
+              "value": "1.053",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.046 (Rullende \u03bc: 0.959, \u03c3: 0.048, AMBER >1.032)",
+              "description": "Price-to-rent ratio er 1.053 (Rullende \u03bc: 0.972, \u03c3: 0.050, AMBER >1.047)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -3677,10 +2044,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "34.4%",
+              "value": "34.6%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 34.6% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -3810,347 +2177,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.57,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.57
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "structural_3y": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+0.56pp",
+              "value": "+2.29pp",
               "baseline": "<3pp",
               "status": "GREEN",
-              "description": "Price growth 4.1% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
+              "description": "Price growth 5.8% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -4170,17 +2209,17 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
+              "description": "Price YoY: +11.7%, Volume YoY: -5.4%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "33%",
+              "value": "32%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "33% of listings reduced, avg 5.7%",
+              "description": "32% of listings reduced, avg 5.7%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -4197,10 +2236,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.046",
+              "value": "1.053",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.046 (Rullende \u03bc: 0.959, \u03c3: 0.048, AMBER >1.032)",
+              "description": "Price-to-rent ratio er 1.053 (Rullende \u03bc: 0.972, \u03c3: 0.050, AMBER >1.047)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -4217,10 +2256,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "34.4%",
+              "value": "34.6%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 34.6% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -4350,347 +2389,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.41,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.41
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "structural_5y": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+2.52pp",
+              "value": "+2.26pp",
               "baseline": "<3pp",
               "status": "GREEN",
-              "description": "Price growth 6.0% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
+              "description": "Price growth 5.8% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -4710,17 +2421,17 @@
               "value": "Vol -5%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +13.8%, Volume YoY: -5.4%",
+              "description": "Price YoY: +11.7%, Volume YoY: -5.4%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "33%",
+              "value": "32%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "33% of listings reduced, avg 5.7%",
+              "description": "32% of listings reduced, avg 5.7%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -4737,10 +2448,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.046",
+              "value": "1.053",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.046 (Rullende \u03bc: 0.959, \u03c3: 0.048, AMBER >1.032)",
+              "description": "Price-to-rent ratio er 1.053 (Rullende \u03bc: 0.972, \u03c3: 0.050, AMBER >1.047)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -4757,10 +2468,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "34.4%",
+              "value": "34.6%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 34.4% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 34.6% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -4890,351 +2601,26 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.43,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.17
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.43
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         }
       }
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-08-12T04:47:56.572933",
-      "ml_crash_probability": 0.36,
+      "evaluation_timestamp": "2026-08-12T17:34:35.944200",
+      "data_source": "Danmarks Statistik",
+      "data_observation_period": "2026Q1",
+      "ml_crash_probability": null,
+      "ml_model_status": "UNAVAILABLE_UNVALIDATED_MODEL",
       "indicators": {
         "EWI-1_price_vs_wages": {
           "level": "RED",
-          "price_growth_yoy": 11.15,
+          "price_growth_yoy": 15.84,
           "wage_growth_yoy": 3.5,
-          "spread_pp": 7.65,
-          "detail": "Price growth 11.2% vs wage growth 3.5% (YoY (Udvidet))",
+          "spread_pp": 12.34,
+          "detail": "Price growth 15.8% vs wage growth 3.5% (YoY (Udvidet))",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -5256,26 +2642,26 @@
           "modes": {
             "yoy_original": {
               "level": "RED",
-              "spread_pp": 7.65,
-              "price_growth": 11.15,
+              "spread_pp": 12.34,
+              "price_growth": 15.84,
               "baseline": "<3pp"
             },
             "yoy_expanded": {
               "level": "RED",
-              "spread_pp": 7.65,
-              "price_growth": 11.15,
+              "spread_pp": 12.34,
+              "price_growth": 15.84,
               "baseline": "<4pp (AMBER) / <7pp (RED)"
             },
             "structural_3y": {
               "level": "GREEN",
-              "spread_pp": -0.16,
-              "price_growth": 3.34,
+              "spread_pp": 1.94,
+              "price_growth": 5.44,
               "baseline": "<3pp (AMBER) / <5pp (RED)"
             },
             "structural_5y": {
               "level": "GREEN",
-              "spread_pp": 1.32,
-              "price_growth": 4.82,
+              "spread_pp": 1.63,
+              "price_growth": 5.13,
               "baseline": "<3pp (AMBER) / <5pp (RED)"
             }
           }
@@ -5298,10 +2684,10 @@
         },
         "EWI-3_volume_price_divergence": {
           "level": "GREEN",
-          "price_yoy_pct": 11.15,
+          "price_yoy_pct": 15.84,
           "volume_yoy_pct": -8.33,
           "divergence": false,
-          "detail": "Price YoY: +11.2%, Volume YoY: -8.3%",
+          "detail": "Price YoY: +15.8%, Volume YoY: -8.3%",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -5323,9 +2709,9 @@
         },
         "EWI-4_price_reductions": {
           "level": "AMBER",
-          "reduction_rate_pct": 35.7,
+          "reduction_rate_pct": 35.4,
           "avg_reduction_magnitude_pct": 4.5,
-          "detail": "36% of listings reduced, avg 4.5%",
+          "detail": "35% of listings reduced, avg 4.5%",
           "data_sources": [
             {
               "key": "rkr_udb010",
@@ -5356,9 +2742,9 @@
         },
         "EWI-6_price_to_rent": {
           "level": "AMBER",
-          "price_to_rent_ratio": 1.011,
-          "baseline_mean": 0.948,
-          "detail": "Price-to-rent ratio er 1.011 (Rullende \u03bc: 0.948, \u03c3: 0.042, AMBER >1.011)",
+          "price_to_rent_ratio": 1.078,
+          "baseline_mean": 0.965,
+          "detail": "Price-to-rent ratio er 1.078 (Rullende \u03bc: 0.965, \u03c3: 0.050, AMBER >1.040)",
           "data_sources": [
             {
               "key": "dst_ej56",
@@ -5395,9 +2781,9 @@
         },
         "EWI-8_dsr": {
           "level": "AMBER",
-          "dsr_ratio": 0.335,
-          "dsr_pct": 33.5,
-          "detail": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
+          "dsr_ratio": 0.357,
+          "dsr_pct": 35.7,
+          "detail": "Debt-Servicing Ratio (DSR) er 35.7% (AMBER 30-40%, RED >40%)",
           "data_sources": [
             {
               "key": "dst_indkp107",
@@ -5533,10 +2919,10 @@
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+7.65pp",
+              "value": "+12.34pp",
               "baseline": "<3pp",
               "status": "RED",
-              "description": "Price growth 11.2% vs wage growth 3.5% (YoY (Original))",
+              "description": "Price growth 15.8% vs wage growth 3.5% (YoY (Original))",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -5556,17 +2942,17 @@
               "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
+              "description": "Price YoY: +15.8%, Volume YoY: -8.3%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "36%",
+              "value": "35%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "36% of listings reduced, avg 4.5%",
+              "description": "35% of listings reduced, avg 4.5%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -5583,10 +2969,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.011",
+              "value": "1.078",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.011 (Rullende \u03bc: 0.948, \u03c3: 0.042, AMBER >1.011)",
+              "description": "Price-to-rent ratio er 1.078 (Rullende \u03bc: 0.965, \u03c3: 0.050, AMBER >1.040)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -5603,10 +2989,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "33.5%",
+              "value": "35.7%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 35.7% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -5629,7 +3015,7 @@
               "score": 9,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 29.8,
                 "avg_data_freshness": 0.86
@@ -5736,347 +3122,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.36,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.36
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "yoy_expanded": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+7.65pp",
+              "value": "+12.34pp",
               "baseline": "<4pp",
               "status": "RED",
-              "description": "Price growth 11.2% vs wage growth 3.5% (YoY (Udvidet))",
+              "description": "Price growth 15.8% vs wage growth 3.5% (YoY (Udvidet))",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -6096,17 +3154,17 @@
               "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
+              "description": "Price YoY: +15.8%, Volume YoY: -8.3%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "36%",
+              "value": "35%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "36% of listings reduced, avg 4.5%",
+              "description": "35% of listings reduced, avg 4.5%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -6123,10 +3181,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.011",
+              "value": "1.078",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.011 (Rullende \u03bc: 0.948, \u03c3: 0.042, AMBER >1.011)",
+              "description": "Price-to-rent ratio er 1.078 (Rullende \u03bc: 0.965, \u03c3: 0.050, AMBER >1.040)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -6143,10 +3201,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "33.5%",
+              "value": "35.7%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 35.7% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -6169,7 +3227,7 @@
               "score": 9,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 29.8,
                 "avg_data_freshness": 0.86
@@ -6276,347 +3334,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.36,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.36
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "structural_3y": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+-0.16pp",
+              "value": "+1.94pp",
               "baseline": "<3pp",
               "status": "GREEN",
-              "description": "Price growth 3.3% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
+              "description": "Price growth 5.4% vs wage growth 3.5% (3-\u00e5rs gl. gennemsnit)",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -6636,17 +3366,17 @@
               "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
+              "description": "Price YoY: +15.8%, Volume YoY: -8.3%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "36%",
+              "value": "35%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "36% of listings reduced, avg 4.5%",
+              "description": "35% of listings reduced, avg 4.5%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -6663,10 +3393,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.011",
+              "value": "1.078",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.011 (Rullende \u03bc: 0.948, \u03c3: 0.042, AMBER >1.011)",
+              "description": "Price-to-rent ratio er 1.078 (Rullende \u03bc: 0.965, \u03c3: 0.050, AMBER >1.040)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -6683,10 +3413,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "33.5%",
+              "value": "35.7%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 35.7% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -6709,7 +3439,7 @@
               "score": 5,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 16.3,
                 "avg_data_freshness": 0.86
@@ -6816,347 +3546,19 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.19,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.19
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         },
         "structural_5y": {
           "earlyWarningIndicators": [
             {
               "id": "EWI-1",
               "name": "Price vs. Wages",
-              "value": "+1.32pp",
+              "value": "+1.63pp",
               "baseline": "<3pp",
               "status": "GREEN",
-              "description": "Price growth 4.8% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
+              "description": "Price growth 5.1% vs wage growth 3.5% (5-\u00e5rs gl. gennemsnit)",
               "freshness_weight": 0.798,
               "last_updated": "2026-07-29"
             },
@@ -7176,17 +3578,17 @@
               "value": "Vol -8%",
               "baseline": "AMBER at -10%",
               "status": "GREEN",
-              "description": "Price YoY: +11.2%, Volume YoY: -8.3%",
+              "description": "Price YoY: +15.8%, Volume YoY: -8.3%",
               "freshness_weight": 0.961,
               "last_updated": "2026-08-12"
             },
             {
               "id": "EWI-4",
               "name": "Price Reductions",
-              "value": "36%",
+              "value": "35%",
               "baseline": "AMBER at >30%",
               "status": "AMBER",
-              "description": "36% of listings reduced, avg 4.5%",
+              "description": "35% of listings reduced, avg 4.5%",
               "freshness_weight": 1.0,
               "last_updated": "2026-08-12"
             },
@@ -7203,10 +3605,10 @@
             {
               "id": "EWI-6",
               "name": "Price-to-Rent Ratio",
-              "value": "1.011",
+              "value": "1.078",
               "baseline": "Dynamisk Z-score",
               "status": "AMBER",
-              "description": "Price-to-rent ratio er 1.011 (Rullende \u03bc: 0.948, \u03c3: 0.042, AMBER >1.011)",
+              "description": "Price-to-rent ratio er 1.078 (Rullende \u03bc: 0.965, \u03c3: 0.050, AMBER >1.040)",
               "freshness_weight": 0.87,
               "last_updated": "2026-07-29"
             },
@@ -7223,10 +3625,10 @@
             {
               "id": "EWI-8",
               "name": "Debt-Servicing Ratio (DSR)",
-              "value": "33.5%",
+              "value": "35.7%",
               "baseline": "<30%",
               "status": "AMBER",
-              "description": "Debt-Servicing Ratio (DSR) er 33.5% (AMBER 30-40%, RED >40%)",
+              "description": "Debt-Servicing Ratio (DSR) er 35.7% (AMBER 30-40%, RED >40%)",
               "freshness_weight": 0.759,
               "last_updated": "2026-08-03"
             },
@@ -7249,7 +3651,7 @@
               "score": 5,
               "label": "LAV",
               "components": {
-                "mc_downside": 0,
+                "mc_downside": 0.1,
                 "max_risk_severity_pct": 0,
                 "ewi_contribution": 16.3,
                 "avg_data_freshness": 0.86
@@ -7356,337 +3758,9 @@
               "next_expected_update": "2026-12-01"
             }
           },
-          "mlCrashProbability": 0.19,
-          "mlProbabilityHistory": [
-            {
-              "quarter": "2006Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2006Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2007Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2007Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2007Q3",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2007Q4",
-              "probability": 0.2
-            },
-            {
-              "quarter": "2008Q1",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2008Q2",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2008Q4",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q1",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q2",
-              "probability": 0.23
-            },
-            {
-              "quarter": "2009Q3",
-              "probability": 0.22
-            },
-            {
-              "quarter": "2009Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2010Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2010Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2010Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2011Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2011Q4",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2012Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2012Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2012Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2013Q2",
-              "probability": 0.07
-            },
-            {
-              "quarter": "2013Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2013Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2014Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2014Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2014Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2014Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2015Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2015Q3",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2015Q4",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q1",
-              "probability": 0.08
-            },
-            {
-              "quarter": "2016Q2",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2016Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2016Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2017Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2017Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q3",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2017Q4",
-              "probability": 0.12
-            },
-            {
-              "quarter": "2018Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2018Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2018Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2018Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2019Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2020Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2021Q1",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2021Q3",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2021Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2022Q1",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q2",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2022Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2022Q4",
-              "probability": 0.03
-            },
-            {
-              "quarter": "2023Q1",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2023Q2",
-              "probability": 0.06
-            },
-            {
-              "quarter": "2023Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2023Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2024Q2",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q3",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2024Q4",
-              "probability": 0.04
-            },
-            {
-              "quarter": "2025Q1",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q2",
-              "probability": 0.09
-            },
-            {
-              "quarter": "2025Q3",
-              "probability": 0.05
-            },
-            {
-              "quarter": "2025Q4",
-              "probability": 0.11
-            },
-            {
-              "quarter": "2026Q1",
-              "probability": 0.06
-            },
-            {
-              "quarter": "Current",
-              "probability": 0.19
-            }
-          ]
+          "mlCrashProbability": null,
+          "mlModelStatus": "UNAVAILABLE_UNVALIDATED_MODEL",
+          "mlProbabilityHistory": []
         }
       }
     }
@@ -7694,64 +3768,66 @@
   "forecasts": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "current_period": "2025Q4",
-      "current_index": 129.2,
-      "forecast_date": "2026-08-12T04:47:20.399959",
+      "current_period": "2026Q1",
+      "current_index": 136.4,
+      "data_source": "Danmarks Statistik",
+      "data_observation_period": "2026Q1",
+      "forecast_date": "2026-08-12T17:34:35.201026",
       "horizons": {
         "6m": {
           "scenarios": {
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 130.3,
+              "forecast_index": 137.6,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.039,
-              "user_cost_rate": 0.06067,
+              "user_cost_rate": 0.06069,
               "user_cost_pct": 6.07,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 15300.0
+              "ref_user_cost_monthly_dkk": 15306.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 130.3,
+              "forecast_index": 137.6,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.035,
-              "user_cost_rate": 0.05779,
+              "user_cost_rate": 0.05781,
               "user_cost_pct": 5.78,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 14574.0
+              "ref_user_cost_monthly_dkk": 14580.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 130.3,
+              "forecast_index": 137.6,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.05,
-              "user_cost_rate": 0.07259,
+              "user_cost_rate": 0.07261,
               "user_cost_pct": 7.26,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 18307.0
+              "ref_user_cost_monthly_dkk": 18312.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 130.3,
+            "probability_weighted_index": 137.6,
             "probability_weighted_change_pct": 0.88,
-            "probability_weighted_user_cost_rate": 0.06307,
+            "probability_weighted_user_cost_rate": 0.06309,
             "index_range": [
-              130.3,
-              130.3
+              137.6,
+              137.6
             ],
             "confidence_bounds": {
-              "p10": 129.2,
-              "p50": 130.4,
-              "p90": 131.6
+              "p10": 136.3,
+              "p50": 137.6,
+              "p90": 138.8
             }
           }
         },
@@ -7760,55 +3836,55 @@
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 134.9,
+              "forecast_index": 142.4,
               "price_change_pct": 4.4,
               "annualised_return_pct": 4.4,
               "mortgage_rate": 0.037,
-              "user_cost_rate": 0.05924,
-              "user_cost_pct": 5.92,
+              "user_cost_rate": 0.05927,
+              "user_cost_pct": 5.93,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3132000.0,
-              "ref_user_cost_monthly_dkk": 15463.0
+              "ref_user_cost_monthly_dkk": 15469.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 136.6,
+              "forecast_index": 144.2,
               "price_change_pct": 5.75,
               "annualised_return_pct": 5.75,
               "mortgage_rate": 0.03,
-              "user_cost_rate": 0.05421,
+              "user_cost_rate": 0.05423,
               "user_cost_pct": 5.42,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3172500.0,
-              "ref_user_cost_monthly_dkk": 14332.0
+              "ref_user_cost_monthly_dkk": 14338.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 130.8,
+              "forecast_index": 138.1,
               "price_change_pct": 1.25,
               "annualised_return_pct": 1.25,
               "mortgage_rate": 0.055,
-              "user_cost_rate": 0.07659,
+              "user_cost_rate": 0.07661,
               "user_cost_pct": 7.66,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3037500.0,
-              "ref_user_cost_monthly_dkk": 19387.0
+              "ref_user_cost_monthly_dkk": 19393.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 134.2,
+            "probability_weighted_index": 141.7,
             "probability_weighted_change_pct": 3.88,
-            "probability_weighted_user_cost_rate": 0.06257,
+            "probability_weighted_user_cost_rate": 0.0626,
             "index_range": [
-              130.8,
-              136.6
+              138.1,
+              144.2
             ],
             "confidence_bounds": {
-              "p10": 130.7,
-              "p50": 134.0,
-              "p90": 137.4
+              "p10": 138.3,
+              "p50": 141.6,
+              "p90": 145.1
             }
           }
         },
@@ -7817,55 +3893,55 @@
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 149.4,
+              "forecast_index": 157.7,
               "price_change_pct": 15.6,
               "annualised_return_pct": 7.8,
               "mortgage_rate": 0.035,
-              "user_cost_rate": 0.05785,
-              "user_cost_pct": 5.78,
+              "user_cost_rate": 0.05787,
+              "user_cost_pct": 5.79,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3468000.0,
-              "ref_user_cost_monthly_dkk": 16718.0
+              "ref_user_cost_monthly_dkk": 16725.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 152.8,
+              "forecast_index": 161.4,
               "price_change_pct": 18.3,
               "annualised_return_pct": 9.15,
               "mortgage_rate": 0.028,
-              "user_cost_rate": 0.05282,
+              "user_cost_rate": 0.05284,
               "user_cost_pct": 5.28,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3549000.0,
-              "ref_user_cost_monthly_dkk": 15621.0
+              "ref_user_cost_monthly_dkk": 15629.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 133.1,
+              "forecast_index": 140.5,
               "price_change_pct": 3.0,
               "annualised_return_pct": 1.5,
               "mortgage_rate": 0.06,
-              "user_cost_rate": 0.0806,
+              "user_cost_rate": 0.08062,
               "user_cost_pct": 8.06,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3090000.0,
-              "ref_user_cost_monthly_dkk": 20754.0
+              "ref_user_cost_monthly_dkk": 20760.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 146.0,
+            "probability_weighted_index": 154.1,
             "probability_weighted_change_pct": 12.99,
-            "probability_weighted_user_cost_rate": 0.06253,
+            "probability_weighted_user_cost_rate": 0.06255,
             "index_range": [
-              133.1,
-              152.8
+              140.5,
+              161.4
             ],
             "confidence_bounds": {
-              "p10": 136.7,
-              "p50": 145.8,
-              "p90": 155.7
+              "p10": 144.0,
+              "p50": 154.3,
+              "p90": 164.3
             }
           }
         }
@@ -7873,16 +3949,18 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "current_period": "2025Q4",
-      "current_index": 118.5,
-      "forecast_date": "2026-08-12T04:47:20.409883",
+      "current_period": "2026Q1",
+      "current_index": 119.3,
+      "data_source": "Danmarks Statistik",
+      "data_observation_period": "2026Q1",
+      "forecast_date": "2026-08-12T17:34:35.211389",
       "horizons": {
         "6m": {
           "scenarios": {
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 119.5,
+              "forecast_index": 120.3,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.039,
@@ -7890,12 +3968,12 @@
               "user_cost_pct": 6.29,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 15872.0
+              "ref_user_cost_monthly_dkk": 15873.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 119.5,
+              "forecast_index": 120.3,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.035,
@@ -7903,12 +3981,12 @@
               "user_cost_pct": 6.01,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 15146.0
+              "ref_user_cost_monthly_dkk": 15147.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 119.5,
+              "forecast_index": 120.3,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.05,
@@ -7916,21 +3994,21 @@
               "user_cost_pct": 7.49,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 18878.0
+              "ref_user_cost_monthly_dkk": 18879.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 119.5,
+            "probability_weighted_index": 120.3,
             "probability_weighted_change_pct": 0.88,
             "probability_weighted_user_cost_rate": 0.06534,
             "index_range": [
-              119.5,
-              119.5
+              120.3,
+              120.3
             ],
             "confidence_bounds": {
-              "p10": 118.4,
-              "p50": 119.5,
-              "p90": 120.6
+              "p10": 119.2,
+              "p50": 120.3,
+              "p90": 121.4
             }
           }
         },
@@ -7939,7 +4017,7 @@
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 123.1,
+              "forecast_index": 123.9,
               "price_change_pct": 3.88,
               "annualised_return_pct": 3.88,
               "mortgage_rate": 0.037,
@@ -7947,12 +4025,12 @@
               "user_cost_pct": 6.15,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3116250.0,
-              "ref_user_cost_monthly_dkk": 15973.0
+              "ref_user_cost_monthly_dkk": 15974.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 123.8,
+              "forecast_index": 124.6,
               "price_change_pct": 4.44,
               "annualised_return_pct": 4.44,
               "mortgage_rate": 0.03,
@@ -7960,34 +4038,34 @@
               "user_cost_pct": 5.65,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3133125.0,
-              "ref_user_cost_monthly_dkk": 14744.0
+              "ref_user_cost_monthly_dkk": 14745.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 121.5,
+              "forecast_index": 122.4,
               "price_change_pct": 2.56,
               "annualised_return_pct": 2.56,
               "mortgage_rate": 0.055,
-              "user_cost_rate": 0.07886,
+              "user_cost_rate": 0.07887,
               "user_cost_pct": 7.89,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3076875.0,
-              "ref_user_cost_monthly_dkk": 20221.0
+              "ref_user_cost_monthly_dkk": 20222.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 122.8,
+            "probability_weighted_index": 123.7,
             "probability_weighted_change_pct": 3.66,
             "probability_weighted_user_cost_rate": 0.06484,
             "index_range": [
-              121.5,
-              123.8
+              122.4,
+              124.6
             ],
             "confidence_bounds": {
-              "p10": 119.7,
-              "p50": 122.8,
-              "p90": 125.9
+              "p10": 120.7,
+              "p50": 123.6,
+              "p90": 126.7
             }
           }
         },
@@ -7996,7 +4074,7 @@
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 135.1,
+              "forecast_index": 136.0,
               "price_change_pct": 14.0,
               "annualised_return_pct": 7.0,
               "mortgage_rate": 0.035,
@@ -8004,12 +4082,12 @@
               "user_cost_pct": 6.01,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3420000.0,
-              "ref_user_cost_monthly_dkk": 17130.0
+              "ref_user_cost_monthly_dkk": 17131.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 136.9,
+              "forecast_index": 137.8,
               "price_change_pct": 15.5,
               "annualised_return_pct": 7.75,
               "mortgage_rate": 0.028,
@@ -8022,7 +4100,7 @@
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 126.8,
+              "forecast_index": 127.7,
               "price_change_pct": 7.0,
               "annualised_return_pct": 3.5,
               "mortgage_rate": 0.06,
@@ -8034,17 +4112,17 @@
             }
           },
           "ensemble": {
-            "probability_weighted_index": 133.4,
+            "probability_weighted_index": 134.3,
             "probability_weighted_change_pct": 12.55,
             "probability_weighted_user_cost_rate": 0.06479,
             "index_range": [
-              126.8,
-              136.9
+              127.7,
+              137.8
             ],
             "confidence_bounds": {
-              "p10": 124.7,
-              "p50": 133.3,
-              "p90": 142.0
+              "p10": 125.4,
+              "p50": 134.5,
+              "p90": 143.2
             }
           }
         }
@@ -8052,64 +4130,66 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "current_period": "2025Q4",
-      "current_index": 114.6,
-      "forecast_date": "2026-08-12T04:47:20.419756",
+      "current_period": "2026Q1",
+      "current_index": 122.1,
+      "data_source": "Danmarks Statistik",
+      "data_observation_period": "2026Q1",
+      "forecast_date": "2026-08-12T17:34:35.220216",
       "horizons": {
         "6m": {
           "scenarios": {
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 115.6,
+              "forecast_index": 123.2,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.039,
-              "user_cost_rate": 0.06123,
+              "user_cost_rate": 0.06125,
               "user_cost_pct": 6.12,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 15441.0
+              "ref_user_cost_monthly_dkk": 15446.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 115.6,
+              "forecast_index": 123.2,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.035,
-              "user_cost_rate": 0.05835,
-              "user_cost_pct": 5.83,
+              "user_cost_rate": 0.05837,
+              "user_cost_pct": 5.84,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 14714.0
+              "ref_user_cost_monthly_dkk": 14720.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 115.6,
+              "forecast_index": 123.2,
               "price_change_pct": 0.88,
               "annualised_return_pct": 1.75,
               "mortgage_rate": 0.05,
-              "user_cost_rate": 0.07315,
-              "user_cost_pct": 7.31,
+              "user_cost_rate": 0.07317,
+              "user_cost_pct": 7.32,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3026250.0,
-              "ref_user_cost_monthly_dkk": 18447.0
+              "ref_user_cost_monthly_dkk": 18452.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 115.6,
+            "probability_weighted_index": 123.2,
             "probability_weighted_change_pct": 0.88,
-            "probability_weighted_user_cost_rate": 0.06363,
+            "probability_weighted_user_cost_rate": 0.06365,
             "index_range": [
-              115.6,
-              115.6
+              123.2,
+              123.2
             ],
             "confidence_bounds": {
-              "p10": 114.6,
-              "p50": 115.7,
-              "p90": 116.7
+              "p10": 122.0,
+              "p50": 123.2,
+              "p90": 124.3
             }
           }
         },
@@ -8118,55 +4198,55 @@
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 119.5,
+              "forecast_index": 127.4,
               "price_change_pct": 4.3,
               "annualised_return_pct": 4.3,
               "mortgage_rate": 0.037,
-              "user_cost_rate": 0.0598,
+              "user_cost_rate": 0.05982,
               "user_cost_pct": 5.98,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3129000.0,
-              "ref_user_cost_monthly_dkk": 15592.0
+              "ref_user_cost_monthly_dkk": 15599.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 120.9,
+              "forecast_index": 128.8,
               "price_change_pct": 5.5,
               "annualised_return_pct": 5.5,
               "mortgage_rate": 0.03,
-              "user_cost_rate": 0.05476,
+              "user_cost_rate": 0.05479,
               "user_cost_pct": 5.48,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3165000.0,
-              "ref_user_cost_monthly_dkk": 14444.0
+              "ref_user_cost_monthly_dkk": 14450.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 116.3,
+              "forecast_index": 123.9,
               "price_change_pct": 1.5,
               "annualised_return_pct": 1.5,
               "mortgage_rate": 0.055,
-              "user_cost_rate": 0.07715,
-              "user_cost_pct": 7.71,
+              "user_cost_rate": 0.07717,
+              "user_cost_pct": 7.72,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3045000.0,
-              "ref_user_cost_monthly_dkk": 19577.0
+              "ref_user_cost_monthly_dkk": 19582.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 119.0,
+            "probability_weighted_index": 126.8,
             "probability_weighted_change_pct": 3.84,
-            "probability_weighted_user_cost_rate": 0.06313,
+            "probability_weighted_user_cost_rate": 0.06315,
             "index_range": [
-              116.3,
-              120.9
+              123.9,
+              128.8
             ],
             "confidence_bounds": {
-              "p10": 115.9,
-              "p50": 119.0,
-              "p90": 121.9
+              "p10": 123.7,
+              "p50": 126.7,
+              "p90": 129.8
             }
           }
         },
@@ -8175,55 +4255,55 @@
             "baseline": {
               "label": "Baseline",
               "probability_weight": 0.55,
-              "forecast_index": 132.0,
+              "forecast_index": 140.7,
               "price_change_pct": 15.2,
               "annualised_return_pct": 7.6,
               "mortgage_rate": 0.035,
-              "user_cost_rate": 0.0584,
+              "user_cost_rate": 0.05842,
               "user_cost_pct": 5.84,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3456000.0,
-              "ref_user_cost_monthly_dkk": 16818.0
+              "ref_user_cost_monthly_dkk": 16826.0
             },
             "min_risk": {
               "label": "Minimum Risk (Goldilocks)",
               "probability_weight": 0.2,
-              "forecast_index": 134.8,
+              "forecast_index": 143.6,
               "price_change_pct": 17.6,
               "annualised_return_pct": 8.8,
               "mortgage_rate": 0.028,
-              "user_cost_rate": 0.05336,
+              "user_cost_rate": 0.05339,
               "user_cost_pct": 5.34,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3528000.0,
-              "ref_user_cost_monthly_dkk": 15689.0
+              "ref_user_cost_monthly_dkk": 15697.0
             },
             "max_risk": {
               "label": "Maximum Risk (Stagflation + Supply Glut)",
               "probability_weight": 0.25,
-              "forecast_index": 119.2,
+              "forecast_index": 127.0,
               "price_change_pct": 4.0,
               "annualised_return_pct": 2.0,
               "mortgage_rate": 0.06,
-              "user_cost_rate": 0.08116,
+              "user_cost_rate": 0.08118,
               "user_cost_pct": 8.12,
               "ref_property_value": 3000000,
               "ref_forecast_value": 3120000.0,
-              "ref_user_cost_monthly_dkk": 21101.0
+              "ref_user_cost_monthly_dkk": 21107.0
             }
           },
           "ensemble": {
-            "probability_weighted_index": 129.4,
+            "probability_weighted_index": 137.9,
             "probability_weighted_change_pct": 12.88,
-            "probability_weighted_user_cost_rate": 0.06308,
+            "probability_weighted_user_cost_rate": 0.0631,
             "index_range": [
-              119.2,
-              134.8
+              127.0,
+              143.6
             ],
             "confidence_bounds": {
-              "p10": 121.4,
-              "p50": 129.4,
-              "p90": 138.2
+              "p10": 128.7,
+              "p50": 138.0,
+              "p90": 146.9
             }
           }
         }
@@ -8272,7 +4352,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.604971"
+        "calculation_timestamp": "2026-08-12T17:34:35.945879"
       },
       "12m": {
         "input": {
@@ -8314,7 +4394,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.604997"
+        "calculation_timestamp": "2026-08-12T17:34:35.945892"
       },
       "24m": {
         "input": {
@@ -8356,7 +4436,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.605012"
+        "calculation_timestamp": "2026-08-12T17:34:35.945901"
       }
     },
     "min_risk": {
@@ -8400,7 +4480,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.605027"
+        "calculation_timestamp": "2026-08-12T17:34:35.945909"
       },
       "12m": {
         "input": {
@@ -8442,7 +4522,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.605040"
+        "calculation_timestamp": "2026-08-12T17:34:35.945916"
       },
       "24m": {
         "input": {
@@ -8484,7 +4564,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.605071"
+        "calculation_timestamp": "2026-08-12T17:34:35.945923"
       }
     },
     "max_risk": {
@@ -8528,7 +4608,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.605088"
+        "calculation_timestamp": "2026-08-12T17:34:35.945930"
       },
       "12m": {
         "input": {
@@ -8570,7 +4650,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.605107"
+        "calculation_timestamp": "2026-08-12T17:34:35.945937"
       },
       "24m": {
         "input": {
@@ -8612,7 +4692,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-08-12T04:47:58.605120"
+        "calculation_timestamp": "2026-08-12T17:34:35.945944"
       }
     }
   },
@@ -8623,7 +4703,7 @@
   ],
   "market_data_status": {
     "status": "live",
-    "generated_at": "2026-08-12T04:46:40.062609+00:00",
+    "generated_at": "2026-08-12T15:34:15.676065+00:00",
     "sources": {
       "rkr": "Finans Danmark Statistikbank",
       "boliga": "Boliga API"

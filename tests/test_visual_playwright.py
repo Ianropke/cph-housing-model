@@ -62,7 +62,14 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
 
             failed_requests = []
             page.on("requestfailed", lambda req: failed_requests.append(f"{req.url} - {req.failure}"))
-            page.on("console", lambda msg: print(f"CONSOLE [{msg.type}]: {msg.text}"))
+            page.on(
+                "console",
+                lambda msg: (
+                    console_errors.append(msg.text)
+                    if msg.type == "error" and "Failed to load resource" not in msg.text
+                    else print(f"CONSOLE [{msg.type}]: {msg.text}")
+                ),
+            )
             page.on("pageerror", lambda err: print(f"PAGE ERROR: {err}"))
             page.on("response", lambda res: print(f"RESPONSE [{res.status}]: {res.url}") if "latest_pipeline" in res.url else None)
 
@@ -77,6 +84,17 @@ class TestPlaywrightVisualInspection(unittest.TestCase):
 
             # Log body HTML rendered on the page
             page.wait_for_timeout(2000)
+            unavailable = page.get_by_text("Data er forældet")
+            unavailable_fallback = page.get_by_text("Data Midlertidigt Utilgængelig")
+            if unavailable.is_visible() or unavailable_fallback.is_visible():
+                # A stale/invalid generated payload is an expected fail-closed
+                # state while upstream live sources are unavailable. The CI
+                # workflow runs the full interaction branch only after the
+                # pipeline has produced a valid payload.
+                self.assertTrue(page.get_by_text("Dashboardet viser ikke modeltal").is_visible())
+                self.assertEqual(len(console_errors), 0, f"Console errors: {console_errors}")
+                browser.close()
+                return
             body_html = page.locator("body").inner_html()
             print("Rendered body HTML snippet:", body_html[:500])
             h2s = page.locator("h2").all_inner_texts()

@@ -34,6 +34,7 @@ from cph_housing_server import (
     run_forecast_ensemble,
     compute_max_risk_index,
 )
+from payload_validation import validate_pipeline_payload
 
 # ─────────────────────────────────────────────────────────────
 # CONFIG
@@ -85,6 +86,8 @@ def run_daily_pipeline():
 
     print("📊 Step 1b: Fetching latest DST EJ56 data...")
     dst_data = fetch_dst_housing_data(table="EJ56")
+    if dst_data.get("error") or not dst_data.get("segments"):
+        raise RuntimeError(f"DST EJ56 data is unavailable: {dst_data.get('error', 'missing segments')}")
     print(f"   ✅ Fetched {len(dst_data['segments'])} segments, last updated: {dst_data['last_updated']}")
 
     indicator_mapping = {
@@ -103,7 +106,7 @@ def run_daily_pipeline():
     print("\n📈 Step 2: Running forecast ensemble...")
     forecast_results = {}
     for segment in SEGMENTS:
-        forecast = run_forecast_ensemble(segment=segment, horizons=HORIZONS)
+        forecast = run_forecast_ensemble(segment=segment, horizons=HORIZONS, dst_data=dst_data)
         if "error" in forecast:
             print(f"   {segment}: {forecast['error']}")
             continue
@@ -130,7 +133,7 @@ def run_daily_pipeline():
     alert_summary = []
     for segment in SEGMENTS:
         # Get the default mode result first
-        ewi = check_early_warnings(segment=segment, ewi1_mode="yoy_expanded")
+        ewi = check_early_warnings(segment=segment, ewi1_mode="yoy_expanded", dst_data=dst_data)
         if "error" in ewi:
             continue
         ewi_results[segment] = ewi
@@ -138,7 +141,7 @@ def run_daily_pipeline():
         # Calculate all modes and attach to ewi["modes"]
         segment_modes = {}
         for mode in ["yoy_original", "yoy_expanded", "structural_3y", "structural_5y"]:
-            ewi_mode_res = check_early_warnings(segment=segment, ewi1_mode=mode)
+            ewi_mode_res = check_early_warnings(segment=segment, ewi1_mode=mode, dst_data=dst_data)
             mode_ewi_list = []
             for key, (ewi_id, ewi_name, baseline_val) in indicator_mapping.items():
                 ind_data = ewi_mode_res["indicators"][key]
@@ -208,6 +211,7 @@ def run_daily_pipeline():
                 "maxRiskIndex": mode_max_risk,
                 "dataFreshness": ewi_mode_res["data_freshness_summary"],
                 "mlCrashProbability": ewi_mode_res.get("ml_crash_probability"),
+                "mlModelStatus": ewi_mode_res.get("ml_model_status"),
                 "mlProbabilityHistory": ml_history
             }
         
@@ -242,6 +246,7 @@ def run_daily_pipeline():
     # ── Step 5: Generate dashboard data payload ──
     print("\n📦 Step 5: Generating dashboard data payload...")
     dashboard_payload = {
+        "schema_version": 1,
         "generated_at": timestamp,
         "dst_data": dst_data,
         "early_warnings": ewi_results,
@@ -254,6 +259,10 @@ def run_daily_pipeline():
             "sources": market_data["sources"],
         },
     }
+
+    payload_errors = validate_pipeline_payload(dashboard_payload)
+    if payload_errors:
+        raise RuntimeError("Refusing to publish invalid dashboard payload: " + "; ".join(payload_errors))
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     payload_path = os.path.join(OUTPUT_DIR, "latest_pipeline.json")
@@ -335,7 +344,7 @@ def run_daily_pipeline():
     # Calculate EWI modes data for copenhagen_apartments
     ewi_modes_js = {}
     for mode in ["yoy_original", "yoy_expanded", "structural_3y", "structural_5y"]:
-        ewi_mode_res = check_early_warnings(segment="copenhagen_apartments", ewi1_mode=mode)
+        ewi_mode_res = check_early_warnings(segment="copenhagen_apartments", ewi1_mode=mode, dst_data=dst_data)
         mode_ewi_list = []
         for key, (ewi_id, ewi_name, baseline_val) in indicator_mapping.items():
             ind_data = ewi_mode_res["indicators"][key]
@@ -391,7 +400,10 @@ def run_daily_pipeline():
             "freshnessWeightedComposite": ewi_mode_res["freshness_weighted_composite"],
             "alertLevel": ewi_mode_res["alert_level"],
             "maxRiskIndex": mode_max_risk,
-            "dataFreshness": ewi_mode_res["data_freshness_summary"]
+            "dataFreshness": ewi_mode_res["data_freshness_summary"],
+            "mlCrashProbability": ewi_mode_res.get("ml_crash_probability"),
+            "mlModelStatus": ewi_mode_res.get("ml_model_status"),
+            "mlProbabilityHistory": []
         }
         
     # Forecasts for copenhagen_apartments

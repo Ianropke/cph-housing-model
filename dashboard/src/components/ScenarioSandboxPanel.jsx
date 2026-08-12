@@ -9,7 +9,8 @@ export default function ScenarioSandboxPanel() {
   // preset. Never substitute historical constants for incomplete live data.
   const liveIndicators = pipelineData?.early_warnings?.[activeSegment]?.indicators || {};
   const liveComposite = Number(pipelineData?.early_warnings?.[activeSegment]?.composite_score);
-  const liveMlCrash = Number(pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability);
+  const liveMlValue = pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability;
+  const liveMlCrash = typeof liveMlValue === 'number' && Number.isFinite(liveMlValue) ? liveMlValue : null;
   const liveForecastChangePct = Number(
     pipelineData?.forecasts?.[activeSegment]?.horizons?.['12m']?.ensemble?.probability_weighted_change_pct,
   );
@@ -31,10 +32,9 @@ export default function ScenarioSandboxPanel() {
   }), [liveDom, liveSupply, liveReductions, liveMortgageRate, liveWageSpread, liveAmortFreeShare, liveDsrPct]);
   const hasLiveBaseline = [
     liveComposite,
-    liveMlCrash,
     liveForecastChangePct,
     ...Object.values(liveInputs),
-  ].every(Number.isFinite) && liveMlCrash > 0 && liveMlCrash < 1;
+  ].every(Number.isFinite);
 
   // Preset definitions
   const PRESETS = {
@@ -195,18 +195,22 @@ export default function ScenarioSandboxPanel() {
       alertColor = '#ffc107';
     }
 
-    // Anchored logistic approximation. It starts at the pipeline's live ML
-    // probability and then applies scenario deltas.
-    const baseLogit = Math.log(liveMlCrash / (1 - liveMlCrash));
-    const deltaZ = 0.15 * (compositeScore - liveComposite) 
-                 + 0.30 * (mortgageRate - liveInputs.mortgageRate)
-                 + 0.02 * (dom - liveInputs.dom)
-                 + 0.03 * (reductions - liveInputs.reductions)
-                 + 0.08 * (wageSpread - liveInputs.wageSpread);
-    const zMl = baseLogit + deltaZ;
-    const mlCrashProb = activePreset === 'actual' 
-      ? liveMlCrash 
-      : Math.min(0.95, Math.max(0.02, 1 / (1 + Math.exp(-zMl))));
+    // A probability is only calculated when the pipeline supplies a validated
+    // ML probability. The simulator remains useful without it and never
+    // recreates a probability from synthetic or fallback inputs.
+    let mlCrashProb = null;
+    if (liveMlCrash !== null && liveMlCrash > 0 && liveMlCrash < 1) {
+      const baseLogit = Math.log(liveMlCrash / (1 - liveMlCrash));
+      const deltaZ = 0.15 * (compositeScore - liveComposite)
+                   + 0.30 * (mortgageRate - liveInputs.mortgageRate)
+                   + 0.02 * (dom - liveInputs.dom)
+                   + 0.03 * (reductions - liveInputs.reductions)
+                   + 0.08 * (wageSpread - liveInputs.wageSpread);
+      const zMl = baseLogit + deltaZ;
+      mlCrashProb = activePreset === 'actual'
+        ? liveMlCrash
+        : Math.min(0.95, Math.max(0.02, 1 / (1 + Math.exp(-zMl))));
+    }
 
     // Anchor the price scenario to the live 12m ensemble. Inputs use native
     // units / percentage points, preventing the former decimal-rate mix-up.
@@ -238,7 +242,9 @@ export default function ScenarioSandboxPanel() {
   };
 
   const deltaScore = simResults.compositeScore - liveComposite;
-  const deltaMl = simResults.mlCrashProb - liveMlCrash;
+  const deltaMl = simResults.mlCrashProb !== null && liveMlCrash !== null
+    ? simResults.mlCrashProb - liveMlCrash
+    : null;
 
   if (!hasLiveBaseline) {
     return (
@@ -260,7 +266,7 @@ export default function ScenarioSandboxPanel() {
             <span>🧪</span> Interaktiv Risikosimulator (Hvad-Nu-Hvis Sandbox)
           </h2>
           <span className="panel-explainer">
-            Juster markedsparametre for at se hvordan risikoscoren, advarselssignalerne og ML-crash sandsynligheden reagerer i forhold til det aktuelt opdaterede marked ({(liveMlCrash * 100).toFixed(1).replace('.', ',')}% live-baseline).
+            Juster markedsparametre for at se hvordan risikoscoren, advarselssignalerne og 12-måneders forecastet reagerer i forhold til det aktuelt opdaterede marked. En ML-procent vises kun, hvis en valideret model leverer den.
           </span>
         </div>
         <span className="panel-badge" style={{ background: 'rgba(167, 139, 250, 0.15)', color: '#a78bfa', borderColor: 'rgba(167, 139, 250, 0.3)' }}>
@@ -441,12 +447,21 @@ export default function ScenarioSandboxPanel() {
             {/* ML Crash Probability Card */}
             <div style={{ padding: '14px', borderRadius: '10px', background: 'rgba(224, 64, 251, 0.05)', border: '1px solid rgba(224, 64, 251, 0.2)' }}>
               <div style={{ fontSize: '0.75rem', color: '#e040fb', textTransform: 'uppercase', fontWeight: 600 }}>ML Crash Sandsynlighed (&gt;10% fald)</div>
-              <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#e040fb', margin: '4px 0' }}>
-                {(simResults.mlCrashProb * 100).toFixed(1)}%
-              </div>
-              <div style={{ fontSize: '0.75rem', color: Math.abs(deltaMl) < 0.001 ? 'rgba(255,255,255,0.5)' : (deltaMl >= 0 ? '#ff6b6b' : '#00d4aa') }}>
-                {Math.abs(deltaMl) < 0.001 ? `Matcher live-baseline (${(liveMlCrash * 100).toFixed(1)}%)` : (deltaMl >= 0 ? `+${(deltaMl * 100).toFixed(1)}% risiko` : `${(deltaMl * 100).toFixed(1)}% risiko`)}
-              </div>
+              {simResults.mlCrashProb === null ? (
+                <>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'rgba(224, 64, 251, 0.55)', margin: '4px 0' }}>—</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>Ikke publiceret: model ikke valideret</div>
+                </>
+              ) : (
+                <>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#e040fb', margin: '4px 0' }}>
+                    {(simResults.mlCrashProb * 100).toFixed(1)}%
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: Math.abs(deltaMl) < 0.001 ? 'rgba(255,255,255,0.5)' : (deltaMl >= 0 ? '#ff6b6b' : '#00d4aa') }}>
+                    {Math.abs(deltaMl) < 0.001 ? `Matcher live-baseline (${(liveMlCrash * 100).toFixed(1)}%)` : (deltaMl >= 0 ? `+${(deltaMl * 100).toFixed(1)}% risiko` : `${(deltaMl * 100).toFixed(1)}% risiko`)}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* 12m Forecast Price Change Card */}
