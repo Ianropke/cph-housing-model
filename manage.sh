@@ -66,9 +66,12 @@ case "$1" in
         fi
         python3 -m unittest "$PROJECT_DIR/tests/test_configuration_consistency.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_event_backtest.py"
+        python3 -m unittest "$PROJECT_DIR/tests/test_dst_macro.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_live_data_alignment.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_payload_validation.py"
         python3 -m pytest -q "$PROJECT_DIR/tests/test_crash_probability_validation.py"
+        python3 -m unittest "$PROJECT_DIR/tests/test_ml_feature_panel.py"
+        python3 -m unittest "$PROJECT_DIR/tests/test_ml_validation_gate.py"
         (cd "$PROJECT_DIR/dashboard" && npm run lint)
         echo -e "${GREEN}All model, payload, frontend, and lint gates passed successfully!${NC}"
         ;;

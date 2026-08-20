@@ -4,8 +4,8 @@ This script intentionally evaluates probabilities only when historical
 out-of-sample predictions and realised crash events are available. It never
 reconstructs predictions from the fitted model on its training observations.
 
-Crash event definition: real housing-price decline of at least 10% over the
-following 12 months.
+Crash event definition: nominal DST EJ56 housing-price-index decline of at
+least 10% over the following four quarters.
 """
 from __future__ import annotations
 

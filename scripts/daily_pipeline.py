@@ -35,6 +35,7 @@ from cph_housing_server import (
     compute_max_risk_index,
 )
 from payload_validation import validate_pipeline_payload
+from ml_feature_panel import append_panel, build_feature_snapshot
 
 # ─────────────────────────────────────────────────────────────
 # CONFIG
@@ -62,7 +63,7 @@ REPORT_DIR = os.path.join(PROJECT_ROOT, "reports")
 # ─────────────────────────────────────────────────────────────
 
 def run_daily_pipeline():
-    timestamp = datetime.datetime.now().isoformat()
+    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
     print(f"\n{'='*60}")
     print(f"  CPH Housing Model — Daily Pipeline")
     print(f"  {timestamp}")
@@ -125,6 +126,7 @@ def run_daily_pipeline():
         
     if "last_updated" in market_data:
         DATA_FRESHNESS["rkr_udb010"]["last_updated"] = market_data["last_updated"]
+        DATA_FRESHNESS["boliga_listings"]["last_updated"] = market_data["last_updated"]
         DATA_FRESHNESS["rkr_ul10"]["last_updated"] = market_data["last_updated"]
 
     # ── Step 3: Check early warnings ──
@@ -222,6 +224,29 @@ def run_daily_pipeline():
         print(f"   {segment}: Score {score}/27.0 — {level}")
         if score >= 4.5:
             alert_summary.append(f"⚠️ {segment}: {level} (score {score})")
+
+    # ── Step 3b: Archive point-in-time ML features ──
+    # This archive is deliberately separate from the dashboard payload. It is
+    # the only future training source for ML, and every row retains source
+    # vintages so historical model evaluation cannot silently use revised or
+    # forward-looking values.
+    feature_panel_path = os.path.join(PROJECT_ROOT, "data", "ml_feature_snapshots.jsonl")
+    feature_snapshots = [
+        build_feature_snapshot(
+            segment,
+            ewi_results[segment],
+            dst_data["segments"][segment],
+            snapshot_at=timestamp,
+            source_status=market_data["source_status"],
+        )
+        for segment in SEGMENTS
+        if segment in ewi_results and segment in dst_data.get("segments", {})
+    ]
+    added_snapshots = append_panel(feature_panel_path, feature_snapshots)
+    print(
+        f"   ✅ Archived {len(feature_snapshots)} point-in-time ML feature snapshots "
+        f"({added_snapshots} new)"
+    )
 
     # ── Step 4: Calculate user costs per scenario per horizon ──
     print("\n💰 Step 4: Computing user costs...")

@@ -240,10 +240,10 @@ export const ewiModes = {
         "next_expected_update": "2026-08-15"
       },
       "rkr_udb010": {
-        "label": "Boliga Custom Scraper",
+        "label": "Udbud og liggetid (RKR UDB010/UDB030)",
         "last_updated": "2026-08-20",
-        "frequency": "Daily",
-        "source": "Boliga API",
+        "frequency": "Monthly",
+        "source": "Finans Danmark Statistikbank",
         "freshness_weight": 1.0,
         "next_expected_update": "2026-08-21"
       },
@@ -264,10 +264,10 @@ export const ewiModes = {
         "next_expected_update": "2026-09-03"
       },
       "wage_data": {
-        "label": "L\u00f8nudvikling",
+        "label": "Standardiseret l\u00f8nindeks (SBLON1)",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
-        "source": "Danmarks Statistik",
+        "source": "Danmarks Statistik SBLON1",
         "freshness_weight": 0.645,
         "next_expected_update": "2026-09-05"
       },
@@ -452,10 +452,10 @@ export const ewiModes = {
         "next_expected_update": "2026-08-15"
       },
       "rkr_udb010": {
-        "label": "Boliga Custom Scraper",
+        "label": "Udbud og liggetid (RKR UDB010/UDB030)",
         "last_updated": "2026-08-20",
-        "frequency": "Daily",
-        "source": "Boliga API",
+        "frequency": "Monthly",
+        "source": "Finans Danmark Statistikbank",
         "freshness_weight": 1.0,
         "next_expected_update": "2026-08-21"
       },
@@ -476,10 +476,10 @@ export const ewiModes = {
         "next_expected_update": "2026-09-03"
       },
       "wage_data": {
-        "label": "L\u00f8nudvikling",
+        "label": "Standardiseret l\u00f8nindeks (SBLON1)",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
-        "source": "Danmarks Statistik",
+        "source": "Danmarks Statistik SBLON1",
         "freshness_weight": 0.645,
         "next_expected_update": "2026-09-05"
       },
@@ -664,10 +664,10 @@ export const ewiModes = {
         "next_expected_update": "2026-08-15"
       },
       "rkr_udb010": {
-        "label": "Boliga Custom Scraper",
+        "label": "Udbud og liggetid (RKR UDB010/UDB030)",
         "last_updated": "2026-08-20",
-        "frequency": "Daily",
-        "source": "Boliga API",
+        "frequency": "Monthly",
+        "source": "Finans Danmark Statistikbank",
         "freshness_weight": 1.0,
         "next_expected_update": "2026-08-21"
       },
@@ -688,10 +688,10 @@ export const ewiModes = {
         "next_expected_update": "2026-09-03"
       },
       "wage_data": {
-        "label": "L\u00f8nudvikling",
+        "label": "Standardiseret l\u00f8nindeks (SBLON1)",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
-        "source": "Danmarks Statistik",
+        "source": "Danmarks Statistik SBLON1",
         "freshness_weight": 0.645,
         "next_expected_update": "2026-09-05"
       },
@@ -876,10 +876,10 @@ export const ewiModes = {
         "next_expected_update": "2026-08-15"
       },
       "rkr_udb010": {
-        "label": "Boliga Custom Scraper",
+        "label": "Udbud og liggetid (RKR UDB010/UDB030)",
         "last_updated": "2026-08-20",
-        "frequency": "Daily",
-        "source": "Boliga API",
+        "frequency": "Monthly",
+        "source": "Finans Danmark Statistikbank",
         "freshness_weight": 1.0,
         "next_expected_update": "2026-08-21"
       },
@@ -900,10 +900,10 @@ export const ewiModes = {
         "next_expected_update": "2026-09-03"
       },
       "wage_data": {
-        "label": "L\u00f8nudvikling",
+        "label": "Standardiseret l\u00f8nindeks (SBLON1)",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
-        "source": "Danmarks Statistik",
+        "source": "Danmarks Statistik SBLON1",
         "freshness_weight": 0.645,
         "next_expected_update": "2026-09-05"
       },
@@ -978,10 +978,10 @@ export const dataFreshness = {
     "next_expected_update": "2026-08-15"
   },
   "rkr_udb010": {
-    "label": "Boliga Custom Scraper",
+    "label": "Udbud og liggetid (RKR UDB010/UDB030)",
     "last_updated": "2026-08-20",
-    "frequency": "Daily",
-    "source": "Boliga API",
+    "frequency": "Monthly",
+    "source": "Finans Danmark Statistikbank",
     "freshness_weight": 1.0,
     "next_expected_update": "2026-08-21"
   },
@@ -1002,10 +1002,10 @@ export const dataFreshness = {
     "next_expected_update": "2026-09-03"
   },
   "wage_data": {
-    "label": "L\u00f8nudvikling",
+    "label": "Standardiseret l\u00f8nindeks (SBLON1)",
     "last_updated": "2026-06-05",
     "frequency": "Quarterly",
-    "source": "Danmarks Statistik",
+    "source": "Danmarks Statistik SBLON1",
     "freshness_weight": 0.645,
     "next_expected_update": "2026-09-05"
   },

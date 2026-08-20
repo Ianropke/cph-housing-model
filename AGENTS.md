@@ -29,7 +29,7 @@ Hvis dokumenter og kode modsiger hinanden, må konflikten ikke skjules. Bevar go
 - `retrieved_at` må aldrig vises som observationstidspunkt. Nye payloadfelter skal følge lineage-reglerne i `docs/model_governance.md`.
 - En fejlet eller ufuldstændig autoritativ kilde må ikke erstattes af en lokal mock, syntetisk værdi eller urelateret kilde. Pipeline skal fejle lukket eller udgive en eksplicit unavailable/stale-status.
 - Retries, timeouts og user agents for eksterne read-only-kilder skal være begrænsede og dokumenterede. Respektér upstream-rate limits.
-- ML-modellen og historiske features må ikke kaldes empirisk validerede, medmindre out-of-sample-validering faktisk er kørt. `tests/test_event_backtest.py` markerer aktuelt den deployede model som ikke valideret, og `scripts/train_ews_model.py` bygger fortsat på syntetiske træningsdata.
+- ML-modellen og historiske features må ikke kaldes empirisk validerede, medmindre out-of-sample-validering faktisk er kørt. `tests/test_event_backtest.py` markerer aktuelt den deployede model som ikke valideret, og `scripts/train_ews_model.py` træner kun på det point-in-time live-featurepanel og fejler lukket ved utilstrækkelig historik.
 
 ## Implementerede correctness-gates
 
@@ -38,6 +38,7 @@ Følgende gates er en del af den nuværende implementering og skal bevares ved �
 - `scripts/daily_pipeline.py` sender den samme live `dst_data` til forecast og EWI. `scripts/payload_validation.py` afviser manglende schema, stale/live-status og periodemismatch mellem DST og forecast, og der findes regressionstests for alignment.
 - `CityProvider` validerer schema, freshness og `market_data_status`. `App.jsx` og simulatoren viser eksplicit unavailable/stale eller ML-unavailable-status; de bruger ikke fallbacktal som friske data.
 - `config/ews_ml_model.skops` og proxy-baserede historiske ML-kurver er isoleret fra produktion. ML-sandsynlighed er `null`, indtil live-feature out-of-sample-validering består.
+- `scripts/daily_pipeline.py` arkiverer live ML-features i `data/ml_feature_snapshots.jsonl`. `scripts/train_ews_model.py` må kun bruge dette point-in-time-panel, skal deduplikere gentagne kvartalsvintages før evaluering og må ikke genindføre syntetiske træningsdata.
 - `.github/workflows/daily_update.yml` kører payload-gate, crash-probability-kontrakt, build, lint og testdriver. Sentry og andre kontroller, der kun omtales i reviewspecifikationen, er stadig ikke aktive kontroller.
 
 ## Eksterne tjenester og secrets

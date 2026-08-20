@@ -17,6 +17,16 @@ REQUIRED_SEGMENTS = (
 )
 REQUIRED_HORIZONS = ("6m", "12m", "24m")
 REQUIRED_MODES = ("yoy_original", "yoy_expanded", "structural_3y", "structural_5y")
+REQUIRED_ML_FEATURE_FIELDS = {
+    "EWI-1_price_vs_wages": ("spread_pp",),
+    "EWI-2_supply_demand": ("months_of_supply",),
+    "EWI-3_volume_price_divergence": ("volume_yoy_pct",),
+    "EWI-4_price_reductions": ("reduction_rate_pct",),
+    "EWI-5_time_on_market": ("median_dom_days", "baseline_mean_days", "baseline_std_days"),
+    "EWI-6_price_to_rent": ("price_to_rent_ratio", "baseline_mean", "baseline_std"),
+    "EWI-7_credit_growth": ("amortization_free_share_pct",),
+    "EWI-8_dsr": ("dsr_pct",),
+}
 
 
 def _is_number(value: Any) -> bool:
@@ -137,6 +147,23 @@ def validate_pipeline_payload(
         else:
             if not _is_number(ewi.get("composite_score")):
                 errors.append(f"{segment}: composite_score must be numeric")
+            indicators = ewi.get("indicators")
+            if not isinstance(indicators, dict):
+                errors.append(f"{segment}: indicators are required")
+            else:
+                for indicator_name, fields in REQUIRED_ML_FEATURE_FIELDS.items():
+                    indicator = indicators.get(indicator_name)
+                    if not isinstance(indicator, dict):
+                        errors.append(f"{segment}: {indicator_name} is required for ML feature archiving")
+                        continue
+                    for field in fields:
+                        if not _is_number(indicator.get(field)):
+                            errors.append(
+                                f"{segment}: {indicator_name}.{field} must be numeric for ML feature archiving"
+                            )
+                    for field in ("baseline_std_days", "baseline_std"):
+                        if field in indicator and _is_number(indicator[field]) and indicator[field] <= 0:
+                            errors.append(f"{segment}: {indicator_name}.{field} must be positive")
             modes = ewi.get("modes")
             if not isinstance(modes, dict):
                 errors.append(f"{segment}: EWI modes are required")

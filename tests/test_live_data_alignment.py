@@ -44,6 +44,7 @@ class TestLiveDataAlignment(unittest.TestCase):
             "disposable_income_cph": 400000.0,
             "disposable_income_frb": 400000.0,
             "interest_rate": 0.03,
+            "wage_growth": 0.032,
         }
 
         result = check_early_warnings(

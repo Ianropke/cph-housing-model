@@ -12,7 +12,7 @@ Scenario `ensemble_weight` values are model/analyst weights used to combine scen
 
 ## Crash event definition
 
-For evaluation purposes, a 12-month crash event is defined as a real housing-price decline of at least 10% over the subsequent 12 months. Evaluation must use only information that would have been available at the prediction date.
+For evaluation purposes, a 12-month crash event is currently defined as a nominal DST EJ56 housing-price-index decline of at least 10% over the subsequent four quarters. A real-price label requires a separately versioned deflator series and is not enabled in the current gate. Evaluation must use only information that would have been available at the prediction date.
 
 ## Data lineage
 
@@ -31,6 +31,10 @@ The production dashboard must not silently replace unavailable pipeline data wit
 
 The generated payload uses `schema_version: 1` and must contain all three market segments, all three forecast horizons, all four EWI-1 modes, a live `market_data_status`, and matching DST/forecast `current_period` and `current_index` values. A payload older than 48 hours is stale for dashboard publication, even when its underlying quarterly observation is still the latest available source observation.
 
-The checked-in `config/ews_ml_model.skops` artifact is not a production probability source: it was trained on synthetic feature rows and is deliberately isolated. The dashboard publishes `ml_crash_probability: null` with `ml_model_status: UNAVAILABLE_UNVALIDATED_MODEL` until a point-in-time live-feature, out-of-sample calibration gate passes. The price-only walk-forward benchmark in `scripts/evaluate_event_prediction.py` must not be described as validation of that artifact.
+The checked-in `config/ews_ml_model.skops` artifact is not a production probability source unless it is accompanied by a `VALIDATION_AVAILABLE` report from `scripts/train_ews_model.py`. The old artifact was trained on synthetic feature rows and is deliberately isolated. The dashboard publishes `ml_crash_probability: null` with `ml_model_status: UNAVAILABLE_UNVALIDATED_MODEL` until the point-in-time live-feature, out-of-sample calibration gate passes.
+
+The live feature archive is `data/ml_feature_snapshots.jsonl`. It is populated by the daily pipeline and must contain all eight model features plus source vintages for every row. Training selects the earliest recorded vintage per segment and observation quarter, rejects snapshots retrieved after the forward-label horizon, derives the 12-month crash label only from subsequent DST EJ56 observations, and evaluates expanding-window predictions. The validation gate requires minimum labelled and walk-forward coverage for every segment, and calibration folds are grouped by quarter so same-period segment rows cannot leak across train and test. Repeated quarters from the same downturn are clustered as one event episode; five overlapping rows from 2008 do not count as five independent crises. The price-only walk-forward benchmark in `scripts/evaluate_event_prediction.py` must not be described as validation of the deployed ML artifact.
+
+Daily collection does not create historical feature history retroactively. A backfill may only use authoritative point-in-time vintages for all eight features. Current Boliga active-listing data is live-only in this repository, so the model remains unavailable until a compliant historical source or archive exists for EWI-4; no synthetic or proxy backfill is permitted.
 
 Automated pipeline runs must pass the repository quality gates before publishing a new data snapshot. If an authoritative source fails, the pipeline fails closed and retains the last generated artifact for investigation; it does not merge a fresh DST series with stale market inputs.

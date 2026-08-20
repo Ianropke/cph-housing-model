@@ -1,0 +1,92 @@
+{
+  "report_schema_version": 1,
+  "generated_at": "2026-08-20T05:18:55.566314+00:00",
+  "model_type": "walk_forward_logistic_with_time_series_calibration",
+  "deployed_model_validated": false,
+  "feature_names": [
+    "ewi1_price_wage_spread_pp",
+    "ewi2_months_of_supply",
+    "ewi3_volume_yoy_pct",
+    "ewi4_price_reduction_rate_pct",
+    "ewi5_dom_zscore",
+    "ewi6_price_to_rent_zscore",
+    "ewi7_amortization_free_share_pct",
+    "ewi8_dsr_pct"
+  ],
+  "event_definition": "DST EJ56 index decline >= 10% over the following four quarters",
+  "panel": {
+    "panel_schema_version": 1,
+    "status": "VALID",
+    "rows": 3,
+    "unique_snapshots": 3,
+    "segments": {
+      "copenhagen_apartments": {
+        "rows": 1,
+        "distinct_observation_periods": 1
+      },
+      "copenhagen_houses": {
+        "rows": 1,
+        "distinct_observation_periods": 1
+      },
+      "frederiksberg_apartments": {
+        "rows": 1,
+        "distinct_observation_periods": 1
+      }
+    },
+    "errors": []
+  },
+  "label_summary": {
+    "rows": 0,
+    "events": 0,
+    "event_rate": null,
+    "independent_event_episodes": 0,
+    "event_periods": []
+  },
+  "coverage_by_segment": {
+    "copenhagen_apartments": {
+      "rows": 0,
+      "events": 0,
+      "event_rate": null,
+      "independent_event_episodes": 0,
+      "event_periods": [],
+      "oos_predictions": 0
+    },
+    "copenhagen_houses": {
+      "rows": 0,
+      "events": 0,
+      "event_rate": null,
+      "independent_event_episodes": 0,
+      "event_periods": [],
+      "oos_predictions": 0
+    },
+    "frederiksberg_apartments": {
+      "rows": 0,
+      "events": 0,
+      "event_rate": null,
+      "independent_event_episodes": 0,
+      "event_periods": [],
+      "oos_predictions": 0
+    }
+  },
+  "oos_predictions": 0,
+  "metrics": {
+    "brier_score": null,
+    "log_loss": null,
+    "roc_auc": null,
+    "calibration": []
+  },
+  "calibration_method": null,
+  "calibration_grouping": "quarter",
+  "status": "INSUFFICIENT_HISTORY",
+  "reasons": [
+    "need at least 24 labelled rows; found 0",
+    "need at least 3 independent crash episodes; found 0",
+    "need at least 24 walk-forward predictions; found 0",
+    "copenhagen_apartments needs at least 8 labelled rows; found 0",
+    "copenhagen_apartments needs at least 8 walk-forward predictions; found 0",
+    "copenhagen_houses needs at least 8 labelled rows; found 0",
+    "copenhagen_houses needs at least 8 walk-forward predictions; found 0",
+    "frederiksberg_apartments needs at least 8 labelled rows; found 0",
+    "frederiksberg_apartments needs at least 8 walk-forward predictions; found 0"
+  ]
+}

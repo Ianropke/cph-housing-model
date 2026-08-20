@@ -49,11 +49,12 @@ class TestDSTMacro(unittest.TestCase):
             mock_response.raise_for_status.return_value = None
             return mock_response
 
-        # Return mock responses in order: AUS07, DNRENTM, HUS1, INDKP107 (twice for CPH and FRB)
+        # Return mock responses in order: AUS07, DNRENTM, HUS1, SBLON1, INDKP107 (twice for CPH and FRB)
         mock_post.side_effect = [
             generate_mock_response(4.2),   # AUS07: 4.2% unemployment
             generate_mock_response(3.9),   # DNRENTM: 3.9% interest rate
             generate_mock_response(120.0), # HUS1: 120.0 rent index
+            generate_mock_response(3.2),   # SBLON1: 3.2% wage growth
             generate_mock_response(390000.0), # INDKP107 Cph: 390k DKK
             generate_mock_response(440000.0)  # INDKP107 Frb: 440k DKK
         ]
@@ -63,10 +64,12 @@ class TestDSTMacro(unittest.TestCase):
         self.assertIn("unemployment_rate", data)
         self.assertIn("rent_index", data)
         self.assertIn("rent_series", data)
+        self.assertIn("wage_growth", data)
         self.assertIn("disposable_income_cph", data)
         self.assertIn("disposable_income_frb", data)
         self.assertEqual(data["unemployment_rate"], 0.042)
         self.assertEqual(data["rent_index"], 120.0)
+        self.assertEqual(data["wage_growth"], 0.032)
 
     @patch("dst_macro.requests.post")
     def test_fetch_dst_macro_data_failure(self, mock_post):

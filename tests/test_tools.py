@@ -8,6 +8,7 @@ and runs all tools with sample inputs.
 import sys
 import json
 import datetime
+from unittest.mock import patch
 
 # Add server to path
 sys.path.insert(0, "../server")
@@ -121,9 +122,19 @@ print("\n" + "█"*70)
 print("  TEST 3: Early Warning System Check")
 print("█"*70)
 
-for segment in ["copenhagen_apartments", "copenhagen_houses", "frederiksberg_apartments"]:
-    ewi = check_early_warnings(segment=segment, dst_data=live_housing_data)
-    pp(f"EWI Status — {segment}", ewi)
+macro_fixture = {
+    "unemployment_rate": 0.035,
+    "rent_index": 120.0,
+    "rent_series": {period: 120.0 for period in live_housing_data["segments"]["copenhagen_apartments"]["series"]},
+    "disposable_income_cph": 400000.0,
+    "disposable_income_frb": 400000.0,
+    "interest_rate": 0.03,
+    "wage_growth": 0.032,
+}
+with patch("dst_macro.fetch_dst_macro_data", return_value=macro_fixture):
+    for segment in ["copenhagen_apartments", "copenhagen_houses", "frederiksberg_apartments"]:
+        ewi = check_early_warnings(segment=segment, dst_data=live_housing_data)
+        pp(f"EWI Status — {segment}", ewi)
 
 
 # ─────────────────────────────────────────────────────────────

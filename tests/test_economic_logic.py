@@ -228,6 +228,7 @@ class TestCompositeEWI(unittest.TestCase):
             "disposable_income_cph": 400000.0,
             "disposable_income_frb": 400000.0,
             "interest_rate": 0.03,
+            "wage_growth": 0.032,
         }
 
     def tearDown(self):
@@ -383,17 +384,17 @@ class TestEWSArbejdsloshed(unittest.TestCase):
     @patch('dst_macro.fetch_dst_macro_data')
     def test_ewi9_unemployment_thresholds(self, mock_fetch):
         # Green: < 4.0%
-        mock_fetch.return_value = {'unemployment_rate': 0.035, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        mock_fetch.return_value = {'unemployment_rate': 0.035, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0, 'wage_growth': 0.032}
         res_green = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
         self.assertEqual(res_green['indicators']['EWI-9_unemployment']['level'], 'GREEN')
 
         # Amber: 4.0% - 5.5%
-        mock_fetch.return_value = {'unemployment_rate': 0.045, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        mock_fetch.return_value = {'unemployment_rate': 0.045, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0, 'wage_growth': 0.032}
         res_amber = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
         self.assertEqual(res_amber['indicators']['EWI-9_unemployment']['level'], 'AMBER')
 
         # Red: > 5.5%
-        mock_fetch.return_value = {'unemployment_rate': 0.060, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        mock_fetch.return_value = {'unemployment_rate': 0.060, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0, 'wage_growth': 0.032}
         res_red = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
         self.assertEqual(res_red['indicators']['EWI-9_unemployment']['level'], 'RED')
 
@@ -403,7 +404,7 @@ class TestMachineLearningCrashModel(unittest.TestCase):
         # The former checked-in model was trained on synthetic feature rows.
         # Until a point-in-time, out-of-sample gate passes, no percentage may
         # be presented as a production crash probability.
-        mock_fetch.return_value = {'unemployment_rate': 0.035, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0}
+        mock_fetch.return_value = {'unemployment_rate': 0.035, 'rent_index': 120.0, 'rent_series': LIVE_RENT_SERIES, 'disposable_income_cph': 400000.0, 'disposable_income_frb': 400000.0, 'wage_growth': 0.032}
         res = check_early_warnings('copenhagen_apartments', ewi1_mode='yoy_expanded')
         self.assertIn('ml_crash_probability', res)
         self.assertIsNone(res['ml_crash_probability'])

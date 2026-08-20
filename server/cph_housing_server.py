@@ -54,7 +54,14 @@ DATA_FRESHNESS = {
         "half_life_days": 60,
     },
     "rkr_udb010": {
-        "label": "Boliga Custom Scraper",
+        "label": "Udbud og liggetid (RKR UDB010/UDB030)",
+        "last_updated": "2026-07-15",
+        "frequency": "Monthly",
+        "source": "Finans Danmark Statistikbank",
+        "half_life_days": 60
+    },
+    "boliga_listings": {
+        "label": "Prisreduktioner på aktive annoncer",
         "last_updated": "2026-07-15",
         "frequency": "Daily",
         "source": "Boliga API",
@@ -75,8 +82,8 @@ DATA_FRESHNESS = {
         "half_life_days": 30,
     },
     "wage_data": {
-        "label": "Lønudvikling",
-        "source": "Danmarks Statistik",
+        "label": "Standardiseret lønindeks (SBLON1)",
+        "source": "Danmarks Statistik SBLON1",
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
         "half_life_days": 120,
@@ -811,7 +818,10 @@ def check_early_warnings(
     else:
         yoy_price_growth = 0.0
 
-    wage_growth = 0.035  # baseline assumption
+    # EWI-1 must use the latest published live wage index, not a scenario
+    # assumption. The macro adapter fails closed if SBLON1 is unavailable.
+    macro = dst_macro.fetch_dst_macro_data()
+    wage_growth = macro["wage_growth"]
 
     # Calculate spreads and levels for all modes
     modes_data = {}
@@ -1022,6 +1032,9 @@ def check_early_warnings(
     elif macro.get("rent_period"):
         pd = parse_dst_period(macro["rent_period"])
         if pd: DATA_FRESHNESS["dst_hus1"]["last_updated"] = pd
+
+    if macro.get("wage_updated"):
+        DATA_FRESHNESS["wage_data"]["last_updated"] = macro["wage_updated"]
         
     if macro.get("income_updated"):
         DATA_FRESHNESS["dst_indkp107"]["last_updated"] = macro["income_updated"]
@@ -1099,7 +1112,7 @@ def check_early_warnings(
         "EWI-1": ["dst_ej56", "wage_data"],
         "EWI-2": ["rkr_udb010"],
         "EWI-3": ["dst_ej56", "rkr_udb010"],
-        "EWI-4": ["rkr_udb010"],
+        "EWI-4": ["boliga_listings"],
         "EWI-5": ["rkr_udb010"],
         "EWI-6": ["dst_ej56", "dst_hus1"],
         "EWI-7": ["rkr_ul10"],
@@ -1140,12 +1153,23 @@ def check_early_warnings(
             })
         return info
 
-    # The checked-in skops artifact was trained on synthetic feature rows and
-    # historical feature snapshots are not available for point-in-time
-    # validation. Keep it out of the production payload: a probability is only
-    # valid here once a live-feature, out-of-sample calibration gate passes.
-    prob = None
-    ml_model_status = "UNAVAILABLE_UNVALIDATED_MODEL"
+    # A probability is only allowed when the training command has produced a
+    # passing point-in-time validation report for the exact feature contract.
+    # The old synthetic artifact remains unusable because no passing report
+    # accompanies it.
+    from ml_probability import predict_probability
+
+    ml_features = {
+        "ewi1_price_wage_spread_pp": price_wage_spread * 100,
+        "ewi2_months_of_supply": months_of_supply,
+        "ewi3_volume_yoy_pct": volume_yoy_change * 100,
+        "ewi4_price_reduction_rate_pct": price_reduction_rate * 100,
+        "ewi5_dom_zscore": (median_dom - dom_mean) / dom_std,
+        "ewi6_price_to_rent_zscore": (price_to_rent - p2r_mean) / p2r_std if p2r_std else float("nan"),
+        "ewi7_amortization_free_share_pct": amort_free_share * 100,
+        "ewi8_dsr_pct": dsr * 100,
+    }
+    prob, ml_model_status = predict_probability(ml_features)
 
     data_freshness_summary = {}
     for k, v in DATA_FRESHNESS.items():
@@ -1237,6 +1261,7 @@ def check_early_warnings(
                 "level": ewi6_level,
                 "price_to_rent_ratio": round(price_to_rent, 3),
                 "baseline_mean": round(p2r_mean, 3),
+                "baseline_std": round(p2r_std, 3),
                 "detail": f"Price-to-rent ratio er {price_to_rent:.3f} (Rullende μ: {p2r_mean:.3f}, σ: {p2r_std:.3f}, AMBER >{ewi6_amber_threshold:.3f})",
                 "data_sources": source_info(ewi_sources["EWI-6"]),
             },

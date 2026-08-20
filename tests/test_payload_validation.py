@@ -42,6 +42,15 @@ class TestPayloadValidation(unittest.TestCase):
         errors = validate_pipeline_payload(payload, now=generated + dt.timedelta(hours=49))
         self.assertTrue(any("stale" in error for error in errors))
 
+    def test_ml_feature_metadata_is_required(self):
+        payload = copy.deepcopy(self.payload)
+        payload["early_warnings"]["copenhagen_apartments"]["indicators"]["EWI-6_price_to_rent"].pop(
+            "baseline_std", None
+        )
+        generated = dt.datetime.fromisoformat(payload["generated_at"])
+        errors = validate_pipeline_payload(payload, now=generated)
+        self.assertTrue(any("baseline_std must be numeric" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()

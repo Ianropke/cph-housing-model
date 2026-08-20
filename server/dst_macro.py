@@ -27,6 +27,10 @@ def fetch_dst_macro_data() -> dict:
         "rent_period": None,
         "rent_updated": None,
         "rent_series": {},
+        "wage_growth": None,
+        "wage_period": None,
+        "wage_updated": None,
+        "wage_series": {},
         "disposable_income_cph": None,
         "disposable_income_frb": None,
         "income_period": None,
@@ -125,7 +129,37 @@ def fetch_dst_macro_data() -> dict:
     except Exception as e:
         failures.append(f"HUS1: {e}")
 
-    # 4. Income (INDKP107 - 105 Disponibel indkomst, 116 Gennemsnit)
+    # 4. Standardised wage growth (SBLON1 - all industries, all sectors)
+    try:
+        data = post_req({
+            "table": "SBLON1",
+            "format": "JSONSTAT",
+            "variables": [
+                {"code": "BRANCHE07", "values": ["TOT"]},
+                {"code": "SEKTOR", "values": ["1000"]},
+                {"code": "VARIA1", "values": ["215"]},
+                {"code": "Tid", "values": ["*"]}
+            ]
+        })
+        vals = data["dataset"]["value"]
+        tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
+        updated_str = data["dataset"].get("updated")
+        wage_series = {}
+        for period, value in zip(tid_keys, vals):
+            if value is not None:
+                wage_series[period.replace("K", "Q")] = float(value) / 100.0
+        results["wage_series"] = wage_series
+        for period, value in reversed(list(zip(tid_keys, vals))):
+            if value is not None:
+                results["wage_growth"] = float(value) / 100.0
+                results["wage_period"] = period.replace("K", "Q")
+                if updated_str:
+                    results["wage_updated"] = updated_str.split("T")[0]
+                break
+    except Exception as e:
+        failures.append(f"SBLON1: {e}")
+
+    # 5. Income (INDKP107 - 105 Disponibel indkomst, 116 Gennemsnit)
     try:
         for omrade in ["101", "147"]:
             data = post_req({
@@ -156,8 +190,11 @@ def fetch_dst_macro_data() -> dict:
     except Exception as e:
         failures.append(f"INDKP107: {e}")
 
-    required = ("unemployment_rate", "interest_rate", "rent_index", "disposable_income_cph", "disposable_income_frb")
-    if failures or any(results[key] is None for key in required) or not results["rent_series"]:
+    required = (
+        "unemployment_rate", "interest_rate", "rent_index", "wage_growth",
+        "disposable_income_cph", "disposable_income_frb",
+    )
+    if failures or any(results[key] is None for key in required) or not results["rent_series"] or not results["wage_series"]:
         raise RuntimeError("DST macro data is incomplete; refusing fallback values: " + "; ".join(failures))
 
     _macro_data_cache = results

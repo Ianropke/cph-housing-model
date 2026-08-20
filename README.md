@@ -111,6 +111,7 @@ Integrationstests dækker:
 * Periodematch mellem live DST-payload, forecast og EWI-beregning.
 * Payload-schema, freshness og afvisning af uvaliderede ML-procenter.
 * Walk-forward benchmark af crash-eventdefinitionen; den viste produktions-ML-probability er utilgængelig, indtil kalibrering på point-in-time live features er bestået.
+* Den daglige pipeline arkiverer nu point-in-time ML-features i `data/ml_feature_snapshots.jsonl`; `scripts/train_ews_model.py` træner kun på dette arkiv og fejler lukket ved utilstrækkelig historik.
 * Korrekt skalering af EWS til den nye vægtede 27,0-pointskala.
 
 Kvalitetsgates kan køres samlet med `RUN_VISUAL_TESTS=0 ./manage.sh test`, eller separat med `python scripts/validate_payload.py dashboard/public/data/latest_pipeline.json`, `npm run lint` og `npm run build` fra `dashboard/`.

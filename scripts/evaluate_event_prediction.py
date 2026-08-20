@@ -90,7 +90,8 @@ def evaluate_crash_event_prediction(
 ) -> dict:
     """Run an expanding-window, one-quarter-ahead probability backtest.
 
-    The target is a >=10% price decline over the following four quarters.
+The target is a nominal DST EJ56 >=10% price-index decline over the following
+four quarters.
     At each prediction date, only observations strictly before that date are
     used for training. No future prices or future labels enter the features.
     """
@@ -109,7 +110,7 @@ def evaluate_crash_event_prediction(
             "model_type": "walk_forward_price_only_benchmark",
             "deployed_model_validated": False,
             "data_source": source,
-            "event_definition": f"Real housing-price decline >= {abs(threshold_crash_pct) * 100:.0f}% over following 12 months",
+            "event_definition": f"Nominal DST EJ56 price-index decline >= {abs(threshold_crash_pct) * 100:.0f}% over following 12 months",
             "sample_quarters_available": len(rows),
             "sample_quarters_evaluated": 0,
             "total_crashes_observed": 0,
@@ -191,7 +192,7 @@ def evaluate_crash_event_prediction(
         "model_type": "walk_forward_price_only_benchmark",
         "deployed_model_validated": False,
         "data_source": source,
-        "event_definition": f"Real housing-price decline >= {abs(threshold_crash_pct) * 100:.0f}% over following 12 months",
+        "event_definition": f"Nominal DST EJ56 price-index decline >= {abs(threshold_crash_pct) * 100:.0f}% over following 12 months",
         "sample_quarters_available": len(rows),
         "sample_quarters_evaluated": len(predictions),
         "total_crashes_observed": sum(y_true),
