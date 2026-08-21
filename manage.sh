@@ -111,14 +111,24 @@ case "$1" in
         else
             echo -e "  - latest_pipeline.json: ${RED}Missing${NC}"
         fi
+        if [ -f "$PROJECT_DIR/data/ml_feature_snapshots.jsonl" ]; then
+            SNAPSHOT_COUNT=$(wc -l < "$PROJECT_DIR/data/ml_feature_snapshots.jsonl" | tr -d ' ')
+            echo -e "  - ml_feature_snapshots.jsonl: ${GREEN}Exists${NC} ($SNAPSHOT_COUNT snapshot rows)"
+        else
+            echo -e "  - ml_feature_snapshots.jsonl: ${YELLOW}Not created yet${NC}"
+        fi
+        if [ -f "$PROJECT_DIR/reports/ml_validation_latest.json" ]; then
+            VAL_STATUS=$(python3 -c "import json; print(json.load(open('$PROJECT_DIR/reports/ml_validation_latest.json')).get('status', 'UNKNOWN'))" 2>/dev/null || echo "ERROR")
+            echo -e "  - ml_validation_latest.json: ${GREEN}Exists${NC} (Gate Status: ${BOLD}$VAL_STATUS${NC})"
+        fi
         echo ""
         echo -e "${BOLD}Latest Daily Reports:${NC}"
         if [ -d "$PROJECT_DIR/reports" ]; then
             ls -lt "$PROJECT_DIR/reports" | head -n 4 | awk '{if (NR>1) print "  - " $9}'
         fi
         echo ""
-        echo -e "${BOLD}Scheduler:${NC}"
-        echo "The daily background updater is expected to run at the configured scheduler time."
+        echo -e "${BOLD}Scheduler & Pipeline:${NC}"
+        echo "The daily background updater runs at 03:00 UTC via GitHub Actions (.github/workflows/daily_update.yml)."
         ;;
     *)
         show_help
