@@ -12,7 +12,22 @@ Scenario `ensemble_weight` values are model/analyst weights used to combine scen
 
 ## Crash event definition
 
-For evaluation purposes, a 12-month crash event is currently defined as a nominal DST EJ56 housing-price-index decline of at least 10% over the subsequent four quarters. A real-price label requires a separately versioned deflator series and is not enabled in the current gate. Evaluation must use only information that would have been available at the prediction date.
+For evaluation purposes, a 12-month crash event is currently defined as a nominal DST EJ56 housing-price-index decline of at least 10% over the subsequent four quarters. A real-price label requires a separately versioned deflator series and is not enabled in the current gate. Evaluation must use only information that would have been available at the prediction date. See `docs/real_price_deflator_specification.md` for the formal mathematical definition, CPI (DST PRIS112) lag matching, empirical historical analysis (2007–2009 vs. 2022–2023), and the roadmap for future real-price crash label activation.
+
+## Passive live vintage accumulation lifecycle
+
+The live feature archive `data/ml_feature_snapshots.jsonl` is continuously updated by the daily scheduled pipeline (`scripts/daily_pipeline.py`) running autonomously via GitHub Actions (`.github/workflows/daily_update.yml`).
+
+1. **Daily Cadence:** Daily runs record the current live market indicators with immutable timestamps and authoritative source vintages.
+2. **Quarterly Expansion:** As Danmarks Statistik publishes new quarterly EJ56 housing price index values (approx. 4 times per year), the archive accumulates genuine, verified point-in-time training rows without look-ahead leakage.
+3. **Conservative Deduplication:** `scripts/train_ews_model.py` selects the earliest recorded vintage per segment and quarter (`_dedupe_earliest_snapshot_per_period`), ensuring that later revisions retrieved after the label horizon cannot corrupt historical evaluation.
+4. **Zero Fabrication:** The system never synthesizes past quarters to artificially accelerate validation. ML probability remains `null` with `INSUFFICIENT_HISTORY` until the required 24 labeled rows, 24 OOS predictions, and 3 independent crash episodes are genuinely achieved.
+
+## Multi-agent & Codex interoperability
+
+This repository is designed for full cognitive and operational portability across AI agents (Codex, Antigravity, Claude) and human maintainers:
+- **No Chat-Specific State:** All architectural invariants, economic formulas, validation gates, and pipeline commands are self-contained in the repository files.
+- **Fail-Closed Verification:** Any agent operating on this codebase must execute `./manage.sh test` and respect the validation gates before staging commits or deploying payloads.
 
 ## Data lineage
 
