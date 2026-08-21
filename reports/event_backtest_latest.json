@@ -1,0 +1,325 @@
+{
+  "model_type": "walk_forward_price_only_benchmark",
+  "deployed_model_validated": false,
+  "data_source": "Danmarks Statistik",
+  "event_definition": "Nominal DST EJ56 price-index decline >= 10% over following 12 months",
+  "sample_quarters_available": 69,
+  "sample_quarters_evaluated": 45,
+  "total_crashes_observed": 0,
+  "confusion_matrix": {
+    "true_positives": 0,
+    "false_positives": 0,
+    "true_negatives": 45,
+    "false_negatives": 0
+  },
+  "metrics": {
+    "precision": 0.0,
+    "recall_sensitivity": 0.0,
+    "specificity": 1.0,
+    "f1_score": 0.0,
+    "brier_score": 0.0047,
+    "log_loss": null,
+    "roc_auc": null,
+    "average_lead_time_months": null,
+    "events_with_pre_event_warning": 0
+  },
+  "calibration": [
+    {
+      "lower": 0.0,
+      "upper": 0.1,
+      "count": 37,
+      "mean_predicted": 0.0273,
+      "observed_rate": 0.0,
+      "absolute_error": 0.0273
+    },
+    {
+      "lower": 0.1,
+      "upper": 0.2,
+      "count": 7,
+      "mean_predicted": 0.1338,
+      "observed_rate": 0.0,
+      "absolute_error": 0.1338
+    },
+    {
+      "lower": 0.2,
+      "upper": 0.3,
+      "count": 1,
+      "mean_predicted": 0.2075,
+      "observed_rate": 0.0,
+      "absolute_error": 0.2075
+    }
+  ],
+  "status": "INSUFFICIENT_EVENTS",
+  "predictions": [
+    {
+      "quarter": "2014Q1",
+      "probability": 0.029388,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2014Q2",
+      "probability": 0.042963,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2014Q3",
+      "probability": 0.04878,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2014Q4",
+      "probability": 0.036174,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2015Q1",
+      "probability": 0.021184,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2015Q2",
+      "probability": 0.010314,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2015Q3",
+      "probability": 0.009849,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2015Q4",
+      "probability": 0.008958,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2016Q1",
+      "probability": 0.015114,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2016Q2",
+      "probability": 0.045092,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2016Q3",
+      "probability": 0.045737,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2016Q4",
+      "probability": 0.061472,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2017Q1",
+      "probability": 0.141115,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2017Q2",
+      "probability": 0.127791,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2017Q3",
+      "probability": 0.060645,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2017Q4",
+      "probability": 0.025224,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2018Q1",
+      "probability": 0.01136,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2018Q2",
+      "probability": 0.010695,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2018Q3",
+      "probability": 0.018515,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2018Q4",
+      "probability": 0.027101,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2019Q1",
+      "probability": 0.117519,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2019Q2",
+      "probability": 0.127198,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2019Q3",
+      "probability": 0.149402,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2019Q4",
+      "probability": 0.207457,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2020Q1",
+      "probability": 0.12399,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2020Q2",
+      "probability": 0.068588,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2020Q3",
+      "probability": 0.056118,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2020Q4",
+      "probability": 0.045897,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2021Q1",
+      "probability": 0.012465,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2021Q2",
+      "probability": 0.010006,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2021Q3",
+      "probability": 0.008686,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2021Q4",
+      "probability": 0.003477,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2022Q1",
+      "probability": 0.007408,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2022Q2",
+      "probability": 0.009556,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2022Q3",
+      "probability": 0.011947,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2022Q4",
+      "probability": 0.021414,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2023Q1",
+      "probability": 0.149486,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2023Q2",
+      "probability": 0.020255,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2023Q3",
+      "probability": 0.017307,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2023Q4",
+      "probability": 0.077002,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2024Q1",
+      "probability": 0.06927,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2024Q2",
+      "probability": 0.016855,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2024Q3",
+      "probability": 0.009487,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2024Q4",
+      "probability": 0.007154,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    },
+    {
+      "quarter": "2025Q1",
+      "probability": 0.009118,
+      "crash_event": 0,
+      "model_status": "walk_forward_logistic"
+    }
+  ]
+}
