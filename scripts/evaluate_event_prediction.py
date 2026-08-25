@@ -1,8 +1,8 @@
 """Event-based crash evaluation using strictly walk-forward predictions.
 
-This module deliberately does NOT evaluate the deployed eight-feature ML model,
-because the repository does not contain historical snapshots of all eight
-features. Instead it evaluates a transparent price-only benchmark using the
+This module deliberately does NOT evaluate the deployed seven-feature ML model,
+because the repository does not contain sufficient historical point-in-time
+snapshots of its features. Instead it evaluates a transparent price-only benchmark using the
 same crash-event definition. Results must never be presented as validation of
 the deployed ML probability.
 """

@@ -111,7 +111,7 @@ Integrationstests dækker:
 * Periodematch mellem live DST-payload, forecast og EWI-beregning.
 * Payload-schema, freshness og afvisning af uvaliderede ML-procenter.
 * Walk-forward benchmark af crash-eventdefinitionen; den viste produktions-ML-probability er utilgængelig, indtil kalibrering på point-in-time live features er bestået.
-* Den daglige pipeline arkiverer nu point-in-time ML-features i `data/ml_feature_snapshots.jsonl`; `scripts/train_ews_model.py` træner kun på dette arkiv og fejler lukket ved utilstrækkelig historik.
+* Den daglige pipeline arkiverer nu den versionerede 7-feature ML-kontrakt i `data/ml_feature_snapshots.jsonl`; EWI-4 forbliver en dashboard/EWI-indikator, men indgår ikke i ML uden historisk Boliga-dækning.
 Kvalitetsgates kan køres samlet med `RUN_VISUAL_TESTS=0 ./manage.sh test`, eller separat med `python scripts/validate_payload.py dashboard/public/data/latest_pipeline.json`, `npm run lint` og `npm run build` fra `dashboard/`.
 
 ---
@@ -121,4 +121,3 @@ Kvalitetsgates kan køres samlet med `RUN_VISUAL_TESTS=0 ./manage.sh test`, elle
 * **[Model Governance](file:///Users/ianropke/Documents/Codex/2026-08-11/du/work/cph-housing-model/docs/model_governance.md):** Outputsemantik, kilde-lineage, point-in-time arkiveringslivscyklus og produktionssikkerhed.
 * **[Real-Price Deflator Specifikation](file:///Users/ianropke/Documents/Codex/2026-08-11/du/work/cph-housing-model/docs/real_price_deflator_specification.md):** Matematisk formulering for forbrugerprisjustering (DST PRIS112), anti-leakage lag-matching og krak-definition.
 * **[Point-in-Time Feature Archive](file:///Users/ianropke/Documents/Codex/2026-08-11/du/work/cph-housing-model/data/README.md):** Dokumentation af `data/ml_feature_snapshots.jsonl` og passiv dataindtagelse.
-

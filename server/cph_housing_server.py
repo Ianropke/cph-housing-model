@@ -1163,7 +1163,6 @@ def check_early_warnings(
         "ewi1_price_wage_spread_pp": price_wage_spread * 100,
         "ewi2_months_of_supply": months_of_supply,
         "ewi3_volume_yoy_pct": volume_yoy_change * 100,
-        "ewi4_price_reduction_rate_pct": price_reduction_rate * 100,
         "ewi5_dom_zscore": (median_dom - dom_mean) / dom_std,
         "ewi6_price_to_rent_zscore": (price_to_rent - p2r_mean) / p2r_std if p2r_std else float("nan"),
         "ewi7_amortization_free_share_pct": amort_free_share * 100,

@@ -5,7 +5,7 @@ artifact was trained on synthetic rows.  This module defines the real-data
 contract needed to replace it safely:
 
 * one immutable snapshot per pipeline run and segment;
-* all eight model features with their source vintages;
+* seven model features with their source vintages;
 * no forward-looking values in the feature row; and
 * labels derived only after the observation date from a separate price series.
 
@@ -28,11 +28,11 @@ from typing import Iterable, Mapping, Sequence
 
 
 PANEL_SCHEMA_VERSION = 1
+FEATURE_DEFINITION_VERSION = "ews_live_v2_7f"
 FEATURE_NAMES = (
     "ewi1_price_wage_spread_pp",
     "ewi2_months_of_supply",
     "ewi3_volume_yoy_pct",
-    "ewi4_price_reduction_rate_pct",
     "ewi5_dom_zscore",
     "ewi6_price_to_rent_zscore",
     "ewi7_amortization_free_share_pct",
@@ -53,7 +53,6 @@ REQUIRED_SOURCE_VINTAGES = {
         ("dst_ej56", "Danmarks Statistik"),
         ("rkr_udb010", "Finans Danmark Statistikbank"),
     ),
-    "ewi4_price_reduction_rate_pct": (("boliga_listings", "Boliga API"),),
     "ewi5_dom_zscore": (("rkr_udb010", "Finans Danmark Statistikbank"),),
     "ewi6_price_to_rent_zscore": (
         ("dst_ej56", "Danmarks Statistik"),
@@ -127,7 +126,6 @@ def _source_vintages(ewi_result: Mapping[str, object]) -> dict[str, list[dict]]:
         "ewi1_price_wage_spread_pp": "EWI-1_price_vs_wages",
         "ewi2_months_of_supply": "EWI-2_supply_demand",
         "ewi3_volume_yoy_pct": "EWI-3_volume_price_divergence",
-        "ewi4_price_reduction_rate_pct": "EWI-4_price_reductions",
         "ewi5_dom_zscore": "EWI-5_time_on_market",
         "ewi6_price_to_rent_zscore": "EWI-6_price_to_rent",
         "ewi7_amortization_free_share_pct": "EWI-7_credit_growth",
@@ -192,10 +190,6 @@ def build_feature_snapshot(
         "ewi3_volume_yoy_pct": _finite_number(
             indicator("EWI-3_volume_price_divergence").get("volume_yoy_pct"), "ewi3_volume_yoy_pct"
         ),
-        "ewi4_price_reduction_rate_pct": _finite_number(
-            indicator("EWI-4_price_reductions").get("reduction_rate_pct"),
-            "ewi4_price_reduction_rate_pct",
-        ),
         "ewi5_dom_zscore": round(
             (
                 _finite_number(dom.get("median_dom_days"), "EWI-5 median_dom_days")
@@ -238,7 +232,7 @@ def build_feature_snapshot(
         "source_status": source_status,
         "price_index": price_index,
         "price_source": "Danmarks Statistik EJ56",
-        "feature_definition_version": "ews_live_v1",
+        "feature_definition_version": FEATURE_DEFINITION_VERSION,
         "features": features,
         "source_vintages": _source_vintages(ewi_result),
     }
@@ -348,7 +342,7 @@ def validate_panel(rows: Sequence[Mapping[str, object]], *, require_live: bool =
             _finite_number(row.get("price_index"), f"{prefix} price_index")
         except FeaturePanelError as exc:
             errors.append(str(exc))
-        if row.get("feature_definition_version") != "ews_live_v1":
+        if row.get("feature_definition_version") != FEATURE_DEFINITION_VERSION:
             errors.append(f"{prefix}: unsupported feature_definition_version")
 
         prohibited_fields = {
@@ -365,6 +359,9 @@ def validate_panel(rows: Sequence[Mapping[str, object]], *, require_live: bool =
         if not isinstance(features, Mapping):
             errors.append(f"{prefix}: features must be an object")
             features = {}
+        unexpected_features = sorted(set(features) - set(FEATURE_NAMES))
+        if unexpected_features:
+            errors.append(f"{prefix}: unsupported features: {', '.join(unexpected_features)}")
         missing = [name for name in FEATURE_NAMES if name not in features]
         if missing:
             errors.append(f"{prefix}: missing features: {', '.join(missing)}")
@@ -379,6 +376,11 @@ def validate_panel(rows: Sequence[Mapping[str, object]], *, require_live: bool =
         if not isinstance(vintages, Mapping):
             errors.append(f"{prefix}: source_vintages must be an object")
         else:
+            unexpected_vintages = sorted(set(vintages) - set(FEATURE_NAMES))
+            if unexpected_vintages:
+                errors.append(
+                    f"{prefix}: unsupported source vintages: {', '.join(unexpected_vintages)}"
+                )
             for name in FEATURE_NAMES:
                 if not vintages.get(name):
                     errors.append(f"{prefix}: missing source vintage for {name}")

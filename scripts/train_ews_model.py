@@ -30,6 +30,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from server.ml_feature_panel import (  # noqa: E402
+    FEATURE_DEFINITION_VERSION,
     FEATURE_NAMES,
     FeaturePanelError,
     SEGMENTS,
@@ -265,6 +266,7 @@ def _report(
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "model_type": "walk_forward_logistic_with_time_series_calibration",
         "deployed_model_validated": status == "VALIDATION_AVAILABLE",
+        "feature_definition_version": FEATURE_DEFINITION_VERSION,
         "feature_names": list(FEATURE_NAMES),
         "event_definition": "DST EJ56 index decline >= 10% over the following four quarters",
         "panel": panel_report,
@@ -350,6 +352,7 @@ def train(
     sio.dump(
         {
             "artifact_schema_version": 1,
+            "feature_definition_version": FEATURE_DEFINITION_VERSION,
             "feature_names": list(FEATURE_NAMES),
             "model": calibrated,
             "validation_report": report,

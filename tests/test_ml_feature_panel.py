@@ -27,7 +27,7 @@ class TestMlFeaturePanel(unittest.TestCase):
     def setUpClass(cls):
         cls.payload = json.loads(PAYLOAD_PATH.read_text(encoding="utf-8"))
 
-    def test_live_payload_can_be_archived_with_all_eight_features(self):
+    def test_live_payload_can_be_archived_with_all_seven_ml_features(self):
         snapshots = []
         for segment, ewi in self.payload["early_warnings"].items():
             snapshots.append(
@@ -43,6 +43,7 @@ class TestMlFeaturePanel(unittest.TestCase):
         self.assertEqual(report["status"], "VALID")
         self.assertEqual(report["rows"], 3)
         self.assertEqual(set(snapshots[0]["features"]), set(FEATURE_NAMES))
+        self.assertNotIn("ewi4_price_reduction_rate_pct", snapshots[0]["features"])
         self.assertTrue(all(snapshots[0]["source_vintages"][name] for name in FEATURE_NAMES))
         self.assertEqual(
             self.payload["early_warnings"]["copenhagen_apartments"]["indicators"]["EWI-2_supply_demand"]["data_sources"][0]["source"],
@@ -77,6 +78,18 @@ class TestMlFeaturePanel(unittest.TestCase):
         report = validate_panel([snapshot])
         self.assertEqual(report["status"], "INVALID")
         self.assertTrue(any("required source identity" in error for error in report["errors"]))
+
+    def test_validation_rejects_legacy_EWI4_feature_mixing(self):
+        snapshot = build_feature_snapshot(
+            "copenhagen_apartments",
+            self.payload["early_warnings"]["copenhagen_apartments"],
+            self.payload["dst_data"]["segments"]["copenhagen_apartments"],
+            snapshot_at="2026-08-20T15:34:35+00:00",
+        )
+        snapshot["features"]["ewi4_price_reduction_rate_pct"] = 31.2
+        report = validate_panel([snapshot])
+        self.assertEqual(report["status"], "INVALID")
+        self.assertTrue(any("unsupported features" in error for error in report["errors"]))
 
     def test_labeling_uses_four_future_quarters(self):
         snapshot = build_feature_snapshot(

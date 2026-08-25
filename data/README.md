@@ -1,9 +1,13 @@
 # Point-in-time ML feature archive
 
 `ml_feature_snapshots.jsonl` is generated autonomously by `scripts/daily_pipeline.py`.
-Each row contains the eight live EWS inputs for one segment, the quarterly
+Each row contains the seven ML-eligible live EWS inputs for one segment, the quarterly
 price observation used for the later label, the pipeline timestamp, and the
 source vintages used to construct each feature.
+
+EWI-4 (active-listing price-reduction rate) remains a dashboard and EWI
+indicator, but is intentionally excluded from the ML feature contract because
+the repository has no historical point-in-time Boliga series for it.
 
 ## Passive Accumulation Lifecycle & Cadence
 
@@ -23,7 +27,7 @@ Until these conditions are genuinely met through empirical accumulation, the val
 
 The archive is not a historical backfill. Daily collection can only add the
 currently published quarter. A historical backfill is allowed only when all
-eight features can be reconstructed from authoritative, point-in-time sources.
-In particular, current Boliga active-listing data has no historical series in
-this repository, so that feature cannot be fabricated or silently proxied.
-
+seven ML features can be reconstructed from authoritative, point-in-time
+sources. Current Boliga active-listing data has no historical series in this
+repository, so EWI-4 is not used for ML and cannot be fabricated or silently
+proxied.
