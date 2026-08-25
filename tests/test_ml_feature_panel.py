@@ -35,7 +35,7 @@ class TestMlFeaturePanel(unittest.TestCase):
                     segment,
                     ewi,
                     self.payload["dst_data"]["segments"][segment],
-                    snapshot_at="2026-08-20T15:34:35+00:00",
+                    snapshot_at=self.payload["generated_at"],
                 )
             )
 
