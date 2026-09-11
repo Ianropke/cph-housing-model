@@ -1,123 +1,90 @@
 # Copenhagen Housing Market Model & Dashboard
 
-Dette repository indeholder kildekoden til Københavns Boligmarkedsmodel og det tilhørende styringsdashboard. Modellen fungerer som et Early Warning System (EWS) og beregner de fundamentale ejeromkostninger (User Cost of Housing) for at identificere systemiske ubalancer og bobletendenser.
+Copenhagen Housing Model is an experimental early-warning and scenario-analysis system for Copenhagen and Frederiksberg. It combines observed housing/macro data, an Early Warning Indicator (EWI) framework, user-cost calculations and conditional scenario projections.
 
-## 🚀 Live Demo (Vercel)
-Dashboardprojektet administreres i [Vercel-projektet](https://vercel.com/ianropkes-projects/cph-housing-model).
+It is **not** a validated system for stating when a housing crash will occur. The dashboard deliberately separates observed data, heuristic indices, scenario outputs, simulation sensitivity and any future validated ML probability.
 
-> [!NOTE]
-> Vercel hoster dashboardet som en statisk frontend-applikation. Den daglige Python-pipeline genererer `dashboard/public/data/latest_pipeline.json`, som valideres før publicering. Hvis payloaden mangler, er forældet eller ikke matcher sine perioder, viser UI’et en eksplicit unavailable/stale-status; det bruger ikke mocktal som fallback. Python-kald via Vite middleware er kun lokal udviklingsintegration.
+## Live architecture
 
----
+Vercel hosts the dashboard as a static React/Vite application. The scheduled Python pipeline produces `dashboard/public/data/latest_pipeline.json`, which is validated before publication.
 
-## 📖 Systemarkitektur & Økonomisk Model
+If required data is missing, stale or period-misaligned, the UI reports that state explicitly rather than substituting mock values. Python calls through Vite middleware are local-development integration only.
 
-### 1. Fundamental User Cost of Housing ($UC_{fund}$)
-Modellen anvender en modificeret udgave af den klassiske brugeromkostningsmodel (inspireret af OECD og Danmarks Nationalbank). For at bryde den cirkulære feedback-logik, hvor stigende prisforventninger reducerer de beregnede ejeromkostninger og derved skaber kunstige "købssignaler", er prisforventningerne ($\pi_e$) blevet separeret helt fra formlen.
+## How to read the outputs
 
-Ejeromkostningen beregnes som den **fundamentale nettoudgift** ved at eje:
+| Output | Meaning | Must not be read as |
+| --- | --- | --- |
+| Observed market data | Sourced observations with explicit period/freshness | A forecast |
+| EWI score | Weighted early-warning index | A percentage probability |
+| Downside / Market Risk score | Composite model index on a 0–100 scale | “X% chance of a fall” |
+| Scenario projection | Conditional model output under configured assumptions | The one expected future path |
+| Scenario weight | Analyst/model aggregation weight | Empirically estimated scenario probability |
+| Monte Carlo downside share | Fraction of simulated model runs with downside | Calibrated probability of a real market event |
+| P10–P90 simulation range | Spread of simulated outputs | Predictive confidence interval |
+| ML event probability | Statistical probability from the point-in-time model | Available before OOS validation passes |
+
+The separate ML probability is currently unavailable until sufficient genuine point-in-time history has accumulated and the out-of-sample validation gate passes.
+
+## User-cost model
+
+The model uses a modified user-cost framework and deliberately separates expected house-price appreciation from the owner-cost formula to avoid circular “buy” signals.
+
+For the configured reference property:
 
 $$UC_{fund} = \left( r \cdot (1 - \tau_r) + \tau_p + \delta + rp \right) \cdot P$$
 
-Hvor:
-* **$P$**: Ejendommens markedsværdi (referenceejendom på 3.000.000 DKK).
-* **$r$**: Nominel realkreditrente (fastforrentet 30-årigt lån + bidragssats).
-* **$\tau_r$**: Dynamisk blended rentefradragssats. I henhold til danske skatteregler udgør fradragets skatteværdi 33,0% op til 50.000 DKK for enlige (100.000 DKK for ægtepar) og 25,0% for renteudgifter derover.
-* **$\tau_p$**: Dynamisk ejendomsskat (grundskyld + ejendomsværdiskat). For at afspejle 2024-boligskattereformen reguleres skattesatsen løbende i forhold til ejendomsprisindeksets udvikling ud fra segmentets basissats.
-* **$\delta$**: Segment-specifik vedligeholdelses- og afskrivningsrate (Villaer: 1,9% p.a., Frederiksberg lejligheder: 1,7% p.a., København lejligheder: 1,6% p.a.).
-* **$rp$**: Dynamisk risikopræmie, der er rente- og volatilitetsfølsom:
-  $$rp = 0,8\% + 0,05 \cdot (r - 2\%)$$
+Where `r` is mortgage financing cost, `τr` the configured blended interest-deduction effect, `τp` property taxation, `δ` maintenance/depreciation and `rp` the modelled risk premium. These are modelling assumptions/components; the resulting value is a modelled owner-cost measure rather than an observed market price.
 
----
+## Early Warning System
 
-### 2. Early Warning System (EWS)
-Risikovurderingen foretages på tværs af **9 ledende indikatorer (EWIs)**. Hver indikator tildeles en modelvægt:
+The EWI framework combines nine indicator families including price/wage divergence, inventory, volume/price divergence, price reductions, time-on-market, price/rent, credit conditions, debt-service burden and unemployment.
 
-| Indikator | Beskrivelse | Modelvægt |
-|---|---|---|
-| **EWI-1** | Prisudvikling vs. Lønvækst (YoY spread) | 1,4 |
-| **EWI-2** | Udbudslager (måneder af salg) | 1,2 |
-| **EWI-3** | Volumen-Pris Divergens (YoY) | 0,5 |
-| **EWI-4** | Prisnedslag (andel nedsat + gns. nedslag) | 1,3 |
-| **EWI-5** | Liggetid (median-liggetid i forhold til Z-score) | 0,3 |
-| **EWI-6** | Pris/Leje-forhold (Z-score afvigelse) | 1,1 |
-| **EWI-7** | Kreditvækst & Afdragsfri andel (RKR) | 0,2 |
-| **EWI-8** | Gældsbetjeningsgrad (Debt Service Ratio) | 1,5 |
-| **EWI-9** | Ledighed | 1,5 |
+The configured threshold bands (`NORMAL`, `ELEVATED`, `HIGH`, `CRITICAL`, `EXTREME`) are **index categories**. Their names describe model states, not calibrated probabilities of a future event.
 
-Den samlede kompositscore beregnes som summen af de vægtede indikatorscores (0 for grøn, 1 for gul, 3 for rød), hvilket giver en maksimal samlet risikoscore på **27,0 point**.
+## Data and lineage
 
-Alarmtærsklerne er defineret som:
-* 🟢 **NORMAL**: $< 4.5$
-* 🟡 **ELEVATED**: $\ge 4.5$
-* 🟠 **HIGH**: $\ge 9.0$
-* 🔴 **CRITICAL**: $\ge 15.5$
-* 💀 **EXTREME**: $\ge 21.0$
+Primary pipeline sources include Danmarks Statistik, Finans Danmark/RKR and Boliga where configured in the implementation. For every source, keep these concepts distinct:
 
----
+- observation period — when the economic activity occurred
+- publication time — when the source released it
+- retrieval time — when this system fetched it
+- freshness/status — whether the published payload is suitable for current dashboard use
 
-### 3. Dataingestion & Friskhed (Data Freshness)
-Data hentes direkte fra **Danmarks Statistik (DST) API (Tabel EJ56)** og **Finansdanmark (RKR)**.
-Modellen anvender et **eksponentielt friskhedsforfald** på datakilderne for at straffe forældede oplysninger:
+A fresh retrieval timestamp is not a fresh underlying observation.
 
-$$W_{fresh} = e^{-\lambda \cdot t_{age}}$$
+## ML validation
 
-Hvor $t_{age}$ er antallet af dage siden seneste opdatering, og $\lambda$ er tilpasset kildens frekvens (daglig, månedlig, kvartalsvis, årlig).
+The production ML field stays unavailable until genuine point-in-time features support the configured validation requirements. The pipeline archives live features in `data/ml_feature_snapshots.jsonl`; training must not manufacture historical feature rows.
 
----
+The crash-event evaluation convention is documented in `docs/model_governance.md`. Synthetic fixtures, deterministic tests and the price-only walk-forward benchmark are useful implementation/model-behavior checks but do not establish predictive validity for the deployed multivariate model.
 
-## 🛠️ Teknisk Implementering & Udvikling
+## Development
 
-### Projektstruktur
-```
-cph-housing-model/
-├── architecture/          # Dokumentation af det teoretiske framework og EWS
-├── config/                # Konfigurationsfiler til scenarier
-├── dashboard/             # React + Vite frontend
-│   ├── src/
-│   │   ├── components/    # UI Paneler (UserCost, EarlyWarning, Forecast)
-│   │   ├── data/          # Genererede data-assets (housingData.js)
-│   │   ├── context/       # Payload loading, schema- og freshness-checks
-│   │   └── App.jsx        # Hovedkomponent uden data-mocks
-│   └── index.html
-├── reports/               # Automatiske daglige rapporter (Markdown)
-├── scripts/               # Datapipeline-scripts (daily_pipeline.py)
-├── server/                # Beregningskerne i Python (cph_housing_server.py)
-├── tests/                 # Unit- og integrationstests
-├── manage.sh              # Styringsscript til start, test og opdatering
-└── vercel.json            # Vercel byggekonfiguration
+```bash
+# Main repository checks
+RUN_VISUAL_TESTS=0 ./manage.sh test
+
+# Refresh live pipeline data
+./manage.sh update
+
+# Local dashboard/dev integration
+./manage.sh start
+
+# Focused probability-validation gate
+pytest tests/test_crash_probability_validation.py
+
+# Frontend
+cd dashboard
+npm run lint
+npm run build
 ```
 
-### Lokal Kørsel & Udvikling
-For at afvikle hele systemet med live Python-integration i dashboardet:
+For UI changes, verify the rendered flow when the environment allows it. For model/data changes, run the affected lineage, forecast, EWI, payload and validation tests rather than treating documentation or compilation as model validation.
 
-1. **Kør testsuiten for at verificere beregninger:**
-   ```bash
-   ./manage.sh test
-   ```
-2. **Kør datapipelinen manuelt for at hente friske tal:**
-   ```bash
-   ./manage.sh update
-   ```
-3. **Start dashboardet lokalt (Vite Dev Server):**
-   ```bash
-   ./manage.sh start
-   ```
-   Dette vil starte dashboardet på `http://localhost:5173/`. Vite-middleware kan bruges til lokal udvikling, men produktionen læser kun den genererede statiske payload.
+## Documentation
 
-### Testdækning
-Integrationstests dækker:
-* Korrekt beregning af den dynamiske ejendomsskat ($\tau_p$) og det blandede rentefradrag ($\tau_r$).
-* Periodematch mellem live DST-payload, forecast og EWI-beregning.
-* Payload-schema, freshness og afvisning af uvaliderede ML-procenter.
-* Walk-forward benchmark af crash-eventdefinitionen; den viste produktions-ML-probability er utilgængelig, indtil kalibrering på point-in-time live features er bestået.
-* Den daglige pipeline arkiverer nu den versionerede 7-feature ML-kontrakt i `data/ml_feature_snapshots.jsonl`; EWI-4 forbliver en dashboard/EWI-indikator, men indgår ikke i ML uden historisk Boliga-dækning.
-Kvalitetsgates kan køres samlet med `RUN_VISUAL_TESTS=0 ./manage.sh test`, eller separat med `python scripts/validate_payload.py dashboard/public/data/latest_pipeline.json`, `npm run lint` og `npm run build` fra `dashboard/`.
-
----
-
-## 📚 Model Governance & Teknisk Dokumentation
-
-* **[Model Governance](file:///Users/ianropke/Documents/Codex/2026-08-11/du/work/cph-housing-model/docs/model_governance.md):** Outputsemantik, kilde-lineage, point-in-time arkiveringslivscyklus og produktionssikkerhed.
-* **[Real-Price Deflator Specifikation](file:///Users/ianropke/Documents/Codex/2026-08-11/du/work/cph-housing-model/docs/real_price_deflator_specification.md):** Matematisk formulering for forbrugerprisjustering (DST PRIS112), anti-leakage lag-matching og krak-definition.
-* **[Point-in-Time Feature Archive](file:///Users/ianropke/Documents/Codex/2026-08-11/du/work/cph-housing-model/data/README.md):** Dokumentation af `data/ml_feature_snapshots.jsonl` og passiv dataindtagelse.
+- [Model governance](docs/model_governance.md) — output semantics, event definition, lineage and ML-validation gate.
+- [Current project state](docs/PROJECT_STATE.md) — canonical implementation and present evidence status.
+- [Real-price deflator specification](docs/real_price_deflator_specification.md) — real-price event-label design and lag matching.
+- [Point-in-time feature archive](data/README.md) — live ML feature-vintage accumulation.
+- `architecture/` — theoretical/design material; it is not proof that every proposed mechanism is deployed.
