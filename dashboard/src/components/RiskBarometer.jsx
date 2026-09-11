@@ -1,15 +1,15 @@
 import { useState } from 'react';
 
 const componentTooltips = {
-  mc_downside: 'Monte Carlo-nedrisiko måler sandsynligheden for at prisindekset falder under det nuværende niveau, baseret på 1.000 simulerede scenarier med tilfældig variation i renter, risikopræmie og vedligeholdelse.',
-  severity: 'Nedside-potentiale viser hvor kraftigt boligpriserne falder i worst-case (Max Risk) scenariet. Jo højere tal, jo større er det beregnede prisfald.',
-  ewi: 'Varslingsscore sammenfatter de tidlige varslingsindikatorer (pris vs. løn, udbud, salgstider mv.) til ét tal. Vægtet med datakilde-friskhed, så ældre data tæller mindre.',
-  freshness: 'Datakilde-friskhed viser hvor opdaterede datakilderne er i gennemsnit. 100% = alle kilder opdateret i dag. Lavere værdier betyder at nogle kilder er ældre, hvormed usikkerheden stiger.',
+  mc_downside: 'Simuleret nedsideandel viser, hvor stor en andel af de 1.000 modelsimuleringer der ender med et prisindeks under det nuværende niveau under de valgte antagelser. Det er en simulationsfrekvens/sensitivitetsmåling, ikke en kalibreret sandsynlighed for et faktisk prisfald.',
+  severity: 'Nedside-potentiale viser hvor kraftigt boligpriserne falder i Max Risk-scenariet. Tallet er et betinget scenario-output, ikke en prognose for hvad der faktisk vil ske.',
+  ewi: 'Varslingsscore sammenfatter de tidlige varslingsindikatorer (pris vs. løn, udbud, salgstider mv.) til ét indeks. Det er ikke en procentchance.',
+  freshness: 'Datakilde-friskhed viser hvor opdaterede datakilderne er i gennemsnit. 100% betyder ikke 100% sikkerhed; tallet beskriver kun datakildernes alder/friskhed.',
 };
 
 const horizonExplainers = {
-  '6m': 'Risiko for prisfald de næste 6 måneder. Kort horisont — primært drevet af renteudvikling og likviditet.',
-  '12m': 'Risiko for prisfald det næste år. Længere horisont — inkluderer makroøkonomiske stresscenarier.',
+  '6m': 'Scenario- og EWI-baseret nedsideindeks for 6-måneders horisonten. Ikke en sandsynlighed for prisfald.',
+  '12m': 'Scenario- og EWI-baseret nedsideindeks for 12-måneders horisonten. Ikke en sandsynlighed for prisfald.',
 };
 
 const RiskBarometer = ({ maxRiskIndex }) => {
@@ -32,8 +32,8 @@ const RiskBarometer = ({ maxRiskIndex }) => {
   };
 
   const componentLabels = {
-    mc_downside: 'Simuleret nedrisiko',
-    severity: 'Nedside-potentiale',
+    mc_downside: 'Simuleret nedsideandel',
+    severity: 'Scenario-nedside',
     ewi: 'Varslingsscore',
     freshness: 'Datakilde-friskhed',
   };
@@ -58,7 +58,6 @@ const RiskBarometer = ({ maxRiskIndex }) => {
         </div>
         <div className="risk-gauge-visual">
           <svg viewBox="0 0 160 100" className="risk-gauge-svg">
-            {/* Background arc */}
             <path
               d="M 10 90 A 70 70 0 0 1 150 90"
               fill="none"
@@ -66,7 +65,6 @@ const RiskBarometer = ({ maxRiskIndex }) => {
               strokeWidth="12"
               strokeLinecap="round"
             />
-            {/* Score arc */}
             <path
               d="M 10 90 A 70 70 0 0 1 150 90"
               fill="none"
@@ -76,7 +74,6 @@ const RiskBarometer = ({ maxRiskIndex }) => {
               strokeDasharray={`${(score / 100) * 220} 220`}
               style={{ filter: `drop-shadow(0 0 6px ${color}40)` }}
             />
-            {/* Tick marks */}
             {[0, 25, 50, 75, 100].map((tick) => {
               const angle = ((tick / 100) * 180 - 180) * (Math.PI / 180);
               const x1 = 80 + 60 * Math.cos(angle);
@@ -88,18 +85,16 @@ const RiskBarometer = ({ maxRiskIndex }) => {
                   stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
               );
             })}
-            {/* Score text */}
             <text x="80" y="82" textAnchor="middle" fill="white"
               fontSize="28" fontWeight="700" fontFamily="Inter, system-ui">
               {score}
             </text>
             <text x="80" y="96" textAnchor="middle" fill="rgba(255,255,255,0.5)"
               fontSize="9" fontFamily="Inter, system-ui">
-              score / 100
+              indeks / 100
             </text>
           </svg>
         </div>
-        {/* Component breakdown */}
         <div className="risk-gauge-components">
           {['mc_downside', 'severity', 'ewi', 'freshness'].map((key) => {
             const dataKey = key === 'severity'
@@ -143,7 +138,7 @@ const RiskBarometer = ({ maxRiskIndex }) => {
         </div>
         {isExpanded && (
           <div className="risk-gauge-detail">
-            <p>Scoren beregnes som et vægtet gennemsnit af tre signaler: hvor mange Monte Carlo-simuleringer der viser prisfald (40%), hvor alvorligt worst-case scenariet er (30%), og hvad de tidlige varslingsindikatorer siger (30% × data-friskhed).</p>
+            <p>Indekset kombinerer tre modelsignaler: simuleret nedsideandel (40%), scenario-nedside (30%) og EWI-signalet (30% × data-friskhed). Vægtene og simulationsfrekvensen er modelkonstruktioner og skal ikke læses som en kalibreret sandsynlighed for et fremtidigt prisfald.</p>
           </div>
         )}
       </div>
@@ -154,9 +149,9 @@ const RiskBarometer = ({ maxRiskIndex }) => {
     <div className="glass-card panel risk-barometer-panel fade-in" style={{ animationDelay: '0.1s' }}>
       <div className="panel-header">
         <div>
-          <h2>Risikobarometer</h2>
+          <h2>Nedsidebarometer</h2>
           <span className="panel-subtitle">
-            Forecast- og EWI-baseret indeks-score (1-100) for negativ prisudvikling. Det er ikke en procentchance og kan derfor ikke sammenlignes direkte med ML-modellens sandsynlighed for et stort prisfald. Klik på en gauge for detaljer.
+            Forecast- og EWI-baseret indeks (1-100) for modelberegnet nedside under de valgte antagelser. Det er ikke en procentchance og kan ikke sammenlignes direkte med en valideret ML-sandsynlighed. Klik på en gauge for detaljer.
           </span>
         </div>
       </div>
@@ -165,10 +160,10 @@ const RiskBarometer = ({ maxRiskIndex }) => {
         {renderGauge('12m', maxRiskIndex['12m'])}
       </div>
       <div className="risk-barometer-legend">
-        <span className="risk-legend-item"><span className="risk-dot" style={{background:'#00d4aa'}} />1-24: Lav risiko</span>
+        <span className="risk-legend-item"><span className="risk-dot" style={{background:'#00d4aa'}} />1-24: Lavt indeks</span>
         <span className="risk-legend-item"><span className="risk-dot" style={{background:'#feca57'}} />25-49: Moderat</span>
         <span className="risk-legend-item"><span className="risk-dot" style={{background:'#ff9f43'}} />50-74: Forhøjet</span>
-        <span className="risk-legend-item"><span className="risk-dot" style={{background:'#ff4757'}} />75-100: Høj risiko</span>
+        <span className="risk-legend-item"><span className="risk-dot" style={{background:'#ff4757'}} />75-100: Højt indeks</span>
       </div>
     </div>
   );
