@@ -5,9 +5,9 @@ import {
 import { useCity } from '../context/CityContext';
 
 const scenarioTooltips = {
-  'Baseline': 'Hovedscenarie (55% vægt): Gradvis rentesænkning, stabil lønvækst og moderat prisstigning.',
-  'Min Risk': 'Optimistisk scenarie (20% vægt): Rentesænkninger og høj efterspørgsel driver priserne stærkere op.',
-  'Max Risk': 'Stress-test scenarie (25% vægt): Rentestigninger og konjunkturtilbagegang fører til beregnet prisfald.',
+  'Baseline': 'Hovedscenarie (55% modelvægt): Gradvis rentesænkning, stabil lønvækst og moderat prisstigning.',
+  'Min Risk': 'Optimistisk scenarie (20% modelvægt): Rentesænkninger og høj efterspørgsel driver priserne stærkere op.',
+  'Max Risk': 'Stress-scenarie (25% modelvægt): Rentestigninger og konjunkturtilbagegang giver et beregnet prisfald under disse antagelser.',
 };
 
 const CustomTooltip = ({ active, payload, label, ensembleConfidenceBounds }) => {
@@ -25,15 +25,14 @@ const CustomTooltip = ({ active, payload, label, ensembleConfidenceBounds }) => 
       ))}
       {bounds && (
         <p style={{ color: 'rgba(255,255,255,0.5)', borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: '6px', paddingTop: '6px', fontSize: '11px' }}>
-          Monte Carlo 90% konfidensinterval: <strong>[{bounds.p10.toFixed(1)} – {bounds.p90.toFixed(1)}]</strong>
+          Monte Carlo P10–P90 sensitivitetsinterval: <strong>[{bounds.p10.toFixed(1)} – {bounds.p90.toFixed(1)}]</strong>
         </p>
       )}
-      <p className="tooltip-hint">Forventet indeksværdi (Base 2006 = 100)</p>
+      <p className="tooltip-hint">Modelberegnet indeksværdi (Base 2006 = 100)</p>
     </div>
   );
 };
 
-// We create a wrapper to pass down ensembleConfidenceBounds since CustomTooltip is instantiated by Recharts
 const CustomTooltipWrapper = (props) => {
   return <CustomTooltip {...props} />;
 };
@@ -76,10 +75,10 @@ export default function ForecastEnsemblePanel() {
     <section className="glass-card fade-in" style={{ animationDelay: '0.4s' }}>
       <div className="panel-header">
         <div>
-          <h2>Prisprognose</h2>
+          <h2>Scenario-baseret prisfremskrivning</h2>
           <span className="panel-explainer">
-            Forventet prisudvikling over 6, 12 og 24 måneder. Hvert scenarie har en sandsynlighedsvægt.
-            Den hvide linje viser det vægtede gennemsnit (ensemble). Konfidensintervallet (CI) viser 80% af Monte Carlo-simuleringerne.
+            Modelberegnede prisindeks over 6, 12 og 24 måneder under tre eksplicitte scenarier. Procenterne er modelvægte, ikke estimerede sandsynligheder for at scenarierne indtræffer.
+            Den hvide linje viser det vægtede ensemble. P10–P90-båndet viser spredningen i Monte Carlo-simuleringerne og er ikke et kalibreret konfidensinterval for den faktiske markedsudvikling.
           </span>
         </div>
         <div className="scenario-weights">
@@ -89,7 +88,7 @@ export default function ForecastEnsemblePanel() {
               data-tooltip={scenarioTooltips[s.scenario]}
               style={{ color: s.color, borderColor: `${s.color}44` }}
             >
-              {s.scenario} ({(s.weight * 100).toFixed(0)}%)
+              {s.scenario} ({(s.weight * 100).toFixed(0)}% modelvægt)
             </span>
           ))}
         </div>
@@ -107,7 +106,7 @@ export default function ForecastEnsemblePanel() {
               stroke="rgba(255,255,255,0.4)"
               tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }}
               domain={['auto', 'auto']}
-              label={{ value: 'Forventet indeks', angle: -90, position: 'insideLeft', style: { fill: 'rgba(255,255,255,0.4)', fontSize: 11 } }}
+              label={{ value: 'Modelberegnet indeks', angle: -90, position: 'insideLeft', style: { fill: 'rgba(255,255,255,0.4)', fontSize: 11 } }}
             />
             <Tooltip content={<CustomTooltipWrapper ensembleConfidenceBounds={ensembleConfidenceBounds} />} />
             <Legend
@@ -129,19 +128,18 @@ export default function ForecastEnsemblePanel() {
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-      {/* Ensemble summary row */}
       <div className="ensemble-summary">
         {Object.entries(ensembleForecasts).map(([h, v]) => {
           const bounds = ensembleConfidenceBounds ? ensembleConfidenceBounds[h] : null;
           return (
             <div key={h} className="ensemble-val tooltip"
-              data-tooltip={`Sandsynlighedsvægtet prisindeks om ${h}. Beregnet som: Baseline×55% + Min Risk×20% + Max Risk×25%.`}
+              data-tooltip={`Modelvægtet prisindeks om ${h}: Baseline×55% + Min Risk×20% + Max Risk×25%. Vægtene er ikke scenariesandsynligheder.`}
             >
               <span className="ensemble-label">{h} Ensemble</span>
               <span className="ensemble-number">{v.toFixed(1)}</span>
               {bounds && (
                 <span className="ensemble-bounds" style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>
-                  90% CI: [{bounds.p10.toFixed(1)} – {bounds.p90.toFixed(1)}]
+                  P10–P90 simulation: [{bounds.p10.toFixed(1)} – {bounds.p90.toFixed(1)}]
                 </span>
               )}
             </div>
