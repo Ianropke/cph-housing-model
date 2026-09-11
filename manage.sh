@@ -59,6 +59,7 @@ case "$1" in
         python3 -m unittest "$PROJECT_DIR/tests/test_economic_logic.py"
         python3 "$PROJECT_DIR/tests/test_pipeline_errors.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_frontend_jsx.py"
+        python3 -m pytest -q "$PROJECT_DIR/tests/test_evidence_language.py"
         if [ "${RUN_VISUAL_TESTS:-1}" = "1" ]; then
             python3 -m unittest "$PROJECT_DIR/tests/test_visual_playwright.py"
         else
@@ -73,7 +74,7 @@ case "$1" in
         python3 -m unittest "$PROJECT_DIR/tests/test_ml_feature_panel.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_ml_validation_gate.py"
         (cd "$PROJECT_DIR/dashboard" && npm run lint)
-        echo -e "${GREEN}All model, payload, frontend, and lint gates passed successfully!${NC}"
+        echo -e "${GREEN}All model, payload, frontend, evidence-language, and lint gates passed successfully!${NC}"
         ;;
     backtest)
         echo -e "${BLUE}=== Running Historical Backtesting & Calibration ===${NC}"
@@ -92,7 +93,7 @@ case "$1" in
         npx vercel --prod
         ;;
     env-pull)
-        echo -e "${BLUE}=== Pulling Vercel Environment Variables ===${NC}"
+        echo -e "${BLUE}=== Pulling Vercel environment variables to .env.local ===${NC}"
         cd "$PROJECT_DIR"
         npx vercel env pull .env.local
         ;;
