@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-30T09:40:01.009629+00:00",
-  "last_updated": "2026-10-30",
+  "generated_at": "2026-10-31T09:19:45.218220+00:00",
+  "last_updated": "2026-10-31",
   "source_status": "live",
   "sources": {
     "rkr": "Finans Danmark Statistikbank",
@@ -17,7 +17,7 @@
         "period": "2026M09",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB010&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:16.156264+00:00",
+        "retrieved_at": "2026-10-31T09:19:58.609656+00:00",
         "status": "live"
       },
       "days_on_market": {
@@ -26,7 +26,7 @@
         "period": "2026M09",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB030&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:18.098840+00:00",
+        "retrieved_at": "2026-10-31T09:19:59.698752+00:00",
         "status": "live"
       },
       "sales_latest_quarter": {
@@ -35,7 +35,7 @@
         "period": "2026K2",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:20.105972+00:00",
+        "retrieved_at": "2026-10-31T09:20:00.791744+00:00",
         "status": "live"
       },
       "sales_same_quarter_last_year": {
@@ -44,7 +44,7 @@
         "period": "2025K2",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:21.884986+00:00",
+        "retrieved_at": "2026-10-31T09:20:01.860035+00:00",
         "status": "live"
       }
     },
@@ -56,10 +56,10 @@
       "boliga": {
         "price_reduction_rate": 0.449,
         "avg_reduction_magnitude": 0.058,
-        "listings_sample_size": 3013,
+        "listings_sample_size": 3011,
         "status": "live",
         "source": "Boliga API",
-        "retrieved_at": "2026-10-30T09:40:14.417341+00:00"
+        "retrieved_at": "2026-10-31T09:19:57.458400+00:00"
       },
       "rkr": {
         "active_listings": {
@@ -68,7 +68,7 @@
           "period": "2026M09",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB010&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:16.156264+00:00",
+          "retrieved_at": "2026-10-31T09:19:58.609656+00:00",
           "status": "live"
         },
         "days_on_market": {
@@ -77,7 +77,7 @@
           "period": "2026M09",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB030&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:18.098840+00:00",
+          "retrieved_at": "2026-10-31T09:19:59.698752+00:00",
           "status": "live"
         },
         "sales_latest_quarter": {
@@ -86,7 +86,7 @@
           "period": "2026K2",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:20.105972+00:00",
+          "retrieved_at": "2026-10-31T09:20:00.791744+00:00",
           "status": "live"
         },
         "sales_same_quarter_last_year": {
@@ -95,7 +95,7 @@
           "period": "2025K2",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:21.884986+00:00",
+          "retrieved_at": "2026-10-31T09:20:01.860035+00:00",
           "status": "live"
         }
       },
@@ -106,7 +106,7 @@
           "period": "2026K3",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UL30&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:39:57.855807+00:00",
+          "retrieved_at": "2026-10-31T09:19:44.059970+00:00",
           "status": "live"
         },
         "total": {
@@ -115,7 +115,7 @@
           "period": "2026K3",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UL30&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:01.009606+00:00",
+          "retrieved_at": "2026-10-31T09:19:45.218195+00:00",
           "status": "live"
         }
       }
@@ -132,7 +132,7 @@
         "period": "2026M09",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB010&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:32.420858+00:00",
+        "retrieved_at": "2026-10-31T09:20:11.364873+00:00",
         "status": "live"
       },
       "days_on_market": {
@@ -141,7 +141,7 @@
         "period": "2026M09",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB030&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:34.119611+00:00",
+        "retrieved_at": "2026-10-31T09:20:12.394091+00:00",
         "status": "live"
       },
       "sales_latest_quarter": {
@@ -150,7 +150,7 @@
         "period": "2026K2",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:35.730025+00:00",
+        "retrieved_at": "2026-10-31T09:20:13.453881+00:00",
         "status": "live"
       },
       "sales_same_quarter_last_year": {
@@ -159,22 +159,22 @@
         "period": "2025K2",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:37.367807+00:00",
+        "retrieved_at": "2026-10-31T09:20:14.455435+00:00",
         "status": "live"
       }
     },
-    "price_reduction_rate": 0.445,
+    "price_reduction_rate": 0.443,
     "avg_reduction_magnitude": 0.059,
     "amort_free_share": 0.4869,
     "source_status": "live",
     "provenance": {
       "boliga": {
-        "price_reduction_rate": 0.445,
+        "price_reduction_rate": 0.443,
         "avg_reduction_magnitude": 0.059,
-        "listings_sample_size": 2104,
+        "listings_sample_size": 2095,
         "status": "live",
         "source": "Boliga API",
-        "retrieved_at": "2026-10-30T09:40:30.739534+00:00"
+        "retrieved_at": "2026-10-31T09:20:10.305541+00:00"
       },
       "rkr": {
         "active_listings": {
@@ -183,7 +183,7 @@
           "period": "2026M09",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB010&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:32.420858+00:00",
+          "retrieved_at": "2026-10-31T09:20:11.364873+00:00",
           "status": "live"
         },
         "days_on_market": {
@@ -192,7 +192,7 @@
           "period": "2026M09",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB030&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:34.119611+00:00",
+          "retrieved_at": "2026-10-31T09:20:12.394091+00:00",
           "status": "live"
         },
         "sales_latest_quarter": {
@@ -201,7 +201,7 @@
           "period": "2026K2",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:35.730025+00:00",
+          "retrieved_at": "2026-10-31T09:20:13.453881+00:00",
           "status": "live"
         },
         "sales_same_quarter_last_year": {
@@ -210,7 +210,7 @@
           "period": "2025K2",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:37.367807+00:00",
+          "retrieved_at": "2026-10-31T09:20:14.455435+00:00",
           "status": "live"
         }
       },
@@ -221,7 +221,7 @@
           "period": "2026K3",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UL30&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:39:57.855807+00:00",
+          "retrieved_at": "2026-10-31T09:19:44.059970+00:00",
           "status": "live"
         },
         "total": {
@@ -230,7 +230,7 @@
           "period": "2026K3",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UL30&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:01.009606+00:00",
+          "retrieved_at": "2026-10-31T09:19:45.218195+00:00",
           "status": "live"
         }
       }
@@ -247,7 +247,7 @@
         "period": "2026M09",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB010&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:39.944669+00:00",
+        "retrieved_at": "2026-10-31T09:20:16.183701+00:00",
         "status": "live"
       },
       "days_on_market": {
@@ -256,7 +256,7 @@
         "period": "2026M09",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB030&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:41.641200+00:00",
+        "retrieved_at": "2026-10-31T09:20:17.190143+00:00",
         "status": "live"
       },
       "sales_latest_quarter": {
@@ -265,7 +265,7 @@
         "period": "2026K2",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:43.323639+00:00",
+        "retrieved_at": "2026-10-31T09:20:18.219320+00:00",
         "status": "live"
       },
       "sales_same_quarter_last_year": {
@@ -274,22 +274,22 @@
         "period": "2025K2",
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-        "retrieved_at": "2026-10-30T09:40:44.937597+00:00",
+        "retrieved_at": "2026-10-31T09:20:19.232196+00:00",
         "status": "live"
       }
     },
-    "price_reduction_rate": 0.474,
+    "price_reduction_rate": 0.477,
     "avg_reduction_magnitude": 0.055,
     "amort_free_share": 0.4869,
     "source_status": "live",
     "provenance": {
       "boliga": {
-        "price_reduction_rate": 0.474,
+        "price_reduction_rate": 0.477,
         "avg_reduction_magnitude": 0.055,
-        "listings_sample_size": 211,
+        "listings_sample_size": 214,
         "status": "live",
         "source": "Boliga API",
-        "retrieved_at": "2026-10-30T09:40:38.297174+00:00"
+        "retrieved_at": "2026-10-31T09:20:15.104749+00:00"
       },
       "rkr": {
         "active_listings": {
@@ -298,7 +298,7 @@
           "period": "2026M09",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB010&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:39.944669+00:00",
+          "retrieved_at": "2026-10-31T09:20:16.183701+00:00",
           "status": "live"
         },
         "days_on_market": {
@@ -307,7 +307,7 @@
           "period": "2026M09",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB030&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:41.641200+00:00",
+          "retrieved_at": "2026-10-31T09:20:17.190143+00:00",
           "status": "live"
         },
         "sales_latest_quarter": {
@@ -316,7 +316,7 @@
           "period": "2026K2",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:43.323639+00:00",
+          "retrieved_at": "2026-10-31T09:20:18.219320+00:00",
           "status": "live"
         },
         "sales_same_quarter_last_year": {
@@ -325,7 +325,7 @@
           "period": "2025K2",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=BM020&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:44.937597+00:00",
+          "retrieved_at": "2026-10-31T09:20:19.232196+00:00",
           "status": "live"
         }
       },
@@ -336,7 +336,7 @@
           "period": "2026K3",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UL30&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:39:57.855807+00:00",
+          "retrieved_at": "2026-10-31T09:19:44.059970+00:00",
           "status": "live"
         },
         "total": {
@@ -345,7 +345,7 @@
           "period": "2026K3",
           "source": "Finans Danmark Statistikbank",
           "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UL30&PLanguage=0",
-          "retrieved_at": "2026-10-30T09:40:01.009606+00:00",
+          "retrieved_at": "2026-10-31T09:19:45.218195+00:00",
           "status": "live"
         }
       }
