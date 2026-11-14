@@ -1,6 +1,6 @@
 {
   "report_schema_version": 1,
-  "generated_at": "2026-11-13T10:38:01.264282+00:00",
+  "generated_at": "2026-11-14T09:52:56.660427+00:00",
   "model_type": "walk_forward_logistic_with_time_series_calibration",
   "deployed_model_validated": false,
   "feature_definition_version": "ews_live_v2_7f",
@@ -17,19 +17,19 @@
   "panel": {
     "panel_schema_version": 1,
     "status": "VALID",
-    "rows": 234,
-    "unique_snapshots": 234,
+    "rows": 237,
+    "unique_snapshots": 237,
     "segments": {
       "copenhagen_apartments": {
-        "rows": 78,
+        "rows": 79,
         "distinct_observation_periods": 2
       },
       "copenhagen_houses": {
-        "rows": 78,
+        "rows": 79,
         "distinct_observation_periods": 2
       },
       "frederiksberg_apartments": {
-        "rows": 78,
+        "rows": 79,
         "distinct_observation_periods": 2
       }
     },
