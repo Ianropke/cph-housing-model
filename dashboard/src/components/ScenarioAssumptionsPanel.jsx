@@ -25,7 +25,7 @@ function ScenarioRow({ scenario, isOpen, onToggle, index }) {
           <span className="scenario-dot" style={{ background: scenario.color }} />
           <span className="scenario-name">{scenario.scenario}</span>
           <span className="scenario-weight" style={{ color: scenario.color }}>
-            Sandsynlighedsvægt: {scenario.weight}
+            Modelvægt: {scenario.weight}
           </span>
         </div>
         <span className={`scenario-chevron ${isOpen ? 'open' : ''}`}>▾</span>
@@ -59,34 +59,34 @@ export default function ScenarioAssumptionsPanel() {
   
   const scenarioAssumptions = [
     {
-      scenario: 'Baseline (Hovedscenarie)', weight: `${(fc?.horizons['12m']?.scenarios?.baseline?.probability_weight || 0.55)*100}%`, color: '#00d4aa',
+      scenario: 'Baseline (Hovedscenarie)', weight: `${Math.round((fc?.horizons['12m']?.scenarios?.baseline?.probability_weight ?? 0.55) * 100)}%`, color: '#00d4aa',
       assumptions: {
-        'Realkreditrente (30Y)': '3.7% → 3.5%',
-        'ECB Styringsrente': '2.75% → 2.0%',
-        'Lønvækst (YoY)': '3.5%',
-        'Forventet Prisændring': '+2.0% → +6.0%',
+        'Realkreditrente (30Y)': '3,7% → 3,5%',
+        'ECB Styringsrente': '2,75% → 2,0%',
+        'Lønvækst (YoY)': '3,5%',
+        'Forventet Prisændring': '+2,0% → +6,0%',
         'Nettotilflytning (CPH)': '+8.500 pers/år',
         'Nybyggeri Pipeline': '3.500 boliger'
       }
     },
     {
-      scenario: 'Min Risk (Højkonjunktur / Lavrente)', weight: `${(fc?.horizons['12m']?.scenarios?.min_risk?.probability_weight || 0.20)*100}%`, color: '#3b82f6',
+      scenario: 'Min Risk (Højkonjunktur / Lavrente)', weight: `${Math.round((fc?.horizons['12m']?.scenarios?.min_risk?.probability_weight ?? 0.20) * 100)}%`, color: '#3b82f6',
       assumptions: {
-        'Realkreditrente (30Y)': '3.5% → 2.8%',
-        'ECB Styringsrente': '2.75% → 1.0%',
-        'Lønvækst (YoY)': '4.5%',
-        'Forventet Prisændring': '+4.5% → +15.0%',
+        'Realkreditrente (30Y)': '3,5% → 2,8%',
+        'ECB Styringsrente': '2,75% → 1,0%',
+        'Lønvækst (YoY)': '4,5%',
+        'Forventet Prisændring': '+4,5% → +15,0%',
         'Nettotilflytning (CPH)': '+11.000 pers/år',
         'Nybyggeri Pipeline': '2.800 boliger'
       }
     },
     {
-      scenario: 'Max Risk (Makrochok / Rentestød)', weight: `${(fc?.horizons['12m']?.scenarios?.max_risk?.probability_weight || 0.25)*100}%`, color: '#ff6b6b',
+      scenario: 'Max Risk (Makrochok / Rentestød)', weight: `${Math.round((fc?.horizons['12m']?.scenarios?.max_risk?.probability_weight ?? 0.25) * 100)}%`, color: '#ff6b6b',
       assumptions: {
-        'Realkreditrente (30Y)': '5.0% → 6.0%',
-        'ECB Styringsrente': '2.75% → 4.25%',
-        'Lønvækst (YoY)': '2.5%',
-        'Forventet Prisændring': '-5.5% → -14.0%',
+        'Realkreditrente (30Y)': '5,0% → 6,0%',
+        'ECB Styringsrente': '2,75% → 4,25%',
+        'Lønvækst (YoY)': '2,5%',
+        'Forventet Prisændring': '-5,5% → -14,0%',
         'Nettotilflytning (CPH)': '+4.000 pers/år',
         'Nybyggeri Pipeline': '5.500 boliger'
       }

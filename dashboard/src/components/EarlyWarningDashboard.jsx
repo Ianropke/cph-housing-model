@@ -20,6 +20,34 @@ const ewiTooltips = {
   'EWI-6': 'Pris-til-leje ratio: Sammenligner boligpriser med lejeniveauet (HUS1). Tærsklerne beregnes dynamisk via en rullende Z-score over 12 kvartaler. GUL: 1,5σ over gennemsnittet. RØD: 2,5σ over gennemsnittet.',
   'EWI-7': 'Afdragsfrihed: Andelen af nye realkreditlån uden afdrag. Højt tal = låntagerne er sårbare overfor rentestigninger. GRØN: under 50%. GUL: 50-60%. RØD: over 60%.',
   'EWI-8': 'Debt-Servicing Ratio (DSR): Måler husholdningernes gældsbetjeningsbyrde (årlige renteomkostninger + bidrag divideret med disponibel indkomst). GRØN: under 30%. GUL: 30-40%. RØD: over 40% (Kritisk niveau ifølge IMF).',
+  'EWI-9': 'Ledighed (AUS07): Sæsonkorrigeret ledighedsprocent i Danmark. Stigende ledighed reducerer husholdningernes indkomst og øger risikoen for tvangssalg. GRØN: under 4,0%. GUL: 4,0-5,5%. RØD: over 5,5%.',
+};
+
+const ewiDanishNames = {
+  'EWI-1': 'Pris vs. løn',
+  'EWI-2': 'Udbud vs. efterspørgsel',
+  'EWI-3': 'Volumen-pris divergens',
+  'EWI-4': 'Prisnedsættelser',
+  'EWI-5': 'Liggetid',
+  'EWI-6': 'Pris-til-leje ratio',
+  'EWI-7': 'Afdragsfrihed',
+  'EWI-8': 'Gældsbetjeningsbyrde (DSR)',
+  'EWI-9': 'Ledighed',
+};
+
+const frequencyLabelsDa = {
+  Daily: 'Daglig',
+  Monthly: 'Månedlig',
+  Quarterly: 'Kvartalsvis',
+  Annual: 'Årlig',
+};
+
+const localizeEwiText = (val) => {
+  if (typeof val !== 'string') return val;
+  return val
+    .replace(/\bmonths\b/gi, 'mdr.')
+    .replace(/\bdays\b/gi, 'dage')
+    .replace(/\bAMBER at\b/gi, 'Advarsel:');
 };
 
 const getEwi1Tooltip = (mode) => {
@@ -97,22 +125,22 @@ function EWICard({ indicator, index, ewiMode }) {
           {statusLabels[indicator.status] || indicator.status}
         </span>
       </div>
-      <h3 className="ewi-name">{indicator.name}</h3>
+      <h3 className="ewi-name">{ewiDanishNames[indicator.id] || indicator.name}</h3>
       <div className="ewi-values">
         <div className="ewi-value-group">
           <span className="ewi-label">Aktuel</span>
           <span className="ewi-value" style={{ color }}>
             {typeof indicator.value === 'number' && indicator.value > 100
-              ? indicator.value.toLocaleString()
-              : indicator.value}
+              ? indicator.value.toLocaleString('da-DK')
+              : localizeEwiText(indicator.value)}
           </span>
         </div>
         <div className="ewi-value-group">
           <span className="ewi-label">Grænse</span>
           <span className="ewi-value muted">
             {typeof indicator.baseline === 'number' && indicator.baseline > 100
-              ? indicator.baseline.toLocaleString()
-              : indicator.baseline}
+              ? indicator.baseline.toLocaleString('da-DK')
+              : localizeEwiText(indicator.baseline)}
           </span>
         </div>
       </div>
@@ -135,44 +163,46 @@ function DataFreshnessTable({ dataFreshness }) {
         Hver datakilde har en friskhedsvægt (0-100%). Jo mere opdateret data er, jo mere tæller den i modellens vurdering. 
         Kilder der er ældre end deres halverings-tid nedvægtes automatisk.
       </p>
-      <table className="freshness-table">
-        <thead>
-          <tr>
-            <th>Datakilde</th>
-            <th>Sidst opdateret</th>
-            <th>Frekvens</th>
-            <th>Næste opdatering</th>
-            <th>Friskhed</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sources.map((src) => {
-            const w = src.freshness_weight;
-            const barColor = w >= 0.8 ? '#00d4aa' : w >= 0.5 ? '#feca57' : '#ff9f43';
-            return (
-              <tr key={src.label}>
-                <td className="freshness-source-name">{src.label}</td>
-                <td>{src.last_updated}</td>
-                <td>{src.frequency}</td>
-                <td>{src.next_expected_update || 'Ukendt'}</td>
-                <td>
-                  <div className="freshness-cell">
-                    <div className="freshness-bar-bg small">
-                      <div className="freshness-bar-fill" style={{
-                        width: `${w * 100}%`,
-                        background: barColor,
-                      }} />
+      <div className="freshness-table-scroll">
+        <table className="freshness-table">
+          <thead>
+            <tr>
+              <th>Datakilde</th>
+              <th>Sidst opdateret</th>
+              <th>Frekvens</th>
+              <th>Næste opdatering</th>
+              <th>Friskhed</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sources.map((src) => {
+              const w = src.freshness_weight;
+              const barColor = w >= 0.8 ? '#00d4aa' : w >= 0.5 ? '#feca57' : '#ff9f43';
+              return (
+                <tr key={src.label}>
+                  <td className="freshness-source-name">{src.label}</td>
+                  <td>{src.last_updated}</td>
+                  <td>{frequencyLabelsDa[src.frequency] || src.frequency}</td>
+                  <td>{src.next_expected_update || 'Ukendt'}</td>
+                  <td>
+                    <div className="freshness-cell">
+                      <div className="freshness-bar-bg small">
+                        <div className="freshness-bar-fill" style={{
+                          width: `${w * 100}%`,
+                          background: barColor,
+                        }} />
+                      </div>
+                      <span style={{ color: barColor, fontSize: '11px', fontWeight: 600 }}>
+                        {Math.round(w * 100)}%
+                      </span>
                     </div>
-                    <span style={{ color: barColor, fontSize: '11px', fontWeight: 600 }}>
-                      {Math.round(w * 100)}%
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

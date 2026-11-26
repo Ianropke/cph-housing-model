@@ -109,13 +109,13 @@ export default function ScenarioSandboxPanel() {
 
   // Real-time calculation engine
   const simResults = useMemo(() => {
-    // 1. EWI-1 (Price vs Wages)
+    // 1. EWI-1 (Price vs Wages — aligned with yoy_expanded default)
     let ewi1Level = 'NORMAL';
     let ewi1Score = 0;
-    if (wageSpread > 4.0) {
+    if (wageSpread >= 7.0) {
       ewi1Level = 'RED';
       ewi1Score = 4.2;
-    } else if (wageSpread > 0) {
+    } else if (wageSpread >= 4.0) {
       ewi1Level = 'AMBER';
       ewi1Score = 1.4;
     }
@@ -123,15 +123,12 @@ export default function ScenarioSandboxPanel() {
     // 2. EWI-2 (Supply-Demand Balance)
     let ewi2Level = 'NORMAL';
     let ewi2Score = 0;
-    if (supply < 2.5) {
-      ewi2Level = 'RED'; // Extreme scarcity
+    if (supply < 2.5 || supply > 8.0) {
+      ewi2Level = 'RED'; // Extreme scarcity or severe inventory overhang
       ewi2Score = 3.6;
     } else if (supply < 3.5 || supply > 6.0) {
-      ewi2Level = 'AMBER'; // Tight or inventory overhang
+      ewi2Level = 'AMBER'; // Tight or moderate overhang
       ewi2Score = 1.2;
-    } else if (supply > 8.0) {
-      ewi2Level = 'RED'; // Severe overhang
-      ewi2Score = 3.6;
     }
 
     // 3. EWI-4 (Price Reductions)
@@ -185,13 +182,13 @@ export default function ScenarioSandboxPanel() {
     let alertLevel = 'NORMAL';
     let alertColor = '#00d4aa';
     if (compositeScore >= 14.0) {
-      alertLevel = 'KRITISK (CRITICAL)';
+      alertLevel = 'KRITISK';
       alertColor = '#ff3366';
     } else if (compositeScore >= 10.0) {
-      alertLevel = 'HØJ (HIGH)';
+      alertLevel = 'HØJ';
       alertColor = '#ff6b6b';
     } else if (compositeScore >= 6.0) {
-      alertLevel = 'FORHØJET (ELEVATED)';
+      alertLevel = 'FORHØJET';
       alertColor = '#ffc107';
     }
 
@@ -236,9 +233,9 @@ export default function ScenarioSandboxPanel() {
 
   // Status helper badge renderer
   const renderStatusBadge = (level) => {
-    if (level === 'RED') return <span style={{ padding: '2px 8px', borderRadius: '6px', background: 'rgba(255, 107, 107, 0.2)', color: '#ff6b6b', fontSize: '0.75rem', fontWeight: 700 }}>🔴 ALARM</span>;
-    if (level === 'AMBER') return <span style={{ padding: '2px 8px', borderRadius: '6px', background: 'rgba(255, 193, 7, 0.2)', color: '#ffc107', fontSize: '0.75rem', fontWeight: 700 }}>🟡 ADVARSEL</span>;
-    return <span style={{ padding: '2px 8px', borderRadius: '6px', background: 'rgba(0, 212, 170, 0.2)', color: '#00d4aa', fontSize: '0.75rem', fontWeight: 700 }}>🟢 NORMAL</span>;
+    if (level === 'RED') return <span className="sandbox-status-badge" style={{ background: 'rgba(255, 107, 107, 0.2)', color: '#ff6b6b' }}>🔴 ALARM</span>;
+    if (level === 'AMBER') return <span className="sandbox-status-badge" style={{ background: 'rgba(255, 193, 7, 0.2)', color: '#ffc107' }}>🟡 ADVARSEL</span>;
+    return <span className="sandbox-status-badge" style={{ background: 'rgba(0, 212, 170, 0.2)', color: '#00d4aa' }}>🟢 NORMAL</span>;
   };
 
   const deltaScore = simResults.compositeScore - liveComposite;
@@ -248,7 +245,7 @@ export default function ScenarioSandboxPanel() {
 
   if (!hasLiveBaseline) {
     return (
-      <section className="glass-card panel-wide fade-in" style={{ marginTop: '1rem' }}>
+      <section className="glass-card panel-wide fade-in">
         <h2>🧪 Interaktiv Risikosimulator</h2>
         <p className="panel-explainer">
           Simulatoren afventer et komplet live-payload. Den bruger ikke fallback-tal som aktuelt marked.
@@ -258,7 +255,7 @@ export default function ScenarioSandboxPanel() {
   }
 
   return (
-    <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.65s', marginTop: '1rem' }}>
+    <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.65s' }}>
       {/* Panel Header */}
       <div className="panel-header">
         <div>
@@ -297,10 +294,10 @@ export default function ScenarioSandboxPanel() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+      <div className="sandbox-layout">
         {/* LEFT COLUMN: Interactive Sliders */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', background: 'rgba(0,0,0,0.2)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-          <h4 style={{ color: '#a78bfa', fontSize: '0.95rem', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+        <div className="sandbox-sliders-col">
+          <h4 className="sandbox-col-title">
             🎛️ Juster Markedsparametre
           </h4>
 
@@ -385,16 +382,16 @@ export default function ScenarioSandboxPanel() {
               style={{ width: '100%', accentColor: '#e040fb', cursor: 'pointer' }}
             />
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)' }}>
-              <span>1.5% (Lavrente)</span>
-              <span>3.7% (Nuværende)</span>
-              <span>7.0% (Kreditstramning)</span>
+              <span>1,5% (Lavrente)</span>
+              <span>{liveInputs.mortgageRate.toFixed(1).replace('.', ',')}% (Aktuel)</span>
+              <span>7,0% (Kreditstramning)</span>
             </div>
           </div>
 
           {/* Slider 5: Wage Spread pp */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '0.85rem' }}>
-              <span style={{ color: 'rgba(255,255,255,0.8)' }}>Pris vs Løn Spread (pp overstigning):</span>
+              <span style={{ color: 'rgba(255,255,255,0.8)' }}>Pris vs. Løn Spread (pp overstigning):</span>
               <strong style={{ color: '#ff6b6b' }}>+{wageSpread.toFixed(1)}pp</strong>
             </div>
             <input
@@ -408,20 +405,20 @@ export default function ScenarioSandboxPanel() {
             />
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)' }}>
               <span>0pp (Balance)</span>
-              <span>4pp (RED)</span>
-              <span>25pp (Ekstrem Overophedning)</span>
+              <span>7pp (ALARM)</span>
+              <span>25pp (Ekstrem overophedning)</span>
             </div>
           </div>
         </div>
 
         {/* RIGHT COLUMN: Real-time Simulation Output Comparison */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <h4 style={{ color: '#a78bfa', fontSize: '0.95rem', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+        <div className="sandbox-results-col">
+          <h4 className="sandbox-col-title">
             📊 Simuleret Risikoudfald vs. Aktuelt Marked
           </h4>
 
           {/* Primary Result Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
+          <div className="sandbox-results-grid">
             {/* Composite Score Card */}
             <div style={{ padding: '14px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' }}>Simuleret Risikoscore</div>
@@ -481,24 +478,24 @@ export default function ScenarioSandboxPanel() {
             <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 600 }}>
               Indikator-reaktioner i din simulering:
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '0.8rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(255,255,255,0.02)', borderRadius: '4px' }}>
-                <span>EWI-1 (Pris vs Løn):</span> {renderStatusBadge(simResults.ewi1Level)}
+            <div className="sandbox-indicators-grid">
+              <div className="sandbox-indicator-row">
+                <span>EWI-1 (Pris vs. løn):</span> {renderStatusBadge(simResults.ewi1Level)}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(255,255,255,0.02)', borderRadius: '4px' }}>
-                <span>EWI-2 (Udbud vs Efterspørgsel):</span> {renderStatusBadge(simResults.ewi2Level)}
+              <div className="sandbox-indicator-row">
+                <span>EWI-2 (Udbud vs. efterspørgsel):</span> {renderStatusBadge(simResults.ewi2Level)}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(255,255,255,0.02)', borderRadius: '4px' }}>
+              <div className="sandbox-indicator-row">
                 <span>EWI-4 (Prisnedsættelser):</span> {renderStatusBadge(simResults.ewi4Level)}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(255,255,255,0.02)', borderRadius: '4px' }}>
+              <div className="sandbox-indicator-row">
                 <span>EWI-5 (Liggetid / DOM):</span> {renderStatusBadge(simResults.ewi5Level)}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(255,255,255,0.02)', borderRadius: '4px' }}>
-                <span>EWI-7 (Afdragsfri Andel):</span> {renderStatusBadge(simResults.ewi7Level)}
+              <div className="sandbox-indicator-row">
+                <span>EWI-7 (Afdragsfri andel):</span> {renderStatusBadge(simResults.ewi7Level)}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(255,255,255,0.02)', borderRadius: '4px' }}>
-                <span>EWI-8 (Debt-Servicing Ratio):</span> {renderStatusBadge(simResults.ewi8Level)}
+              <div className="sandbox-indicator-row">
+                <span>EWI-8 (Gældsbetjeningsbyrde):</span> {renderStatusBadge(simResults.ewi8Level)}
               </div>
             </div>
           </div>

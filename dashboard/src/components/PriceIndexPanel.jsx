@@ -17,9 +17,16 @@ const CustomTooltip = ({ active, payload, label }) => {
           <span className="tooltip-value">{entry.value?.toFixed(1) ?? '—'}</span>
         </div>
       ))}
-      <div className="tooltip-hint">Index (2006 = 100). Baseline 100.</div>
+      <div className="tooltip-hint">Indeks (2006 = 100). Basisår 2006 = 100.</div>
     </div>
   );
+};
+
+const CITY_LABELS = {
+  copenhagen: 'København',
+  aarhus: 'Aarhus',
+  odense: 'Odense',
+  aalborg: 'Aalborg',
 };
 
 export default function PriceIndexPanel() {
@@ -43,15 +50,16 @@ export default function PriceIndexPanel() {
   const dstLastUpdated = pipelineData.dst_data.last_updated || '2026-05-29';
   const startQuarter = priceIndexData[0]?.quarter || '2019Q1';
   const endQuarter = priceIndexData[priceIndexData.length - 1]?.quarter || '2025Q4';
+  const cityLabel = CITY_LABELS[activeCity] || (activeCity.charAt(0).toUpperCase() + activeCity.slice(1));
 
   return (
     <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.1s' }}>
       <div className="panel-header">
         <div>
-          <h2>Prisindeks — {activeCity.charAt(0).toUpperCase() + activeCity.slice(1)}</h2>
+          <h2>Prisindeks — {cityLabel}</h2>
           <span className="panel-explainer">
             Kvartalsvise prisindeks for boliger i Hovedstadsområdet fra Danmarks Statistik (tabel EJ56).
-            Base 2006 = 100, så en værdi på 129 betyder at priserne er steget 29% siden 2006.
+            Base 2006 = 100, så en værdi på 140 betyder at priserne er steget 40% siden 2006.
             Data opdateret {dstLastUpdated}.
           </span>
         </div>

@@ -46,13 +46,6 @@ DATA_FRESHNESS = {
         "frequency": "Quarterly",
         "half_life_days": 120,
     },
-    "rkr_bm011": {
-        "label": "Realkreditlån (BM011)",
-        "source": "Finansdanmark",
-        "last_updated": "2026-07-15",
-        "frequency": "Monthly",
-        "half_life_days": 60,
-    },
     "rkr_udb010": {
         "label": "Udbud og liggetid (RKR UDB010/UDB030)",
         "last_updated": "2026-07-15",
@@ -68,7 +61,7 @@ DATA_FRESHNESS = {
         "half_life_days": 10
     },
     "rkr_ul10": {
-        "label": "Afdragsfrihed (UL10)",
+        "label": "Afdragsfrihed (UL30)",
         "source": "Finansdanmark",
         "last_updated": "2026-06-10",
         "frequency": "Quarterly",
@@ -87,13 +80,6 @@ DATA_FRESHNESS = {
         "last_updated": "2026-06-05",
         "frequency": "Quarterly",
         "half_life_days": 120,
-    },
-    "dst_income": {
-        "label": "Disponibel Indkomst (DST)",
-        "source": "Danmarks Statistik",
-        "last_updated": "2025-12-20",
-        "frequency": "Annual",
-        "half_life_days": 365,
     },
     "nationalbanken_rates": {
         "label": "Realkreditrenter (NB)",
@@ -192,7 +178,7 @@ def compute_max_risk_index(forecast_result: dict, ewi_result: dict) -> dict:
         # 4. Freshness-weighted EWI contribution
         avg_freshness = sum(
             freshness_weight(k)
-            for k in ["dst_ej56", "rkr_bm011", "rkr_udb010", "ecb_rates"]
+            for k in ["dst_ej56", "rkr_udb010", "boliga_listings", "nationalbanken_rates"]
         ) / 4
         ewi_contribution = ewi_normalized * avg_freshness
         

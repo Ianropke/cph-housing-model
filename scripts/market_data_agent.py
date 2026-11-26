@@ -110,9 +110,10 @@ def rkr_interest_only_share() -> dict:
 
 def fetch_market_data() -> dict:
     interest_only = rkr_interest_only_share()
+    now_utc = dt.datetime.now(dt.timezone.utc)
     data = {
-        "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "last_updated": dt.date.today().isoformat(),
+        "generated_at": now_utc.isoformat(),
+        "last_updated": now_utc.date().isoformat(),
         "source_status": "live",
         "sources": {
             "rkr": "Finans Danmark Statistikbank",

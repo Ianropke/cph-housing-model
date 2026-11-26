@@ -31,8 +31,18 @@ const CustomTooltip = ({ active, payload }) => {
 
 function CostCard({ data, index }) {
   const isNegative = data.monthly < 0;
-  const isSevere = data.ucRate > 10;
+  const isSevere = data.ucRate > 6;
+  const isModerate = data.ucRate >= 4 && data.ucRate <= 6;
   const tip = scenarioTips[data.scenario] || '';
+
+  const badgeColor = isNegative ? '#3b82f6' : isSevere ? '#ff6b6b' : isModerate ? '#ffc107' : '#00d4aa';
+  const badgeBg = isNegative
+    ? 'rgba(59,130,246,0.12)'
+    : isSevere
+    ? 'rgba(255,107,107,0.12)'
+    : isModerate
+    ? 'rgba(255,193,7,0.12)'
+    : 'rgba(0,212,170,0.12)';
 
   return (
     <div
@@ -69,8 +79,8 @@ function CostCard({ data, index }) {
       <span
         className="cost-status-label"
         style={{
-          color: isNegative ? '#3b82f6' : isSevere ? '#ff6b6b' : '#00d4aa',
-          background: isNegative ? 'rgba(59,130,246,0.12)' : isSevere ? 'rgba(255,107,107,0.12)' : 'rgba(0,212,170,0.12)',
+          color: badgeColor,
+          background: badgeBg,
         }}
       >
         {data.label}
@@ -108,13 +118,14 @@ export default function UserCostPanel() {
           ))}
         </div>
         <div className="cost-chart">
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={chartData} margin={{ top: 20, right: 20, left: 20, bottom: 10 }}>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={chartData} margin={{ top: 24, right: 20, left: 10, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
               <XAxis
                 dataKey="scenario"
+                interval={0}
                 stroke="rgba(255,255,255,0.4)"
-                tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }}
+                tick={{ fill: 'rgba(255,255,255,0.65)', fontSize: 12 }}
               />
               <YAxis
                 stroke="rgba(255,255,255,0.4)"

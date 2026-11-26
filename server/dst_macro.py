@@ -2,6 +2,7 @@
 Module to fetch real macro economic data from Danmarks Statistik (DST).
 """
 import json
+import time
 from curl_cffi import requests
 
 # Cache to avoid re-fetching multiple times per segment
@@ -41,9 +42,18 @@ def fetch_dst_macro_data() -> dict:
     }
 
     def post_req(payload):
-        response = requests.post(api_url, json=payload, impersonate="chrome110", timeout=15)
-        response.raise_for_status()
-        return response.json()
+        # Bounded retry for transient DST API timeouts (read-only requests only).
+        last_error = None
+        for attempt in range(3):
+            try:
+                response = requests.post(api_url, json=payload, impersonate="chrome110", timeout=25)
+                response.raise_for_status()
+                return response.json()
+            except Exception as err:
+                last_error = err
+                if attempt < 2:
+                    time.sleep(0.5 * (attempt + 1))
+        raise last_error
 
     failures = []
 

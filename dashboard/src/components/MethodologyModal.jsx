@@ -27,11 +27,11 @@ export default function MethodologyModal({ isOpen, onClose }) {
           <div>
             <h4 style={{ color: '#00d4aa', margin: '0 0 6px 0', fontSize: '0.95rem' }}>1. Eksplicit Todelt Modelarkitektur (Model A vs. Model B)</h4>
             <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-              Prognosesystemet anvender en todelt todelt modelarkitektur for at adskille uafhængige ekspert-heuristikker fra statistisk kalibrerede maskinlærings-sandsynligheder:
+              Prognosesystemet anvender en todelt modelarkitektur for at adskille uafhængige ekspert-heuristikker fra statistisk kalibrerede maskinlærings-sandsynligheder:
             </p>
             <ul style={{ margin: '6px 0 0 16px', color: 'rgba(255,255,255,0.8)' }}>
               <li><strong>Model A — Ekspert EWI Risikoscore (0–27 pts):</strong> Heuristisk vægtet composite score baseret på 9 Early Warning indikatorer og 4 risikoregimer (NORMAL, FORHØJET, HØJ, KRITISK).</li>
-              <li><strong>Model B — Statistisk ML Event Model (Random Forest & Isotonic Calibration):</strong> Estimerer den konkrete statistiske sandsynlighed for et reelt prisfald på <strong>&ge;10% over de næste 12 måneder</strong> (Crash_12m).</li>
+              <li><strong>Model B — Statistisk ML Event Model (under opbygning):</strong> Estimerer sandsynligheden for et reelt prisfald på <strong>&ge;10% over de næste 12 måneder</strong> (Crash_12m). Model B publiceres først, når point-in-time live-arkivet har bestået out-of-sample valideringsgaten.</li>
             </ul>
           </div>
 
@@ -65,7 +65,7 @@ export default function MethodologyModal({ isOpen, onClose }) {
           <div>
             <h4 style={{ color: '#a78bfa', margin: '0 0 6px 0', fontSize: '0.95rem' }}>3. Data Lineage & Gennemsigtighed</h4>
             <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-              Data pipelines kører automatisk via GitHub Actions hver nat kl. 02:00 CET. Pipelinen skelner eksplicit mellem observationstidspunkt (f.eks. Q4 2025 fra Danmarks Statistik) og indhentelsestidspunkt.
+              Data pipelines kører automatisk via GitHub Actions hver dag kl. 03:00 UTC. Pipelinen skelner eksplicit mellem observationstidspunkt (f.eks. seneste kvartal fra Danmarks Statistik EJ56) og indhentelsestidspunkt.
             </p>
           </div>
 
