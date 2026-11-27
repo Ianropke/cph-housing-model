@@ -189,4 +189,28 @@ def validate_pipeline_payload(
                 elif not isinstance(udb.get("series"), dict) or not udb["series"]:
                     errors.append(f"{segment}: asking_price_nowcast.rkr_udb020.series must be non-empty")
 
+    fe = payload.get("forecast_engine")
+    if fe is not None:
+        if not isinstance(fe, dict):
+            errors.append("forecast_engine must be an object when present")
+        else:
+            for segment in REQUIRED_SEGMENTS:
+                seg_fe = fe.get(segment)
+                if not isinstance(seg_fe, dict):
+                    errors.append(f"{segment}: forecast_engine entry missing")
+                    continue
+                horizons = seg_fe.get("horizons")
+                if not isinstance(horizons, dict):
+                    errors.append(f"{segment}: forecast_engine.horizons missing")
+                    continue
+                for horizon in REQUIRED_HORIZONS:
+                    hdata = horizons.get(horizon)
+                    comb = hdata.get("combined") if isinstance(hdata, dict) else None
+                    if not isinstance(comb, dict) or not _is_number(comb.get("forecast_index")):
+                        errors.append(f"{segment}: forecast_engine {horizon} combined forecast invalid")
+                    elif not (_is_number(comb.get("p10_index")) and _is_number(comb.get("p90_index"))):
+                        errors.append(f"{segment}: forecast_engine {horizon} uncertainty bounds invalid")
+                    elif comb["p10_index"] > comb["p50_index"] + 1e-6 or comb["p50_index"] > comb["p90_index"] + 1e-6:
+                        errors.append(f"{segment}: forecast_engine {horizon} p10 <= p50 <= p90 violated")
+
     return errors

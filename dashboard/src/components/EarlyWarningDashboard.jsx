@@ -223,7 +223,7 @@ export default function EarlyWarningDashboard({
   const alertLabels = { NORMAL: 'Normal', ELEVATED: 'Forhøjet', HIGH: 'Høj', CRITICAL: 'Kritisk', EXTREME: 'Ekstrem' };
 
   return (
-    <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.25s' }}>
+    <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.05s' }}>
       <div className="panel-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h2>Tidlig varsling (EWI)</h2>

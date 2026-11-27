@@ -270,6 +270,9 @@ def run_daily_pipeline():
 
     # ── Step 5: Generate dashboard data payload ──
     print("\n📦 Step 5: Generating dashboard data payload...")
+    from forecast_engine import run_data_driven_forecast
+    import dst_macro
+
     quarter_end_month = {"1": "03", "2": "06", "3": "09", "4": "12"}
     asking_price_nowcast = {}
     for segment in SEGMENTS:
@@ -309,11 +312,36 @@ def run_daily_pipeline():
             ),
         }
 
+    print("\n🧠 Step 5a: Running data-driven Ridge + Nowcast forecast engine...")
+    macro_live = dst_macro.fetch_dst_macro_data()
+    rate_series = macro_live.get("interest_series") or {}
+    forecast_engine_results = {}
+    for segment in SEGMENTS:
+        dst_seg = dst_data.get("segments", {}).get(segment, {})
+        p_series = dst_seg.get("series") or {}
+        fe = run_data_driven_forecast(
+            segment=segment,
+            price_series=p_series,
+            rate_series=rate_series,
+            segment_nowcast=asking_price_nowcast.get(segment),
+            segment_market=market_data.get(segment),
+        )
+        forecast_engine_results[segment] = fe
+        h12 = fe["horizons"]["12m"]
+        print(
+            f"   {segment}: 12m {h12['combined']['change_pct']:+.2f}% "
+            f"(Ridge {h12['econometric_ridge']['change_pct']:+.2f}%, "
+            f"live adj {h12['live_adjustment_pp']:+.2f}pp, "
+            f"OOS MAE {h12['walk_forward_validation']['mae_pct']:.2f}%, "
+            f"Hit {h12['walk_forward_validation']['hit_rate_pct']:.1f}%)"
+        )
+
     dashboard_payload = {
         "schema_version": 1,
         "generated_at": timestamp,
         "dst_data": dst_data,
         "asking_price_nowcast": asking_price_nowcast,
+        "forecast_engine": forecast_engine_results,
         "early_warnings": ewi_results,
         "forecasts": forecast_results,
         "user_costs": user_cost_results,

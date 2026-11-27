@@ -24,6 +24,7 @@ def fetch_dst_macro_data() -> dict:
         "unemployment_rate": None,
         "unemployment_period": None,
         "unemployment_updated": None,
+        "unemployment_series": {},
         "rent_index": None,
         "rent_period": None,
         "rent_updated": None,
@@ -39,6 +40,7 @@ def fetch_dst_macro_data() -> dict:
         "interest_rate": None,
         "interest_period": None,
         "interest_updated": None,
+        "interest_series": {},
     }
 
     def post_req(payload):
@@ -71,6 +73,13 @@ def fetch_dst_macro_data() -> dict:
         vals = data["dataset"]["value"]
         tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
         updated_str = data["dataset"].get("updated")
+        u_buckets = {}
+        for t, val in zip(tid_keys, vals):
+            if val is not None and "M" in t:
+                y, m = t.split("M", 1)
+                q_key = f"{y}Q{(int(m) - 1) // 3 + 1}"
+                u_buckets.setdefault(q_key, []).append(float(val) / 100.0)
+        results["unemployment_series"] = {k: sum(vs) / len(vs) for k, vs in u_buckets.items()}
         for i in range(len(vals)-1, -1, -1):
             if vals[i] is not None:
                 results["unemployment_rate"] = vals[i] / 100.0
@@ -96,6 +105,13 @@ def fetch_dst_macro_data() -> dict:
         vals = data["dataset"]["value"]
         tid_keys = list(data["dataset"]["dimension"]["Tid"]["category"]["index"].keys())
         updated_str = data["dataset"].get("updated")
+        rate_series = {}
+        for t, val in zip(tid_keys, vals):
+            if val is not None and "M" in t:
+                y, m = t.split("M", 1)
+                q_key = f"{y}Q{(int(m) - 1) // 3 + 1}"
+                rate_series[q_key] = float(val) / 100.0  # quarter-end observation
+        results["interest_series"] = rate_series
         for i in range(len(vals)-1, -1, -1):
             if vals[i] is not None:
                 results["interest_rate"] = vals[i] / 100.0

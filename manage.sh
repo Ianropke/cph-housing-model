@@ -70,6 +70,7 @@ case "$1" in
         python3 -m unittest "$PROJECT_DIR/tests/test_dst_macro.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_live_data_alignment.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_payload_validation.py"
+        python3 -m unittest "$PROJECT_DIR/tests/test_forecast_engine.py"
         python3 -m pytest -q "$PROJECT_DIR/tests/test_crash_probability_validation.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_ml_feature_panel.py"
         python3 -m unittest "$PROJECT_DIR/tests/test_ml_validation_gate.py"

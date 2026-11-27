@@ -1,25 +1,31 @@
 import { useState, useMemo } from 'react';
+import ForecastHeroPanel from './components/ForecastHeroPanel';
 import PriceIndexPanel from './components/PriceIndexPanel';
 import EarlyWarningDashboard from './components/EarlyWarningDashboard';
 import ForecastEnsemblePanel from './components/ForecastEnsemblePanel';
 import UserCostPanel from './components/UserCostPanel';
 import ScenarioAssumptionsPanel from './components/ScenarioAssumptionsPanel';
-import RiskBarometer from './components/RiskBarometer';
 import ScenarioSandboxPanel from './components/ScenarioSandboxPanel';
 import SkeletonLoader from './components/SkeletonLoader';
 import OnboardingModal from './components/OnboardingModal';
 import MethodologyModal from './components/MethodologyModal';
 import { useCity } from './context/CityContext';
 
+const TABS = [
+  { id: 'forecast', label: 'Prognose', icon: '📈' },
+  { id: 'risk', label: 'Risiko & kilder', icon: '🛡️' },
+  { id: 'sandbox', label: 'Hvad-nu-hvis', icon: '🧪' },
+];
+
 export default function App() {
   const {
     pipelineData,
-    activeCity,
-    setActiveCity,
     loading: dataLoading,
     dataStatus,
     dataErrors,
   } = useCity();
+  const [activeTab, setActiveTab] = useState('forecast');
+  const [activeSegment, setActiveSegment] = useState('copenhagen_apartments');
   const [activeModal, setActiveModal] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showMethodology, setShowMethodology] = useState(false);
@@ -33,7 +39,6 @@ export default function App() {
       : date.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
   }, [pipelineData]);
 
-  const activeSegment = `${activeCity}_apartments`;
   const ewiModes = pipelineData?.early_warnings?.[activeSegment]?.modes || {};
   const activeModeData = ewiModes[ewiMode];
   const mlCrashProbability = activeModeData?.mlCrashProbability ?? null;
@@ -96,29 +101,7 @@ export default function App() {
             </div>
             <div>
               <h1>Det Københavnske Boligmarked</h1>
-              <p className="header-subtitle">Prognose- & Risikodashboard</p>
-            <div className="city-selector" style={{ marginTop: '8px' }}>
-              <select 
-                value={activeCity} 
-                onChange={(e) => setActiveCity(e.target.value)}
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: 'white',
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  fontSize: '0.9rem',
-                  outline: 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                <option value="copenhagen">København & Frederiksberg</option>
-                <option value="aarhus" disabled>Aarhus (Kommer snart)</option>
-                <option value="odense" disabled>Odense (Kommer snart)</option>
-                <option value="aalborg" disabled>Aalborg (Kommer snart)</option>
-              </select>
-            </div>
-
+              <p className="header-subtitle">Datadrevet Prognose- &amp; Markedsovervågning</p>
             </div>
           </div>
           <div className="header-right">
@@ -133,58 +116,79 @@ export default function App() {
           </div>
         </div>
 
-        {/* Dynamic Action Control Bar */}
-        <div className="control-bar fade-in" style={{ animationDelay: '0.1s', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <button 
-            className="btn-control purple" 
-            onClick={() => setShowOnboarding(true)}
-            title="Åbn onboarding intro og guide"
-          >
-            <span>❓</span> Guide & Intro
-          </button>
-          
-          <button 
-            className="btn-control purple" 
-            onClick={() => setShowMethodology(true)}
-            title="Åbn model-metodik, backtest-resultater og datadokumentation"
-          >
-            <span>🔬</span> Model-Metodik & Backtest
-          </button>
+        {/* Focused 3-Tab Navigation + Secondary Utility Actions */}
+        <div className="nav-and-controls fade-in" style={{ animationDelay: '0.08s' }}>
+          <nav className="primary-tabs" role="tablist" aria-label="Hovedsektioner">
+            {TABS.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                className={`primary-tab ${activeTab === tab.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </nav>
 
-          <button 
-            className="btn-control purple" 
-            onClick={checkStatus} 
-            title="Vis systemstatus, datakilde-helbredscheck og pipeline-log"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-              <path d="M12 16v-4" />
-              <path d="M12 8h.01" />
-            </svg>
-            Systemstatus
-          </button>
+          <div className="utility-actions">
+            <button
+              type="button"
+              className="btn-control purple"
+              onClick={() => setShowMethodology(true)}
+              title="Åbn model-metodik, backtest-resultater og datadokumentation"
+            >
+              <span>🔬</span> Metode
+            </button>
+            <button
+              type="button"
+              className="btn-control purple"
+              onClick={checkStatus}
+              title="Vis systemstatus, datakilde-helbredscheck og pipeline-log"
+            >
+              <span>ℹ️</span> Status
+            </button>
+          </div>
         </div>
       </header>
 
       <main className="dashboard-grid">
-        <RiskBarometer maxRiskIndex={activeModeData.maxRiskIndex} />
-        <PriceIndexPanel />
-        <EarlyWarningDashboard 
-          ewiMode={ewiMode} 
-          setEwiMode={setEwiMode}
-          indicators={activeModeData.earlyWarningIndicators}
-          compositeScore={activeModeData.compositeScore}
-          freshnessWeightedComposite={activeModeData.freshnessWeightedComposite}
-          alertLevel={activeModeData.alertLevel}
-          mlCrashProbability={mlCrashProbability}
-          mlModelStatus={activeModeData.mlModelStatus}
-          mlProbabilityHistory={activeModeData.mlProbabilityHistory}
-          dataFreshness={activeModeData.dataFreshness}
-        />
-        <ScenarioSandboxPanel />
-        <ForecastEnsemblePanel />
-        <UserCostPanel />
-        <ScenarioAssumptionsPanel />
+        {activeTab === 'forecast' && (
+          <ForecastHeroPanel
+            pipelineData={pipelineData}
+            activeSegment={activeSegment}
+            setActiveSegment={setActiveSegment}
+            onOpenTab={setActiveTab}
+          />
+        )}
+
+        {activeTab === 'risk' && (
+          <>
+            <EarlyWarningDashboard
+              ewiMode={ewiMode}
+              setEwiMode={setEwiMode}
+              indicators={activeModeData.earlyWarningIndicators}
+              compositeScore={activeModeData.compositeScore}
+              freshnessWeightedComposite={activeModeData.freshnessWeightedComposite}
+              alertLevel={activeModeData.alertLevel}
+              mlCrashProbability={mlCrashProbability}
+              mlModelStatus={activeModeData.mlModelStatus}
+              mlProbabilityHistory={activeModeData.mlProbabilityHistory}
+              dataFreshness={activeModeData.dataFreshness}
+            />
+            <PriceIndexPanel />
+            <ForecastEnsemblePanel />
+            <UserCostPanel />
+            <ScenarioAssumptionsPanel />
+          </>
+        )}
+
+        {activeTab === 'sandbox' && (
+          <ScenarioSandboxPanel activeSegment={activeSegment} />
+        )}
       </main>
 
       <footer className="dashboard-footer fade-in" style={{ animationDelay: '0.8s', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center', textAlign: 'center', padding: '30px 20px' }}>

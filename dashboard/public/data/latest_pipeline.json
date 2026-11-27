@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-27T06:13:14.742375+00:00",
+  "generated_at": "2026-11-27T10:11:04.263417+00:00",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-10-29",
-    "query_timestamp": "2026-11-27T07:13:47.648560",
+    "query_timestamp": "2026-11-27T11:11:38.052157",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -319,7 +319,7 @@
         "latest_value": 81880.0,
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB020&PLanguage=0",
-        "retrieved_at": "2026-11-27T06:13:28.780123+00:00",
+        "retrieved_at": "2026-11-27T10:11:19.405608+00:00",
         "status": "live",
         "yoy_change_pct": 3.48,
         "anchor_period": "2026M06",
@@ -327,12 +327,12 @@
         "since_dst_quarter_change_pct": -1.79
       },
       "boliga_realtime": {
-        "median_dkk_sqm": 76250,
-        "mean_dkk_sqm": 78434,
-        "sample_size": 1953,
+        "median_dkk_sqm": 76228,
+        "mean_dkk_sqm": 78410,
+        "sample_size": 1955,
         "municipality_code": 101,
         "source": "Boliga API",
-        "retrieved_at": "2026-11-27T06:13:25.399146+00:00",
+        "retrieved_at": "2026-11-27T10:11:15.691113+00:00",
         "status": "live"
       },
       "methodology_note": "Separat udbudspris-nowcast (kr./m\u00b2) til overv\u00e5gning mellem Danmarks Statistiks kvartalsvise EJ56-udgivelser. Udbudspriser er ikke tinglyste handelspriser og indg\u00e5r ikke direkte i EJ56-indekset."
@@ -360,7 +360,7 @@
         "latest_value": 80248.0,
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB020&PLanguage=0",
-        "retrieved_at": "2026-11-27T06:13:39.007090+00:00",
+        "retrieved_at": "2026-11-27T10:11:29.455789+00:00",
         "status": "live",
         "yoy_change_pct": 1.97,
         "anchor_period": "2026M06",
@@ -373,7 +373,7 @@
         "sample_size": 229,
         "municipality_code": 101,
         "source": "Boliga API",
-        "retrieved_at": "2026-11-27T06:13:35.825407+00:00",
+        "retrieved_at": "2026-11-27T10:11:25.755991+00:00",
         "status": "live"
       },
       "methodology_note": "Separat udbudspris-nowcast (kr./m\u00b2) til overv\u00e5gning mellem Danmarks Statistiks kvartalsvise EJ56-udgivelser. Udbudspriser er ikke tinglyste handelspriser og indg\u00e5r ikke direkte i EJ56-indekset."
@@ -401,7 +401,7 @@
         "latest_value": 86595.0,
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB020&PLanguage=0",
-        "retrieved_at": "2026-11-27T06:13:42.523437+00:00",
+        "retrieved_at": "2026-11-27T10:11:33.336591+00:00",
         "status": "live",
         "yoy_change_pct": 10.44,
         "anchor_period": "2026M06",
@@ -414,16 +414,1707 @@
         "sample_size": 216,
         "municipality_code": 147,
         "source": "Boliga API",
-        "retrieved_at": "2026-11-27T06:13:39.430619+00:00",
+        "retrieved_at": "2026-11-27T10:11:29.854048+00:00",
         "status": "live"
       },
       "methodology_note": "Separat udbudspris-nowcast (kr./m\u00b2) til overv\u00e5gning mellem Danmarks Statistiks kvartalsvise EJ56-udgivelser. Udbudspriser er ikke tinglyste handelspriser og indg\u00e5r ikke direkte i EJ56-indekset."
     }
   },
+  "forecast_engine": {
+    "copenhagen_apartments": {
+      "engine_version": "ridge_wf_nowcast_v1",
+      "generated_at": "2026-11-27T10:12:15.217542+00:00",
+      "segment": "copenhagen_apartments",
+      "current_period": "2026Q2",
+      "current_index": 141.5,
+      "training_quarters": 78,
+      "training_range": "2007Q1\u20132026Q2",
+      "direction_12m": "OP",
+      "horizons": {
+        "6m": {
+          "target_period": "2026Q4",
+          "quarters_ahead": 2,
+          "combined": {
+            "forecast_index": 142.8,
+            "change_pct": 0.89,
+            "p10_index": 135.9,
+            "p50_index": 142.8,
+            "p90_index": 151.0,
+            "p10_change_pct": -3.97,
+            "p90_change_pct": 6.71,
+            "direction": "FLADT"
+          },
+          "econometric_ridge": {
+            "forecast_index": 148.0,
+            "change_pct": 4.57,
+            "selected_alpha": 35.0,
+            "rate_sensitivity_per_1pp": -0.97
+          },
+          "live_adjustment_pp": -3.68,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 2.4,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+4.0%",
+                "impact_pp": 0.77,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+19.0%",
+                "impact_pp": 1.84,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -0.33,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": -0.22,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-1.8%",
+                "impact_pp": -1.16,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "85 dage",
+                "impact_pp": -1.0,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "46.4%",
+                "impact_pp": -0.98,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-20.7%",
+                "impact_pp": -0.53,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 58,
+            "mae_pct": 3.84,
+            "rmse_pct": 4.86,
+            "naive_mean_mae_pct": 4.16,
+            "hit_rate_pct": 82.8,
+            "beats_naive_mae": true,
+            "train_window": "2007Q1\u20132025Q4"
+          }
+        },
+        "12m": {
+          "target_period": "2027Q2",
+          "quarters_ahead": 4,
+          "combined": {
+            "forecast_index": 147.2,
+            "change_pct": 4.05,
+            "p10_index": 131.9,
+            "p50_index": 147.2,
+            "p90_index": 173.6,
+            "p10_change_pct": -6.8,
+            "p90_change_pct": 22.67,
+            "direction": "OP"
+          },
+          "econometric_ridge": {
+            "forecast_index": 153.2,
+            "change_pct": 8.28,
+            "selected_alpha": 35.0,
+            "rate_sensitivity_per_1pp": -1.5
+          },
+          "live_adjustment_pp": -4.23,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 4.81,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+4.0%",
+                "impact_pp": 1.72,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+19.0%",
+                "impact_pp": 2.26,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -0.55,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": -0.29,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-1.8%",
+                "impact_pp": -1.16,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "85 dage",
+                "impact_pp": -1.0,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "46.4%",
+                "impact_pp": -0.98,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-20.7%",
+                "impact_pp": -0.53,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 54,
+            "mae_pct": 8.34,
+            "rmse_pct": 10.29,
+            "naive_mean_mae_pct": 7.63,
+            "hit_rate_pct": 70.4,
+            "beats_naive_mae": false,
+            "train_window": "2007Q1\u20132025Q2"
+          }
+        },
+        "24m": {
+          "target_period": "2028Q2",
+          "quarters_ahead": 8,
+          "combined": {
+            "forecast_index": 154.3,
+            "change_pct": 9.05,
+            "p10_index": 133.5,
+            "p50_index": 154.3,
+            "p90_index": 219.1,
+            "p10_change_pct": -5.64,
+            "p90_change_pct": 54.87,
+            "direction": "OP"
+          },
+          "econometric_ridge": {
+            "forecast_index": 159.0,
+            "change_pct": 12.36,
+            "selected_alpha": 75.0,
+            "rate_sensitivity_per_1pp": -0.81
+          },
+          "live_adjustment_pp": -3.31,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 9.88,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+4.0%",
+                "impact_pp": 1.49,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+19.0%",
+                "impact_pp": 1.32,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -1.06,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": 0.02,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-1.8%",
+                "impact_pp": -1.16,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "85 dage",
+                "impact_pp": -1.0,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "46.4%",
+                "impact_pp": -0.98,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-20.7%",
+                "impact_pp": -0.53,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 46,
+            "mae_pct": 15.29,
+            "rmse_pct": 19.61,
+            "naive_mean_mae_pct": 12.25,
+            "hit_rate_pct": 76.1,
+            "beats_naive_mae": false,
+            "train_window": "2007Q1\u20132024Q2"
+          }
+        }
+      },
+      "live_bridge": {
+        "base_adjustment_pp": -3.68,
+        "by_horizon_pp": {
+          "6m": -3.68,
+          "12m": -4.23,
+          "24m": -3.31
+        },
+        "components": [
+          {
+            "key": "nowcast_udb020",
+            "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+            "value_display": "-1.8%",
+            "impact_pp": -1.16,
+            "source": "Finans Danmark UDB020"
+          },
+          {
+            "key": "nowcast_dom",
+            "label": "Liggetid i markedet (UDB030)",
+            "value_display": "85 dage",
+            "impact_pp": -1.0,
+            "source": "Finans Danmark UDB030"
+          },
+          {
+            "key": "nowcast_reductions",
+            "label": "Andel boliger med prisafslag (Boliga)",
+            "value_display": "46.4%",
+            "impact_pp": -0.98,
+            "source": "Boliga API"
+          },
+          {
+            "key": "nowcast_volume",
+            "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+            "value_display": "-20.7%",
+            "impact_pp": -0.53,
+            "source": "Finans Danmark BM020"
+          }
+        ],
+        "udb020_change_since_dst_pct": -1.79
+      },
+      "trajectory": [
+        {
+          "period": "2022Q3",
+          "actual": 99.6,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2022Q4",
+          "actual": 95.0,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q1",
+          "actual": 94.7,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q2",
+          "actual": 98.1,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q3",
+          "actual": 98.8,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q4",
+          "actual": 99.0,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q1",
+          "actual": 98.3,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q2",
+          "actual": 102.3,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q3",
+          "actual": 105.0,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q4",
+          "actual": 107.3,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q1",
+          "actual": 112.5,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q2",
+          "actual": 118.9,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q3",
+          "actual": 121.8,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q4",
+          "actual": 129.2,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q1",
+          "actual": 136.1,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q2",
+          "actual": 141.5,
+          "forecast": 141.5,
+          "econometric": 141.5,
+          "band_base": 141.5,
+          "band_width": 0.0,
+          "p10": 141.5,
+          "p90": 141.5,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q4",
+          "horizon_label": "6m",
+          "actual": null,
+          "forecast": 142.8,
+          "econometric": 148.0,
+          "band_base": 135.9,
+          "band_width": 15.1,
+          "p10": 135.9,
+          "p90": 151.0,
+          "is_forecast": true
+        },
+        {
+          "period": "2027Q2",
+          "horizon_label": "12m",
+          "actual": null,
+          "forecast": 147.2,
+          "econometric": 153.2,
+          "band_base": 131.9,
+          "band_width": 41.7,
+          "p10": 131.9,
+          "p90": 173.6,
+          "is_forecast": true
+        },
+        {
+          "period": "2028Q2",
+          "horizon_label": "24m",
+          "actual": null,
+          "forecast": 154.3,
+          "econometric": 159.0,
+          "band_base": 133.5,
+          "band_width": 85.6,
+          "p10": 133.5,
+          "p90": 219.1,
+          "is_forecast": true
+        }
+      ],
+      "methodology_summary": "Regulariseret Ridge-tidsseriemodel (RidgeCV) tr\u00e6net p\u00e5 \u00e6gte kvartalsvise DST-data (EJ56 + DNRENTM, 2007\u2013nu) kombineret med en eksplicit h\u00f8jfrekvent markedsjustering fra Finans Danmark (UDB020, UDB030, BM020) og Boliga API. P10\u2013P90-b\u00e5ndet er beregnet direkte fra walk-forward out-of-sample fejl uden look-ahead."
+    },
+    "copenhagen_houses": {
+      "engine_version": "ridge_wf_nowcast_v1",
+      "generated_at": "2026-11-27T10:12:15.284990+00:00",
+      "segment": "copenhagen_houses",
+      "current_period": "2026Q2",
+      "current_index": 123.9,
+      "training_quarters": 78,
+      "training_range": "2007Q1\u20132026Q2",
+      "direction_12m": "NED",
+      "horizons": {
+        "6m": {
+          "target_period": "2026Q4",
+          "quarters_ahead": 2,
+          "combined": {
+            "forecast_index": 119.0,
+            "change_pct": -3.92,
+            "p10_index": 115.1,
+            "p50_index": 119.0,
+            "p90_index": 125.8,
+            "p10_change_pct": -7.1,
+            "p90_change_pct": 1.54,
+            "direction": "NED"
+          },
+          "econometric_ridge": {
+            "forecast_index": 126.3,
+            "change_pct": 1.95,
+            "selected_alpha": 35.0,
+            "rate_sensitivity_per_1pp": -0.98
+          },
+          "live_adjustment_pp": -5.87,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 1.59,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+3.0%",
+                "impact_pp": 0.67,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+12.3%",
+                "impact_pp": 0.38,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -0.56,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": -0.15,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-3.9%",
+                "impact_pp": -2.55,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "101 dage",
+                "impact_pp": -1.64,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "45.8%",
+                "impact_pp": -0.95,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-24.8%",
+                "impact_pp": -0.74,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 58,
+            "mae_pct": 3.4,
+            "rmse_pct": 4.58,
+            "naive_mean_mae_pct": 3.63,
+            "hit_rate_pct": 77.6,
+            "beats_naive_mae": true,
+            "train_window": "2007Q1\u20132025Q4"
+          }
+        },
+        "12m": {
+          "target_period": "2027Q2",
+          "quarters_ahead": 4,
+          "combined": {
+            "forecast_index": 118.2,
+            "change_pct": -4.64,
+            "p10_index": 109.5,
+            "p50_index": 118.2,
+            "p90_index": 132.9,
+            "p10_change_pct": -11.62,
+            "p90_change_pct": 7.3,
+            "direction": "NED"
+          },
+          "econometric_ridge": {
+            "forecast_index": 126.5,
+            "change_pct": 2.11,
+            "selected_alpha": 15.0,
+            "rate_sensitivity_per_1pp": -2.06
+          },
+          "live_adjustment_pp": -6.75,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 3.21,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+3.0%",
+                "impact_pp": 1.44,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+12.3%",
+                "impact_pp": -0.87,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -1.49,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": -0.2,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-3.9%",
+                "impact_pp": -2.55,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "101 dage",
+                "impact_pp": -1.64,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "45.8%",
+                "impact_pp": -0.95,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-24.8%",
+                "impact_pp": -0.74,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 54,
+            "mae_pct": 7.38,
+            "rmse_pct": 9.49,
+            "naive_mean_mae_pct": 7.11,
+            "hit_rate_pct": 59.3,
+            "beats_naive_mae": false,
+            "train_window": "2007Q1\u20132025Q2"
+          }
+        },
+        "24m": {
+          "target_period": "2028Q2",
+          "quarters_ahead": 8,
+          "combined": {
+            "forecast_index": 114.9,
+            "change_pct": -7.23,
+            "p10_index": 101.5,
+            "p50_index": 114.9,
+            "p90_index": 136.0,
+            "p10_change_pct": -18.1,
+            "p90_change_pct": 9.79,
+            "direction": "NED"
+          },
+          "econometric_ridge": {
+            "forecast_index": 121.5,
+            "change_pct": -1.95,
+            "selected_alpha": 5.0,
+            "rate_sensitivity_per_1pp": -2.21
+          },
+          "live_adjustment_pp": -5.28,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 6.69,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+3.0%",
+                "impact_pp": 1.08,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+12.3%",
+                "impact_pp": -5.12,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -5.11,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": 0.49,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-3.9%",
+                "impact_pp": -2.55,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "101 dage",
+                "impact_pp": -1.64,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "45.8%",
+                "impact_pp": -0.95,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-24.8%",
+                "impact_pp": -0.74,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 46,
+            "mae_pct": 12.12,
+            "rmse_pct": 15.58,
+            "naive_mean_mae_pct": 12.09,
+            "hit_rate_pct": 58.7,
+            "beats_naive_mae": false,
+            "train_window": "2007Q1\u20132024Q2"
+          }
+        }
+      },
+      "live_bridge": {
+        "base_adjustment_pp": -5.87,
+        "by_horizon_pp": {
+          "6m": -5.87,
+          "12m": -6.75,
+          "24m": -5.28
+        },
+        "components": [
+          {
+            "key": "nowcast_udb020",
+            "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+            "value_display": "-3.9%",
+            "impact_pp": -2.55,
+            "source": "Finans Danmark UDB020"
+          },
+          {
+            "key": "nowcast_dom",
+            "label": "Liggetid i markedet (UDB030)",
+            "value_display": "101 dage",
+            "impact_pp": -1.64,
+            "source": "Finans Danmark UDB030"
+          },
+          {
+            "key": "nowcast_reductions",
+            "label": "Andel boliger med prisafslag (Boliga)",
+            "value_display": "45.8%",
+            "impact_pp": -0.95,
+            "source": "Boliga API"
+          },
+          {
+            "key": "nowcast_volume",
+            "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+            "value_display": "-24.8%",
+            "impact_pp": -0.74,
+            "source": "Finans Danmark BM020"
+          }
+        ],
+        "udb020_change_since_dst_pct": -3.92
+      },
+      "trajectory": [
+        {
+          "period": "2022Q3",
+          "actual": 98.3,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2022Q4",
+          "actual": 94.5,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q1",
+          "actual": 93.4,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q2",
+          "actual": 95.7,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q3",
+          "actual": 97.8,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q4",
+          "actual": 99.6,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q1",
+          "actual": 98.0,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q2",
+          "actual": 100.3,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q3",
+          "actual": 101.7,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q4",
+          "actual": 104.1,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q1",
+          "actual": 106.8,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q2",
+          "actual": 110.3,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q3",
+          "actual": 112.2,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q4",
+          "actual": 118.7,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q1",
+          "actual": 120.3,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q2",
+          "actual": 123.9,
+          "forecast": 123.9,
+          "econometric": 123.9,
+          "band_base": 123.9,
+          "band_width": 0.0,
+          "p10": 123.9,
+          "p90": 123.9,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q4",
+          "horizon_label": "6m",
+          "actual": null,
+          "forecast": 119.0,
+          "econometric": 126.3,
+          "band_base": 115.1,
+          "band_width": 10.7,
+          "p10": 115.1,
+          "p90": 125.8,
+          "is_forecast": true
+        },
+        {
+          "period": "2027Q2",
+          "horizon_label": "12m",
+          "actual": null,
+          "forecast": 118.2,
+          "econometric": 126.5,
+          "band_base": 109.5,
+          "band_width": 23.4,
+          "p10": 109.5,
+          "p90": 132.9,
+          "is_forecast": true
+        },
+        {
+          "period": "2028Q2",
+          "horizon_label": "24m",
+          "actual": null,
+          "forecast": 114.9,
+          "econometric": 121.5,
+          "band_base": 101.5,
+          "band_width": 34.5,
+          "p10": 101.5,
+          "p90": 136.0,
+          "is_forecast": true
+        }
+      ],
+      "methodology_summary": "Regulariseret Ridge-tidsseriemodel (RidgeCV) tr\u00e6net p\u00e5 \u00e6gte kvartalsvise DST-data (EJ56 + DNRENTM, 2007\u2013nu) kombineret med en eksplicit h\u00f8jfrekvent markedsjustering fra Finans Danmark (UDB020, UDB030, BM020) og Boliga API. P10\u2013P90-b\u00e5ndet er beregnet direkte fra walk-forward out-of-sample fejl uden look-ahead."
+    },
+    "frederiksberg_apartments": {
+      "engine_version": "ridge_wf_nowcast_v1",
+      "generated_at": "2026-11-27T10:12:15.352287+00:00",
+      "segment": "frederiksberg_apartments",
+      "current_period": "2026Q2",
+      "current_index": 129.4,
+      "training_quarters": 78,
+      "training_range": "2007Q1\u20132026Q2",
+      "direction_12m": "NED",
+      "horizons": {
+        "6m": {
+          "target_period": "2026Q4",
+          "quarters_ahead": 2,
+          "combined": {
+            "forecast_index": 126.2,
+            "change_pct": -2.45,
+            "p10_index": 120.5,
+            "p50_index": 126.2,
+            "p90_index": 135.5,
+            "p10_change_pct": -6.9,
+            "p90_change_pct": 4.71,
+            "direction": "NED"
+          },
+          "econometric_ridge": {
+            "forecast_index": 133.5,
+            "change_pct": 3.16,
+            "selected_alpha": 35.0,
+            "rate_sensitivity_per_1pp": -1.16
+          },
+          "live_adjustment_pp": -5.61,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 1.52,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+6.0%",
+                "impact_pp": 1.02,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+19.6%",
+                "impact_pp": 1.42,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -0.68,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": -0.17,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-4.1%",
+                "impact_pp": -2.65,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "89 dage",
+                "impact_pp": -1.16,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "47.2%",
+                "impact_pp": -1.03,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-25.5%",
+                "impact_pp": -0.78,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 58,
+            "mae_pct": 3.99,
+            "rmse_pct": 5.35,
+            "naive_mean_mae_pct": 4.41,
+            "hit_rate_pct": 74.1,
+            "beats_naive_mae": true,
+            "train_window": "2007Q1\u20132025Q4"
+          }
+        },
+        "12m": {
+          "target_period": "2027Q2",
+          "quarters_ahead": 4,
+          "combined": {
+            "forecast_index": 126.7,
+            "change_pct": -2.07,
+            "p10_index": 114.6,
+            "p50_index": 126.7,
+            "p90_index": 150.2,
+            "p10_change_pct": -11.4,
+            "p90_change_pct": 16.05,
+            "direction": "NED"
+          },
+          "econometric_ridge": {
+            "forecast_index": 135.1,
+            "change_pct": 4.38,
+            "selected_alpha": 35.0,
+            "rate_sensitivity_per_1pp": -2.09
+          },
+          "live_adjustment_pp": -6.45,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 2.92,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+6.0%",
+                "impact_pp": 1.19,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+19.6%",
+                "impact_pp": 1.87,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -1.46,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": -0.22,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-4.1%",
+                "impact_pp": -2.65,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "89 dage",
+                "impact_pp": -1.16,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "47.2%",
+                "impact_pp": -1.03,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-25.5%",
+                "impact_pp": -0.78,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 54,
+            "mae_pct": 8.33,
+            "rmse_pct": 10.77,
+            "naive_mean_mae_pct": 8.04,
+            "hit_rate_pct": 66.7,
+            "beats_naive_mae": false,
+            "train_window": "2007Q1\u20132025Q2"
+          }
+        },
+        "24m": {
+          "target_period": "2028Q2",
+          "quarters_ahead": 8,
+          "combined": {
+            "forecast_index": 126.9,
+            "change_pct": -1.93,
+            "p10_index": 110.0,
+            "p50_index": 126.9,
+            "p90_index": 175.6,
+            "p10_change_pct": -15.0,
+            "p90_change_pct": 35.72,
+            "direction": "NED"
+          },
+          "econometric_ridge": {
+            "forecast_index": 133.4,
+            "change_pct": 3.12,
+            "selected_alpha": 15.0,
+            "rate_sensitivity_per_1pp": -2.77
+          },
+          "live_adjustment_pp": -5.05,
+          "drivers": {
+            "econometric": [
+              {
+                "key": "intercept",
+                "label": "Historisk grundtrend (2007\u20132026)",
+                "value_display": "78 kvt.",
+                "impact_pp": 6.28,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom1",
+                "label": "Kortsigtet prismomentum (1 kvt.)",
+                "value_display": "+6.0%",
+                "impact_pp": 0.88,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "mom4",
+                "label": "\u00c5rsmomentum (4 kvt. EJ56)",
+                "value_display": "+19.6%",
+                "impact_pp": -0.06,
+                "source": "DST EJ56"
+              },
+              {
+                "key": "rate",
+                "label": "Renteniveau (Nationalbanken)",
+                "value_display": "1.85%",
+                "impact_pp": -4.21,
+                "source": "DST DNRENTM"
+              },
+              {
+                "key": "dr4",
+                "label": "Rente\u00e6ndring seneste \u00e5r (\u0394r)",
+                "value_display": "+0.25 pp",
+                "impact_pp": 0.19,
+                "source": "DST DNRENTM"
+              }
+            ],
+            "live_market": [
+              {
+                "key": "nowcast_udb020",
+                "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+                "value_display": "-4.1%",
+                "impact_pp": -2.65,
+                "source": "Finans Danmark UDB020"
+              },
+              {
+                "key": "nowcast_dom",
+                "label": "Liggetid i markedet (UDB030)",
+                "value_display": "89 dage",
+                "impact_pp": -1.16,
+                "source": "Finans Danmark UDB030"
+              },
+              {
+                "key": "nowcast_reductions",
+                "label": "Andel boliger med prisafslag (Boliga)",
+                "value_display": "47.2%",
+                "impact_pp": -1.03,
+                "source": "Boliga API"
+              },
+              {
+                "key": "nowcast_volume",
+                "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+                "value_display": "-25.5%",
+                "impact_pp": -0.78,
+                "source": "Finans Danmark BM020"
+              }
+            ]
+          },
+          "walk_forward_validation": {
+            "oos_quarters": 46,
+            "mae_pct": 14.15,
+            "rmse_pct": 18.45,
+            "naive_mean_mae_pct": 13.38,
+            "hit_rate_pct": 56.5,
+            "beats_naive_mae": false,
+            "train_window": "2007Q1\u20132024Q2"
+          }
+        }
+      },
+      "live_bridge": {
+        "base_adjustment_pp": -5.61,
+        "by_horizon_pp": {
+          "6m": -5.61,
+          "12m": -6.45,
+          "24m": -5.05
+        },
+        "components": [
+          {
+            "key": "nowcast_udb020",
+            "label": "Udbudspris efter seneste DST-kvartal (UDB020)",
+            "value_display": "-4.1%",
+            "impact_pp": -2.65,
+            "source": "Finans Danmark UDB020"
+          },
+          {
+            "key": "nowcast_dom",
+            "label": "Liggetid i markedet (UDB030)",
+            "value_display": "89 dage",
+            "impact_pp": -1.16,
+            "source": "Finans Danmark UDB030"
+          },
+          {
+            "key": "nowcast_reductions",
+            "label": "Andel boliger med prisafslag (Boliga)",
+            "value_display": "47.2%",
+            "impact_pp": -1.03,
+            "source": "Boliga API"
+          },
+          {
+            "key": "nowcast_volume",
+            "label": "Handelsvolumen \u00e5r/\u00e5r (BM020)",
+            "value_display": "-25.5%",
+            "impact_pp": -0.78,
+            "source": "Finans Danmark BM020"
+          }
+        ],
+        "udb020_change_since_dst_pct": -4.07
+      },
+      "trajectory": [
+        {
+          "period": "2022Q3",
+          "actual": 99.5,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2022Q4",
+          "actual": 95.7,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q1",
+          "actual": 91.7,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q2",
+          "actual": 94.9,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q3",
+          "actual": 97.8,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2023Q4",
+          "actual": 97.5,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q1",
+          "actual": 98.0,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q2",
+          "actual": 99.5,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q3",
+          "actual": 102.6,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2024Q4",
+          "actual": 103.1,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q1",
+          "actual": 105.4,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q2",
+          "actual": 108.2,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q3",
+          "actual": 110.7,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2025Q4",
+          "actual": 114.5,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q1",
+          "actual": 122.1,
+          "forecast": null,
+          "econometric": null,
+          "band_base": null,
+          "band_width": null,
+          "p10": null,
+          "p90": null,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q2",
+          "actual": 129.4,
+          "forecast": 129.4,
+          "econometric": 129.4,
+          "band_base": 129.4,
+          "band_width": 0.0,
+          "p10": 129.4,
+          "p90": 129.4,
+          "is_forecast": false
+        },
+        {
+          "period": "2026Q4",
+          "horizon_label": "6m",
+          "actual": null,
+          "forecast": 126.2,
+          "econometric": 133.5,
+          "band_base": 120.5,
+          "band_width": 15.0,
+          "p10": 120.5,
+          "p90": 135.5,
+          "is_forecast": true
+        },
+        {
+          "period": "2027Q2",
+          "horizon_label": "12m",
+          "actual": null,
+          "forecast": 126.7,
+          "econometric": 135.1,
+          "band_base": 114.6,
+          "band_width": 35.6,
+          "p10": 114.6,
+          "p90": 150.2,
+          "is_forecast": true
+        },
+        {
+          "period": "2028Q2",
+          "horizon_label": "24m",
+          "actual": null,
+          "forecast": 126.9,
+          "econometric": 133.4,
+          "band_base": 110.0,
+          "band_width": 65.6,
+          "p10": 110.0,
+          "p90": 175.6,
+          "is_forecast": true
+        }
+      ],
+      "methodology_summary": "Regulariseret Ridge-tidsseriemodel (RidgeCV) tr\u00e6net p\u00e5 \u00e6gte kvartalsvise DST-data (EJ56 + DNRENTM, 2007\u2013nu) kombineret med en eksplicit h\u00f8jfrekvent markedsjustering fra Finans Danmark (UDB020, UDB030, BM020) og Boliga API. P10\u2013P90-b\u00e5ndet er beregnet direkte fra walk-forward out-of-sample fejl uden look-ahead."
+    }
+  },
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-11-27T07:14:43.386198",
+      "evaluation_timestamp": "2026-11-27T11:12:15.106468",
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
       "ml_crash_probability": null,
@@ -1541,7 +3232,7 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-11-27T07:14:43.388689",
+      "evaluation_timestamp": "2026-11-27T11:12:15.109215",
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
       "ml_crash_probability": null,
@@ -2659,7 +4350,7 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-11-27T07:14:43.391475",
+      "evaluation_timestamp": "2026-11-27T11:12:15.111867",
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
       "ml_crash_probability": null,
@@ -3783,7 +5474,7 @@
       "current_index": 141.5,
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
-      "forecast_date": "2026-11-27T07:13:47.655644",
+      "forecast_date": "2026-11-27T11:11:38.058752",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -3964,7 +5655,7 @@
       "current_index": 123.9,
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
-      "forecast_date": "2026-11-27T07:13:47.661981",
+      "forecast_date": "2026-11-27T11:11:38.066147",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -4145,7 +5836,7 @@
       "current_index": 129.4,
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
-      "forecast_date": "2026-11-27T07:13:47.667578",
+      "forecast_date": "2026-11-27T11:11:38.073599",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -4363,7 +6054,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404578"
+        "calculation_timestamp": "2026-11-27T11:12:15.126163"
       },
       "12m": {
         "input": {
@@ -4405,7 +6096,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404598"
+        "calculation_timestamp": "2026-11-27T11:12:15.126182"
       },
       "24m": {
         "input": {
@@ -4447,7 +6138,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404611"
+        "calculation_timestamp": "2026-11-27T11:12:15.126193"
       }
     },
     "min_risk": {
@@ -4491,7 +6182,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404621"
+        "calculation_timestamp": "2026-11-27T11:12:15.126202"
       },
       "12m": {
         "input": {
@@ -4533,7 +6224,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404630"
+        "calculation_timestamp": "2026-11-27T11:12:15.126211"
       },
       "24m": {
         "input": {
@@ -4575,7 +6266,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404640"
+        "calculation_timestamp": "2026-11-27T11:12:15.126220"
       }
     },
     "max_risk": {
@@ -4619,7 +6310,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404655"
+        "calculation_timestamp": "2026-11-27T11:12:15.126231"
       },
       "12m": {
         "input": {
@@ -4661,7 +6352,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404669"
+        "calculation_timestamp": "2026-11-27T11:12:15.126245"
       },
       "24m": {
         "input": {
@@ -4703,7 +6394,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T07:14:43.404680"
+        "calculation_timestamp": "2026-11-27T11:12:15.126256"
       }
     }
   },
@@ -4714,7 +6405,7 @@
   ],
   "market_data_status": {
     "status": "live",
-    "generated_at": "2026-11-27T06:13:16.442895+00:00",
+    "generated_at": "2026-11-27T10:11:06.065239+00:00",
     "sources": {
       "rkr": "Finans Danmark Statistikbank",
       "boliga": "Boliga API"

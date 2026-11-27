@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useCity } from '../context/CityContext';
 
-export default function ScenarioSandboxPanel() {
+export default function ScenarioSandboxPanel({ activeSegment: propSegment }) {
   const { pipelineData, activeCity } = useCity();
-  const activeSegment = `${activeCity}_apartments`;
+  const activeSegment = propSegment || `${activeCity}_apartments`;
 
   // The pipeline payload is the sole source of truth for the actual-market
   // preset. Never substitute historical constants for incomplete live data.
@@ -11,8 +11,11 @@ export default function ScenarioSandboxPanel() {
   const liveComposite = Number(pipelineData?.early_warnings?.[activeSegment]?.composite_score);
   const liveMlValue = pipelineData?.early_warnings?.[activeSegment]?.ml_crash_probability;
   const liveMlCrash = typeof liveMlValue === 'number' && Number.isFinite(liveMlValue) ? liveMlValue : null;
+  const engineForecast12m = pipelineData?.forecast_engine?.[activeSegment]?.horizons?.['12m']?.combined?.change_pct;
   const liveForecastChangePct = Number(
-    pipelineData?.forecasts?.[activeSegment]?.horizons?.['12m']?.ensemble?.probability_weighted_change_pct,
+    typeof engineForecast12m === 'number' && Number.isFinite(engineForecast12m)
+      ? engineForecast12m
+      : pipelineData?.forecasts?.[activeSegment]?.horizons?.['12m']?.ensemble?.probability_weighted_change_pct,
   );
   const liveDom = Number(liveIndicators['EWI-5_time_on_market']?.median_dom_days);
   const liveSupply = Number(liveIndicators['EWI-2_supply_demand']?.months_of_supply);
@@ -255,7 +258,7 @@ export default function ScenarioSandboxPanel() {
   }
 
   return (
-    <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.65s' }}>
+    <section className="glass-card panel-wide fade-in" style={{ animationDelay: '0.05s' }}>
       {/* Panel Header */}
       <div className="panel-header">
         <div>
