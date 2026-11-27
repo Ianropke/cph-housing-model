@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-27T10:11:04.263417+00:00",
+  "generated_at": "2026-11-27T11:48:51.871044+00:00",
   "dst_data": {
     "table": "EJ56",
     "description": "Prisindeks for ejendomssalg efter omr\u00e5de, ejendomskategori, enhed, Indhold og tid",
     "source": "Danmarks Statistik",
     "last_updated": "2026-10-29",
-    "query_timestamp": "2026-11-27T11:11:38.052157",
+    "query_timestamp": "2026-11-27T11:49:37.254529",
     "segments": {
       "copenhagen_apartments": {
         "label": "Ejerlejligheder, Byen K\u00f8benhavn",
@@ -319,7 +319,7 @@
         "latest_value": 81880.0,
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB020&PLanguage=0",
-        "retrieved_at": "2026-11-27T10:11:19.405608+00:00",
+        "retrieved_at": "2026-11-27T11:49:14.692979+00:00",
         "status": "live",
         "yoy_change_pct": 3.48,
         "anchor_period": "2026M06",
@@ -328,11 +328,11 @@
       },
       "boliga_realtime": {
         "median_dkk_sqm": 76228,
-        "mean_dkk_sqm": 78410,
-        "sample_size": 1955,
+        "mean_dkk_sqm": 78403,
+        "sample_size": 1959,
         "municipality_code": 101,
         "source": "Boliga API",
-        "retrieved_at": "2026-11-27T10:11:15.691113+00:00",
+        "retrieved_at": "2026-11-27T11:49:07.674662+00:00",
         "status": "live"
       },
       "methodology_note": "Separat udbudspris-nowcast (kr./m\u00b2) til overv\u00e5gning mellem Danmarks Statistiks kvartalsvise EJ56-udgivelser. Udbudspriser er ikke tinglyste handelspriser og indg\u00e5r ikke direkte i EJ56-indekset."
@@ -360,7 +360,7 @@
         "latest_value": 80248.0,
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB020&PLanguage=0",
-        "retrieved_at": "2026-11-27T10:11:29.455789+00:00",
+        "retrieved_at": "2026-11-27T11:49:29.006557+00:00",
         "status": "live",
         "yoy_change_pct": 1.97,
         "anchor_period": "2026M06",
@@ -373,7 +373,7 @@
         "sample_size": 229,
         "municipality_code": 101,
         "source": "Boliga API",
-        "retrieved_at": "2026-11-27T10:11:25.755991+00:00",
+        "retrieved_at": "2026-11-27T11:49:22.785961+00:00",
         "status": "live"
       },
       "methodology_note": "Separat udbudspris-nowcast (kr./m\u00b2) til overv\u00e5gning mellem Danmarks Statistiks kvartalsvise EJ56-udgivelser. Udbudspriser er ikke tinglyste handelspriser og indg\u00e5r ikke direkte i EJ56-indekset."
@@ -401,7 +401,7 @@
         "latest_value": 86595.0,
         "source": "Finans Danmark Statistikbank",
         "source_url": "https://rkr.statistikbank.dk/statbank5a/SelectVarVal/Define.asp?MainTable=UDB020&PLanguage=0",
-        "retrieved_at": "2026-11-27T10:11:33.336591+00:00",
+        "retrieved_at": "2026-11-27T11:49:36.658221+00:00",
         "status": "live",
         "yoy_change_pct": 10.44,
         "anchor_period": "2026M06",
@@ -414,7 +414,7 @@
         "sample_size": 216,
         "municipality_code": 147,
         "source": "Boliga API",
-        "retrieved_at": "2026-11-27T10:11:29.854048+00:00",
+        "retrieved_at": "2026-11-27T11:49:29.780692+00:00",
         "status": "live"
       },
       "methodology_note": "Separat udbudspris-nowcast (kr./m\u00b2) til overv\u00e5gning mellem Danmarks Statistiks kvartalsvise EJ56-udgivelser. Udbudspriser er ikke tinglyste handelspriser og indg\u00e5r ikke direkte i EJ56-indekset."
@@ -423,7 +423,7 @@
   "forecast_engine": {
     "copenhagen_apartments": {
       "engine_version": "ridge_wf_nowcast_v1",
-      "generated_at": "2026-11-27T10:12:15.217542+00:00",
+      "generated_at": "2026-11-27T11:49:49.545411+00:00",
       "segment": "copenhagen_apartments",
       "current_period": "2026Q2",
       "current_index": 141.5,
@@ -507,7 +507,7 @@
               {
                 "key": "nowcast_reductions",
                 "label": "Andel boliger med prisafslag (Boliga)",
-                "value_display": "46.4%",
+                "value_display": "46.3%",
                 "impact_pp": -0.98,
                 "source": "Boliga API"
               },
@@ -606,7 +606,7 @@
               {
                 "key": "nowcast_reductions",
                 "label": "Andel boliger med prisafslag (Boliga)",
-                "value_display": "46.4%",
+                "value_display": "46.3%",
                 "impact_pp": -0.98,
                 "source": "Boliga API"
               },
@@ -705,7 +705,7 @@
               {
                 "key": "nowcast_reductions",
                 "label": "Andel boliger med prisafslag (Boliga)",
-                "value_display": "46.4%",
+                "value_display": "46.3%",
                 "impact_pp": -0.98,
                 "source": "Boliga API"
               },
@@ -754,7 +754,7 @@
           {
             "key": "nowcast_reductions",
             "label": "Andel boliger med prisafslag (Boliga)",
-            "value_display": "46.4%",
+            "value_display": "46.3%",
             "impact_pp": -0.98,
             "source": "Boliga API"
           },
@@ -986,7 +986,7 @@
     },
     "copenhagen_houses": {
       "engine_version": "ridge_wf_nowcast_v1",
-      "generated_at": "2026-11-27T10:12:15.284990+00:00",
+      "generated_at": "2026-11-27T11:49:49.662718+00:00",
       "segment": "copenhagen_houses",
       "current_period": "2026Q2",
       "current_index": 123.9,
@@ -1070,8 +1070,8 @@
               {
                 "key": "nowcast_reductions",
                 "label": "Andel boliger med prisafslag (Boliga)",
-                "value_display": "45.8%",
-                "impact_pp": -0.95,
+                "value_display": "45.7%",
+                "impact_pp": -0.94,
                 "source": "Boliga API"
               },
               {
@@ -1169,8 +1169,8 @@
               {
                 "key": "nowcast_reductions",
                 "label": "Andel boliger med prisafslag (Boliga)",
-                "value_display": "45.8%",
-                "impact_pp": -0.95,
+                "value_display": "45.7%",
+                "impact_pp": -0.94,
                 "source": "Boliga API"
               },
               {
@@ -1268,8 +1268,8 @@
               {
                 "key": "nowcast_reductions",
                 "label": "Andel boliger med prisafslag (Boliga)",
-                "value_display": "45.8%",
-                "impact_pp": -0.95,
+                "value_display": "45.7%",
+                "impact_pp": -0.94,
                 "source": "Boliga API"
               },
               {
@@ -1317,8 +1317,8 @@
           {
             "key": "nowcast_reductions",
             "label": "Andel boliger med prisafslag (Boliga)",
-            "value_display": "45.8%",
-            "impact_pp": -0.95,
+            "value_display": "45.7%",
+            "impact_pp": -0.94,
             "source": "Boliga API"
           },
           {
@@ -1549,7 +1549,7 @@
     },
     "frederiksberg_apartments": {
       "engine_version": "ridge_wf_nowcast_v1",
-      "generated_at": "2026-11-27T10:12:15.352287+00:00",
+      "generated_at": "2026-11-27T11:49:49.778443+00:00",
       "segment": "frederiksberg_apartments",
       "current_period": "2026Q2",
       "current_index": 129.4,
@@ -2114,7 +2114,7 @@
   "early_warnings": {
     "copenhagen_apartments": {
       "segment": "copenhagen_apartments",
-      "evaluation_timestamp": "2026-11-27T11:12:15.106468",
+      "evaluation_timestamp": "2026-11-27T11:49:49.325117",
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
       "ml_crash_probability": null,
@@ -2214,7 +2214,7 @@
         },
         "EWI-4_price_reductions": {
           "level": "AMBER",
-          "reduction_rate_pct": 46.4,
+          "reduction_rate_pct": 46.3,
           "avg_reduction_magnitude_pct": 6.1,
           "detail": "46% of listings reduced, avg 6.1%",
           "data_sources": [
@@ -3232,7 +3232,7 @@
     },
     "copenhagen_houses": {
       "segment": "copenhagen_houses",
-      "evaluation_timestamp": "2026-11-27T11:12:15.109215",
+      "evaluation_timestamp": "2026-11-27T11:49:49.407519",
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
       "ml_crash_probability": null,
@@ -3332,7 +3332,7 @@
         },
         "EWI-4_price_reductions": {
           "level": "AMBER",
-          "reduction_rate_pct": 45.8,
+          "reduction_rate_pct": 45.7,
           "avg_reduction_magnitude_pct": 6.0,
           "detail": "46% of listings reduced, avg 6.0%",
           "data_sources": [
@@ -4350,7 +4350,7 @@
     },
     "frederiksberg_apartments": {
       "segment": "frederiksberg_apartments",
-      "evaluation_timestamp": "2026-11-27T11:12:15.111867",
+      "evaluation_timestamp": "2026-11-27T11:49:49.410536",
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
       "ml_crash_probability": null,
@@ -5474,7 +5474,7 @@
       "current_index": 141.5,
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
-      "forecast_date": "2026-11-27T11:11:38.058752",
+      "forecast_date": "2026-11-27T11:49:37.259947",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -5655,7 +5655,7 @@
       "current_index": 123.9,
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
-      "forecast_date": "2026-11-27T11:11:38.066147",
+      "forecast_date": "2026-11-27T11:49:37.265221",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -5836,7 +5836,7 @@
       "current_index": 129.4,
       "data_source": "Danmarks Statistik",
       "data_observation_period": "2026Q2",
-      "forecast_date": "2026-11-27T11:11:38.073599",
+      "forecast_date": "2026-11-27T11:49:37.270483",
       "horizons": {
         "6m": {
           "scenarios": {
@@ -6054,7 +6054,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126163"
+        "calculation_timestamp": "2026-11-27T11:49:49.424691"
       },
       "12m": {
         "input": {
@@ -6096,7 +6096,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126182"
+        "calculation_timestamp": "2026-11-27T11:49:49.424710"
       },
       "24m": {
         "input": {
@@ -6138,7 +6138,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126193"
+        "calculation_timestamp": "2026-11-27T11:49:49.424722"
       }
     },
     "min_risk": {
@@ -6182,7 +6182,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126202"
+        "calculation_timestamp": "2026-11-27T11:49:49.424732"
       },
       "12m": {
         "input": {
@@ -6224,7 +6224,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126211"
+        "calculation_timestamp": "2026-11-27T11:49:49.424741"
       },
       "24m": {
         "input": {
@@ -6266,7 +6266,7 @@
           "assessment": "Forh\u00f8jede fundamentale ejeromkostninger (4-6%) \u2014 begyndende pres p\u00e5 k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126220"
+        "calculation_timestamp": "2026-11-27T11:49:49.424751"
       }
     },
     "max_risk": {
@@ -6310,7 +6310,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126231"
+        "calculation_timestamp": "2026-11-27T11:49:49.424762"
       },
       "12m": {
         "input": {
@@ -6352,7 +6352,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126245"
+        "calculation_timestamp": "2026-11-27T11:49:49.424776"
       },
       "24m": {
         "input": {
@@ -6394,7 +6394,7 @@
           "assessment": "H\u00f8je fundamentale ejeromkostninger (>6%) \u2014 udtalt pres p\u00e5 r\u00e5dighedsbel\u00f8b og k\u00f8bekraft"
         },
         "formula": "UC_fund = P * [r(1 - tau_r) + tau_p + delta + rp]",
-        "calculation_timestamp": "2026-11-27T11:12:15.126256"
+        "calculation_timestamp": "2026-11-27T11:49:49.424787"
       }
     }
   },
@@ -6405,7 +6405,7 @@
   ],
   "market_data_status": {
     "status": "live",
-    "generated_at": "2026-11-27T10:11:06.065239+00:00",
+    "generated_at": "2026-11-27T11:48:54.866025+00:00",
     "sources": {
       "rkr": "Finans Danmark Statistikbank",
       "boliga": "Boliga API"
