@@ -51,6 +51,13 @@ class TestPayloadValidation(unittest.TestCase):
         errors = validate_pipeline_payload(payload, now=generated)
         self.assertTrue(any("baseline_std must be numeric" in error for error in errors))
 
+    def test_invalid_asking_price_nowcast_is_rejected(self):
+        payload = copy.deepcopy(self.payload)
+        payload["asking_price_nowcast"] = {"copenhagen_apartments": {"rkr_udb020": {"status": "stale"}}}
+        generated = dt.datetime.fromisoformat(payload["generated_at"])
+        errors = validate_pipeline_payload(payload, now=generated)
+        self.assertTrue(any("asking_price_nowcast" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()

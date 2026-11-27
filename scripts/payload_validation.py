@@ -173,4 +173,20 @@ def validate_pipeline_payload(
                     if not isinstance(mode_data, dict) or not isinstance(mode_data.get("earlyWarningIndicators"), list):
                         errors.append(f"{segment}: EWI mode {mode} is incomplete")
 
+    nowcast = payload.get("asking_price_nowcast")
+    if nowcast is not None:
+        if not isinstance(nowcast, dict):
+            errors.append("asking_price_nowcast must be an object when present")
+        else:
+            for segment in REQUIRED_SEGMENTS:
+                seg_nc = nowcast.get(segment)
+                if not isinstance(seg_nc, dict):
+                    errors.append(f"{segment}: asking_price_nowcast entry missing")
+                    continue
+                udb = seg_nc.get("rkr_udb020")
+                if not isinstance(udb, dict) or udb.get("status") != "live" or not _is_number(udb.get("latest_value")):
+                    errors.append(f"{segment}: asking_price_nowcast.rkr_udb020 is incomplete")
+                elif not isinstance(udb.get("series"), dict) or not udb["series"]:
+                    errors.append(f"{segment}: asking_price_nowcast.rkr_udb020.series must be non-empty")
+
     return errors

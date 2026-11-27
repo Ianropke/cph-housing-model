@@ -270,10 +270,50 @@ def run_daily_pipeline():
 
     # ── Step 5: Generate dashboard data payload ──
     print("\n📦 Step 5: Generating dashboard data payload...")
+    quarter_end_month = {"1": "03", "2": "06", "3": "09", "4": "12"}
+    asking_price_nowcast = {}
+    for segment in SEGMENTS:
+        seg_market = market_data.get(segment, {})
+        raw_nowcast = seg_market.get("asking_price_nowcast")
+        dst_seg = dst_data.get("segments", {}).get(segment, {})
+        dst_period = dst_seg.get("latest_period")
+        if not raw_nowcast or not raw_nowcast.get("rkr_udb020"):
+            continue
+        udb020 = dict(raw_nowcast["rkr_udb020"])
+        series = udb020.get("series") or {}
+        anchor_period = None
+        anchor_value = None
+        since_dst_pct = None
+        if isinstance(dst_period, str) and "Q" in dst_period:
+            year_part, q_part = dst_period.split("Q", 1)
+            end_m = quarter_end_month.get(q_part)
+            if end_m:
+                candidate = f"{year_part}M{end_m}"
+                if candidate in series and series[candidate] > 0:
+                    anchor_period = candidate
+                    anchor_value = series[candidate]
+                    since_dst_pct = round(((udb020["latest_value"] / anchor_value) - 1) * 100, 2)
+        asking_price_nowcast[segment] = {
+            "dst_reference_period": dst_period,
+            "rkr_udb020": {
+                **udb020,
+                "anchor_period": anchor_period,
+                "anchor_value_dkk_sqm": anchor_value,
+                "since_dst_quarter_change_pct": since_dst_pct,
+            },
+            "boliga_realtime": raw_nowcast.get("boliga_realtime"),
+            "methodology_note": (
+                "Separat udbudspris-nowcast (kr./m²) til overvågning mellem Danmarks Statistiks "
+                "kvartalsvise EJ56-udgivelser. Udbudspriser er ikke tinglyste handelspriser og "
+                "indgår ikke direkte i EJ56-indekset."
+            ),
+        }
+
     dashboard_payload = {
         "schema_version": 1,
         "generated_at": timestamp,
         "dst_data": dst_data,
+        "asking_price_nowcast": asking_price_nowcast,
         "early_warnings": ewi_results,
         "forecasts": forecast_results,
         "user_costs": user_cost_results,

@@ -13,7 +13,7 @@ from curl_cffi import requests
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "server"))
-from rkr_statbank import fetch_scalar
+from rkr_statbank import fetch_scalar, fetch_series
 
 
 SEGMENTS = {
@@ -23,7 +23,12 @@ SEGMENTS = {
 }
 
 
-def fetch_boliga_reductions(property_type: int, zip_from: int, zip_to: int) -> dict:
+def fetch_boliga_reductions(
+    property_type: int,
+    zip_from: int,
+    zip_to: int,
+    municipality_code: int | None = None,
+) -> dict:
     """Fetch active listings from Boliga. Failure is fatal: there is no fallback."""
     listings, page = [], 1
     while True:
@@ -60,10 +65,28 @@ def fetch_boliga_reductions(property_type: int, zip_from: int, zip_to: int) -> d
         raise RuntimeError(f"Boliga returned zero active listings for property type {property_type}")
     changes = [item["priceChangePercentTotal"] for item in listings if item.get("priceChangePercentTotal") is not None]
     reductions = [abs(value) for value in changes if value < 0]
+
+    # Real-time asking price per sqm (filtered to target municipality when available so
+    # it aligns geographically with Finans Danmark UDB020).
+    price_pool = (
+        [item for item in listings if item.get("municipality") == municipality_code]
+        if municipality_code is not None
+        else listings
+    )
+    sqm_prices = [
+        float(item["squaremeterPrice"])
+        for item in price_pool
+        if isinstance(item.get("squaremeterPrice"), (int, float)) and item["squaremeterPrice"] > 0
+    ]
+
     return {
         "price_reduction_rate": round(len(reductions) / len(listings), 3),
         "avg_reduction_magnitude": round(statistics.mean(reductions) / 100, 3) if reductions else 0.0,
         "listings_sample_size": len(listings),
+        "asking_price_sqm_median": round(statistics.median(sqm_prices)) if sqm_prices else None,
+        "asking_price_sqm_mean": round(statistics.mean(sqm_prices)) if sqm_prices else None,
+        "asking_price_sample_size": len(sqm_prices),
+        "municipality_code": municipality_code,
         "status": "live",
         "source": "Boliga API",
         "retrieved_at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -108,6 +131,27 @@ def rkr_interest_only_share() -> dict:
     }
 
 
+def rkr_asking_price_series(area: str, category: str) -> dict:
+    """Fetch official monthly asking prices (DKK/m2) from Finans Danmark UDB020."""
+    series_data = fetch_series("UDB020", {1: area, 2: category, 3: "4"}, count_periods=13)
+    series = series_data["series"]
+    latest_period = series_data["latest_period"]
+    latest_val = series_data["latest_value"]
+
+    yoy_pct = None
+    match = re.fullmatch(r"(\d{4})M(\d{2})", latest_period)
+    if match:
+        prev_year_period = f"{int(match.group(1)) - 1}M{match.group(2)}"
+        prev_val = series.get(prev_year_period)
+        if prev_val and prev_val > 0:
+            yoy_pct = round(((latest_val / prev_val) - 1) * 100, 2)
+
+    return {
+        **series_data,
+        "yoy_change_pct": yoy_pct,
+    }
+
+
 def fetch_market_data() -> dict:
     interest_only = rkr_interest_only_share()
     now_utc = dt.datetime.now(dt.timezone.utc)
@@ -121,15 +165,38 @@ def fetch_market_data() -> dict:
         },
     }
     for segment, spec in SEGMENTS.items():
-        boliga = fetch_boliga_reductions(spec["property_type"], spec["zip_from"], spec["zip_to"])
+        boliga = fetch_boliga_reductions(
+            spec["property_type"],
+            spec["zip_from"],
+            spec["zip_to"],
+            municipality_code=int(spec["area"]),
+        )
         rkr = rkr_segment_metrics(spec["area"], spec["category"])
+        udb020 = rkr_asking_price_series(spec["area"], spec["category"])
         data[segment] = {
             **rkr,
             "price_reduction_rate": boliga["price_reduction_rate"],
             "avg_reduction_magnitude": boliga["avg_reduction_magnitude"],
             "amort_free_share": interest_only["share"],
+            "asking_price_nowcast": {
+                "rkr_udb020": udb020,
+                "boliga_realtime": {
+                    "median_dkk_sqm": boliga["asking_price_sqm_median"],
+                    "mean_dkk_sqm": boliga["asking_price_sqm_mean"],
+                    "sample_size": boliga["asking_price_sample_size"],
+                    "municipality_code": boliga["municipality_code"],
+                    "source": boliga["source"],
+                    "retrieved_at": boliga["retrieved_at"],
+                    "status": boliga["status"],
+                },
+            },
             "source_status": "live",
-            "provenance": {"boliga": boliga, "rkr": rkr["rkr_observations"], "ul30": interest_only["observations"]},
+            "provenance": {
+                "boliga": boliga,
+                "rkr": rkr["rkr_observations"],
+                "udb020": udb020,
+                "ul30": interest_only["observations"],
+            },
         }
     return data
 

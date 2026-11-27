@@ -95,3 +95,93 @@ def fetch_scalar(table: str, selections: dict[int, str], period: str | None = No
         "retrieved_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "status": "live",
     }
+
+
+def fetch_series(table: str, selections: dict[int, str], count_periods: int = 13) -> dict:
+    """Fetch the latest N official Statistikbank observations in a single request."""
+    definition_url = f"{BASE_URL}/SelectVarVal/Define.asp?MainTable={urllib.parse.quote(table)}&PLanguage=0"
+    page = _get(definition_url)
+    count = int(_input_value(page, "antvar"))
+    time_position = next(
+        position for position in range(1, count + 1) if _input_value(page, f"V{position}") == "Tid"
+    )
+    block = re.search(rf'<SELECT[^>]+NAME="var{time_position}"[^>]*>(.*?)</SELECT>', page, re.I | re.S)
+    if not block:
+        raise ValueError(f"RKR {table} has no time selector")
+    all_periods = [html.unescape(p) for p in re.findall(r'<OPTION VALUE="([^"]+)"', block.group(1), re.I)]
+    periods = all_periods[:count_periods]
+    if not periods:
+        raise ValueError(f"RKR {table} returned no selectable periods")
+
+    subject_code = _input_value(page, "SubjectCode")
+    contents = _input_value(page, "Contents")
+    time_label = _input_value(page, "tidrubr")
+
+    form = [
+        ("TS", f"ShowTable&OldTab=SELECT&SubjectCode={subject_code}&AntVar={count}&Contents={contents}&tidrubr={time_label}"),
+        ("PLanguage", "0"), ("FF", "20"), ("OldTab", "SELECT"), ("SavePXSId", "0"),
+        ("MainTable", table), ("SubTable", _input_value(page, "SubTable")),
+        ("SelCont", _input_value(page, "SelCont")), ("Contents", contents),
+        ("SubjectCode", subject_code), ("SubjectArea", _input_value(page, "SubjectArea")),
+        ("antvar", str(count)), ("action", "urval"), ("guest", "-1"),
+        ("GuestFileSize", _input_value(page, "GuestFileSize")),
+        ("MaxFileSize", _input_value(page, "MaxFileSize")), ("tidrubr", time_label),
+        ("tfrequency", _input_value(page, "tfrequency")), ("Forward.x", "60"), ("Forward.y", "16"),
+    ]
+    for position in range(1, count + 1):
+        for prefix in ("V", "VS", "VP"):
+            form.append((f"{prefix}{position}", _input_value(page, f"{prefix}{position}")))
+        if position == time_position:
+            for p in periods:
+                form.append((f"var{position}", p))
+        else:
+            form.append((f"var{position}", selections[position]))
+
+    encoded = urllib.parse.urlencode(form)
+    last_error = None
+    output = None
+    for attempt in range(3):
+        try:
+            response = requests.post(
+                f"{BASE_URL}/SelectVarVal/saveselections.asp",
+                data=encoded,
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+                impersonate="chrome110",
+                timeout=30,
+            )
+            response.raise_for_status()
+            output = response.content.decode("iso-8859-1")
+            break
+        except Exception as error:
+            last_error = error
+            if attempt < 2:
+                time.sleep(1.5 * (attempt + 1))
+    if output is None:
+        raise RuntimeError(f"RKR series request failed after 3 attempts: {last_error}")
+
+    headers_found = re.findall(r'<th[^>]*>\s*(20\d{2}[MK]\d{1,2})\s*</th>', output, re.I)
+    raw_vals = re.findall(r'<td class=No>\s*([^<]+?)\s*</td>', output, re.I)
+    if not headers_found or len(headers_found) != len(raw_vals):
+        raise ValueError(f"RKR {table} series parse mismatch: {len(headers_found)} headers vs {len(raw_vals)} values")
+
+    series = {}
+    for p, raw in zip(headers_found, raw_vals):
+        cleaned = raw.replace(" ", "").replace(".", "").replace(",", ".")
+        if cleaned in ("..", "-", ""):
+            continue
+        series[p] = float(cleaned)
+    if not series:
+        raise ValueError(f"RKR {table} returned empty numeric series")
+
+    sorted_periods = sorted(series.keys())
+    latest_period = sorted_periods[-1]
+    return {
+        "table": table,
+        "series": {p: series[p] for p in sorted_periods},
+        "latest_period": latest_period,
+        "latest_value": series[latest_period],
+        "source": "Finans Danmark Statistikbank",
+        "source_url": definition_url,
+        "retrieved_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "status": "live",
+    }
